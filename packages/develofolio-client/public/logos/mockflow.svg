@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256px" height="218px" viewBox="0 0 256 218" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="8.18615787%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#1A9BE2" offset="0%"></stop>
+            <stop stop-color="#1A99E2" offset="43.4496941%"></stop>
+            <stop stop-color="#1A8CE2" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#3AB7F3" offset="0%"></stop>
+            <stop stop-color="#2999E9" offset="30.7463681%"></stop>
+            <stop stop-color="#1B80E2" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-3">
+            <stop stop-color="#37A7E7" offset="0%"></stop>
+            <stop stop-color="#2991E5" offset="43.0135262%"></stop>
+            <stop stop-color="#1B7CE3" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-4">
+            <stop stop-color="#1A8FE2" offset="0%"></stop>
+            <stop stop-color="#1A9BE2" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g>
+        <polygon fill="#1A8CE2" points="150.377824 0 75.1885118 81.5672534 0.000199998169 0 0.000199998169 217.514009 75.1885118 135.945756 150.377824 217.514009 150.377824 151.88561 220.288184 100.252082 150.377824 100.252082 150.377824 47.8935616 226.802124 47.8935616 255.996857 0"></polygon>
+        <polygon fill="url(#linearGradient-1)" points="150.377824 0 50.1257412 108.757005 150.377824 217.514009"></polygon>
+        <polygon fill="url(#linearGradient-2)" points="220.287984 100.251782 150.377624 100.251782 150.377624 151.88531"></polygon>
+        <polygon fill="url(#linearGradient-3)" points="150.377824 0 150.377824 47.8935616 226.802124 47.8935616 255.996857 0"></polygon>
+        <polygon fill="url(#linearGradient-4)" points="0 0 0 217.514009 100.252082 108.757005"></polygon>
+    </g>
+</svg>
