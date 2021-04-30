@@ -1,22 +1,62 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import logos from "public/logos.json";
 import Image from "next/image";
 import styled from "styled-components";
 import oc from "open-color";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
+import FlexSearch from "flexsearch";
 
 const ICON_SIZE = 40;
 
+const index = FlexSearch.create<{
+  index: number;
+  name: string;
+  shortName: string;
+}>({
+  encode: "advanced",
+  tokenize: "reverse",
+  cache: true,
+  async: true,
+  doc: {
+    id: "index",
+    field: ["name", "shortName"],
+  },
+});
+
+logos.forEach((logo, i) => {
+  index.add({ index: i, name: logo.name, shortName: logo.shortname });
+});
+
 export default function IconPicker() {
+  const [value, setValue] = useState("");
+
+  const onChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
+    (event) => {
+      setValue(event.target.value);
+    },
+    []
+  );
+
+  const [result, setResult] = useState(logos);
+  useEffect(() => {
+    if (!value) {
+      setResult(logos);
+      return;
+    }
+    index.search(value).then((res) => {
+      setResult(res.map((item) => logos[item.index]));
+    });
+  }, [value]);
+
   return (
     <Box>
-      <Input />
+      <Input value={value} onChange={onChange} />
       <GridWrapper>
         <AutoSizer defaultWidth={320}>
           {({ height, width }) => {
             const columnCount = Math.floor(width / ICON_SIZE);
-            const rowCount = Math.ceil(logos.length / columnCount);
+            const rowCount = Math.ceil(result.length / columnCount);
 
             return (
               <Grid
@@ -26,7 +66,7 @@ export default function IconPicker() {
                 columnWidth={ICON_SIZE}
                 rowCount={rowCount}
                 rowHeight={ICON_SIZE}
-                itemData={{ columnCount }}
+                itemData={{ columnCount, filteredLogos: result }}
               >
                 {Cell}
               </Grid>
@@ -38,7 +78,7 @@ export default function IconPicker() {
   );
 }
 
-type ItemData = { columnCount: number };
+type ItemData = { columnCount: number; filteredLogos: typeof logos };
 
 const Cell = ({
   columnIndex,
@@ -46,9 +86,9 @@ const Cell = ({
   rowIndex,
   style,
 }: GridChildComponentProps<ItemData>) => {
-  const { columnCount } = data;
+  const { columnCount, filteredLogos } = data;
   const singleColumnIndex = columnIndex + rowIndex * columnCount;
-  const logo = logos[singleColumnIndex];
+  const logo = filteredLogos[singleColumnIndex];
   return (
     <div style={style}>
       {logo && (
