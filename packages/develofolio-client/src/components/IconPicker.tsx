@@ -6,6 +6,8 @@ import oc from "open-color";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
 
+const ICON_SIZE = 40;
+
 export default function IconPicker() {
   return (
     <Box>
@@ -13,9 +15,7 @@ export default function IconPicker() {
       <GridWrapper>
         <AutoSizer defaultWidth={320}>
           {({ height, width }) => {
-            const itemWidth = 40;
-            const itemHeight = 40;
-            const columnCount = Math.floor(width / itemWidth);
+            const columnCount = Math.floor(width / ICON_SIZE);
             const rowCount = Math.ceil(logos.length / columnCount);
 
             return (
@@ -23,9 +23,9 @@ export default function IconPicker() {
                 height={height}
                 width={width}
                 columnCount={columnCount}
-                columnWidth={itemWidth}
+                columnWidth={ICON_SIZE}
                 rowCount={rowCount}
-                rowHeight={itemHeight}
+                rowHeight={ICON_SIZE}
                 itemData={{ columnCount }}
               >
                 {Cell}
@@ -38,21 +38,21 @@ export default function IconPicker() {
   );
 }
 
-type CellProps = { columnCount: number };
+type ItemData = { columnCount: number };
 
 const Cell = ({
   columnIndex,
   data,
   rowIndex,
   style,
-}: GridChildComponentProps<CellProps>) => {
+}: GridChildComponentProps<ItemData>) => {
   const { columnCount } = data;
   const singleColumnIndex = columnIndex + rowIndex * columnCount;
   const logo = logos[singleColumnIndex];
   return (
     <div style={style}>
       {logo && (
-        <div key={logo.name} style={{}}>
+        <Item key={logo.name}>
           <Image
             key={logo.name}
             src={`/logos/${logo.files[0]}`}
@@ -60,7 +60,7 @@ const Cell = ({
             height={24}
             layout="fixed"
           />
-        </div>
+        </Item>
       )}
     </div>
   );
@@ -98,6 +98,9 @@ const GridWrapper = styled.div`
 `;
 
 const Item = styled.button`
+  width: ${ICON_SIZE}px;
+  height: ${ICON_SIZE}px;
+  padding: 0px;
   cursor: pointer;
   background-color: transparent;
   border: none;
