@@ -8,6 +8,8 @@ import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
 import FlexSearch from "flexsearch";
 
 const ICON_SIZE = 40;
+const BOX_WIDTH = 320;
+const MAX_HEIGHT = 224;
 
 const index = FlexSearch.create<{
   index: number;
@@ -27,6 +29,8 @@ const index = FlexSearch.create<{
 logos.forEach((logo, i) => {
   index.add({ index: i, name: logo.name, shortName: logo.shortname });
 });
+
+console.log(index.export());
 
 export default function IconPicker() {
   const [value, setValue] = useState("");
@@ -49,30 +53,29 @@ export default function IconPicker() {
     });
   }, [value]);
 
+  const columnCount = useMemo(() => Math.floor(BOX_WIDTH / ICON_SIZE), []);
+  const rowCount = useMemo(() => Math.ceil(result.length / columnCount), [
+    result,
+    columnCount,
+  ]);
+  const gridHeight = useMemo(() => Math.min(rowCount * 40, MAX_HEIGHT), [
+    rowCount,
+  ]);
   return (
     <Box>
       <Input value={value} onChange={onChange} />
       <GridWrapper>
-        <AutoSizer defaultWidth={320}>
-          {({ height, width }) => {
-            const columnCount = Math.floor(width / ICON_SIZE);
-            const rowCount = Math.ceil(result.length / columnCount);
-
-            return (
-              <Grid
-                height={height}
-                width={width}
-                columnCount={columnCount}
-                columnWidth={ICON_SIZE}
-                rowCount={rowCount}
-                rowHeight={ICON_SIZE}
-                itemData={{ columnCount, filteredLogos: result }}
-              >
-                {Cell}
-              </Grid>
-            );
-          }}
-        </AutoSizer>
+        <Grid
+          height={gridHeight}
+          width={BOX_WIDTH}
+          columnCount={columnCount}
+          columnWidth={ICON_SIZE}
+          rowCount={rowCount}
+          rowHeight={ICON_SIZE}
+          itemData={{ columnCount, filteredLogos: result }}
+        >
+          {Cell}
+        </Grid>
       </GridWrapper>
     </Box>
   );
@@ -109,7 +112,6 @@ const Cell = ({
 const Box = styled.div`
   box-sizing: border-box;
   position: absolute;
-  height: 276px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -131,8 +133,9 @@ const Input = styled.input`
 `;
 
 const GridWrapper = styled.div`
-  flex: 1 1 0;
-  min-height: 0px;
+  /* flex: 1 1 0; */
+  /* height: 240px; */
+  max-height: 240px;
   overflow-y: auto;
   width: 320px;
 `;
