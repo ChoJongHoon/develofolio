@@ -1,40 +1,23 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import logos from "public/logos.json";
 import Image from "next/image";
 import styled from "styled-components";
 import oc from "open-color";
-import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
-import FlexSearch from "flexsearch";
+import useSearchLogos from "src/lib/hooks/useSearchLogos";
 
 const ICON_SIZE = 40;
 const BOX_WIDTH = 320;
 const MAX_HEIGHT = 224;
 
-const index = FlexSearch.create<{
-  index: number;
-  name: string;
-  shortName: string;
-}>({
-  encode: "advanced",
-  tokenize: "reverse",
-  cache: true,
-  async: true,
-  doc: {
-    id: "index",
-    field: ["name", "shortName"],
-  },
-});
-
-logos.forEach((logo, i) => {
-  index.add({ index: i, name: logo.name, shortName: logo.shortname });
-});
-
-console.log(index.export());
-
 export default function IconPicker() {
   const [value, setValue] = useState("");
-
   const onChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
     (event) => {
       setValue(event.target.value);
@@ -42,16 +25,7 @@ export default function IconPicker() {
     []
   );
 
-  const [result, setResult] = useState(logos);
-  useEffect(() => {
-    if (!value) {
-      setResult(logos);
-      return;
-    }
-    index.search(value).then((res) => {
-      setResult(res.map((item) => logos[item.index]));
-    });
-  }, [value]);
+  const result = useSearchLogos(value);
 
   const columnCount = useMemo(() => Math.floor(BOX_WIDTH / ICON_SIZE), []);
   const rowCount = useMemo(() => Math.ceil(result.length / columnCount), [
@@ -61,9 +35,53 @@ export default function IconPicker() {
   const gridHeight = useMemo(() => Math.min(rowCount * 40, MAX_HEIGHT), [
     rowCount,
   ]);
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const onKeyDown = useCallback<React.KeyboardEventHandler<HTMLInputElement>>(
+    (event) => {
+      switch (event.key) {
+        case "ArrowLeft":
+          setSelectedIndex((prev) => Math.max(prev - 1, 0));
+          event.preventDefault();
+          break;
+        case "ArrowRight":
+          setSelectedIndex((prev) => Math.min(prev + 1, result.length - 1));
+          event.preventDefault();
+          break;
+        case "ArrowUp":
+          setSelectedIndex((prev) => Math.max(prev - columnCount, 0));
+          event.preventDefault();
+          break;
+        case "ArrowDown":
+          setSelectedIndex((prev) =>
+            Math.min(prev + columnCount, result.length - 1)
+          );
+          event.preventDefault();
+          break;
+      }
+    },
+    [result, columnCount]
+  );
+
+  /**
+   * 검색어가 변경되면 selectedIndex 리셋
+   */
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [result]);
+
+  const ref = useRef<Grid>(null);
+  /**
+   * 현재 선택된 아이템으로 스크롤 이동
+   */
+  useEffect(() => {
+    ref.current?.scrollToItem({ rowIndex: selectedIndex / columnCount });
+  }, [selectedIndex, columnCount]);
+
   return (
     <Box>
-      <Input value={value} onChange={onChange} />
+      <Input value={value} onChange={onChange} onKeyDown={onKeyDown} />
       <GridWrapper>
         <Grid
           height={gridHeight}
@@ -72,7 +90,13 @@ export default function IconPicker() {
           columnWidth={ICON_SIZE}
           rowCount={rowCount}
           rowHeight={ICON_SIZE}
-          itemData={{ columnCount, filteredLogos: result }}
+          itemData={{
+            columnCount,
+            filteredLogos: result,
+            selectedIndex,
+            setSelectedIndex,
+          }}
+          ref={ref}
         >
           {Cell}
         </Grid>
@@ -81,7 +105,12 @@ export default function IconPicker() {
   );
 }
 
-type ItemData = { columnCount: number; filteredLogos: typeof logos };
+type ItemData = {
+  columnCount: number;
+  filteredLogos: typeof logos;
+  selectedIndex: number;
+  setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
+};
 
 const Cell = ({
   columnIndex,
@@ -89,13 +118,21 @@ const Cell = ({
   rowIndex,
   style,
 }: GridChildComponentProps<ItemData>) => {
-  const { columnCount, filteredLogos } = data;
+  const { columnCount, filteredLogos, selectedIndex, setSelectedIndex } = data;
   const singleColumnIndex = columnIndex + rowIndex * columnCount;
   const logo = filteredLogos[singleColumnIndex];
+  const selected = useMemo(() => selectedIndex === singleColumnIndex, [
+    selectedIndex,
+    singleColumnIndex,
+  ]);
+  const onMouseEnter = useCallback(() => {
+    setSelectedIndex(singleColumnIndex);
+  }, [singleColumnIndex]);
+
   return (
     <div style={style}>
       {logo && (
-        <Item key={logo.name}>
+        <Item key={logo.name} selected={selected} onMouseEnter={onMouseEnter}>
           <Image
             key={logo.name}
             src={`/logos/${logo.files[0]}`}
@@ -133,14 +170,12 @@ const Input = styled.input`
 `;
 
 const GridWrapper = styled.div`
-  /* flex: 1 1 0; */
-  /* height: 240px; */
   max-height: 240px;
   overflow-y: auto;
   width: 320px;
 `;
 
-const Item = styled.button`
+const Item = styled.button<{ selected: boolean }>`
   width: ${ICON_SIZE}px;
   height: ${ICON_SIZE}px;
   padding: 0px;
@@ -148,9 +183,7 @@ const Item = styled.button`
   background-color: transparent;
   border: none;
   border-radius: 4px;
-  &:hover {
-    background-color: ${oc.blue[1]};
-  }
+  background-color: ${(props) => props.selected && oc.blue[1]};
   &:focus {
     outline: none;
   }
