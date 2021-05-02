@@ -70,7 +70,9 @@ export default function IconPicker() {
 	 * 현재 선택된 아이템으로 스크롤 이동
 	 */
 	useEffect(() => {
-		ref.current?.scrollToItem({ rowIndex: selectedIndex / columnCount })
+		ref.current?.scrollToItem({
+			rowIndex: Math.floor(selectedIndex / columnCount),
+		})
 	}, [selectedIndex, columnCount])
 
 	return (
