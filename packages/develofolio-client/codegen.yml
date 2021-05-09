@@ -1,0 +1,25 @@
+overwrite: true
+
+schema:
+  - ${NEXT_PUBLIC_GRAPHQL_HOST}
+
+documents: src/graphql/schema/*.graphql
+generates:
+  src/graphql/typed-document-nodes.generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typed-document-node
+  src/graphql/apollo-typePolicies-helpers.generated.ts:
+    plugins:
+      - typescript-apollo-client-helpers
+    config:
+      useTypeImports: true
+  src/graphql/apollo-fragment-matcher.generated.json:
+    plugins:
+      - fragment-matcher
+    config:
+      useExplicitTyping: true
+hooks:
+  afterAllFileWrite:
+    - prettier --write "src/graphql/*.ts" "src/graphql/*.json"
