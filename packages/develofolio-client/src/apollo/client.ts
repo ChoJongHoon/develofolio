@@ -1,6 +1,13 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, ApolloLink, HttpLink } from '@apollo/client'
+import { cache } from './cache'
+
+const httpLink = new HttpLink({
+	uri: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
+	credentials: 'include',
+	fetch,
+})
 
 export const client = new ApolloClient({
-	uri: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
-	cache: new InMemoryCache(),
+	link: ApolloLink.from([httpLink]),
+	cache,
 })
