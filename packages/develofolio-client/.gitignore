@@ -36,5 +36,4 @@ yarn-error.log*
 .env
 
 # code-gen
-/src/graphql/*.ts
-/src/graphql/*.json
+/src/graphql/*.generated.*
