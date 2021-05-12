@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import logos from 'public/logos.json'
 import Image from 'next/image'
-import styled from 'styled-components'
 import oc from 'open-color'
 import { FixedSizeGrid as Grid, GridChildComponentProps } from 'react-window'
 import useSearchLogos from 'src/lib/hooks/useSearchLogos'
+import { css } from '@emotion/react'
 
 const ICON_SIZE = 40
 const BOX_WIDTH = 320
@@ -76,9 +76,14 @@ export default function IconPicker() {
 	}, [selectedIndex, columnCount])
 
 	return (
-		<Box>
-			<Input value={value} onChange={onChange} onKeyDown={onKeyDown} />
-			<GridWrapper>
+		<div css={box}>
+			<input
+				value={value}
+				onChange={onChange}
+				onKeyDown={onKeyDown}
+				css={input}
+			/>
+			<div css={gridWrapper}>
 				<Grid
 					height={gridHeight}
 					width={BOX_WIDTH}
@@ -96,8 +101,8 @@ export default function IconPicker() {
 				>
 					{Cell}
 				</Grid>
-			</GridWrapper>
-		</Box>
+			</div>
+		</div>
 	)
 }
 
@@ -128,7 +133,11 @@ const Cell = ({
 	return (
 		<div style={style}>
 			{logo && (
-				<Item key={logo.name} selected={selected} onMouseEnter={onMouseEnter}>
+				<button
+					key={logo.name}
+					onMouseEnter={onMouseEnter}
+					css={item(selected)}
+				>
 					<Image
 						key={logo.name}
 						src={`/logos/${logo.files[0]}`}
@@ -136,13 +145,13 @@ const Cell = ({
 						height={24}
 						layout="fixed"
 					/>
-				</Item>
+				</button>
 			)}
 		</div>
 	)
 }
 
-const Box = styled.div`
+const box = css`
 	box-sizing: border-box;
 	position: absolute;
 	top: 50%;
@@ -156,7 +165,7 @@ const Box = styled.div`
 	border-radius: 8px;
 `
 
-const Input = styled.input`
+const input = css`
 	margin-bottom: 8px;
 	font-size: 14px;
 	padding: 4px 8px;
@@ -165,13 +174,13 @@ const Input = styled.input`
 	border: 1px solid ${oc.gray[2]};
 `
 
-const GridWrapper = styled.div`
+const gridWrapper = css`
 	max-height: 240px;
 	overflow-y: auto;
 	width: 320px;
 `
 
-const Item = styled.button<{ selected: boolean }>`
+const item = (selected: boolean) => css`
 	width: ${ICON_SIZE}px;
 	height: ${ICON_SIZE}px;
 	padding: 0px;
@@ -179,7 +188,7 @@ const Item = styled.button<{ selected: boolean }>`
 	background-color: transparent;
 	border: none;
 	border-radius: 4px;
-	background-color: ${(props) => props.selected && oc.blue[1]};
+	background-color: ${selected && oc.blue[1]};
 	&:focus {
 		outline: none;
 	}
