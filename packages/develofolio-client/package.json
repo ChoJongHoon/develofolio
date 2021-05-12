@@ -24,7 +24,10 @@
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
 		"react-helmet": "^6.1.0",
-		"react-window": "^1.8.6"
+		"react-window": "^1.8.6",
+		"slate": "^0.62.1",
+		"slate-history": "^0.62.0",
+		"slate-react": "^0.62.1"
 	},
 	"devDependencies": {
 		"@emotion/babel-preset-css-prop": "^11.2.0",
