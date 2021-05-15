@@ -15,7 +15,7 @@ const isShortcuts = (text: string): text is keyof typeof SHORTCUTS =>
 	Object.keys(SHORTCUTS).includes(text)
 
 export const withMarkdown = (editor: Editor) => {
-	const { deleteBackward, insertText } = editor
+	const { deleteBackward, insertText, insertBreak } = editor
 
 	editor.insertText = (text) => {
 		const { selection } = editor
@@ -99,5 +99,51 @@ export const withMarkdown = (editor: Editor) => {
 			deleteBackward(...args)
 		}
 	}
+
+	/**
+	 * 협재 블러의 타입이 paragraph가 아니고 비어있는 상태에서 줄바꿈을 시도하면 줄바꿈을 하지않고 해당 블럭을 paragraph 타입으로 변경한다.
+	 * 만약 타입이 list-item 이였다면 bulleted-list 를 탈출한다.
+	 */
+	editor.insertBreak = () => {
+		const { selection } = editor
+
+		if (selection && Range.isCollapsed(selection)) {
+			const match = Editor.above(editor, {
+				match: (n) => {
+					return Editor.isBlock(editor, n)
+				},
+			})
+			if (match) {
+				const [block, path] = match
+				const start = Editor.start(editor, path)
+				if (
+					!Editor.isEditor(block) &&
+					Element.isElement(block) &&
+					block.type !== 'paragraph' &&
+					Point.equals(selection.anchor, start) &&
+					Editor.isEmpty(editor, block)
+				) {
+					const newProperties: Partial<Element> = {
+						type: 'paragraph',
+					}
+					Transforms.setNodes(editor, newProperties)
+
+					if (block.type === 'list-item') {
+						Transforms.unwrapNodes(editor, {
+							match: (n) =>
+								!Editor.isEditor(n) &&
+								Element.isElement(n) &&
+								n.type === 'bulleted-list',
+							split: true,
+						})
+					}
+
+					return
+				}
+			}
+		}
+		insertBreak()
+	}
+
 	return editor
 }
