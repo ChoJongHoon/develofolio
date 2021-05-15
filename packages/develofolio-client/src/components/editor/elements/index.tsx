@@ -10,7 +10,7 @@ export const renderElement = ({
 	switch (element.type) {
 		case 'icon':
 			return (
-				<Icon {...attributes} element={element}>
+				<Icon attributes={attributes} element={element}>
 					{children}
 				</Icon>
 			)
