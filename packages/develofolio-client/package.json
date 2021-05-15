@@ -14,6 +14,7 @@
 		"@emotion/react": "^11.4.0",
 		"@svgr/webpack": "^5.5.0",
 		"apollo-link-token-refresh": "^0.3.2",
+		"classnames": "^2.3.1",
 		"cookie": "^0.4.1",
 		"emotion-normalize": "^11.0.1",
 		"flexsearch": "^0.6.32",

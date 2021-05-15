@@ -1,11 +1,13 @@
 import { css } from '@emotion/react'
-import React from 'react'
+import OpenColor from 'open-color'
+import React, { useMemo } from 'react'
 import { useEffect, useRef } from 'react'
 import { Editor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 import { LeafFormat } from '~/slate'
+import { Icon, IconType } from '../base/icon'
 import { Portal } from '../base/portal'
-import { toggleFormat } from './elements/format'
+import { isFormatActive, toggleFormat } from './elements/format'
 
 export const HoveringToolbar = () => {
 	const ref = useRef<HTMLDivElement>(null)
@@ -41,21 +43,7 @@ export const HoveringToolbar = () => {
 
 	return (
 		<Portal>
-			<div
-				ref={ref}
-				css={css`
-					padding: 8px 7px 6px;
-					position: absolute;
-					z-index: 1;
-					top: -10000px;
-					left: -10000px;
-					margin-top: -6px;
-					opacity: 0;
-					background-color: #222;
-					border-radius: 4px;
-					transition: opacity 0.75s;
-				`}
-			>
+			<div ref={ref} css={tooltipStyles}>
 				<FormatButton format="bold" />
 				<FormatButton format="italic" />
 				<FormatButton format="code" />
@@ -70,17 +58,48 @@ type FormatButtonProps = {
 
 const FormatButton = ({ format }: FormatButtonProps) => {
 	const editor = useSlate()
+	const isActive = isFormatActive(editor, format)
+	const iconType = useMemo<IconType>(() => {
+		switch (format) {
+			case 'bold':
+				return 'Bold'
+			case 'italic':
+				return 'Italic'
+			case 'code':
+				return 'Code'
+		}
+	}, [format])
 	return (
 		<button
-			// reversed
-			// active={isFormatActive(editor, format)}
 			onMouseDown={(event) => {
 				event.preventDefault()
 				toggleFormat(editor, format)
 			}}
+			css={buttonStyles(isActive)}
 		>
-			{format}
-			{/* <Icon>{icon}</Icon> */}
+			<Icon type={iconType} color={OpenColor.gray[0]} size={24} />
 		</button>
 	)
 }
+
+const tooltipStyles = css`
+	padding: 8px;
+	position: absolute;
+	z-index: 1;
+	top: -10000px;
+	left: -10000px;
+	margin-top: -6px;
+	opacity: 0;
+	background-color: #222;
+	border-radius: 4px;
+	transition: opacity 0.25s;
+	display: flex;
+`
+
+const buttonStyles = (isActive: boolean) => css`
+	background: none;
+	border: none;
+	display: inline-flex;
+	opacity: ${isActive ? 1 : 0.5};
+	cursor: pointer;
+`
