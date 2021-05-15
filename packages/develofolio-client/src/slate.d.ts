@@ -34,7 +34,7 @@ export type IconElement = {
 	shortname: string
 	url: string
 	file: string
-	children: CustomText[]
+	children: EmptyText[]
 }
 
 export type CustomElement =
@@ -47,14 +47,9 @@ export type CustomElement =
 	| ListItemElement
 	| IconElement
 
-export type CustomText = {
-	bold?: boolean
-	italic?: boolean
-	code?: boolean
-	text: string
-}
+export type LeafFormat = 'bold' | 'italic' | 'code'
 
-export type EmptyText = {
+export type CustomText = { [key in LeafFormat]?: boolean } & {
 	text: string
 }
 
@@ -62,7 +57,7 @@ declare module 'slate' {
 	interface CustomTypes {
 		Editor: BaseEditor & ReactEditor & HistoryEditor
 		Element: CustomElement
-		Text: CustomText | EmptyText
+		Text: CustomText
 	}
 }
 

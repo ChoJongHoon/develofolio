@@ -5,10 +5,12 @@ import { withHistory } from 'slate-history'
 import { renderElement } from './elements'
 import { withIcon } from './elements/icon'
 import { withMarkdown } from './elements/markdown'
+import { HoveringToolbar } from './hovering-toolbar'
+import { renderLeaf, toggleFormat } from './elements/format'
 
 export function Editor() {
 	const editor = useMemo(
-		() => withReact(withHistory(withIcon(withMarkdown(createEditor())))),
+		() => withHistory(withReact(withIcon(withMarkdown(createEditor())))),
 		[]
 	)
 
@@ -37,7 +39,22 @@ export function Editor() {
 
 	return (
 		<Slate editor={editor} value={value} onChange={onChnage}>
-			<Editable renderElement={renderElement} spellCheck={false} />
+			<HoveringToolbar />
+			<Editable
+				renderElement={renderElement}
+				renderLeaf={renderLeaf}
+				spellCheck={false}
+				onDOMBeforeInput={(event) => {
+					switch (event.inputType) {
+						case 'formatBold':
+							event.preventDefault()
+							return toggleFormat(editor, 'bold')
+						case 'formatItalic':
+							event.preventDefault()
+							return toggleFormat(editor, 'italic')
+					}
+				}}
+			/>
 		</Slate>
 	)
 }
