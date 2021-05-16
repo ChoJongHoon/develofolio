@@ -42,13 +42,12 @@ export const Icon = ({
 
 const wrapper = css`
 	display: inline-flex;
-	vertical-align: middle;
 	align-items: center;
 	justify-content: center;
 	position: relative;
 `
 
 const imgStyles = css`
-	height: 19px;
+	height: 16px;
 	display: block;
 `

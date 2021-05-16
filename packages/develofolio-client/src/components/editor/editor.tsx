@@ -7,6 +7,7 @@ import { withIcon } from './elements/icon'
 import { withMarkdown } from './elements/markdown'
 import { HoveringToolbar } from './hovering-toolbar'
 import { renderLeaf, toggleFormat } from './elements/format'
+import { css } from '@emotion/react'
 
 export function Editor() {
 	const editor = useMemo(
@@ -110,7 +111,14 @@ export function Editor() {
 							return toggleFormat(editor, 'italic')
 					}
 				}}
+				css={editorStyles}
 			/>
 		</Slate>
 	)
 }
+
+const editorStyles = css`
+	[data-slate-node='element'] > * {
+		vertical-align: middle;
+	}
+`
