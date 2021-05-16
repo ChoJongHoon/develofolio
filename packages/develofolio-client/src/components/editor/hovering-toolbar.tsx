@@ -1,6 +1,6 @@
+import React, { useMemo } from 'react'
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React, { useMemo } from 'react'
 import { useEffect, useRef } from 'react'
 import { Editor, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
@@ -8,11 +8,29 @@ import { LeafFormat } from '~/slate'
 import { Icon, IconType } from '../base/icon'
 import { Portal } from '../base/portal'
 import { isFormatActive, toggleFormat } from './elements/format'
+import { debounce } from 'lodash'
 
 export const HoveringToolbar = () => {
 	const ref = useRef<HTMLDivElement>(null)
 	const editor = useSlate()
 
+	const showTooltip = useRef(
+		debounce(() => {
+			const el = ref.current
+			if (!el) {
+				return
+			}
+			const domSelection = window.getSelection()
+			if (!domSelection) return
+			const domRange = domSelection.getRangeAt(0)
+			const rect = domRange.getBoundingClientRect()
+			el.style.opacity = '0.9'
+			el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
+			el.style.left = `${
+				rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2
+			}px`
+		}, 200)
+	)
 	useEffect(() => {
 		const el = ref.current
 		const { selection } = editor
@@ -30,15 +48,7 @@ export const HoveringToolbar = () => {
 			return
 		}
 
-		const domSelection = window.getSelection()
-		if (!domSelection) return
-		const domRange = domSelection.getRangeAt(0)
-		const rect = domRange.getBoundingClientRect()
-		el.style.opacity = '0.9'
-		el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
-		el.style.left = `${
-			rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2
-		}px`
+		showTooltip.current()
 	})
 
 	return (
