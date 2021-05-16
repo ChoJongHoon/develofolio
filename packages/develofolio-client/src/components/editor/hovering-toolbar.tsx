@@ -34,7 +34,7 @@ export const HoveringToolbar = () => {
 		if (!domSelection) return
 		const domRange = domSelection.getRangeAt(0)
 		const rect = domRange.getBoundingClientRect()
-		el.style.opacity = '1'
+		el.style.opacity = '0.9'
 		el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`
 		el.style.left = `${
 			rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2
@@ -83,17 +83,18 @@ const FormatButton = ({ format }: FormatButtonProps) => {
 }
 
 const tooltipStyles = css`
-	padding: 8px;
+	padding: 4px;
 	position: absolute;
 	z-index: 1;
 	top: -10000px;
 	left: -10000px;
 	margin-top: -6px;
 	opacity: 0;
-	background-color: #222;
-	border-radius: 4px;
+	background-color: ${OpenColor.gray[9]};
+	border-radius: 8px;
 	transition: opacity 0.25s;
 	display: flex;
+	backdrop-filter: blur(4px);
 `
 
 const buttonStyles = (isActive: boolean) => css`
@@ -102,4 +103,8 @@ const buttonStyles = (isActive: boolean) => css`
 	display: inline-flex;
 	opacity: ${isActive ? 1 : 0.5};
 	cursor: pointer;
+	border-radius: 4px;
+	&:hover {
+		background-color: ${OpenColor.gray[7]};
+	}
 `
