@@ -1,5 +1,5 @@
 import { Editor, Element, Point, Range, Transforms } from 'slate'
-import { BulletedListElement } from '~/slate'
+import { BulletedListElement } from '~/components/editor/slate'
 
 const SHORTCUTS = {
 	'*': 'list-item',

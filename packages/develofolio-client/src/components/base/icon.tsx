@@ -1,15 +1,18 @@
-import OpenColor from 'open-color'
-import Bold from 'public/icons/bold.svg'
-import Code from 'public/icons/code.svg'
-import Italic from 'public/icons/italic.svg'
 import React, { useMemo } from 'react'
 import cx from 'classnames'
 import { css } from '@emotion/react'
+import OpenColor from 'open-color'
+// Icons
+import Bold from 'public/icons/bold.svg'
+import Code from 'public/icons/code.svg'
+import Italic from 'public/icons/italic.svg'
+import DragHandle from 'public/icons/drag-handle.svg'
 
 const icons = {
 	Bold,
 	Code,
 	Italic,
+	DragHandle,
 }
 
 export type IconType = keyof typeof icons
@@ -21,7 +24,7 @@ export type IconProps = {
 	color?: string | [string, string]
 	className?: string
 	rotate?: number
-	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+	onClick?: React.MouseEventHandler<SVGSVGElement>
 }
 
 export const Icon = React.memo(
@@ -36,13 +39,13 @@ export const Icon = React.memo(
 		const Component = useMemo(() => icons[type], [type])
 
 		return (
-			<div
+			<Component
+				width={size}
+				height={size}
 				className={cx('icon', className)}
 				onClick={onClick}
 				css={wrapper({ fill: color, clickable: Boolean(onClick), rotate })}
-			>
-				<Component width={size} height={size} />
-			</div>
+			/>
 		)
 	}
 )
@@ -58,17 +61,15 @@ const wrapper = ({ fill, clickable, rotate }: StyleProps) => css`
 	${rotate && `transform: rotate(${rotate}deg)`};
 	${clickable && 'cursor: pointer;'};
 
-	& > svg {
-		${typeof fill === 'string'
-			? css`
-					fill: ${fill};
-			  `
-			: fill.map(
-					(item, index) => css`
-						& > *:nth-child(${index + 1}) {
-							fill: ${item};
-						}
-					`
-			  )}
-	}
+	${typeof fill === 'string'
+		? css`
+				fill: ${fill};
+		  `
+		: fill.map(
+				(item, index) => css`
+					& > *:nth-child(${index + 1}) {
+						fill: ${item};
+					}
+				`
+		  )}
 `

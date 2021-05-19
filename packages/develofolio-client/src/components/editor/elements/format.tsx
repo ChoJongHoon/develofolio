@@ -1,7 +1,7 @@
 import React from 'react'
 import { Editor, Text, Transforms } from 'slate'
 import { RenderLeafProps } from 'slate-react'
-import { LeafFormat } from '~/slate'
+import { LeafFormat } from '~/components/editor/slate'
 
 export const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 	if (leaf.bold) children = <strong>{children}</strong>

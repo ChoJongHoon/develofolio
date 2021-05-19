@@ -1,7 +1,10 @@
 import { css } from '@emotion/react'
 import React from 'react'
 import { Editor, Transforms } from 'slate'
-import { CustomRenderElementProps, IconElement } from '~/slate'
+import {
+	CustomRenderElementProps,
+	IconElement,
+} from '~/components/editor/slate'
 
 export const withIcon = (editor: Editor) => {
 	const { isInline, isVoid } = editor

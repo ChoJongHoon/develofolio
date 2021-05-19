@@ -37,7 +37,7 @@ export type IconElement = {
 	children: EmptyText[]
 }
 
-export type CustomElement =
+export type CustomElement = (
 	| ParagraphElement
 	| HeadingOneElement
 	| HeadingTwoElement
@@ -46,6 +46,9 @@ export type CustomElement =
 	| BulletedListElement
 	| ListItemElement
 	| IconElement
+) & {
+	key?: string
+}
 
 export type LeafFormat = 'bold' | 'italic' | 'code'
 
