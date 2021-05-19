@@ -6,8 +6,8 @@ import {
 	useSlateStatic,
 	ReactEditor,
 } from 'slate-react'
-import { Draggable } from '../dnd/draggable'
-import { Icon } from './icon'
+import { Draggable } from './dnd/draggable'
+import { Icon } from './elements/icon'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props

@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { createEditor, Descendant } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
-import { CustomElement } from './elements'
 import { withIcon } from './elements/icon'
 import { withMarkdown } from './elements/markdown'
 import { HoveringToolbar } from './hovering-toolbar'
@@ -12,6 +11,7 @@ import { withNodeId } from './node-id/with-node-id'
 import { nanoid } from 'nanoid'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { CustomElement } from './custom-element'
 
 export function Editor() {
 	const editor = useMemo(
@@ -120,7 +120,7 @@ export function Editor() {
 		(newValue: Descendant[]) => setValue(newValue),
 		[]
 	)
-	console.log(`value`, value)
+
 	return (
 		<DndProvider backend={HTML5Backend}>
 			<Slate editor={editor} value={value} onChange={onChnage}>
