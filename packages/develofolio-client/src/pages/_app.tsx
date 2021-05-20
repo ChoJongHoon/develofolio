@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloProvider, NormalizedCache } from '@apollo/client'
 import { withApollo } from '~/apollo/with-apollo'
 import { globalStyle } from '~/styles/global-styles'
+import { wrapper } from '~/redux/store'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
@@ -19,4 +20,4 @@ function MyApp({ Component, pageProps, apolloClient }: MyAppProps) {
 	)
 }
 
-export default withApollo(MyApp)
+export default wrapper.withRedux(withApollo(MyApp))

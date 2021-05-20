@@ -23,6 +23,7 @@ logos.forEach((logo, i) => {
 })
 
 const useSearchLogos = (keyword: string) => {
+	console.log(`keyword`, keyword)
 	const [result, setResult] = useState(logos)
 	useEffect(() => {
 		if (!keyword) {

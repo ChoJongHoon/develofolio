@@ -7,7 +7,7 @@ import {
 	ReactEditor,
 } from 'slate-react'
 import { Draggable } from './dnd/draggable'
-import { Icon } from './elements/icon'
+import { Logo } from './logo/logo'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -22,11 +22,11 @@ export const CustomElement = (props: RenderElementProps) => {
 	let data: EmotionJSX.Element
 
 	switch (element.type) {
-		case 'icon':
+		case 'logo':
 			data = (
-				<Icon attributes={attributes} element={element}>
+				<Logo attributes={attributes} element={element}>
 					{children}
-				</Icon>
+				</Logo>
 			)
 			break
 		case 'heading-one':

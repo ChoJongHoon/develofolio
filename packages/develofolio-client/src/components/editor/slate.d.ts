@@ -28,8 +28,8 @@ export type BulletedListElement = {
 }
 export type ListItemElement = { type: 'list-item'; children: Descendant[] }
 
-export type IconElement = {
-	type: 'icon'
+export type LogoElement = {
+	type: 'logo'
 	name: string
 	shortname: string
 	url: string
@@ -45,7 +45,7 @@ export type CustomElement = (
 	| BlockQuoteElement
 	| BulletedListElement
 	| ListItemElement
-	| IconElement
+	| LogoElement
 ) & {
 	key?: string
 }

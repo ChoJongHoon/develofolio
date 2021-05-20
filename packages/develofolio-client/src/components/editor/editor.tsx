@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { createEditor, Descendant } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
-import { withIcon } from './elements/icon'
 import { withMarkdown } from './elements/markdown'
 import { HoveringToolbar } from './hovering-toolbar'
 import { renderLeaf, toggleFormat } from './elements/format'
@@ -12,12 +11,15 @@ import { nanoid } from 'nanoid'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { CustomElement } from './custom-element'
+import { withLogo } from './logo/with-logo'
+import LogoPicker from './logo/logo-picker'
+import { useLogoPicker } from './logo/use-logo-picker'
 
 export function Editor() {
 	const editor = useMemo(
 		() =>
 			withHistory(
-				withReact(withIcon(withMarkdown(withNodeId(createEditor()))))
+				withReact(withLogo(withMarkdown(withNodeId(createEditor()))))
 			),
 		[]
 	)
@@ -46,7 +48,7 @@ export function Editor() {
 						{ key: nanoid(), text: '' },
 						{
 							key: nanoid(),
-							type: 'icon',
+							type: 'logo',
 							name: 'React',
 							shortname: 'react',
 							url: 'https://facebook.github.io/react/',
@@ -63,7 +65,7 @@ export function Editor() {
 						{ key: nanoid(), text: '' },
 						{
 							key: nanoid(),
-							type: 'icon',
+							type: 'logo',
 							name: 'Apollo',
 							shortname: 'apollostack',
 							url: 'http://www.apollostack.com/',
@@ -80,7 +82,7 @@ export function Editor() {
 						{ key: nanoid(), text: '' },
 						{
 							key: nanoid(),
-							type: 'icon',
+							type: 'logo',
 							name: 'Typescript',
 							shortname: 'typescript',
 							url: 'https://www.typescriptlang.org/',
@@ -97,7 +99,7 @@ export function Editor() {
 						{ key: nanoid(), text: '' },
 						{
 							key: nanoid(),
-							type: 'icon',
+							type: 'logo',
 							name: 'GraphQL',
 							shortname: 'graphql',
 							url: 'http://graphql.org/',
@@ -121,10 +123,20 @@ export function Editor() {
 		[]
 	)
 
+	const { handleIconPicker } = useLogoPicker(editor)
+
+	const onKeyDown = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
+		(event) => {
+			if (handleIconPicker(event)) {
+				event.preventDefault()
+			}
+		},
+		[handleIconPicker]
+	)
+
 	return (
 		<DndProvider backend={HTML5Backend}>
 			<Slate editor={editor} value={value} onChange={onChnage}>
-				<HoveringToolbar />
 				<Editable
 					renderElement={CustomElement}
 					renderLeaf={renderLeaf}
@@ -140,7 +152,11 @@ export function Editor() {
 						}
 					}}
 					css={editorStyles}
+					onKeyDown={onKeyDown}
 				/>
+
+				<HoveringToolbar />
+				<LogoPicker />
 			</Slate>
 		</DndProvider>
 	)
