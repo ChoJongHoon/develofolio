@@ -27,7 +27,8 @@ export function Editor() {
 	const [value, setValue] = useState<Descendant[]>([
 		{
 			key: nanoid(),
-			type: 'heading-one',
+			type: 'heading',
+			level: 1,
 			children: [{ key: nanoid(), text: '이채영 (@Luna Lee)' }],
 		},
 		{

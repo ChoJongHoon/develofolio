@@ -8,6 +8,7 @@ import {
 } from 'slate-react'
 import { Draggable } from './dnd/draggable'
 import { Logo } from './logo/logo'
+import { Heading } from './elements/heading'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -29,14 +30,12 @@ export const CustomElement = (props: RenderElementProps) => {
 				</Logo>
 			)
 			break
-		case 'heading-one':
-			data = <h1 {...attributes}>{children}</h1>
-			break
-		case 'heading-two':
-			data = <h2 {...attributes}>{children}</h2>
-			break
-		case 'heading-three':
-			data = <h3 {...attributes}>{children}</h3>
+		case 'heading':
+			data = (
+				<Heading attributes={attributes} element={element}>
+					{children}
+				</Heading>
+			)
 			break
 		case 'block-quote':
 			data = <blockquote {...attributes}>{children}</blockquote>

@@ -1,14 +1,15 @@
 import { Editor, Element, Point, Range, Transforms } from 'slate'
-import { BulletedListElement } from '~/components/editor/slate'
+import { BulletedListElement, HeadingElement } from '~/components/editor/slate'
+import { isHeading } from '../elements/heading'
 
 const SHORTCUTS = {
 	'*': 'list-item',
 	'-': 'list-item',
 	'+': 'list-item',
 	'>': 'block-quote',
-	'#': 'heading-one',
-	'##': 'heading-two',
-	'###': 'heading-three',
+	'#': 'heading',
+	'##': 'heading',
+	'###': 'heading',
 } as const
 
 const isShortcuts = (text: string): text is keyof typeof SHORTCUTS =>
@@ -36,6 +37,9 @@ export const withShortcuts = (editor: Editor) => {
 				Transforms.delete(editor)
 
 				const newProperties: Partial<Element> = { type }
+				if (isHeading(newProperties)) {
+					newProperties.level = beforeText.length as 1 | 2 | 3
+				}
 				Transforms.setNodes(editor, newProperties, {
 					match: (n) => Editor.isBlock(editor, n),
 				})

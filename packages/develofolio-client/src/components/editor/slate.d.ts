@@ -9,16 +9,9 @@ export type ParagraphElement = {
 	type: 'paragraph'
 	children: Descendant[]
 }
-export type HeadingOneElement = {
-	type: 'heading-one'
-	children: Descendant[]
-}
-export type HeadingTwoElement = {
-	type: 'heading-two'
-	children: Descendant[]
-}
-export type HeadingThreeElement = {
-	type: 'heading-three'
+export type HeadingElement = {
+	type: 'heading'
+	level: 1 | 2 | 3
 	children: Descendant[]
 }
 export type BlockQuoteElement = { type: 'block-quote'; children: Descendant[] }
@@ -39,9 +32,7 @@ export type LogoElement = {
 
 export type CustomElement = (
 	| ParagraphElement
-	| HeadingOneElement
-	| HeadingTwoElement
-	| HeadingThreeElement
+	| HeadingElement
 	| BlockQuoteElement
 	| BulletedListElement
 	| ListItemElement
