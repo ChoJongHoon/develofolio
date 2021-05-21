@@ -14,7 +14,7 @@ const SHORTCUTS = {
 const isShortcuts = (text: string): text is keyof typeof SHORTCUTS =>
 	Object.keys(SHORTCUTS).includes(text)
 
-export const withMarkdown = (editor: Editor) => {
+export const withShortcuts = (editor: Editor) => {
 	const { deleteBackward, insertText, insertBreak } = editor
 
 	editor.insertText = (text) => {

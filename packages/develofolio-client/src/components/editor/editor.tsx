@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { createEditor, Descendant } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
-import { withMarkdown } from './elements/markdown'
 import { HoveringToolbar } from './hovering-toolbar'
 import { renderLeaf, toggleFormat } from './elements/format'
 import { css } from '@emotion/react'
@@ -14,12 +13,13 @@ import { CustomElement } from './custom-element'
 import { withLogo } from './logo/with-logo'
 import LogoPicker from './logo/logo-picker'
 import { useLogoPicker } from './logo/use-logo-picker'
+import { withShortcuts } from './shortcuts/with-shortcuts'
 
 export function Editor() {
 	const editor = useMemo(
 		() =>
 			withHistory(
-				withReact(withLogo(withMarkdown(withNodeId(createEditor()))))
+				withReact(withLogo(withShortcuts(withNodeId(createEditor()))))
 			),
 		[]
 	)
