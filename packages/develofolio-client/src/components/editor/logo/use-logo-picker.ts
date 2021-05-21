@@ -87,8 +87,7 @@ export const useLogoPicker = (editor: Editor) => {
 			if (key === 'ArrowRight') {
 				const next = selectedIndex + 1
 				if (totalCount <= next) {
-					dispatch(setShowIconPicker(false))
-					return false
+					return true
 				}
 				dispatch(setSelectedIndex(next))
 				return true
@@ -96,8 +95,7 @@ export const useLogoPicker = (editor: Editor) => {
 			if (key === 'ArrowLeft') {
 				const next = selectedIndex - 1
 				if (next < 0) {
-					dispatch(setShowIconPicker(false))
-					return false
+					return true
 				}
 				dispatch(setSelectedIndex(next))
 				return true
@@ -105,8 +103,7 @@ export const useLogoPicker = (editor: Editor) => {
 			if (key === 'ArrowDown') {
 				const next = selectedIndex + 8
 				if (totalCount <= next) {
-					dispatch(setShowIconPicker(false))
-					return false
+					return true
 				}
 				dispatch(setSelectedIndex(next))
 				return true
@@ -114,8 +111,7 @@ export const useLogoPicker = (editor: Editor) => {
 			if (key === 'ArrowUp') {
 				const next = selectedIndex - 8
 				if (next < 0) {
-					dispatch(setShowIconPicker(false))
-					return false
+					return true
 				}
 				dispatch(setSelectedIndex(next))
 				return true
