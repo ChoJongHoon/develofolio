@@ -3,7 +3,6 @@ import { KeyboardEvent, useCallback, useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Editor, Range, Transforms } from 'slate'
 import {
-	increaseSelectedIndex,
 	setResults,
 	setSelectedIndex,
 	setShowIconPicker,
@@ -83,13 +82,42 @@ export const useLogoPicker = (editor: Editor) => {
 				return false
 			}
 			const key = event.key
+			const totalCount = results.length
 
 			if (key === 'ArrowRight') {
-				dispatch(increaseSelectedIndex(1))
+				const next = selectedIndex + 1
+				if (totalCount <= next) {
+					dispatch(setShowIconPicker(false))
+					return false
+				}
+				dispatch(setSelectedIndex(next))
 				return true
 			}
 			if (key === 'ArrowLeft') {
-				dispatch(increaseSelectedIndex(-1))
+				const next = selectedIndex - 1
+				if (next < 0) {
+					dispatch(setShowIconPicker(false))
+					return false
+				}
+				dispatch(setSelectedIndex(next))
+				return true
+			}
+			if (key === 'ArrowDown') {
+				const next = selectedIndex + 8
+				if (totalCount <= next) {
+					dispatch(setShowIconPicker(false))
+					return false
+				}
+				dispatch(setSelectedIndex(next))
+				return true
+			}
+			if (key === 'ArrowUp') {
+				const next = selectedIndex - 8
+				if (next < 0) {
+					dispatch(setShowIconPicker(false))
+					return false
+				}
+				dispatch(setSelectedIndex(next))
 				return true
 			}
 			if (key === 'Escape') {

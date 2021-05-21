@@ -7,11 +7,7 @@ import { css } from '@emotion/react'
 import { Portal } from '~/components/base/portal'
 import { ReactEditor, useSlate } from 'slate-react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import {
-	setSelectedIndex,
-	setShowIconPicker,
-	setTotalCountIconPicker,
-} from '../editor.reducer'
+import { setSelectedIndex, setShowIconPicker } from '../editor.reducer'
 
 const ICON_SIZE = 40
 const BOX_WIDTH = 320
@@ -28,7 +24,6 @@ export default function LogoPicker() {
 
 	useEffect(() => {
 		const element = ref.current
-		dispatch(setTotalCountIconPicker(results.length))
 		if (!element || !target || results.length === 0) {
 			dispatch(setShowIconPicker(false))
 			return
