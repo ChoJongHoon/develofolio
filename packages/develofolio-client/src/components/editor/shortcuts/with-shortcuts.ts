@@ -81,8 +81,8 @@ export const withShortcuts = (editor: Editor) => {
 				if (
 					!Editor.isEditor(block) &&
 					Element.isElement(block) &&
-					Point.equals(selection.anchor, start) &&
-					Object.values(SHORTCUTS).includes(block.type)
+					Object.values(SHORTCUTS).includes(block.type) &&
+					Point.equals(selection.anchor, start)
 				) {
 					const newProperties: Partial<Element> = {
 						type: 'paragraph',
@@ -123,10 +123,11 @@ export const withShortcuts = (editor: Editor) => {
 			if (match) {
 				const [block, path] = match
 				const start = Editor.start(editor, path)
+
 				if (
 					!Editor.isEditor(block) &&
 					Element.isElement(block) &&
-					Object.keys(SHORTCUTS).includes(block.type) &&
+					Object.values(SHORTCUTS).includes(block.type) &&
 					Point.equals(selection.anchor, start) &&
 					Editor.isEmpty(editor, block)
 				) {

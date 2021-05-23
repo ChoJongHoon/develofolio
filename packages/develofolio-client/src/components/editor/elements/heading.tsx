@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import OpenColor from 'open-color'
 import React from 'react'
 import { Element } from 'slate'
 import { CustomRenderElementProps, HeadingElement } from '../custom-types'
@@ -24,6 +25,9 @@ export const Heading = ({
 					: h3Styles
 			}
 		>
+			{element.level === 1 && (
+				<span css={beforeStyles} contentEditable={false} />
+			)}
 			{children}
 		</CustomTag>
 	)
@@ -45,4 +49,13 @@ const h3Styles = css`
 	font-size: 20px;
 	line-height: 1.2;
 	margin-top: 1em;
+`
+
+const beforeStyles = css`
+	user-select: none;
+	display: inline-block;
+	width: 4px;
+	height: 45px;
+	background-color: ${OpenColor.teal[6]};
+	margin-right: 16px;
 `
