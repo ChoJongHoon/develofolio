@@ -9,6 +9,7 @@ import {
 import { Draggable } from './dnd/draggable'
 import { Logo } from './logo/logo'
 import { Heading } from './elements/heading'
+import { Paragraph } from './elements/paragraph'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -45,6 +46,13 @@ export const CustomElement = (props: RenderElementProps) => {
 			break
 		case 'list-item':
 			data = <li {...attributes}>{children}</li>
+			break
+		case 'paragraph':
+			data = (
+				<Paragraph attributes={attributes} element={element}>
+					{children}
+				</Paragraph>
+			)
 			break
 		default:
 			data = (
