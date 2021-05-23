@@ -10,6 +10,8 @@ import { Draggable } from './dnd/draggable'
 import { Logo } from './logo/logo'
 import { Heading } from './elements/heading'
 import { Paragraph } from './elements/paragraph'
+import { BulletedList } from './elements/bulleted-list'
+import { ListItem } from './elements/list-item'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -42,10 +44,18 @@ export const CustomElement = (props: RenderElementProps) => {
 			data = <blockquote {...attributes}>{children}</blockquote>
 			break
 		case 'bulleted-list':
-			data = <ul {...attributes}>{children}</ul>
+			data = (
+				<BulletedList attributes={attributes} element={element}>
+					{children}
+				</BulletedList>
+			)
 			break
 		case 'list-item':
-			data = <li {...attributes}>{children}</li>
+			data = (
+				<ListItem attributes={attributes} element={element}>
+					{children}
+				</ListItem>
+			)
 			break
 		case 'paragraph':
 			data = (

@@ -103,6 +103,10 @@ export const globalStyle = (
 				font-size: 100%;
 				vertical-align: baseline;
 			}
+
+			* {
+				box-sizing: border-box;
+			}
 		`}
 	/>
 )
