@@ -20,8 +20,8 @@ const rootStyles = css`
 	display: flex;
 	align-items: center;
 	padding-left: 2px;
-	font-size: 16px;
-	line-height: 1.5;
+	--font-size: 16px;
+	--line-height: 1.5;
 `
 
 const bulletStyles = css`

@@ -192,5 +192,7 @@ const editorStyles = css`
 
 	[data-slate-node='element'] > * {
 		vertical-align: middle;
+		font-size: var(--font-size);
+		line-height: var(--line-height);
 	}
 `

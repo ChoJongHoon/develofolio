@@ -1,15 +1,8 @@
+import { css } from '@emotion/react'
 import React from 'react'
 import { Editor, Text, Transforms } from 'slate'
 import { RenderLeafProps } from 'slate-react'
 import { LeafFormat } from '~/components/editor/custom-types'
-
-export const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
-	if (leaf.bold) children = <strong>{children}</strong>
-	if (leaf.italic) children = <em>{children}</em>
-	if (leaf.code) children = <code>{children}</code>
-
-	return <span {...attributes}>{children}</span>
-}
 
 export const toggleFormat = (editor: Editor, format: LeafFormat) => {
 	const isActive = isFormatActive(editor, format)
@@ -27,3 +20,17 @@ export const isFormatActive = (editor: Editor, format: LeafFormat) => {
 	})
 	return Boolean(match)
 }
+
+export const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
+	if (leaf.bold) children = <strong>{children}</strong>
+	if (leaf.italic) children = <em>{children}</em>
+	if (leaf.code) children = <code>{children}</code>
+
+	return (
+		<span {...attributes} css={styles}>
+			{children}
+		</span>
+	)
+}
+
+const styles = css``

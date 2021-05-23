@@ -15,6 +15,8 @@ export const BannerBio = ({
 }
 
 const styles = css`
+	--font-size: 16px;
+	--line-height: 1.3;
 	margin-top: 16px;
 	color: ${OpenColor.gray[7]};
 `

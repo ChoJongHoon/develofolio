@@ -1,4 +1,5 @@
 import { css } from '@emotion/react'
+import OpenColor from 'open-color'
 import React from 'react'
 import { CustomRenderElementProps, ParagraphElement } from '../custom-types'
 
@@ -14,6 +15,7 @@ export const Paragraph = ({
 }
 
 const styles = css`
-	font-size: 16px;
-	line-height: 1.5;
+	--font-size: 16px;
+	--line-height: 1.5;
+	color: ${OpenColor.gray[7]};
 `

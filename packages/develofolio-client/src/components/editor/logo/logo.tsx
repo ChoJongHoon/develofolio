@@ -23,6 +23,6 @@ const wrapper = css`
 `
 
 const imgStyles = css`
-	height: 16px;
+	height: var(--font-size);
 	display: block;
 `

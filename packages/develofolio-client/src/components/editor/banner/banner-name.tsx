@@ -15,6 +15,7 @@ export const BannerName = ({
 }
 
 const styles = css`
-	font-size: 48px;
+	--font-size: 48px;
+	--line-height: 1.5;
 	color: ${OpenColor.gray[8]};
 `

@@ -34,20 +34,20 @@ export const Heading = ({
 }
 
 const h1Styles = css`
-	font-size: 30px;
-	line-height: 1.5;
+	--font-size: 30px;
+	--line-height: 1.5;
 	margin-top: 2em;
 `
 
 const h2Styles = css`
-	font-size: 24px;
-	line-height: 1.3;
+	--font-size: 24px;
+	--line-height: 1.3;
 	margin-top: 1.4em;
 `
 
 const h3Styles = css`
-	font-size: 20px;
-	line-height: 1.2;
+	--font-size: 20px;
+	--line-height: 1.2;
 	margin-top: 1em;
 `
 

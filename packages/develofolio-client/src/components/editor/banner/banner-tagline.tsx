@@ -15,8 +15,9 @@ export const BannerTagline = ({
 }
 
 const styles = css`
-	font-size: 24px;
-	margin-top: 8px;
+	--font-size: 24px;
+	--line-height: 1.2;
+	margin-top: 4px;
 	font-weight: 500;
 	color: ${OpenColor.gray[6]};
 `
