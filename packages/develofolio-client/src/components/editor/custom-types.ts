@@ -37,7 +37,6 @@ export type LogoElement = {
 // ==============================
 export type BannerElement = {
 	type: 'banner'
-	profile: string | null
 	children: [
 		WithKey<BannerNameElement>,
 		WithKey<BannerTaglineElement>,

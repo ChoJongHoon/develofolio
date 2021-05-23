@@ -7,12 +7,20 @@ import Bold from 'public/icons/bold.svg'
 import Code from 'public/icons/code.svg'
 import Italic from 'public/icons/italic.svg'
 import DragHandle from 'public/icons/drag-handle.svg'
+import Facebook from 'public/icons/facebook.svg'
+import Github from 'public/icons/github.svg'
+import StackOverflow from 'public/icons/stack-overflow.svg'
+import Twitter from 'public/icons/twitter.svg'
 
 const icons = {
 	Bold,
 	Code,
 	Italic,
 	DragHandle,
+	Facebook,
+	Github,
+	StackOverflow,
+	Twitter,
 }
 
 export type IconType = keyof typeof icons

@@ -31,7 +31,6 @@ export function Editor() {
 		{
 			key: nanoid(),
 			type: 'banner',
-			profile: 'luna.png',
 			children: [
 				{
 					key: nanoid(),
