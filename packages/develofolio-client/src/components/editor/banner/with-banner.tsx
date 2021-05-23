@@ -19,7 +19,7 @@ export const withBanner = (editor: Editor) => {
 	 * 배너의 첫 번째 노드가 name이 아니면 name으로 변경
 	 * 배너의 두 번째 노드가 tagline이 아니면 tagline으로 변경
 	 * 배너의 세 번째 노드가 bio가 아니면 bio로 변경
-	 * 배너의 네 번째 노드가 존재하면 삭제
+	 * 배너의 네 번째 노드가 존재하면 배너 밖으로 옮김
 	 */
 	editor.normalizeNode = ([node, path]) => {
 		if (Editor.isEditor(node)) {
@@ -72,12 +72,32 @@ export const withBanner = (editor: Editor) => {
 				Transforms.setNodes(editor, bio, { at: path.concat(2) })
 			}
 			if (node.children.length > 3) {
-				Transforms.delete(editor, { at: path.concat(3) })
+				Transforms.moveNodes(editor, { at: path.concat(3), to: [1] })
 			}
 		}
 
 		return normalizeNode([node, path])
 	}
+
+	// editor.insertBreak = () => {
+	// 	const { selection } = editor
+
+	// 	if (selection && Range.isCollapsed(selection)) {
+	// 		const match = Editor.above(editor, {
+	// 			match: (n) => {
+	// 				return Editor.isBlock(editor, n)
+	// 			},
+	// 		})
+	// 		if (match) {
+	// 			const [node] = match
+	// 			if (isBannerBio(node)) {
+	// 				Transforms.select(editor, { path: [1], offset: 0 })
+	// 				return
+	// 			}
+	// 		}
+	// 	}
+	// 	insertBreak()
+	// }
 
 	return editor
 }
