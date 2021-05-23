@@ -30,7 +30,7 @@ const bulletStyles = css`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-size: 24px;
-	line-height: 1;
+	--font-size: 24px;
+	--line-height: 1;
 	margin-bottom: 0.1em;
 `
