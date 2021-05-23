@@ -19,6 +19,7 @@ export const withBanner = (editor: Editor) => {
 	 * 배너의 첫 번째 노드가 name이 아니면 name으로 변경
 	 * 배너의 두 번째 노드가 tagline이 아니면 tagline으로 변경
 	 * 배너의 세 번째 노드가 bio가 아니면 bio로 변경
+	 * 배너의 네 번째 노드가 존재하면 삭제
 	 */
 	editor.normalizeNode = ([node, path]) => {
 		if (Editor.isEditor(node)) {
@@ -69,6 +70,9 @@ export const withBanner = (editor: Editor) => {
 					children: [{ text: '' }],
 				}
 				Transforms.setNodes(editor, bio, { at: path.concat(2) })
+			}
+			if (node.children.length > 3) {
+				Transforms.delete(editor, { at: path.concat(3) })
 			}
 		}
 
