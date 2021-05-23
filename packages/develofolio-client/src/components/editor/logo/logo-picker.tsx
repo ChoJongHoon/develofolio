@@ -32,7 +32,7 @@ export default function LogoPicker() {
 		const domRange = ReactEditor.toDOMRange(editor, target)
 		const rect = domRange.getBoundingClientRect()
 		element.style.display = 'block'
-		element.style.top = `${rect.top + window.pageYOffset + 24}px`
+		element.style.top = `${rect.top + window.pageYOffset + rect.height}px`
 		element.style.left = `${rect.left + window.pageXOffset}px`
 	}, [dispatch, editor, results.length, target])
 	useEffect(() => {
@@ -149,6 +149,7 @@ const boxStyles = css`
 	overflow: hidden;
 	flex-direction: column;
 	border-radius: 8px;
+	background-color: white;
 `
 
 const gridWrapperStyles = css`
