@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/react'
-import { CustomRenderElementProps, ListItemElement } from '../slate'
+import { CustomRenderElementProps, ListItemElement } from '../custom-types'
 
 export const ListItem = ({
 	attributes,

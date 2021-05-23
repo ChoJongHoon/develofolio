@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import React from 'react'
-import { CustomRenderElementProps, ParagraphElement } from '../slate'
+import { CustomRenderElementProps, ParagraphElement } from '../custom-types'
 
 export const Paragraph = ({
 	attributes,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/react'
-import { CustomRenderElementProps, LogoElement } from '../slate'
+import { CustomRenderElementProps, LogoElement } from '../custom-types'
 
 export const Logo = ({
 	attributes,

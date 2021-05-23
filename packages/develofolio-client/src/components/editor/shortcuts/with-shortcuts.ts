@@ -1,8 +1,11 @@
 import { Editor, Element, Point, Range, Transforms } from 'slate'
-import { BulletedListElement } from '~/components/editor/slate'
+import {
+	BulletedListElement,
+	CustomElement,
+} from '~/components/editor/custom-types'
 import { isHeading } from '../elements/heading'
 
-const SHORTCUTS = {
+const SHORTCUTS: { [key in string]: CustomElement['type'] } = {
 	'*': 'list-item',
 	'-': 'list-item',
 	'+': 'list-item',
@@ -10,7 +13,7 @@ const SHORTCUTS = {
 	'#': 'heading',
 	'##': 'heading',
 	'###': 'heading',
-} as const
+}
 
 const isShortcuts = (text: string): text is keyof typeof SHORTCUTS =>
 	Object.keys(SHORTCUTS).includes(text)
@@ -78,8 +81,8 @@ export const withShortcuts = (editor: Editor) => {
 				if (
 					!Editor.isEditor(block) &&
 					Element.isElement(block) &&
-					block.type !== 'paragraph' &&
-					Point.equals(selection.anchor, start)
+					Point.equals(selection.anchor, start) &&
+					Object.values(SHORTCUTS).includes(block.type)
 				) {
 					const newProperties: Partial<Element> = {
 						type: 'paragraph',
@@ -123,7 +126,7 @@ export const withShortcuts = (editor: Editor) => {
 				if (
 					!Editor.isEditor(block) &&
 					Element.isElement(block) &&
-					block.type !== 'paragraph' &&
+					Object.keys(SHORTCUTS).includes(block.type) &&
 					Point.equals(selection.anchor, start) &&
 					Editor.isEmpty(editor, block)
 				) {

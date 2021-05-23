@@ -1,5 +1,5 @@
 import { Editor, Transforms } from 'slate'
-import { LogoElement } from '../slate'
+import { LogoElement } from '../custom-types'
 
 type Logo = Omit<LogoElement, 'type' | 'children'>
 

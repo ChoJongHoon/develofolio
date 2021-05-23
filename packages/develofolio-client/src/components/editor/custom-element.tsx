@@ -12,6 +12,10 @@ import { Heading } from './elements/heading'
 import { Paragraph } from './elements/paragraph'
 import { BulletedList } from './elements/bulleted-list'
 import { ListItem } from './elements/list-item'
+import { Banner } from './banner/banner'
+import { BannerName } from './banner/banner-name'
+import { BannerTagline } from './banner/banner-tagline'
+import { BannerBio } from './banner/banner-bio'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -64,6 +68,34 @@ export const CustomElement = (props: RenderElementProps) => {
 				</Paragraph>
 			)
 			break
+		case 'banner':
+			data = (
+				<Banner attributes={attributes} element={element}>
+					{children}
+				</Banner>
+			)
+			break
+		case 'banner-name':
+			data = (
+				<BannerName attributes={attributes} element={element}>
+					{children}
+				</BannerName>
+			)
+			break
+		case 'banner-tagline':
+			data = (
+				<BannerTagline attributes={attributes} element={element}>
+					{children}
+				</BannerTagline>
+			)
+			break
+		case 'banner-bio':
+			data = (
+				<BannerBio attributes={attributes} element={element}>
+					{children}
+				</BannerBio>
+			)
+			break
 		default:
 			data = (
 				<DefaultElement attributes={attributes} element={element}>
@@ -72,7 +104,7 @@ export const CustomElement = (props: RenderElementProps) => {
 			)
 	}
 
-	if (path.length === 1) {
+	if (path.length === 1 && element.type !== 'banner') {
 		return <Draggable id={element.key as string}>{data}</Draggable>
 	}
 

@@ -2,6 +2,8 @@ import { BaseEditor, Descendant } from 'slate'
 import { HistoryEditor } from 'slate-history'
 import { ReactEditor, RenderElementProps } from 'slate-react'
 
+export type WithKey<Element> = Element & { key?: string }
+
 // ==============================
 //           Elements
 // ==============================
@@ -27,19 +29,46 @@ export type LogoElement = {
 	shortname: string
 	url: string
 	file: string
-	children: EmptyText[]
+	children: CustomText[]
 }
 
-export type CustomElement = (
+// ==============================
+//           Banner
+// ==============================
+export type BannerElement = {
+	type: 'banner'
+	profile: string | null
+	children: [
+		WithKey<BannerNameElement>,
+		WithKey<BannerTaglineElement>,
+		WithKey<BannerBioElement>
+	]
+}
+export type BannerNameElement = {
+	type: 'banner-name'
+	children: CustomText[]
+}
+export type BannerTaglineElement = {
+	type: 'banner-tagline'
+	children: CustomText[]
+}
+export type BannerBioElement = {
+	type: 'banner-bio'
+	children: CustomText[]
+}
+
+export type CustomElement = WithKey<
 	| ParagraphElement
 	| HeadingElement
 	| BlockQuoteElement
 	| BulletedListElement
 	| ListItemElement
 	| LogoElement
-) & {
-	key?: string
-}
+	| BannerElement
+	| BannerNameElement
+	| BannerTaglineElement
+	| BannerBioElement
+>
 
 export type LeafFormat = 'bold' | 'italic' | 'code'
 

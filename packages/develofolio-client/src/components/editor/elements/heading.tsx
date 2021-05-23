@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import React from 'react'
 import { Element } from 'slate'
-import { CustomRenderElementProps, HeadingElement } from '../slate'
+import { CustomRenderElementProps, HeadingElement } from '../custom-types'
 
 export const isHeading = (
 	element: Partial<Element>

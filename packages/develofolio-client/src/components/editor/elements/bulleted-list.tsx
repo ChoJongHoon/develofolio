@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/react'
-import { BulletedListElement, CustomRenderElementProps } from '../slate'
+import { BulletedListElement, CustomRenderElementProps } from '../custom-types'
 
 export const BulletedList = ({
 	attributes,

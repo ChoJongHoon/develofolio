@@ -14,12 +14,15 @@ import { withLogo } from './logo/with-logo'
 import LogoPicker from './logo/logo-picker'
 import { useLogoPicker } from './logo/use-logo-picker'
 import { withShortcuts } from './shortcuts/with-shortcuts'
+import { withBanner } from './banner/with-banner'
 
 export function Editor() {
 	const editor = useMemo(
 		() =>
 			withHistory(
-				withReact(withLogo(withShortcuts(withNodeId(createEditor()))))
+				withReact(
+					withBanner(withLogo(withShortcuts(withNodeId(createEditor()))))
+				)
 			),
 		[]
 	)
@@ -27,16 +30,36 @@ export function Editor() {
 	const [value, setValue] = useState<Descendant[]>([
 		{
 			key: nanoid(),
-			type: 'heading',
-			level: 1,
-			children: [{ key: nanoid(), text: '이채영 (@Luna Lee)' }],
+			type: 'banner',
+			profile: 'luna.png',
+			children: [
+				{
+					key: nanoid(),
+					type: 'banner-name',
+					children: [{ text: '이채영 ' }, { text: '(@Luna Lee)', bold: true }],
+				},
+				{
+					key: nanoid(),
+					type: 'banner-tagline',
+					children: [{ text: 'Jr. Front-end Enginner' }],
+				},
+				{
+					key: nanoid(),
+					type: 'banner-bio',
+					children: [
+						{
+							text:
+								'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non tortor quis eros elementum molestie. Etiam tempor tortor vitae felis porttitor egestas ac ac eros. Donec accumsan purus lorem, quis feugiat orci efficitur id.',
+						},
+					],
+				},
+			],
 		},
 		{
 			key: nanoid(),
-			type: 'paragraph',
-			children: [
-				{ key: nanoid(), text: '안녕하세요 프론트엔드 엔지니어 이채영입니다.' },
-			],
+			type: 'heading',
+			level: 1,
+			children: [{ key: nanoid(), text: 'What I Do' }],
 		},
 		{
 			key: nanoid(),
@@ -164,7 +187,8 @@ export function Editor() {
 }
 
 const editorStyles = css`
-	padding: 32px;
+	padding-left: 32px;
+	padding-right: 32px;
 
 	[data-slate-node='element'] > * {
 		vertical-align: middle;
