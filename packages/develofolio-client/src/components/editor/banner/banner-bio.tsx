@@ -19,4 +19,5 @@ const styles = css`
 	--line-height: 1.3;
 	margin-top: 16px;
 	color: ${OpenColor.gray[7]};
+	margin-bottom: 16px;
 `
