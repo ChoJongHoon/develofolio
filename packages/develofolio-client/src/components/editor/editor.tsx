@@ -71,6 +71,7 @@ export function Editor() {
 const editorStyles = css`
 	padding-left: 32px;
 	padding-right: 32px;
+	padding-bottom: 30vh;
 
 	[data-slate-node='element'] > * {
 		vertical-align: middle;
