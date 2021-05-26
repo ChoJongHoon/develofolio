@@ -3,3 +3,11 @@ query Me {
 		id
 	}
 }
+
+query MyContent {
+	myContent
+}
+
+mutation SetContent($content: JSON!) {
+	setContent(content: $content)
+}

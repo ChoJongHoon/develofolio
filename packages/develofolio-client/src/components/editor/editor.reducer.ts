@@ -5,6 +5,9 @@ import logos from 'public/logos.json'
 type ILogo = typeof logos[number]
 
 export interface IEditor {
+	loading: boolean
+	saved: boolean
+	saving: boolean
 	iconPicker: {
 		show: boolean
 		target: Range | null
@@ -14,6 +17,9 @@ export interface IEditor {
 }
 
 const initialState: IEditor = {
+	loading: false,
+	saved: false,
+	saving: false,
 	iconPicker: {
 		show: false,
 		target: null,
@@ -38,6 +44,15 @@ export const editorSlice = createSlice({
 		setResults(state, action: { payload: Array<ILogo> }) {
 			state.iconPicker.results = action.payload
 		},
+		setLoading(state, action: { payload: boolean }) {
+			state.loading = action.payload
+		},
+		setSaved(state, action: { payload: boolean }) {
+			state.saved = action.payload
+		},
+		setSaving(state, action: { payload: boolean }) {
+			state.saving = action.payload
+		},
 	},
 })
 
@@ -48,4 +63,7 @@ export const {
 	setShowIconPicker,
 	setTarget,
 	setResults,
+	setLoading,
+	setSaved,
+	setSaving,
 } = actions
