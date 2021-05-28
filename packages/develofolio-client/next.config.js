@@ -17,4 +17,7 @@ module.exports = {
 
 		return config
 	},
+	images: {
+		domains: ['d9r22ehwkgf1q.cloudfront.net'],
+	},
 }

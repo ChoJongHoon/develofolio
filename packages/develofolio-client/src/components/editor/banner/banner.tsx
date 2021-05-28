@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
-import Image from 'next/image'
 import OpenColor from 'open-color'
 import React from 'react'
 import { Icon } from '~/components/base/icon'
 import { BannerElement, CustomRenderElementProps } from '../custom-types'
+import { Profile } from '../profile/profile'
 
 export const Banner = ({
 	attributes,
@@ -29,7 +29,7 @@ export const Banner = ({
 				</div>
 			</div>
 			<div css={rightStyles} contentEditable={false}>
-				<Image src={`/images/luna.png`} width={400} height={300} />
+				<Profile />
 			</div>
 		</div>
 	)

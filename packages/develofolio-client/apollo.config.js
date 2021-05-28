@@ -7,5 +7,6 @@ module.exports = {
 			name: 'develofolio',
 			url: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
 		},
+		excludes: ['**/*.generated.*'],
 	},
 }
