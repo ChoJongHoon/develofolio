@@ -1,13 +1,21 @@
 query Me {
 	me {
 		id
+		content
+		profile
 	}
 }
 
-query MyContent {
-	myContent
+query GetContent {
+	me {
+		id
+		content
+	}
 }
 
 mutation SetContent($content: JSON!) {
-	setContent(content: $content)
+	updateUser(input: { content: $content }) {
+		id
+		content
+	}
 }

@@ -3,8 +3,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Descendant } from 'slate'
 import {
-	MyContentDocument,
 	SetContentDocument,
+	GetContentDocument,
 } from '~/graphql/typed-document-nodes.generated'
 import { useDebounceEffect } from '~/lib/hooks/use-debounce-effect'
 import { setLoading, setSaved, setSaving } from '../editor.reducer'
@@ -42,17 +42,19 @@ export const useEditor = () => {
 		dispatch(setLoading(true))
 
 		const {
-			data: { myContent: initContent },
-		} = await client.query({ query: MyContentDocument })
+			data: {
+				me: { content },
+			},
+		} = await client.query({ query: GetContentDocument })
 
-		if (initContent) {
-			setValue(initContent)
-		} else {
-			const content = getInitContent()
+		if (content) {
 			setValue(content)
+		} else {
+			const initContent = getInitContent()
+			setValue(initContent)
 			onSave({
 				variables: {
-					content,
+					content: initContent,
 				},
 			})
 		}
