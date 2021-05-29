@@ -11,6 +11,8 @@ import Facebook from 'public/icons/facebook.svg'
 import Github from 'public/icons/github.svg'
 import StackOverflow from 'public/icons/stack-overflow.svg'
 import Twitter from 'public/icons/twitter.svg'
+import X from 'public/icons/x.svg'
+import UserAddOutlined from 'public/icons/user-add-outlined.svg'
 
 const icons = {
 	Bold,
@@ -21,6 +23,8 @@ const icons = {
 	Github,
 	StackOverflow,
 	Twitter,
+	X,
+	UserAddOutlined,
 }
 
 export type IconType = keyof typeof icons

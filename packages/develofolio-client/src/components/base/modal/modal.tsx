@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { css } from '@emotion/react'
-import { Portal } from './portal'
-import { Button } from './button'
+import { Portal } from '../portal'
 import { fadeIn, fadeOut, popIn } from '~/styles/keyframes'
 
 const FOCUSABLE_ELEMENT_QUERY = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]' as const
@@ -11,6 +10,7 @@ interface ModalProps {
 	onClose: () => void
 	title?: string
 	content?: React.ReactNode
+	action?: React.ReactNode
 }
 
 export const Modal = ({ open, ...props }: ModalProps) => {
@@ -29,6 +29,7 @@ const Core = ({
 	content,
 	onClose: onCloseProp,
 	title,
+	action,
 }: Omit<ModalProps, 'open'>) => {
 	const [close, setClose] = useState(false)
 	const ref = useRef<HTMLDivElement>(null)
@@ -57,7 +58,7 @@ const Core = ({
 			FOCUSABLE_ELEMENT_QUERY
 		) as HTMLElement
 
-		firstTabStop.focus()
+		firstTabStop?.focus()
 
 		return () => {
 			focusedElementBeforeModal.focus()
@@ -110,14 +111,7 @@ const Core = ({
 			>
 				{title && <div css={titleStyles}>{title}</div>}
 				{content && <div css={contentStyles}>{content}</div>}
-				<div css={actionStyles}>
-					<Button type="button" buttonProps={{}} color="red" variant="outline">
-						Cancel
-					</Button>
-					<Button type="button" buttonProps={{}} color="red" variant="primary">
-						Delete
-					</Button>
-				</div>
+				<div css={actionStyles}>{action}</div>
 			</div>
 		</div>
 	)

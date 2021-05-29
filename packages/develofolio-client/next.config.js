@@ -18,6 +18,6 @@ module.exports = {
 		return config
 	},
 	images: {
-		domains: ['d9r22ehwkgf1q.cloudfront.net'],
+		domains: [process.env.NEXT_PUBLIC_RESOURCE_DOMAIN],
 	},
 }

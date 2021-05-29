@@ -59,6 +59,7 @@ const rightStyles = css`
 	padding-bottom: 48px;
 	width: 400px;
 	height: 300px;
+	position: relative;
 `
 
 const linkWrapperStyles = css`

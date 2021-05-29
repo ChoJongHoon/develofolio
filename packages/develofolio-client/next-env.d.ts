@@ -12,5 +12,6 @@ declare namespace NodeJS {
 		readonly NODE_ENV: 'development' | 'production' | 'test'
 		readonly NEXT_PUBLIC_GITHUB_CLIENT_ID: string
 		readonly NEXT_PUBLIC_GRAPHQL_HOST: string
+		readonly NEXT_PUBLIC_RESOURCE_DOMAIN: string
 	}
 }
