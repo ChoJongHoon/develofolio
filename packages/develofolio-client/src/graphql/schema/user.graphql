@@ -33,3 +33,10 @@ mutation DeleteProfile {
 		profile
 	}
 }
+
+mutation UpdateProfile($profile: String!) {
+	updateUser(input: { profile: $profile }) {
+		id
+		profile
+	}
+}

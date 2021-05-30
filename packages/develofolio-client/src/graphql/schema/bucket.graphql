@@ -1,0 +1,6 @@
+query GetProfileUploadPath($filename: String!) {
+	profileUploadPath(filename: $filename) {
+		filename
+		uploadPath
+	}
+}
