@@ -1,7 +1,7 @@
 import { useApolloClient, useMutation } from '@apollo/client'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Descendant } from 'slate'
+import { Descendant, Element } from 'slate'
 import {
 	SetContentDocument,
 	GetContentDocument,
@@ -47,7 +47,7 @@ export const useEditor = () => {
 			},
 		} = await client.query({ query: GetContentDocument })
 
-		if (content) {
+		if (content && Element.isElementList(content)) {
 			setValue(content)
 		} else {
 			const initContent = getInitContent()
