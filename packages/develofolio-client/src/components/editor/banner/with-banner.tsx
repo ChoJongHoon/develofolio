@@ -26,7 +26,6 @@ export const withBanner = (editor: Editor) => {
 			if (node.children.length < 1) {
 				const banner: BannerElement = {
 					type: 'banner',
-					profile: null,
 					children: [
 						{ type: 'banner-name', children: [{ text: '' }] },
 						{ type: 'banner-tagline', children: [{ text: '' }] },
