@@ -15,7 +15,7 @@ const BANNER_CHILD_TYPES: CustomElement['type'][] = [
 ]
 
 export const withBanner = (editor: Editor) => {
-	const { normalizeNode, deleteBackward } = editor
+	const { normalizeNode, deleteBackward, insertBreak } = editor
 
 	/**
 	 * 첫 번째 노드가 없으면 banner 삽입
@@ -136,25 +136,31 @@ export const withBanner = (editor: Editor) => {
 		}
 	}
 
-	// editor.insertBreak = () => {
-	// 	const { selection } = editor
+	/**
+	 * 배너 안쪽에서 Enter키 누르면 다음 줄로 이동
+	 */
+	editor.insertBreak = () => {
+		const { selection } = editor
+		if (selection) {
+			const match = Editor.above(editor, {
+				match: (n) => {
+					return Editor.isBlock(editor, n)
+				},
+			})
+			if (match) {
+				const [block] = match
+				if (
+					Editor.isBlock(editor, block) &&
+					BANNER_CHILD_TYPES.includes(block.type)
+				) {
+					Transforms.move(editor, { distance: 1, unit: 'line' })
+					return
+				}
+			}
+		}
 
-	// 	if (selection && Range.isCollapsed(selection)) {
-	// 		const match = Editor.above(editor, {
-	// 			match: (n) => {
-	// 				return Editor.isBlock(editor, n)
-	// 			},
-	// 		})
-	// 		if (match) {
-	// 			const [node] = match
-	// 			if (isBannerBio(node)) {
-	// 				Transforms.select(editor, { path: [1], offset: 0 })
-	// 				return
-	// 			}
-	// 		}
-	// 	}
-	// 	insertBreak()
-	// }
+		insertBreak()
+	}
 
 	return editor
 }
