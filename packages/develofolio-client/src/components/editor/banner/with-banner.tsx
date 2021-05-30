@@ -7,7 +7,12 @@ import {
 	CustomElement,
 	ParagraphElement,
 } from '../custom-types'
-import { isBanner } from './is-banner'
+
+const BANNER_CHILD_TYPES: CustomElement['type'][] = [
+	'banner-name',
+	'banner-tagline',
+	'banner-bio',
+]
 
 export const withBanner = (editor: Editor) => {
 	const { normalizeNode, deleteBackward } = editor
@@ -23,20 +28,28 @@ export const withBanner = (editor: Editor) => {
 	 * 배너의 세 번째 노드가 없으면 bio 삽입
 	 * 배너의 세 번째 노드가 bio가 아니면 bio로 변경
 	 * 배너의 네 번째 노드가 존재하면 배너 밖으로 옮김
+	 *
+	 * 배너안에 있어야 할 child가 밖에 있으면 paragraph로 타입 변환
 	 */
 	editor.normalizeNode = ([node, path]) => {
 		if (Editor.isEditor(node)) {
-			if (node.children.length < 1) {
-				const banner: BannerElement = {
-					type: 'banner',
-					children: [
-						{ type: 'banner-name', children: [{ text: '' }] },
-						{ type: 'banner-tagline', children: [{ text: '' }] },
-						{ type: 'banner-bio', children: [{ text: '' }] },
-					],
-				}
+			const banner: BannerElement = {
+				type: 'banner',
+				children: [
+					{ type: 'banner-name', children: [{ text: '' }] },
+					{ type: 'banner-tagline', children: [{ text: '' }] },
+					{ type: 'banner-bio', children: [{ text: '' }] },
+				],
+			}
+			const firstChild = node.children[0]
+			if (
+				!firstChild ||
+				!Editor.isBlock(editor, firstChild) ||
+				firstChild.type !== 'banner'
+			) {
 				Transforms.insertNodes(editor, banner, { at: path.concat(0) })
 			}
+
 			if (node.children.length < 2) {
 				const paragraph: ParagraphElement = {
 					type: 'paragraph',
@@ -46,37 +59,51 @@ export const withBanner = (editor: Editor) => {
 			}
 		}
 
-		if (isBanner(node)) {
-			const name: BannerNameElement = {
-				type: 'banner-name',
-				children: [{ text: '' }],
-			}
-			const tagline: BannerTaglineElement = {
-				type: 'banner-tagline',
-				children: [{ text: '' }],
-			}
-			const bio: BannerBioElement = {
-				type: 'banner-bio',
-				children: [{ text: '' }],
-			}
-			if (node.children.length < 1) {
-				Transforms.insertNodes(editor, name, { at: path.concat(0) })
-			} else if (node.children[0].type !== 'banner-name') {
-				Transforms.setNodes(editor, name, { at: path.concat(0) })
-			}
-			if (node.children.length < 2) {
-				Transforms.insertNodes(editor, tagline, { at: path.concat(1) })
-			} else if (node.children[1].type !== 'banner-tagline') {
-				Transforms.setNodes(editor, tagline, { at: path.concat(1) })
-			}
-			if (node.children.length < 3) {
-				Transforms.insertNodes(editor, bio, { at: path.concat(1) })
-			} else if (node.children[2].type !== 'banner-bio') {
-				Transforms.setNodes(editor, bio, { at: path.concat(2) })
+		if (Editor.isBlock(editor, node)) {
+			if (node.type === 'banner') {
+				const name: BannerNameElement = {
+					type: 'banner-name',
+					children: [{ text: '' }],
+				}
+				const tagline: BannerTaglineElement = {
+					type: 'banner-tagline',
+					children: [{ text: '' }],
+				}
+				const bio: BannerBioElement = {
+					type: 'banner-bio',
+					children: [{ text: '' }],
+				}
+				if (node.children.length < 1) {
+					Transforms.insertNodes(editor, name, { at: path.concat(0) })
+				} else if (node.children[0].type !== 'banner-name') {
+					Transforms.setNodes(editor, name, { at: path.concat(0) })
+				}
+				if (node.children.length < 2) {
+					Transforms.insertNodes(editor, tagline, { at: path.concat(1) })
+				} else if (node.children[1].type !== 'banner-tagline') {
+					Transforms.setNodes(editor, tagline, { at: path.concat(1) })
+				}
+				if (node.children.length < 3) {
+					Transforms.insertNodes(editor, bio, { at: path.concat(1) })
+				} else if (node.children[2].type !== 'banner-bio') {
+					Transforms.setNodes(editor, bio, { at: path.concat(2) })
+				}
+
+				if (node.children.length > 3) {
+					Transforms.moveNodes(editor, { at: path.concat(3), to: [1] })
+				}
 			}
 
-			if (node.children.length > 3) {
-				Transforms.moveNodes(editor, { at: path.concat(3), to: [1] })
+			if (BANNER_CHILD_TYPES.includes(node.type)) {
+				if (path.length > 0) {
+					const [parent] = Editor.node(editor, path.slice(0, -1))
+					if (
+						Editor.isEditor(parent) ||
+						(Editor.isBlock(editor, parent) && parent.type !== 'banner')
+					) {
+						Transforms.setNodes(editor, { type: 'paragraph' }, { at: path })
+					}
+				}
 			}
 		}
 
@@ -94,18 +121,12 @@ export const withBanner = (editor: Editor) => {
 			if (match) {
 				const [block, path] = match
 				const start = Editor.start(editor, path)
-				const bannerTypes: CustomElement['type'][] = [
-					'banner',
-					'banner-name',
-					'banner-tagline',
-					'banner-bio',
-				]
 
 				if (
 					!Editor.isEditor(block) &&
 					Element.isElement(block) &&
 					Point.equals(selection.anchor, start) &&
-					bannerTypes.includes(block.type)
+					BANNER_CHILD_TYPES.includes(block.type)
 				) {
 					return
 				}
