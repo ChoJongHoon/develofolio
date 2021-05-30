@@ -82,7 +82,7 @@ export const Profile = () => {
 						objectFit="cover"
 					/>
 					<button css={deleteButton} onClick={onOpenDeleteModal}>
-						<Icon type="X" color="white" size={16} />
+						<Icon type="TrashLine" color="white" size={16} />
 					</button>
 					<Modal
 						title="사진을 삭제하시겠습니까?"
@@ -155,6 +155,7 @@ const deleteButton = css`
 	top: 8px;
 	right: 8px;
 	transition: background-color 0.2s;
+	padding: 0;
 	&:hover {
 		background-color: ${OpenColor.red[6]};
 	}
