@@ -1,5 +1,4 @@
 import { css } from '@emotion/react'
-import OpenColor from 'open-color'
 import React, { useMemo } from 'react'
 import { Editor } from 'slate'
 import { useSlateStatic } from 'slate-react'
@@ -34,7 +33,6 @@ export const Placeholder = ({ children, element }: PlaceholderProps) => {
 }
 
 const placeholder = css`
-	color: ${OpenColor.gray[4]};
 	position: absolute;
 	pointer-events: none;
 	user-select: none;
@@ -42,6 +40,5 @@ const placeholder = css`
 	width: 100%;
 	max-width: 100%;
 	display: block;
-	color: ${OpenColor.gray[4]};
-	opacity: 0.4;
+	opacity: 0.3;
 `
