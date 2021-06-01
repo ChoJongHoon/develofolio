@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import React from 'react'
-import { Icon } from '~/components/base/icon'
 import { BannerElement, CustomRenderElementProps } from '../custom-types'
 import { Profile } from '../profile/profile'
+import { SocialLinks } from '../social-link/social-links'
 
 export const Banner = ({
 	attributes,
@@ -13,19 +13,8 @@ export const Banner = ({
 		<div css={rootStyles}>
 			<div css={leftStyles}>
 				<div {...attributes}>{children}</div>
-				<div contentEditable={false} css={linkWrapperStyles}>
-					<a css={linkStyles}>
-						<Icon type="Github" color={OpenColor.teal[6]} size={20} />
-					</a>
-					<a css={linkStyles}>
-						<Icon type="Facebook" color={OpenColor.teal[6]} size={20} />
-					</a>
-					<a css={linkStyles}>
-						<Icon type="Twitter" color={OpenColor.teal[6]} size={20} />
-					</a>
-					<a css={linkStyles}>
-						<Icon type="StackOverflow" color={OpenColor.teal[6]} size={20} />
-					</a>
+				<div contentEditable={false}>
+					<SocialLinks />
 				</div>
 			</div>
 			<div css={rightStyles} contentEditable={false}>
@@ -60,26 +49,4 @@ const rightStyles = css`
 	width: 400px;
 	height: 300px;
 	position: relative;
-`
-
-const linkWrapperStyles = css`
-	display: flex;
-`
-
-const linkStyles = css`
-	display: flex;
-	width: 32px;
-	height: 32px;
-	background-color: #ffffff;
-	border-radius: 50%;
-	cursor: pointer;
-	justify-content: center;
-	align-items: center;
-	&:not(:last-of-type) {
-		margin-right: 16px;
-	}
-	transition: background-color 0.2s;
-	&:hover {
-		background-color: ${OpenColor.gray[1]};
-	}
 `

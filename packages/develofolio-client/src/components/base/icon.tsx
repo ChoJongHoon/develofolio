@@ -14,6 +14,8 @@ import Twitter from 'public/icons/twitter.svg'
 import X from 'public/icons/x.svg'
 import UserAddOutlined from 'public/icons/user-add-outlined.svg'
 import TrashLine from 'public/icons/trash-line.svg'
+import Plus from 'public/icons/plus.svg'
+import Pencil from 'public/icons/pencil.svg'
 
 const icons = {
 	Bold,
@@ -27,6 +29,8 @@ const icons = {
 	X,
 	UserAddOutlined,
 	TrashLine,
+	Plus,
+	Pencil,
 }
 
 export type IconType = keyof typeof icons
