@@ -73,9 +73,12 @@ const editorStyles = css`
 	padding-right: 32px;
 	padding-bottom: 30vh;
 
-	[data-slate-node='element'] > * {
-		vertical-align: middle;
-		font-size: var(--font-size);
-		line-height: var(--line-height);
+	[data-slate-node='element'] {
+		position: relative;
+		& > * {
+			vertical-align: middle;
+			font-size: var(--font-size);
+			line-height: var(--line-height);
+		}
 	}
 `

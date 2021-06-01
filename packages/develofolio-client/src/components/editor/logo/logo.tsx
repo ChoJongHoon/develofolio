@@ -16,13 +16,13 @@ export const Logo = ({
 }
 
 const wrapper = css`
-	display: inline-flex;
+	display: inline-block;
 	align-items: center;
 	justify-content: center;
 	position: relative;
 `
 
 const imgStyles = css`
-	height: var(--font-size);
+	height: 1em;
 	display: block;
 `

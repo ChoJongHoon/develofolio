@@ -39,6 +39,7 @@ const placeholder = css`
 	text-decoration: none;
 	width: 100%;
 	max-width: 100%;
-	display: block;
 	opacity: 0.3;
+	top: 50%;
+	transform: translateY(-50%);
 `
