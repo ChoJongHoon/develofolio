@@ -2,8 +2,12 @@ import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import React, { useMemo } from 'react'
 import { Icon } from '~/components/base/icon'
+import { useModal } from '~/components/base/modal/use-modal'
+import { EditSocialLinksModal } from './edit-social-links-modal'
 
 export const SocialLinks = () => {
+	const [isOpen, onOpen, onClose] = useModal()
+
 	const placeholder = useMemo(
 		() => (
 			<>
@@ -27,7 +31,14 @@ export const SocialLinks = () => {
 		[]
 	)
 
-	return <div css={wrapper()}>{placeholder}</div>
+	return (
+		<>
+			<div css={wrapper()} onClick={onOpen}>
+				{placeholder}
+			</div>
+			<EditSocialLinksModal open={isOpen} onClose={onClose} />
+		</>
+	)
 }
 
 const wrapper = () => css`

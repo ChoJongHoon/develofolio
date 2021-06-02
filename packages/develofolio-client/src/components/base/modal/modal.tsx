@@ -5,9 +5,12 @@ import { fadeIn, fadeOut, popIn } from '~/styles/keyframes'
 
 const FOCUSABLE_ELEMENT_QUERY = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]' as const
 
-interface ModalProps {
+export interface DefaultModalProps {
 	open: boolean
 	onClose: () => void
+}
+
+interface ModalProps extends DefaultModalProps {
 	title?: string
 	content?: React.ReactNode
 	action?: React.ReactNode
