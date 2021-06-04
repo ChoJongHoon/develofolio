@@ -1,11 +1,22 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React, { useCallback, useState } from 'react'
+import React, { HTMLProps } from 'react'
 import { Button } from '~/components/base/button'
 import { Icon, IconType } from '~/components/base/icon'
 import { DefaultModalProps, Modal } from '~/components/base/modal/modal'
+import { Control, FieldError, useController, useForm } from 'react-hook-form'
+import Validator from 'validator'
+
+interface FormValues {
+	github: string
+	stackOverflow: string
+	facebook: string
+	twitter: string
+}
 
 export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
+	const { control } = useForm<FormValues>({ mode: 'onChange' })
+
 	return (
 		<Modal
 			open={open}
@@ -13,14 +24,42 @@ export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
 			title="SNS 링크"
 			content={
 				<div css={list}>
-					<Input icon="Github" placeholder="GitHub" />
-					<Input icon="StackOverflow" placeholder="Stack Overflow" />
-					<Input icon="Facebook" placeholder="Facebook" />
-					<Input icon="Twitter" placeholder="Twitter" />
+					<Input
+						icon="Github"
+						placeholder="GitHub"
+						name="github"
+						control={control}
+						// {...register('github', {
+						// 	validate: (value) => {
+						// 		if (value && !Validator.isURL(value)) {
+						// 			return '유효하지 않은 링크입니다.'
+						// 		}
+						// 	},
+						// })}
+						// error={errors.github}
+					/>
+					<Input
+						icon="StackOverflow"
+						placeholder="Stack Overflow"
+						name="stackOverflow"
+						control={control}
+					/>
+					<Input
+						icon="Facebook"
+						placeholder="Facebook"
+						name="facebook"
+						control={control}
+					/>
+					<Input
+						icon="Twitter"
+						placeholder="Twitter"
+						name="twitter"
+						control={control}
+					/>
 				</div>
 			}
 			action={
-				<Button type="button" color="teal" buttonProps={{}}>
+				<Button type="button" color="teal" size="l" buttonProps={{}}>
 					확인
 				</Button>
 			}
@@ -34,36 +73,45 @@ const list = css`
 	gap: 8px;
 `
 
-interface InputProps {
+interface InputProps extends HTMLProps<HTMLInputElement> {
 	icon: IconType
-	placeholder: string
+	name: keyof FormValues
+	error?: FieldError
+	control: Control<FormValues>
 }
-const Input = ({ icon, placeholder }: InputProps) => {
-	const [value, setValue] = useState('')
-
-	const onChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
-		(event) => {
-			setValue(event.target.value)
+const Input = ({ icon, control, name, ...props }: InputProps) => {
+	const {
+		field,
+		fieldState: { error, invalid },
+	} = useController({
+		name,
+		control,
+		rules: {
+			validate: (value) => {
+				if (!Validator.isURL(value)) {
+					return '유효하지 않은 링크입니다.'
+				}
+			},
 		},
-		[]
-	)
+		defaultValue: '',
+	})
 
-	const isFill = value !== ''
+	const isValid = field.value !== '' && !invalid
 
 	return (
-		<div css={inputWrapper(isFill)}>
-			<input
-				css={inputStyles}
-				placeholder={placeholder}
-				value={value}
-				onChange={onChange}
-			/>
-			<Icon css={iconStyles} type={icon} size={18} />
+		<div css={inputWrapper}>
+			<div css={inputBoxWrapper(isValid)}>
+				<input css={inputStyles} {...props} {...field} />
+				<Icon css={iconStyles} type={icon} size={18} />
+			</div>
+			{error && <span css={errorMessage}>{error?.message}</span>}
 		</div>
 	)
 }
 
-const inputWrapper = (isFill: boolean) => css`
+const inputWrapper = css``
+
+const inputBoxWrapper = (isValid: boolean) => css`
 	position: relative;
 	&:hover {
 		& > .css-${inputStyles.name} {
@@ -73,7 +121,7 @@ const inputWrapper = (isFill: boolean) => css`
 			fill: ${OpenColor.gray[5]};
 		}
 	}
-	${isFill &&
+	${isValid &&
 	css`
 		& > .css-${inputStyles.name} {
 			border-color: ${OpenColor.teal[7]};
@@ -117,4 +165,10 @@ const iconStyles = css`
 	transition: fill 0.2s;
 	fill: ${OpenColor.gray[4]};
 	pointer-events: none;
+`
+
+const errorMessage = css`
+	color: ${OpenColor.red[7]};
+	font-size: 12px;
+	margin-top: 4px;
 `
