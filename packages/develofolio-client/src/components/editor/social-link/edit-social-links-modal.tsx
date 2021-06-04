@@ -1,11 +1,13 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React, { HTMLProps } from 'react'
+import React, { HTMLProps, useCallback } from 'react'
 import { Button } from '~/components/base/button'
 import { Icon, IconType } from '~/components/base/icon'
 import { DefaultModalProps, Modal } from '~/components/base/modal/modal'
 import { Control, FieldError, useController, useForm } from 'react-hook-form'
 import Validator from 'validator'
+import { useQuery } from '@apollo/client'
+import { GetSocialLinksDocument } from '~/graphql/typed-document-nodes.generated'
 
 interface FormValues {
 	github: string
@@ -15,6 +17,13 @@ interface FormValues {
 }
 
 export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
+	const { data } = useQuery(GetSocialLinksDocument)
+	const getInitValue = useCallback(
+		(name: string) =>
+			data?.me.socialLinks.find((socialLink) => socialLink.name === name)?.link,
+		[data?.me.socialLinks]
+	)
+
 	const { control } = useForm<FormValues>({ mode: 'onChange' })
 
 	return (
@@ -29,14 +38,7 @@ export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
 						placeholder="GitHub"
 						name="github"
 						control={control}
-						// {...register('github', {
-						// 	validate: (value) => {
-						// 		if (value && !Validator.isURL(value)) {
-						// 			return '유효하지 않은 링크입니다.'
-						// 		}
-						// 	},
-						// })}
-						// error={errors.github}
+						defaultValue={getInitValue('github')}
 					/>
 					<Input
 						icon="StackOverflow"
@@ -78,8 +80,9 @@ interface InputProps extends HTMLProps<HTMLInputElement> {
 	name: keyof FormValues
 	error?: FieldError
 	control: Control<FormValues>
+	defaultValue?: string
 }
-const Input = ({ icon, control, name, ...props }: InputProps) => {
+const Input = ({ icon, control, name, defaultValue, ...props }: InputProps) => {
 	const {
 		field,
 		fieldState: { error, invalid },
@@ -93,7 +96,7 @@ const Input = ({ icon, control, name, ...props }: InputProps) => {
 				}
 			},
 		},
-		defaultValue: '',
+		defaultValue: defaultValue || '',
 	})
 
 	const isValid = field.value !== '' && !invalid

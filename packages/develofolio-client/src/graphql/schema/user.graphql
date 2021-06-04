@@ -40,3 +40,13 @@ mutation UpdateProfile($profile: String!) {
 		profile
 	}
 }
+
+query GetSocialLinks {
+	me {
+		id
+		socialLinks {
+			name
+			link
+		}
+	}
+}

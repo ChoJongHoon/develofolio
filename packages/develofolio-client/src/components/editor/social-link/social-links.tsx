@@ -1,31 +1,34 @@
+import { useQuery } from '@apollo/client'
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import React, { useMemo } from 'react'
-import { Icon } from '~/components/base/icon'
+import { Icon, IconType } from '~/components/base/icon'
 import { useModal } from '~/components/base/modal/use-modal'
+import { GetSocialLinksDocument } from '~/graphql/typed-document-nodes.generated'
 import { EditSocialLinksModal } from './edit-social-links-modal'
+
+const ICON_TYPE_MAP: { [key in string]: IconType } = {
+	github: 'Github',
+	stackOverflow: 'StackOverflow',
+	facebook: 'Facebook',
+	twitter: 'Twitter',
+}
 
 export const SocialLinks = () => {
 	const [isOpen, onOpen, onClose] = useModal()
 
+	const { data } = useQuery(GetSocialLinksDocument)
+
+	const socialLinks = data?.me.socialLinks
+
 	const placeholder = useMemo(
 		() => (
 			<>
-				<div css={circle}>
-					<Icon type="Github" color={OpenColor.teal[6]} size={20} />
-				</div>
-				<div css={circle}>
-					<Icon type="Facebook" color={OpenColor.teal[6]} size={20} />
-				</div>
-				<div css={circle}>
-					<Icon type="Twitter" color={OpenColor.teal[6]} size={20} />
-				</div>
-				<div css={circle}>
-					<Icon type="StackOverflow" color={OpenColor.teal[6]} size={20} />
-				</div>
-				<div css={mask}>
-					<Icon type="Pencil" color={OpenColor.gray[1]} size={24} />
-				</div>
+				{Object.values(ICON_TYPE_MAP).map((icon) => (
+					<div key={icon} css={[circle, transparently]}>
+						<Icon type={icon} color={OpenColor.teal[6]} size={20} />
+					</div>
+				))}
 			</>
 		),
 		[]
@@ -34,7 +37,22 @@ export const SocialLinks = () => {
 	return (
 		<>
 			<div css={wrapper()} onClick={onOpen}>
-				{placeholder}
+				{socialLinks && socialLinks.length > 0
+					? socialLinks.map((socialLink) => {
+							return (
+								<div key={socialLink.name} css={circle}>
+									<Icon
+										type={ICON_TYPE_MAP[socialLink.name]}
+										color={OpenColor.teal[6]}
+										size={20}
+									/>
+								</div>
+							)
+					  })
+					: placeholder}
+				<div css={mask}>
+					<Icon type="Pencil" color={OpenColor.gray[1]} size={24} />
+				</div>
 			</div>
 			<EditSocialLinksModal open={isOpen} onClose={onClose} />
 		</>
@@ -63,6 +81,9 @@ const circle = css`
 	border-radius: 50%;
 	justify-content: center;
 	align-items: center;
+`
+
+const transparently = css`
 	opacity: 0.5;
 `
 
