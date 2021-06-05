@@ -45,8 +45,10 @@ query GetSocialLinks {
 	me {
 		id
 		socialLinks {
-			name
-			link
+			github
+			stackOverflow
+			facebook
+			twitter
 		}
 	}
 }

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React, { HTMLProps, useCallback } from 'react'
+import React, { HTMLProps } from 'react'
 import { Button } from '~/components/base/button'
 import { Icon, IconType } from '~/components/base/icon'
 import { DefaultModalProps, Modal } from '~/components/base/modal/modal'
@@ -18,11 +18,7 @@ interface FormValues {
 
 export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
 	const { data } = useQuery(GetSocialLinksDocument)
-	const getInitValue = useCallback(
-		(name: string) =>
-			data?.me.socialLinks.find((socialLink) => socialLink.name === name)?.link,
-		[data?.me.socialLinks]
-	)
+	const socialLinks = data?.me.socialLinks
 
 	const { control } = useForm<FormValues>({ mode: 'onChange' })
 
@@ -38,25 +34,28 @@ export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
 						placeholder="GitHub"
 						name="github"
 						control={control}
-						defaultValue={getInitValue('github')}
+						defaultValue={socialLinks?.github}
 					/>
 					<Input
 						icon="StackOverflow"
 						placeholder="Stack Overflow"
 						name="stackOverflow"
 						control={control}
+						defaultValue={socialLinks?.stackOverflow}
 					/>
 					<Input
 						icon="Facebook"
 						placeholder="Facebook"
 						name="facebook"
 						control={control}
+						defaultValue={socialLinks?.facebook}
 					/>
 					<Input
 						icon="Twitter"
 						placeholder="Twitter"
 						name="twitter"
 						control={control}
+						defaultValue={socialLinks?.twitter}
 					/>
 				</div>
 			}
@@ -75,12 +74,12 @@ const list = css`
 	gap: 8px;
 `
 
-interface InputProps extends HTMLProps<HTMLInputElement> {
+interface InputProps extends Omit<HTMLProps<HTMLInputElement>, 'defaultValue'> {
 	icon: IconType
 	name: keyof FormValues
 	error?: FieldError
 	control: Control<FormValues>
-	defaultValue?: string
+	defaultValue?: string | null
 }
 const Input = ({ icon, control, name, defaultValue, ...props }: InputProps) => {
 	const {

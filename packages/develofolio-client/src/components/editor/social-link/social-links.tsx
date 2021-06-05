@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { css } from '@emotion/react'
+import { omit } from 'lodash'
 import OpenColor from 'open-color'
 import React, { useMemo } from 'react'
 import { Icon, IconType } from '~/components/base/icon'
@@ -34,15 +35,29 @@ export const SocialLinks = () => {
 		[]
 	)
 
+	const values = useMemo(() => {
+		const obj: { [key in string]: string } = {}
+		if (socialLinks) {
+			for (const [key, value] of Object.entries(
+				omit(socialLinks, '__typename')
+			)) {
+				if (value) {
+					obj[key] = value
+				}
+			}
+		}
+		return Object.entries(obj)
+	}, [socialLinks])
+
 	return (
 		<>
 			<div css={wrapper()} onClick={onOpen}>
-				{socialLinks && socialLinks.length > 0
-					? socialLinks.map((socialLink) => {
+				{values.length > 0
+					? values.map(([name]) => {
 							return (
-								<div key={socialLink.name} css={circle}>
+								<div key={name} css={circle}>
 									<Icon
-										type={ICON_TYPE_MAP[socialLink.name]}
+										type={ICON_TYPE_MAP[name]}
 										color={OpenColor.teal[6]}
 										size={20}
 									/>
