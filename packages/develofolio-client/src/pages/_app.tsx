@@ -1,23 +1,25 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloProvider, NormalizedCache } from '@apollo/client'
-import { withApollo } from '~/apollo/with-apollo'
 import { globalStyle } from '~/styles/global-styles'
 import { wrapper } from '~/redux/store'
+import { initApolloClient } from '~/apollo/client'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
 }
 
-function MyApp({ Component, pageProps, apolloClient }: MyAppProps) {
+function MyApp({ Component, pageProps }: MyAppProps) {
+	const client = useMemo(() => initApolloClient(), [])
+
 	return (
 		<>
 			{globalStyle}
-			<ApolloProvider client={apolloClient}>
+			<ApolloProvider client={client}>
 				<Component {...pageProps} />
 			</ApolloProvider>
 		</>
 	)
 }
 
-export default wrapper.withRedux(withApollo(MyApp))
+export default wrapper.withRedux(MyApp)

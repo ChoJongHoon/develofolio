@@ -1,54 +1,5 @@
-query Me {
-	me {
+query GetAllUser {
+	getAllUsers {
 		id
-		content
-		profile
-	}
-}
-
-query GetContent {
-	me {
-		id
-		content
-	}
-}
-
-mutation SetContent($content: JSON!) {
-	updateUser(input: { content: $content }) {
-		id
-		content
-	}
-}
-
-query GetProfile {
-	me {
-		id
-		profile
-	}
-}
-
-mutation DeleteProfile {
-	updateUser(input: { profile: null }) {
-		id
-		profile
-	}
-}
-
-mutation UpdateProfile($profile: String!) {
-	updateUser(input: { profile: $profile }) {
-		id
-		profile
-	}
-}
-
-query GetSocialLinks {
-	me {
-		id
-		socialLinks {
-			github
-			stackOverflow
-			facebook
-			twitter
-		}
 	}
 }

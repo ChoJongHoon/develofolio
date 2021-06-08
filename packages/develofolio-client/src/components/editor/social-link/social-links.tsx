@@ -5,7 +5,7 @@ import OpenColor from 'open-color'
 import React, { useMemo } from 'react'
 import { Icon, IconType } from '~/components/base/icon'
 import { useModal } from '~/components/base/modal/use-modal'
-import { GetSocialLinksDocument } from '~/graphql/typed-document-nodes.generated'
+// import { GetSocialLinksDocument } from '~/graphql/typed-document-nodes.generated'
 import { EditSocialLinksModal } from './edit-social-links-modal'
 
 const ICON_TYPE_MAP: { [key in string]: IconType } = {
@@ -18,9 +18,9 @@ const ICON_TYPE_MAP: { [key in string]: IconType } = {
 export const SocialLinks = () => {
 	const [isOpen, onOpen, onClose] = useModal()
 
-	const { data } = useQuery(GetSocialLinksDocument)
+	// const { data } = useQuery(GetSocialLinksDocument)
 
-	const socialLinks = data?.me.socialLinks
+	// const socialLinks = data?.me.socialLinks
 
 	const placeholder = useMemo(
 		() => (
@@ -35,24 +35,24 @@ export const SocialLinks = () => {
 		[]
 	)
 
-	const values = useMemo(() => {
-		const obj: { [key in string]: string } = {}
-		if (socialLinks) {
-			for (const [key, value] of Object.entries(
-				omit(socialLinks, '__typename')
-			)) {
-				if (value) {
-					obj[key] = value
-				}
-			}
-		}
-		return Object.entries(obj)
-	}, [socialLinks])
+	// const values = useMemo(() => {
+	// 	const obj: { [key in string]: string } = {}
+	// 	if (socialLinks) {
+	// 		for (const [key, value] of Object.entries(
+	// 			omit(socialLinks, '__typename')
+	// 		)) {
+	// 			if (value) {
+	// 				obj[key] = value
+	// 			}
+	// 		}
+	// 	}
+	// 	return Object.entries(obj)
+	// }, [socialLinks])
 
 	return (
 		<>
 			<div css={wrapper()} onClick={onOpen}>
-				{values.length > 0
+				{/* {values.length > 0
 					? values.map(([name]) => {
 							return (
 								<div key={name} css={circle}>
@@ -64,7 +64,7 @@ export const SocialLinks = () => {
 								</div>
 							)
 					  })
-					: placeholder}
+					: placeholder} */}
 				<div css={mask}>
 					<Icon type="Pencil" color={OpenColor.gray[1]} size={24} />
 				</div>

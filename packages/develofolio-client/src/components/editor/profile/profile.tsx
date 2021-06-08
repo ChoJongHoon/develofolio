@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import Image from 'next/image'
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
-import {
-	DeleteProfileDocument,
-	GetProfileDocument,
-	GetProfileUploadPathDocument,
-	UpdateProfileDocument,
-} from '~/graphql/typed-document-nodes.generated'
+// import {
+// 	DeleteProfileDocument,
+// 	GetProfileDocument,
+// 	GetProfileUploadPathDocument,
+// 	UpdateProfileDocument,
+// } from '~/graphql/typed-document-nodes.generated'
 import { css } from '@emotion/react'
 import { genereateProfileImagePath } from '~/lib/utils/generate-image-path'
 import { Icon } from '~/components/base/icon'
@@ -18,62 +18,62 @@ import { useFileLoad } from '~/lib/hooks/use-file-load'
 import axios from 'axios'
 
 export const Profile = () => {
-	const client = useApolloClient()
-	const { data } = useQuery(GetProfileDocument)
+	// const client = useApolloClient()
+	// const { data } = useQuery(GetProfileDocument)
 
-	const me = data?.me
-	const profile = me?.profile
+	// const me = data?.me
+	// const profile = me?.profile
 
-	const [isOpenDeleteModal, onOpenDeleteModal, onCloseDeleteModal] = useModal()
+	// const [isOpenDeleteModal, onOpenDeleteModal, onCloseDeleteModal] = useModal()
 
-	const [deleteMutation] = useMutation(DeleteProfileDocument, {
-		onCompleted: () => {
-			onCloseDeleteModal()
-		},
-	})
-	const [updateMutation] = useMutation(UpdateProfileDocument, {})
+	// const [deleteMutation] = useMutation(DeleteProfileDocument, {
+	// 	onCompleted: () => {
+	// 		onCloseDeleteModal()
+	// 	},
+	// })
+	// const [updateMutation] = useMutation(UpdateProfileDocument, {})
 
-	const onClickDelete = useCallback(async () => {
-		deleteMutation()
-	}, [deleteMutation])
+	// const onClickDelete = useCallback(async () => {
+	// 	deleteMutation()
+	// }, [deleteMutation])
 
-	const { onLoad } = useFileLoad({ accept: 'image/*' })
+	// const { onLoad } = useFileLoad({ accept: 'image/*' })
 
-	const onClickUploadButton = useCallback(async () => {
-		const file = await onLoad()
+	// const onClickUploadButton = useCallback(async () => {
+	// 	const file = await onLoad()
 
-		if (!file) return
-		const {
-			data: {
-				profileUploadPath: { filename, uploadPath },
-			},
-		} = await client.query({
-			query: GetProfileUploadPathDocument,
-			variables: {
-				filename: file.name,
-			},
-		})
+	// 	if (!file) return
+	// 	const {
+	// 		data: {
+	// 			profileUploadPath: { filename, uploadPath },
+	// 		},
+	// 	} = await client.query({
+	// 		query: GetProfileUploadPathDocument,
+	// 		variables: {
+	// 			filename: file.name,
+	// 		},
+	// 	})
 
-		await axios.put(uploadPath, file, {
-			headers: {
-				'Content-Type': file.type,
-			},
-		})
+	// 	await axios.put(uploadPath, file, {
+	// 		headers: {
+	// 			'Content-Type': file.type,
+	// 		},
+	// 	})
 
-		updateMutation({
-			variables: {
-				profile: filename,
-			},
-		})
-	}, [client, onLoad, updateMutation])
+	// 	updateMutation({
+	// 		variables: {
+	// 			profile: filename,
+	// 		},
+	// 	})
+	// }, [client, onLoad, updateMutation])
 
-	if (!me) {
-		return <></>
-	}
+	// if (!me) {
+	// 	return <></>
+	// }
 
 	return (
 		<div css={container()}>
-			{profile ? (
+			{/* {profile ? (
 				<>
 					<Image
 						css={imageStyles}
@@ -117,7 +117,7 @@ export const Profile = () => {
 						<Icon type="UserAddOutlined" size={64} color={OpenColor.gray[5]} />
 					</button>
 				</>
-			)}
+			)} */}
 		</div>
 	)
 }
