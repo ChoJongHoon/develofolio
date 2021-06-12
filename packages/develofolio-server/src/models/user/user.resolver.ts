@@ -1,4 +1,5 @@
-import { Query, Resolver } from '@nestjs/graphql'
+import { Args, Query, Resolver } from '@nestjs/graphql'
+import { CreateUserInput } from './dto/create-user.input'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 
@@ -6,8 +7,15 @@ import { UserService } from './user.service'
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 
-	@Query(() => [User])
-	async findAll() {
-		return await this.userService.findAll()
+	@Query(() => User)
+	async findUser(@Args('id', { type: () => String }) id: string) {
+		return await this.userService.findOne(id)
+	}
+
+	@Query(() => User)
+	async findOrCreateUser(
+		@Args('input', { type: () => CreateUserInput }) input: CreateUserInput
+	) {
+		return await this.userService.findOrCreate(input)
 	}
 }

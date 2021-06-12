@@ -17,6 +17,10 @@ import * as ormconifg from './ormconfig'
 					'request.credentials': 'include',
 				},
 			},
+			cors: {
+				origin: 'http://localhost:3000',
+				credentials: true,
+			},
 		}),
 		UserModule,
 	],
