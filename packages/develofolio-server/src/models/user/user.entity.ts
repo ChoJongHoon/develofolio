@@ -15,6 +15,10 @@ export class User {
 	id: string
 
 	@Field(() => String)
+	@Column({ type: 'text' })
+	name: string
+
+	@Field(() => String)
 	@Column({ type: 'varchar', length: 255 })
 	email: string
 

@@ -16,7 +16,6 @@ export class UserService {
 	}
 
 	async findOrCreate(input: CreateUserInput) {
-		console.log(`input`, input)
 		let user = await this.userRepository.findOne({
 			where: {
 				providerId: input.providerId,
