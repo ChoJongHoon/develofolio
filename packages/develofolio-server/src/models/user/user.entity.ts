@@ -3,9 +3,11 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
+import { Page } from 'src/models/page/models/page.entity'
 
 @ObjectType()
 @Entity({ name: 'users' })
@@ -61,4 +63,8 @@ export class User {
 		default: () => 'CURRENT_TIMESTAMP',
 	})
 	updatedAt: Date
+
+	@Field(() => [Page])
+	@OneToMany(() => Page, (page) => page.user, { cascade: ['remove'] })
+	pages: Page[]
 }
