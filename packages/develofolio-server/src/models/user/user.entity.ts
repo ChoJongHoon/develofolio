@@ -1,3 +1,4 @@
+import { Field, ObjectType } from '@nestjs/graphql'
 import {
 	Column,
 	CreateDateColumn,
@@ -6,38 +7,50 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 
+@ObjectType()
 @Entity({ name: 'users' })
 export class User {
+	@Field(() => String)
 	@PrimaryGeneratedColumn('uuid')
 	id: string
 
+	@Field(() => String)
 	@Column({ type: 'varchar', length: 255 })
 	email: string
 
+	@Field(() => Date, { nullable: true })
 	@Column({ name: 'email_verified', type: 'timestamptz', nullable: true })
 	emailVerified?: Date | null
 
+	@Field(() => String, { nullable: true })
 	@Column({ type: 'text', nullable: true })
 	image?: string | null
 
+	@Field(() => String)
 	@Column({ name: 'provider_type', type: 'varchar', length: 255 })
 	providerType: string
 
+	@Field(() => String)
 	@Column({ name: 'provider_id', type: 'varchar', length: 255 })
 	providerId: string
 
+	@Field(() => String)
 	@Column({ name: 'provider_account_id', type: 'varchar', length: 255 })
 	providerAccountId: string
 
+	@Field(() => String, { nullable: true })
 	@Column({ name: 'refresh_token', type: 'text', nullable: true })
 	refreshToken?: string | null
 
+	@Field(() => String, { nullable: true })
 	@Column({ name: 'access_token', type: 'text', nullable: true })
 	accessToken?: string | null
 
+	@Field(() => Date, { nullable: true })
 	@Column({ name: 'access_token_expires', type: 'timestamptz', nullable: true })
 	accessTokenExpires?: Date | null
 
+	@Field(() => Date)
 	@CreateDateColumn({
 		name: 'created_at',
 		type: 'timestamptz',
@@ -45,6 +58,7 @@ export class User {
 	})
 	createdAt: Date
 
+	@Field(() => Date)
 	@UpdateDateColumn({
 		name: 'updated_at',
 		type: 'timestamptz',
