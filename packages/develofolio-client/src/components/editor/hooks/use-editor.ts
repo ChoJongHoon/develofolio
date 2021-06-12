@@ -2,10 +2,10 @@ import { useApolloClient, useMutation } from '@apollo/client'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Descendant, Element } from 'slate'
-import {
-	SetContentDocument,
-	GetContentDocument,
-} from '~/graphql/typed-document-nodes.generated'
+// import {
+// 	SetContentDocument,
+// 	GetContentDocument,
+// } from '~/graphql/typed-document-nodes.generated'
 import { useDebounceEffect } from '~/lib/hooks/use-debounce-effect'
 import { setLoading, setSaved, setSaving } from '../editor.reducer'
 import { useAsync } from 'react-use'
@@ -32,34 +32,32 @@ export const useEditor = () => {
 		setValue(newValue)
 	}, [])
 
-	const [onSave] = useMutation(SetContentDocument, {
-		variables: {
-			content: value,
-		},
-	})
+	// const [onSave] = useMutation(SetContentDocument, {
+	// 	variables: {
+	// 		content: value,
+	// 	},
+	// })
 
 	useAsync(async () => {
-		dispatch(setLoading(true))
-
-		const {
-			data: {
-				me: { content },
-			},
-		} = await client.query({ query: GetContentDocument })
-
-		if (content && Element.isElementList(content)) {
-			setValue(content)
-		} else {
-			const initContent = getInitContent()
-			setValue(initContent)
-			onSave({
-				variables: {
-					content: initContent,
-				},
-			})
-		}
-		dispatch(setLoading(false))
-		dispatch(setSaved(true))
+		// dispatch(setLoading(true))
+		// const {
+		// 	data: {
+		// 		me: { content },
+		// 	},
+		// } = await client.query({ query: GetContentDocument })
+		// if (content && Element.isElementList(content)) {
+		// 	setValue(content)
+		// } else {
+		// 	const initContent = getInitContent()
+		// 	setValue(initContent)
+		// 	onSave({
+		// 		variables: {
+		// 			content: initContent,
+		// 		},
+		// 	})
+		// }
+		// dispatch(setLoading(false))
+		// dispatch(setSaved(true))
 	}, [])
 
 	useEffect(() => {
@@ -69,10 +67,10 @@ export const useEditor = () => {
 	useDebounceEffect(
 		() => {
 			dispatch(setSaving(true))
-			onSave().then(() => {
-				dispatch(setSaving(false))
-				dispatch(setSaved(true))
-			})
+			// onSave().then(() => {
+			// 	dispatch(setSaving(false))
+			// 	dispatch(setSaved(true))
+			// })
 		},
 		1000,
 		[value]

@@ -7,30 +7,21 @@ import {
 import { typePolicies } from './type-policies'
 import generatedIntrospection from '~/graphql/apollo-fragment-matcher.generated.json'
 import { errorLink } from './links/error.link'
-import { setContext } from '@apollo/client/link/context'
 import { isServer } from '~/lib/utils/is-server'
-import { getAccessToken } from '~/lib/utils/access-token'
-import { refreshLink } from './links/refresh.link'
 import { httpLink } from './links/http.link'
+import { createAuthLink } from './links/auth.link'
 
 function createApolloClient(
 	initialState: NormalizedCacheObject = {},
 	serverAccessToken?: string
 ) {
-	const authLink = setContext((_request, { headers }) => {
-		const token = isServer() ? serverAccessToken : getAccessToken()
-
-		return {
-			headers: {
-				...headers,
-				Authorization: token ? `bearer ${token}` : '',
-			},
-		}
-	})
-
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined', // set to true for SSR
-		link: ApolloLink.from([refreshLink, authLink, errorLink, httpLink]),
+		link: ApolloLink.from([
+			createAuthLink(serverAccessToken),
+			errorLink,
+			httpLink,
+		]),
 		cache: new InMemoryCache({
 			typePolicies,
 			possibleTypes: generatedIntrospection.possibleTypes,

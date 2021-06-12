@@ -1,5 +1,14 @@
-query GetAllUser {
-	getAllUsers {
+query Me {
+	me {
+		id
+		name
+		email
+		avatar
+	}
+}
+
+query FindOrCreateUser($input: CreateUserInput!) {
+	user: findOrCreateUser(input: $input) {
 		id
 	}
 }
