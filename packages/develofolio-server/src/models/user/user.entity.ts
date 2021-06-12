@@ -24,7 +24,7 @@ export class User {
 
 	@Field(() => String, { nullable: true })
 	@Column({ type: 'text', nullable: true })
-	image?: string | null
+	avatar?: string | null
 
 	@Field(() => String)
 	@Column({ name: 'provider_type', type: 'varchar', length: 255 })

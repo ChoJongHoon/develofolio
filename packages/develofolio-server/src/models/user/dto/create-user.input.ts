@@ -9,7 +9,7 @@ export class CreateUserInput {
 	emailVerified: Date | null
 
 	@Field(() => String)
-	image: string | null
+	avatar: string | null
 
 	@Field(() => String)
 	providerType: string
