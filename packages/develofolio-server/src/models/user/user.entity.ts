@@ -22,17 +22,9 @@ export class User {
 	@Column({ type: 'varchar', length: 255 })
 	email: string
 
-	@Field(() => Date, { nullable: true })
-	@Column({ name: 'email_verified', type: 'timestamptz', nullable: true })
-	emailVerified?: Date | null
-
 	@Field(() => String, { nullable: true })
 	@Column({ type: 'text', nullable: true })
 	avatar?: string | null
-
-	@Field(() => String)
-	@Column({ name: 'provider_type', type: 'varchar', length: 255 })
-	providerType: string
 
 	@Field(() => String)
 	@Column({ name: 'provider_id', type: 'varchar', length: 255 })

@@ -15,6 +15,19 @@ export class UserService {
 		return this.userRepository.findOne(id)
 	}
 
+	async findByProvider(providerId: string, providerAccountId: string) {
+		return await this.userRepository.findOne({
+			where: {
+				providerId: providerId,
+				providerAccountId: providerAccountId,
+			},
+		})
+	}
+
+	async create(input: CreateUserInput) {
+		return await this.userRepository.save({ ...input })
+	}
+
 	async findOrCreate(input: CreateUserInput) {
 		let user = await this.userRepository.findOne({
 			where: {

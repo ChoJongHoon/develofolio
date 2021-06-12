@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { AuthModule } from './models/auth/auth.module'
 import { UserModule } from './models/user/user.module'
 import * as ormconifg from './ormconfig'
 
@@ -23,6 +24,7 @@ import * as ormconifg from './ormconfig'
 			},
 		}),
 		UserModule,
+		AuthModule,
 	],
 	controllers: [],
 	providers: [],
