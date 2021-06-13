@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from './models/auth/auth.module'
 import { BucketModule } from './models/bucket/bucket.module'
 import { PageModule } from './models/page/page.module'
+import { SocialLinkModule } from './models/social-link/social-link.module'
 import { UserModule } from './models/user/user.module'
 import * as ormconifg from './ormconfig'
 
@@ -29,6 +30,7 @@ import * as ormconifg from './ormconfig'
 		AuthModule,
 		BucketModule,
 		PageModule,
+		SocialLinkModule,
 	],
 	controllers: [],
 	providers: [],

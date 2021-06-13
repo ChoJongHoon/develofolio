@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DeepPartial, Repository } from 'typeorm'
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
-import { User } from '../user/user.entity'
 import { Page } from './models/page.entity'
 
 @Injectable()
