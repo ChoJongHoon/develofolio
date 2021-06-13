@@ -14,11 +14,7 @@ export class PageResolver {
 	@Query(() => Page, { nullable: true })
 	@UseGuards(GqlAuthGuard)
 	async myPage(@CurrentUser() user: User) {
-		const pages = await this.pageService.findByUser(user.id)
-		if (!pages || pages.length === 0) {
-			return null
-		}
-		return pages[0]
+		return await this.pageService.findByUser(user.id)
 	}
 
 	@Mutation(() => Page)
@@ -29,5 +25,14 @@ export class PageResolver {
 		@Args('initialContent', { type: () => GraphQLJSON }) initialContent: any
 	) {
 		return await this.pageService.create(user.id, slug, initialContent)
+	}
+
+	@Mutation(() => Page)
+	@UseGuards(GqlAuthGuard)
+	async savePage(
+		@CurrentUser() user: User,
+		@Args('content', { type: () => GraphQLJSON }) content: any
+	) {
+		return await this.pageService.save(user.id, content)
 	}
 }

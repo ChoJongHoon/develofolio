@@ -11,7 +11,7 @@ export class PageService {
 	) {}
 
 	async findByUser(userId: string) {
-		return await this.pageRepository.find({
+		return await this.pageRepository.findOne({
 			where: {
 				userId,
 			},
@@ -24,5 +24,15 @@ export class PageService {
 			slug,
 			content: initialContent,
 		})
+	}
+
+	async save(userId: string, content: any) {
+		const page = await this.findByUser(userId)
+		if (!page) {
+			return null
+		}
+		page.content = content
+
+		return await this.pageRepository.save(page)
 	}
 }
