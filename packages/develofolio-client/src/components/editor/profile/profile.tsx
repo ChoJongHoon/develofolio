@@ -1,12 +1,6 @@
 import React, { useCallback } from 'react'
 import Image from 'next/image'
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
-// import {
-// 	DeleteProfileDocument,
-// 	GetProfileDocument,
-// 	GetProfileUploadPathDocument,
-// 	UpdateProfileDocument,
-// } from '~/graphql/typed-document-nodes.generated'
 import { css } from '@emotion/react'
 import { genereateProfileImagePath } from '~/lib/utils/generate-image-path'
 import { Icon } from '~/components/base/icon'
@@ -16,68 +10,77 @@ import { Modal } from '~/components/base/modal/modal'
 import { Button } from '~/components/base/button'
 import { useFileLoad } from '~/lib/hooks/use-file-load'
 import axios from 'axios'
+import {
+	ImageUploadPathDocument,
+	MyAvatarDocument,
+	RemovePageAvatarDocument,
+	UpdatePageAvatarDocument,
+} from '~/graphql/typed-document-nodes.generated'
+import { useUser } from '~/components/user/hooks/use-user'
 
 export const Profile = () => {
-	// const client = useApolloClient()
-	// const { data } = useQuery(GetProfileDocument)
+	const client = useApolloClient()
+	const user = useUser()
+	const { data } = useQuery(MyAvatarDocument)
 
-	// const me = data?.me
-	// const profile = me?.profile
+	const page = data?.page
+	const avatar = page?.avatar
 
-	// const [isOpenDeleteModal, onOpenDeleteModal, onCloseDeleteModal] = useModal()
+	const [isOpenDeleteModal, onOpenDeleteModal, onCloseDeleteModal] = useModal()
 
-	// const [deleteMutation] = useMutation(DeleteProfileDocument, {
-	// 	onCompleted: () => {
-	// 		onCloseDeleteModal()
-	// 	},
-	// })
-	// const [updateMutation] = useMutation(UpdateProfileDocument, {})
+	const [removeMutation] = useMutation(RemovePageAvatarDocument, {
+		onCompleted: () => {
+			onCloseDeleteModal()
+		},
+	})
 
-	// const onClickDelete = useCallback(async () => {
-	// 	deleteMutation()
-	// }, [deleteMutation])
+	const onClickRemove = useCallback(async () => {
+		removeMutation()
+	}, [removeMutation])
 
-	// const { onLoad } = useFileLoad({ accept: 'image/*' })
+	const [updateMutation] = useMutation(UpdatePageAvatarDocument)
+	const { onLoad } = useFileLoad({ accept: 'image/*' })
 
-	// const onClickUploadButton = useCallback(async () => {
-	// 	const file = await onLoad()
+	const onClickUploadButton = useCallback(async () => {
+		const file = await onLoad()
 
-	// 	if (!file) return
-	// 	const {
-	// 		data: {
-	// 			profileUploadPath: { filename, uploadPath },
-	// 		},
-	// 	} = await client.query({
-	// 		query: GetProfileUploadPathDocument,
-	// 		variables: {
-	// 			filename: file.name,
-	// 		},
-	// 	})
+		if (!file) return
+		const {
+			data: {
+				imageUploadPath: { filename, uploadPath },
+			},
+		} = await client.query({
+			query: ImageUploadPathDocument,
+			variables: {
+				type: 'profile',
+				filename: file.name,
+			},
+		})
 
-	// 	await axios.put(uploadPath, file, {
-	// 		headers: {
-	// 			'Content-Type': file.type,
-	// 		},
-	// 	})
+		await axios.put(uploadPath, file, {
+			headers: {
+				'Content-Type': file.type,
+			},
+		})
 
-	// 	updateMutation({
-	// 		variables: {
-	// 			profile: filename,
-	// 		},
-	// 	})
-	// }, [client, onLoad, updateMutation])
+		updateMutation({
+			variables: {
+				avatar: filename,
+			},
+		})
+	}, [client, onLoad, updateMutation])
 
-	// if (!me) {
-	// 	return <></>
-	// }
+	if (!page || !user) {
+		return <></>
+	}
 
 	return (
 		<div css={container()}>
-			{/* {profile ? (
+			{avatar ? (
 				<>
 					<Image
 						css={imageStyles}
-						src={genereateProfileImagePath(me.id, profile)}
+						src={genereateProfileImagePath(user.id, avatar)}
 						layout="fill"
 						objectFit="cover"
 					/>
@@ -101,7 +104,7 @@ export const Profile = () => {
 								<Button
 									type="button"
 									buttonProps={{
-										onClick: onClickDelete,
+										onClick: onClickRemove,
 									}}
 									color="red"
 								>
@@ -117,7 +120,7 @@ export const Profile = () => {
 						<Icon type="UserAddOutlined" size={64} color={OpenColor.gray[5]} />
 					</button>
 				</>
-			)} */}
+			)}
 		</div>
 	)
 }

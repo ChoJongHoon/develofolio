@@ -1,26 +1,28 @@
 import { useQuery } from '@apollo/client'
 import { css } from '@emotion/react'
-import { omit } from 'lodash'
 import OpenColor from 'open-color'
 import React, { useMemo } from 'react'
 import { Icon, IconType } from '~/components/base/icon'
 import { useModal } from '~/components/base/modal/use-modal'
-// import { GetSocialLinksDocument } from '~/graphql/typed-document-nodes.generated'
+import {
+	MyPageSocialLinksDocument,
+	SocialLinkType,
+} from '~/graphql/typed-document-nodes.generated'
 import { EditSocialLinksModal } from './edit-social-links-modal'
 
-const ICON_TYPE_MAP: { [key in string]: IconType } = {
-	github: 'Github',
-	stackOverflow: 'StackOverflow',
-	facebook: 'Facebook',
-	twitter: 'Twitter',
+const ICON_TYPE_MAP: { [key in SocialLinkType]: IconType } = {
+	[SocialLinkType.Github]: 'Github',
+	[SocialLinkType.StackOverflow]: 'StackOverflow',
+	[SocialLinkType.Facebook]: 'Facebook',
+	[SocialLinkType.Twitter]: 'Twitter',
 }
 
 export const SocialLinks = () => {
 	const [isOpen, onOpen, onClose] = useModal()
 
-	// const { data } = useQuery(GetSocialLinksDocument)
+	const { data } = useQuery(MyPageSocialLinksDocument)
 
-	// const socialLinks = data?.me.socialLinks
+	const socialLinks = data?.page?.socialLinks
 
 	const placeholder = useMemo(
 		() => (
@@ -35,36 +37,22 @@ export const SocialLinks = () => {
 		[]
 	)
 
-	// const values = useMemo(() => {
-	// 	const obj: { [key in string]: string } = {}
-	// 	if (socialLinks) {
-	// 		for (const [key, value] of Object.entries(
-	// 			omit(socialLinks, '__typename')
-	// 		)) {
-	// 			if (value) {
-	// 				obj[key] = value
-	// 			}
-	// 		}
-	// 	}
-	// 	return Object.entries(obj)
-	// }, [socialLinks])
-
 	return (
 		<>
 			<div css={wrapper()} onClick={onOpen}>
-				{/* {values.length > 0
-					? values.map(([name]) => {
+				{socialLinks && socialLinks.length > 0
+					? socialLinks.map((socialLink) => {
 							return (
-								<div key={name} css={circle}>
+								<div key={socialLink.type} css={circle}>
 									<Icon
-										type={ICON_TYPE_MAP[name]}
+										type={ICON_TYPE_MAP[socialLink.type]}
 										color={OpenColor.teal[6]}
 										size={20}
 									/>
 								</div>
 							)
 					  })
-					: placeholder} */}
+					: placeholder}
 				<div css={mask}>
 					<Icon type="Pencil" color={OpenColor.gray[1]} size={24} />
 				</div>

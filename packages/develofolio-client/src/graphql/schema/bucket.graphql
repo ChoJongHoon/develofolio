@@ -1,0 +1,6 @@
+query ImageUploadPath($filename: String!, $type: String!) {
+	imageUploadPath(filename: $filename, type: $type) {
+		filename
+		uploadPath
+	}
+}

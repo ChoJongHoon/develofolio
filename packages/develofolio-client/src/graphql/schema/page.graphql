@@ -1,0 +1,45 @@
+fragment PageParts on Page {
+	id
+	content
+	slug
+	avatar
+}
+
+query MyPage {
+	page: myPage {
+		...PageParts
+	}
+}
+
+mutation CreatePage($slug: String!, $initialContent: JSON!) {
+	createPage(initialContent: $initialContent, slug: $slug) {
+		...PageParts
+	}
+}
+
+mutation SavePage($content: JSON!) {
+	savePage(content: $content) {
+		...PageParts
+	}
+}
+
+query MyAvatar {
+	page: myPage {
+		id
+		avatar
+	}
+}
+
+mutation UpdatePageAvatar($avatar: String!) {
+	updatePageAvatar(avatar: $avatar) {
+		id
+		avatar
+	}
+}
+
+mutation RemovePageAvatar {
+	removePageAvatar {
+		id
+		avatar
+	}
+}

@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
-import { createEditor } from 'slate'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { createEditor, Descendant } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './hovering-toolbar'
@@ -14,9 +14,19 @@ import LogoPicker from './logo/logo-picker'
 import { useLogoPicker } from './logo/use-logo-picker'
 import { withShortcuts } from './shortcuts/with-shortcuts'
 import { withBanner } from './banner/with-banner'
-import { useEditor } from './hooks/use-editor'
+import { useDispatch } from 'react-redux'
+import { setSaved, setSaving } from './editor.reducer'
+import { useDebounceEffect } from '~/lib/hooks/use-debounce-effect'
+import { useMutation } from '@apollo/client'
+import { SavePageDocument } from '~/graphql/typed-document-nodes.generated'
 
-export function Editor() {
+interface PageEditorProps {
+	initialContent: Descendant[]
+	className?: string
+}
+
+export const PageEditor = ({ initialContent }: PageEditorProps) => {
+	const dispatch = useDispatch()
 	const editor = useMemo(
 		() =>
 			withHistory(
@@ -27,7 +37,7 @@ export function Editor() {
 		[]
 	)
 
-	const { onChange, value } = useEditor()
+	const [content, setContent] = useState<Descendant[]>(initialContent)
 
 	const { handleIconPicker } = useLogoPicker(editor)
 
@@ -40,9 +50,37 @@ export function Editor() {
 		[handleIconPicker]
 	)
 
+	const onChange = useCallback((newContent: Descendant[]) => {
+		setContent(newContent)
+	}, [])
+
+	const [savePage] = useMutation(SavePageDocument, {
+		onCompleted: () => {
+			dispatch(setSaving(false))
+			dispatch(setSaved(true))
+		},
+	})
+
+	useEffect(() => {
+		dispatch(setSaved(false))
+	}, [dispatch, content])
+
+	useDebounceEffect(
+		() => {
+			dispatch(setSaving(true))
+			savePage({
+				variables: {
+					content,
+				},
+			})
+		},
+		1000,
+		[content]
+	)
+
 	return (
 		<DndProvider backend={HTML5Backend}>
-			<Slate editor={editor} value={value} onChange={onChange}>
+			<Slate editor={editor} value={content} onChange={onChange}>
 				<Editable
 					renderElement={CustomElement}
 					renderLeaf={renderLeaf}

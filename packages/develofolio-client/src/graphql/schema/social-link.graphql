@@ -1,0 +1,19 @@
+fragment SocialLinkParts on SocialLink {
+	type
+	link
+}
+
+mutation SaveSocialLink($link: String!, $type: SocialLinkType!) {
+	saveSocialLink(link: $link, type: $type) {
+		...SocialLinkParts
+	}
+}
+
+query MyPageSocialLinks {
+	page: myPage {
+		id
+		socialLinks {
+			...SocialLinkParts
+		}
+	}
+}
