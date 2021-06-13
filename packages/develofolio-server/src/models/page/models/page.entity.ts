@@ -37,7 +37,7 @@ export class Page {
 	avatar?: string | null
 
 	@Field(() => String)
-	@PrimaryColumn({ type: 'varchar', length: 255 })
+	@Column({ type: 'varchar', length: 255, unique: true })
 	slug: string
 
 	@Field(() => Date)

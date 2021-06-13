@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { DeepPartial, Repository } from 'typeorm'
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity'
+import { User } from '../user/user.entity'
 import { Page } from './models/page.entity'
 
 @Injectable()
@@ -34,5 +36,14 @@ export class PageService {
 		page.content = content
 
 		return await this.pageRepository.save(page)
+	}
+
+	async updateByUserId(userId: string, fields: DeepPartial<Page>) {
+		const page = await this.findByUser(userId)
+
+		if (!page) {
+			return null
+		}
+		return await this.pageRepository.save({ id: page.id, ...fields })
 	}
 }

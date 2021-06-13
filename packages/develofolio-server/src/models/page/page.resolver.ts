@@ -35,4 +35,19 @@ export class PageResolver {
 	) {
 		return await this.pageService.save(user.id, content)
 	}
+
+	@Mutation(() => Page)
+	@UseGuards(GqlAuthGuard)
+	async updatePageAvatar(
+		@CurrentUser() user: User,
+		@Args('avatar', { type: () => String }) avatar: string
+	) {
+		return await this.pageService.updateByUserId(user.id, { avatar })
+	}
+
+	@Mutation(() => Page)
+	@UseGuards(GqlAuthGuard)
+	async removePageAvatar(@CurrentUser() user: User) {
+		return await this.pageService.updateByUserId(user.id, { avatar: null })
+	}
 }
