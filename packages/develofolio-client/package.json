@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@apollo/client": "^3.3.16",
 		"@emotion/react": "^11.4.0",
+		"@popperjs/core": "^2.9.2",
 		"@reduxjs/toolkit": "^1.5.1",
 		"@svgr/webpack": "^5.5.0",
 		"apollo-link-token-refresh": "^0.3.2",

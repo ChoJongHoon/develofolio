@@ -10,6 +10,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { setSelectedIndex, setShowIconPicker } from '../editor.reducer'
 import { Transforms } from 'slate'
 import { insertLogo } from './insert-logo'
+import { createPopper, Instance } from '@popperjs/core'
 
 const ICON_SIZE = 40
 const BOX_WIDTH = 320
@@ -17,6 +18,7 @@ const MAX_HEIGHT = 224
 
 export default function LogoPicker() {
 	const ref = useRef<HTMLDivElement>(null)
+	const instance = useRef<Instance | null>(null)
 	const editor = useSlate()
 	const dispatch = useDispatch()
 	const { selectedIndex, show, target, results } = useSelector(
@@ -32,16 +34,36 @@ export default function LogoPicker() {
 		}
 		dispatch(setShowIconPicker(true))
 		const domRange = ReactEditor.toDOMRange(editor, target)
-		const rect = domRange.getBoundingClientRect()
-		element.style.display = 'block'
-		element.style.top = `${rect.top + window.pageYOffset + rect.height}px`
-		element.style.left = `${rect.left + window.pageXOffset}px`
+
+		instance.current = createPopper(domRange, element, {
+			placement: 'bottom-start',
+			modifiers: [
+				{
+					name: 'offset',
+					options: {
+						offset: [0, 8],
+					},
+				},
+				{
+					name: 'flip',
+					options: {
+						flipVariations: false,
+						padding: 8,
+					},
+				},
+				{
+					name: 'preventOverflow',
+					options: {
+						padding: 8,
+					},
+				},
+			],
+		})
 	}, [dispatch, editor, results.length, target])
 
 	useEffect(() => {
-		const element = ref.current
-		if (element && !show) {
-			element.style.display = 'none'
+		if (instance.current && !show) {
+			instance.current.destroy()
 		}
 	}, [show])
 
@@ -163,9 +185,11 @@ const Cell = ({
 }
 
 const boxStyles = css`
-	display: none;
+	display: block;
 	box-sizing: border-box;
 	position: absolute;
+	top: -1000px;
+	left: -1000px;
 	padding: 8px;
 	border: 1px solid ${oc.gray[2]};
 	overflow: hidden;

@@ -23,7 +23,9 @@ const Home = () => {
 					<span>{data.me.name}</span>
 				</>
 			) : (
-				<a href={`${process.env.SERVER}/auth/github`}>깃허브로 로그인</a>
+				<a href={`${process.env.NEXT_PUBLIC_SERVER}/auth/github`}>
+					깃허브로 로그인
+				</a>
 			)}
 		</div>
 	)
