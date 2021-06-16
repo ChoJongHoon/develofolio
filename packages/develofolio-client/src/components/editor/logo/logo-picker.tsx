@@ -34,7 +34,9 @@ export default function LogoPicker() {
 		}
 		dispatch(setShowIconPicker(true))
 		const domRange = ReactEditor.toDOMRange(editor, target)
-
+		if (instance.current) {
+			instance.current.destroy()
+		}
 		instance.current = createPopper(domRange, element, {
 			placement: 'bottom-start',
 			modifiers: [
@@ -64,6 +66,7 @@ export default function LogoPicker() {
 	useEffect(() => {
 		if (instance.current && !show) {
 			instance.current.destroy()
+			instance.current = null
 		}
 	}, [show])
 
