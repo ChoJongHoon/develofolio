@@ -12,8 +12,41 @@ import {
 } from '../editor.reducer'
 import AboutMeThumbnail from 'public/images/block-thumbnails/about-me.svg'
 import FocusLock from 'react-focus-lock'
+import { Descendant, Transforms } from 'slate'
 
-const BLOCKS = [1, 2, 3, 4]
+const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
+	{
+		name: 'Skill List',
+		description: '사용할 수 있는 기술을 나열하는 그리드 형태의 블럭입니다.',
+		node: {
+			type: 'skill-list',
+			children: [
+				{
+					type: 'skill-list-item',
+					children: [
+						{
+							type: 'skill-list-item-logos',
+							logos: [
+								{
+									file: 'react.svg',
+									name: 'React',
+									shortname: 'react',
+									url: 'https://facebook.github.io/react/',
+								},
+							],
+							children: [{ text: '' }],
+						},
+						{ type: 'skill-list-item-name', children: [{ text: 'Name' }] },
+						{
+							type: 'skill-list-item-description',
+							children: [{ text: 'Description' }],
+						},
+					],
+				},
+			],
+		},
+	},
+]
 
 export const BlockPicker = () => {
 	const dispatch = useDispatch()
@@ -21,7 +54,7 @@ export const BlockPicker = () => {
 		(state) => state.editor.blockPicker,
 		shallowEqual
 	)
-	console.log(`selectedIndex`, selectedIndex)
+
 	const drawerRef = useRef<HTMLDivElement>(null)
 	const backdropRef = useRef<HTMLDivElement>(null)
 	const [isVisible, setIsVidible] = useState(false)
@@ -77,17 +110,6 @@ export const BlockPicker = () => {
 
 	const editor = useSlate()
 
-	const onBlockClick = useCallback(() => {
-		drawerRef.current?.childNodes.forEach((child, index) => {
-			if (child instanceof HTMLElement) {
-				child.style.transform = `translateX(${
-					index === selectedIndex ? '-40px' : '600px'
-				})`
-			}
-		})
-		onClose()
-	}, [onClose, selectedIndex])
-
 	if (!isMounted) {
 		return <></>
 	}
@@ -98,27 +120,35 @@ export const BlockPicker = () => {
 
 	return (
 		<Portal>
-			<FocusLock autoFocus returnFocus>
+			<FocusLock autoFocus>
 				<div css={root(show)} onClick={onRootClick}>
 					<div ref={backdropRef} css={drawerContainer}>
 						<div ref={drawerRef} css={drawer(show, isVisible)}>
-							{BLOCKS.map((key, index) => (
+							{BLOCKS.map((block, index) => (
 								<button
-									key={key}
+									key={block.name}
 									css={blockThumbnail}
 									onMouseEnter={onBlockMouseEnter}
 									onFocus={() => {
 										dispatch(setBlockPickerSelectedIndex(index))
 									}}
-									onClick={onBlockClick}
+									onClick={() => {
+										Transforms.insertNodes(editor, block.node)
+										drawerRef.current?.childNodes.forEach((child, index) => {
+											if (child instanceof HTMLElement) {
+												child.style.transform = `translateX(${
+													index === selectedIndex ? '-40px' : '600px'
+												})`
+											}
+										})
+										onClose()
+									}}
 								>
 									<div className="thumbnail">
 										<AboutMeThumbnail />
 									</div>
-									<h4 className="title">About me</h4>
-									<span className="description">
-										Your name, photo, description and links
-									</span>
+									<h4 className="title">{block.name}</h4>
+									<span className="description">{block.description}</span>
 								</button>
 							))}
 						</div>

@@ -22,6 +22,7 @@ import { SavePageDocument } from '~/graphql/typed-document-nodes.generated'
 import { BlockPicker } from './blocks/block-picker'
 import { useBlocks } from './blocks/use-blocks'
 import OpenColor from 'open-color'
+import { withSkillList } from './skill-list/with-skill-list'
 
 interface PageEditorProps {
 	initialContent: Descendant[]
@@ -34,7 +35,9 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 		() =>
 			withHistory(
 				withReact(
-					withBanner(withLogo(withShortcuts(withNodeId(createEditor()))))
+					withBanner(
+						withSkillList(withLogo(withShortcuts(withNodeId(createEditor()))))
+					)
 				)
 			),
 		[]

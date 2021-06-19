@@ -56,6 +56,35 @@ export type BannerBioElement = {
 	children: CustomText[]
 }
 
+// ==============================
+//           SkillList
+// ==============================
+export type SkillListElement = {
+	type: 'skill-list'
+	children: SkillListItemElement[]
+}
+export type SkillListItemElement = {
+	type: 'skill-list-item'
+	children: [
+		SkillListItemLogosElement,
+		SkillListItemNameElement,
+		SkillListItemDescriptionElement
+	]
+}
+export type SkillListItemLogosElement = {
+	type: 'skill-list-item-logos'
+	logos: Omit<LogoElement, 'type' | 'children'>[]
+	children: CustomText[]
+}
+export type SkillListItemNameElement = {
+	type: 'skill-list-item-name'
+	children: CustomText[]
+}
+export type SkillListItemDescriptionElement = {
+	type: 'skill-list-item-description'
+	children: CustomText[]
+}
+
 export type CustomElement = WithKey<
 	| ParagraphElement
 	| HeadingElement
@@ -67,6 +96,11 @@ export type CustomElement = WithKey<
 	| BannerNameElement
 	| BannerTaglineElement
 	| BannerBioElement
+	| SkillListElement
+	| SkillListItemElement
+	| SkillListItemLogosElement
+	| SkillListItemNameElement
+	| SkillListItemDescriptionElement
 >
 
 export type LeafFormat = 'bold' | 'italic' | 'code'

@@ -1,4 +1,3 @@
-import FlexSearch from 'flexsearch'
 import { KeyboardEvent, useCallback, useEffect, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Editor, Range, Transforms } from 'slate'
@@ -10,26 +9,7 @@ import {
 } from '../editor.reducer'
 import { insertLogo } from './insert-logo'
 import logos from 'public/logos.json'
-
-const index = FlexSearch.create<{
-	index: number
-	name: string
-	shortName: string
-}>({
-	encode: 'advanced',
-	tokenize: 'reverse',
-	cache: true,
-	async: true,
-	doc: {
-		id: 'index',
-		field: ['name', 'shortName'],
-	},
-})
-
-// TODO: indexing 과정 빌드시 처리하도록 (Server Component)
-logos.forEach((logo, i) => {
-	index.add({ index: i, name: logo.name, shortName: logo.shortname })
-})
+import { logoIndex } from './logo-index'
 
 export const useLogoPicker = (editor: Editor) => {
 	const dispatch = useDispatch()
@@ -71,7 +51,7 @@ export const useLogoPicker = (editor: Editor) => {
 			dispatch(setResults(logos))
 			return
 		}
-		index.search(keyword).then((res) => {
+		logoIndex.search(keyword).then((res) => {
 			dispatch(setResults(res.map((item) => logos[item.index])))
 		})
 	}, [dispatch, keyword])

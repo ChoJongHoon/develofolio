@@ -16,6 +16,11 @@ import { Banner } from './banner/banner'
 import { BannerName } from './banner/banner-name'
 import { BannerTagline } from './banner/banner-tagline'
 import { BannerBio } from './banner/banner-bio'
+import { SkillList } from './skill-list/skill-list'
+import { SkillListItem } from './skill-list/skill-list-item'
+import { SkillListItemLogos } from './skill-list/skill-list-item-logos'
+import { SkillListItemName } from './skill-list/skill-list-item-name'
+import { SkillListItemDescription } from './skill-list/skill-list-item-description'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -94,6 +99,41 @@ export const CustomElement = (props: RenderElementProps) => {
 				<BannerBio attributes={attributes} element={element}>
 					{children}
 				</BannerBio>
+			)
+			break
+		case 'skill-list':
+			data = (
+				<SkillList attributes={attributes} element={element}>
+					{children}
+				</SkillList>
+			)
+			break
+		case 'skill-list-item':
+			data = (
+				<SkillListItem attributes={attributes} element={element}>
+					{children}
+				</SkillListItem>
+			)
+			break
+		case 'skill-list-item-logos':
+			data = (
+				<SkillListItemLogos attributes={attributes} element={element}>
+					{children}
+				</SkillListItemLogos>
+			)
+			break
+		case 'skill-list-item-name':
+			data = (
+				<SkillListItemName attributes={attributes} element={element}>
+					{children}
+				</SkillListItemName>
+			)
+			break
+		case 'skill-list-item-description':
+			data = (
+				<SkillListItemDescription attributes={attributes} element={element}>
+					{children}
+				</SkillListItemDescription>
 			)
 			break
 		default:
