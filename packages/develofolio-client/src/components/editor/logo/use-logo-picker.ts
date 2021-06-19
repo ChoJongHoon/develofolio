@@ -4,9 +4,9 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Editor, Range, Transforms } from 'slate'
 import {
 	setResults,
-	setSelectedIndex,
-	setShowIconPicker,
-	setTarget,
+	setIconPickerSelectedIndex,
+	setIconPickerShow,
+	setIconPickerTarget,
 } from '../editor.reducer'
 import { insertLogo } from './insert-logo'
 import logos from 'public/logos.json'
@@ -55,12 +55,12 @@ export const useLogoPicker = (editor: Editor) => {
 			const afterMatch = afterText.match(/^(\s|$)/)
 
 			if (beforeMatch && afterMatch) {
-				dispatch(setTarget(beforeRange || null))
+				dispatch(setIconPickerTarget(beforeRange || null))
 				setKeyword(beforeMatch[1])
-				dispatch(setSelectedIndex(0))
+				dispatch(setIconPickerSelectedIndex(0))
 				return
 			} else {
-				dispatch(setTarget(null))
+				dispatch(setIconPickerTarget(null))
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,7 +89,7 @@ export const useLogoPicker = (editor: Editor) => {
 				if (totalCount <= next) {
 					return true
 				}
-				dispatch(setSelectedIndex(next))
+				dispatch(setIconPickerSelectedIndex(next))
 				return true
 			}
 			if (key === 'ArrowLeft') {
@@ -97,7 +97,7 @@ export const useLogoPicker = (editor: Editor) => {
 				if (next < 0) {
 					return true
 				}
-				dispatch(setSelectedIndex(next))
+				dispatch(setIconPickerSelectedIndex(next))
 				return true
 			}
 			if (key === 'ArrowDown') {
@@ -105,7 +105,7 @@ export const useLogoPicker = (editor: Editor) => {
 				if (totalCount <= next) {
 					return true
 				}
-				dispatch(setSelectedIndex(next))
+				dispatch(setIconPickerSelectedIndex(next))
 				return true
 			}
 			if (key === 'ArrowUp') {
@@ -113,11 +113,11 @@ export const useLogoPicker = (editor: Editor) => {
 				if (next < 0) {
 					return true
 				}
-				dispatch(setSelectedIndex(next))
+				dispatch(setIconPickerSelectedIndex(next))
 				return true
 			}
 			if (key === 'Escape') {
-				dispatch(setShowIconPicker(false))
+				dispatch(setIconPickerShow(false))
 				return true
 			}
 			if (key === 'Enter' && target) {

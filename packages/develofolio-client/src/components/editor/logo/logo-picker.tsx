@@ -7,7 +7,10 @@ import { css } from '@emotion/react'
 import { Portal } from '~/components/base/portal'
 import { ReactEditor, useSlate, useSlateStatic } from 'slate-react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { setSelectedIndex, setShowIconPicker } from '../editor.reducer'
+import {
+	setIconPickerSelectedIndex,
+	setIconPickerShow,
+} from '../editor.reducer'
 import { Transforms } from 'slate'
 import { insertLogo } from './insert-logo'
 import { createPopper, Instance } from '@popperjs/core'
@@ -29,10 +32,10 @@ export default function LogoPicker() {
 	useEffect(() => {
 		const element = ref.current
 		if (!element || !target || results.length === 0) {
-			dispatch(setShowIconPicker(false))
+			dispatch(setIconPickerShow(false))
 			return
 		}
-		dispatch(setShowIconPicker(true))
+		dispatch(setIconPickerShow(true))
 		const domRange = ReactEditor.toDOMRange(editor, target)
 		if (instance.current) {
 			instance.current.destroy()
@@ -83,7 +86,7 @@ export default function LogoPicker() {
 	 * 검색어가 변경되면 selectedIndex 리셋
 	 */
 	useEffect(() => {
-		setSelectedIndex(0)
+		setIconPickerSelectedIndex(0)
 	}, [results])
 
 	const gridRef = useRef<Grid>(null)
@@ -145,7 +148,7 @@ const Cell = ({
 		singleColumnIndex,
 	])
 	const onMouseEnter = useCallback(() => {
-		dispatch(setSelectedIndex(singleColumnIndex))
+		dispatch(setIconPickerSelectedIndex(singleColumnIndex))
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [singleColumnIndex])
 

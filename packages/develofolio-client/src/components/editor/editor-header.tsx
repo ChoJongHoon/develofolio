@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { zIndexes } from '~/styles/z-indexes'
 
 export const EditorHeader = () => {
 	const loading = useSelector((state) => state.editor.loading)
@@ -24,8 +25,8 @@ const rootStyles = css`
 	padding: 8px 16px;
 	position: sticky;
 	top: 0px;
-	z-index: 100;
 	align-items: center;
+	z-index: ${zIndexes.header};
 `
 
 const editModeLabelStyles = css`

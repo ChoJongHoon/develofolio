@@ -19,6 +19,9 @@ import { setSaved, setSaving } from './editor.reducer'
 import { useDebounceEffect } from '~/lib/hooks/use-debounce-effect'
 import { useMutation } from '@apollo/client'
 import { SavePageDocument } from '~/graphql/typed-document-nodes.generated'
+import { BlockPicker } from './blocks/block-picker'
+import { useBlocks } from './blocks/use-blocks'
+import OpenColor from 'open-color'
 
 interface PageEditorProps {
 	initialContent: Descendant[]
@@ -40,6 +43,7 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 	const [content, setContent] = useState<Descendant[]>(initialContent)
 
 	const { handleIconPicker } = useLogoPicker(editor)
+	const { onAddBlockButtonClick } = useBlocks(editor)
 
 	const onKeyDown = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
 		(event) => {
@@ -79,37 +83,47 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 	)
 
 	return (
-		<DndProvider backend={HTML5Backend}>
-			<Slate editor={editor} value={content} onChange={onChange}>
-				<Editable
-					renderElement={CustomElement}
-					renderLeaf={renderLeaf}
-					spellCheck={false}
-					onDOMBeforeInput={(event) => {
-						switch (event.inputType) {
-							case 'formatBold':
-								event.preventDefault()
-								return toggleFormat(editor, 'bold')
-							case 'formatItalic':
-								event.preventDefault()
-								return toggleFormat(editor, 'italic')
-						}
-					}}
-					css={editorStyles}
-					onKeyDown={onKeyDown}
-				/>
-
-				<HoveringToolbar />
-				<LogoPicker />
-			</Slate>
-		</DndProvider>
+		<div css={rootStyles}>
+			<DndProvider backend={HTML5Backend}>
+				<Slate editor={editor} value={content} onChange={onChange}>
+					<Editable
+						renderElement={CustomElement}
+						renderLeaf={renderLeaf}
+						spellCheck={false}
+						onDOMBeforeInput={(event) => {
+							switch (event.inputType) {
+								case 'formatBold':
+									event.preventDefault()
+									return toggleFormat(editor, 'bold')
+								case 'formatItalic':
+									event.preventDefault()
+									return toggleFormat(editor, 'italic')
+							}
+						}}
+						css={editorStyles}
+						onKeyDown={onKeyDown}
+					/>
+					<HoveringToolbar />
+					<LogoPicker />
+					<BlockPicker />
+				</Slate>
+			</DndProvider>
+			<button css={addBlockButton} onMouseDown={onAddBlockButtonClick}>
+				Add a Block
+			</button>
+		</div>
 	)
 }
+
+const rootStyles = css`
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 30vh;
+`
 
 const editorStyles = css`
 	padding-left: 32px;
 	padding-right: 32px;
-	padding-bottom: 30vh;
 
 	[data-slate-node='element'] {
 		position: relative;
@@ -118,5 +132,21 @@ const editorStyles = css`
 			font-size: var(--font-size);
 			line-height: var(--line-height);
 		}
+	}
+`
+
+const addBlockButton = css`
+	margin-left: 32px;
+	margin-right: 32px;
+	padding: 32px;
+	background: none;
+	cursor: pointer;
+	border-radius: 8px;
+	border: dotted 1px ${OpenColor.gray[4]};
+	color: ${OpenColor.gray[4]};
+	transition: border-color 0.2s, color 0.2s;
+	&:hover {
+		border: dotted 1px ${OpenColor.gray[6]};
+		color: ${OpenColor.gray[6]};
 	}
 `

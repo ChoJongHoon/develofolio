@@ -14,6 +14,10 @@ export interface IEditor {
 		selectedIndex: number
 		results: Array<ILogo>
 	}
+	blockPicker: {
+		show: boolean
+		selectedIndex: number
+	}
 }
 
 const initialState: IEditor = {
@@ -26,19 +30,23 @@ const initialState: IEditor = {
 		selectedIndex: 0,
 		results: [],
 	},
+	blockPicker: {
+		show: false,
+		selectedIndex: 0,
+	},
 }
 
 export const editorSlice = createSlice({
 	name: 'editor',
 	initialState,
 	reducers: {
-		setSelectedIndex(state, action: { payload: number }) {
+		setIconPickerSelectedIndex(state, action: { payload: number }) {
 			state.iconPicker.selectedIndex = action.payload
 		},
-		setShowIconPicker(state, action: { payload: boolean }) {
+		setIconPickerShow(state, action: { payload: boolean }) {
 			state.iconPicker.show = action.payload
 		},
-		setTarget(state, action: { payload: Range | null }) {
+		setIconPickerTarget(state, action: { payload: Range | null }) {
 			state.iconPicker.target = action.payload
 		},
 		setResults(state, action: { payload: Array<ILogo> }) {
@@ -53,17 +61,25 @@ export const editorSlice = createSlice({
 		setSaving(state, action: { payload: boolean }) {
 			state.saving = action.payload
 		},
+		setBlockPickerShow(state, action: { payload: boolean }) {
+			state.blockPicker.show = action.payload
+		},
+		setBlockPickerSelectedIndex(state, action: { payload: number }) {
+			state.blockPicker.selectedIndex = action.payload
+		},
 	},
 })
 
 const { actions } = editorSlice
 
 export const {
-	setSelectedIndex,
-	setShowIconPicker,
-	setTarget,
+	setIconPickerSelectedIndex,
+	setIconPickerShow,
+	setIconPickerTarget,
 	setResults,
 	setLoading,
 	setSaved,
 	setSaving,
+	setBlockPickerShow,
+	setBlockPickerSelectedIndex,
 } = actions
