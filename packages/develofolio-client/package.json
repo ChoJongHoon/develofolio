@@ -36,6 +36,7 @@
 		"react-focus-lock": "^2.5.1",
 		"react-helmet": "^6.1.0",
 		"react-hook-form": "^7.7.1",
+		"react-popper": "^2.2.5",
 		"react-redux": "^7.2.4",
 		"react-use": "^17.2.4",
 		"react-window": "^1.8.6",

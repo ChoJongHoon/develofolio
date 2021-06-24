@@ -10,7 +10,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { CustomElement } from './custom-element'
 import { withLogo } from './logo/with-logo'
-import LogoPicker from './logo/logo-picker'
+import { InlineLogoPicker } from './logo/inline-logo-picker'
 import { useLogoPicker } from './logo/use-logo-picker'
 import { withShortcuts } from './shortcuts/with-shortcuts'
 import { withBanner } from './banner/with-banner'
@@ -107,7 +107,7 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 						onKeyDown={onKeyDown}
 					/>
 					<HoveringToolbar />
-					<LogoPicker />
+					<InlineLogoPicker />
 					<BlockPicker />
 				</Slate>
 			</DndProvider>

@@ -1,34 +1,180 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Transforms } from 'slate'
+import { ReactEditor, useSlateStatic } from 'slate-react'
 import { Icon } from '~/components/base/icon'
 import {
 	CustomRenderElementProps,
 	SkillListItemLogosElement,
 } from '../custom-types'
+import { LogoPickerResults } from '../logo/logo-picker-results'
+import logos from 'public/logos.json'
+import { Popover } from '~/components/base/popover/popover'
+import { logoIndex } from '../logo/logo-index'
+import { ILogo } from '../logo/types'
 
 export const SkillListItemLogos = ({
 	attributes,
 	children,
 	element,
 }: CustomRenderElementProps<SkillListItemLogosElement>) => {
-	const { logos } = element
+	const editor = useSlateStatic()
+
+	const onLogoRemove = useCallback(
+		(index: number) => {
+			const path = ReactEditor.findPath(editor, element)
+			const newProperties: Partial<SkillListItemLogosElement> = {
+				logos: element.logos.filter((_, i) => i !== index),
+			}
+			Transforms.setNodes(editor, newProperties, { at: path })
+		},
+		[editor, element]
+	)
+
+	const onLogoAdd = useCallback(
+		(logo: ILogo) => {
+			const path = ReactEditor.findPath(editor, element)
+			const newProperties: Partial<SkillListItemLogosElement> = {
+				logos: [
+					...element.logos,
+					{
+						name: logo.name,
+						url: logo.url,
+						shortname: logo.shortname,
+						file: logo.files[0],
+					},
+				],
+			}
+			Transforms.setNodes(editor, newProperties, { at: path })
+		},
+		[editor, element]
+	)
+
 	return (
 		<div {...attributes} css={root}>
 			<div contentEditable={false} css={list}>
-				{logos.map((logo) => (
-					<button key={logo.file} css={removeButton}>
+				{element.logos.map((logo, index) => (
+					<button
+						key={logo.file}
+						css={removeButton}
+						onClick={() => {
+							onLogoRemove(index)
+						}}
+					>
 						<img src={`/logos/${logo.file}`} css={imgStyles} />
 						<div css={removeButtonMask}>
 							<Icon type="TrashLine" size={20} color={OpenColor.red[7]} />
 						</div>
 					</button>
 				))}
-				<button css={addButton}>
-					<Icon type="Plus" size={16} color={OpenColor.gray[5]} />
-				</button>
+				<Popover
+					anchor={
+						<button css={addButton}>
+							<Icon type="Plus" size={16} color={OpenColor.gray[5]} />
+						</button>
+					}
+					content={<LogoPicker onLogoAdd={onLogoAdd} />}
+					placement="bottom-start"
+				/>
 			</div>
 			{children}
+		</div>
+	)
+}
+
+interface LogoPickerProps {
+	onLogoAdd: (logo: ILogo) => void
+}
+
+const LogoPicker = ({ onLogoAdd }: LogoPickerProps) => {
+	const [value, setValue] = useState('')
+	const [results, setResults] = useState(logos)
+	const [selectedIndex, setSelectedIndex] = useState(0)
+	const onChange = useCallback<React.ChangeEventHandler<HTMLInputElement>>(
+		(event) => {
+			setValue(event.target.value)
+		},
+		[]
+	)
+
+	useEffect(() => {
+		if (!value) {
+			setResults(logos)
+			return
+		}
+		logoIndex.search(value).then((res) => {
+			setResults(res.map((item) => logos[item.index]))
+		})
+	}, [value])
+
+	const onKeyDown = useCallback(
+		(event: React.KeyboardEvent<HTMLDivElement>) => {
+			const key = event.key
+			const totalCount = results.length
+
+			if (key === 'ArrowRight') {
+				event.preventDefault()
+				const next = selectedIndex + 1
+				if (totalCount <= next) {
+					return
+				}
+				setSelectedIndex(next)
+				return
+			}
+			if (key === 'ArrowLeft') {
+				event.preventDefault()
+				const next = selectedIndex - 1
+				if (next < 0) {
+					return
+				}
+				setSelectedIndex(next)
+				return
+			}
+			if (key === 'ArrowDown') {
+				event.preventDefault()
+				const next = selectedIndex + 8
+				if (totalCount <= next) {
+					return
+				}
+				setSelectedIndex(next)
+				return
+			}
+			if (key === 'ArrowUp') {
+				event.preventDefault()
+				const next = selectedIndex - 8
+				if (next < 0) {
+					return
+				}
+				setSelectedIndex(next)
+				return
+			}
+			if (key === 'Enter') {
+				event.preventDefault()
+				const selectedLogo = results[selectedIndex]
+				onLogoAdd(selectedLogo)
+				return
+			}
+		},
+		[onLogoAdd, results, selectedIndex]
+	)
+
+	return (
+		<div css={logoPickerStyles}>
+			<input
+				css={inputStyles}
+				value={value}
+				onChange={onChange}
+				onKeyDown={onKeyDown}
+			/>
+			<div css={gridWrapperStyles}>
+				<LogoPickerResults
+					results={results}
+					selectedIndex={selectedIndex}
+					onChangeSelectedIndex={setSelectedIndex}
+					onSelect={onLogoAdd}
+				/>
+			</div>
 		</div>
 	)
 }
@@ -93,4 +239,31 @@ const list = css`
 const imgStyles = css`
 	height: 24px;
 	display: block;
+`
+
+const logoPickerStyles = css`
+	display: block;
+	box-sizing: border-box;
+	padding: 8px;
+	border: 1px solid ${OpenColor.gray[2]};
+	overflow: hidden;
+	flex-direction: column;
+	border-radius: 8px;
+	background-color: white;
+`
+
+const gridWrapperStyles = css`
+	max-height: 240px;
+	overflow-y: auto;
+	width: 320px;
+`
+
+const inputStyles = css`
+	background-color: ${OpenColor.gray[1]};
+	border: 1px solid ${OpenColor.gray[2]};
+	border-radius: 4px;
+	width: 100%;
+	margin-bottom: 16px;
+	padding: 4px 8px;
+	font-size: 14px;
 `

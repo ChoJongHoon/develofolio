@@ -5,6 +5,7 @@ import { globalStyle } from '~/styles/global-styles'
 import { wrapper } from '~/redux/store'
 import { useApollo } from '~/apollo/use-apollo'
 import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
+import { LayersManager } from '~/components/base/layer/layers-manager'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
@@ -20,7 +21,9 @@ function MyApp({ Component, pageProps }: MyAppProps) {
 		<>
 			{globalStyle}
 			<ApolloProvider client={client}>
-				<Component {...pageProps} />
+				<LayersManager>
+					<Component {...pageProps} />
+				</LayersManager>
 			</ApolloProvider>
 		</>
 	)
