@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import Image from 'next/image'
 import { MeDocument } from '~/graphql/typed-document-nodes.generated'
 import { withAuth } from '~/lib/hofs/with-auth'
 import { genereateImagePath } from '~/lib/utils/generate-image-path'
@@ -14,10 +14,12 @@ const Home = () => {
 			{data?.me ? (
 				<>
 					{data.me.avatar && (
-						<img
+						<Image
 							src={genereateImagePath(
 								`${data.me.id}/profile/${data.me.avatar}`
 							)}
+							layout="fill"
+							alt={data.me.name}
 						/>
 					)}
 					<span>{data.me.name}</span>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { css } from '@emotion/react'
 import { BannerNameElement, CustomRenderElementProps } from '../custom-types'
 import OpenColor from 'open-color'

@@ -1,4 +1,3 @@
-import React from 'react'
 import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloProvider, NormalizedCache } from '@apollo/client'
 import { globalStyle } from '~/styles/global-styles'

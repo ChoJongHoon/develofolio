@@ -1,5 +1,4 @@
 import { NextPage } from 'next'
-import React from 'react'
 import { PageEditor } from '~/components/editor/page-editor'
 import { EditorHeader } from '~/components/editor/editor-header'
 import {

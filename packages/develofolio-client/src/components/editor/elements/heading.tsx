@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React from 'react'
 import { Element } from 'slate'
 import { CustomRenderElementProps, HeadingElement } from '../custom-types'
 

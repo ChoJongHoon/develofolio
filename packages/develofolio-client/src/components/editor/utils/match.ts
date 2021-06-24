@@ -28,9 +28,10 @@ export const match = <T extends Node>(
 	return predicate(obj)
 }
 
-export const matchPredicate = <T extends Node>(predicate?: Predicate<T>) => (
-	obj: T
-) => match(obj, predicate)
+export const matchPredicate =
+	<T extends Node>(predicate?: Predicate<T>) =>
+	(obj: T) =>
+		match(obj, predicate)
 
 /**
  * Extended query options for slate queries:

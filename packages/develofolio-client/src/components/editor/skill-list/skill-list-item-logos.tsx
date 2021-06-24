@@ -13,6 +13,7 @@ import logos from 'public/logos.json'
 import { Popover } from '~/components/base/popover/popover'
 import { logoIndex } from '../logo/logo-index'
 import { ILogo } from '../logo/types'
+import Image from 'next/image'
 
 export const SkillListItemLogos = ({
 	attributes,
@@ -62,7 +63,12 @@ export const SkillListItemLogos = ({
 							onLogoRemove(index)
 						}}
 					>
-						<img src={`/logos/${logo.file}`} css={imgStyles} />
+						<Image
+							layout="fill"
+							src={`/logos/${logo.file}`}
+							css={imgStyles}
+							alt={logo.name}
+						/>
 						<div css={removeButtonMask}>
 							<Icon type="TrashLine" size={20} color={OpenColor.red[7]} />
 						</div>

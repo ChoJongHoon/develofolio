@@ -83,6 +83,7 @@ export const Profile = () => {
 						src={genereateProfileImagePath(user.id, avatar)}
 						layout="fill"
 						objectFit="cover"
+						alt={user.name}
 					/>
 					<button css={deleteButton} onClick={onOpenDeleteModal}>
 						<Icon type="TrashLine" color="white" size={16} />

@@ -1,4 +1,3 @@
-import React from 'react'
 import { css } from '@emotion/react'
 import { BannerBioElement, CustomRenderElementProps } from '../custom-types'
 import OpenColor from 'open-color'

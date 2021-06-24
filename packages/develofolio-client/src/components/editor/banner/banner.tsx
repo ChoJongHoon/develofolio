@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React from 'react'
 import { BannerElement, CustomRenderElementProps } from '../custom-types'
 import { Profile } from '../profile/profile'
 import { SocialLinks } from '../social-link/social-links'

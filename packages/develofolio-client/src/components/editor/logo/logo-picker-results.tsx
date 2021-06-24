@@ -23,13 +23,14 @@ export const LogoPickerResults = ({
 	onSelect,
 }: LogoPickerResultsProps) => {
 	const columnCount = useMemo(() => Math.floor(BOX_WIDTH / ICON_SIZE), [])
-	const rowCount = useMemo(() => Math.ceil(results.length / columnCount), [
-		results,
-		columnCount,
-	])
-	const gridHeight = useMemo(() => Math.min(rowCount * 40, MAX_HEIGHT), [
-		rowCount,
-	])
+	const rowCount = useMemo(
+		() => Math.ceil(results.length / columnCount),
+		[results, columnCount]
+	)
+	const gridHeight = useMemo(
+		() => Math.min(rowCount * 40, MAX_HEIGHT),
+		[rowCount]
+	)
 	const gridRef = useRef<Grid>(null)
 	/**
 	 * 현재 선택된 아이템으로 스크롤 이동
@@ -96,10 +97,10 @@ const Cell = ({
 	} = data
 	const singleColumnIndex = columnIndex + rowIndex * columnCount
 	const logo = filteredLogos[singleColumnIndex]
-	const selected = useMemo(() => selectedIndex === singleColumnIndex, [
-		selectedIndex,
-		singleColumnIndex,
-	])
+	const selected = useMemo(
+		() => selectedIndex === singleColumnIndex,
+		[selectedIndex, singleColumnIndex]
+	)
 	const onMouseEnter = useCallback(() => {
 		onChangeSelectedIndex(singleColumnIndex)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,6 +129,7 @@ const Cell = ({
 						width={24}
 						height={24}
 						layout="fixed"
+						alt={logo.name}
 					/>
 				</button>
 			)}

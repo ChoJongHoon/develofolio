@@ -1,4 +1,3 @@
-import React from 'react'
 import { css } from '@emotion/react'
 import { BulletedListElement, CustomRenderElementProps } from '../custom-types'
 

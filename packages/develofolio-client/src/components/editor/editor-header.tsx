@@ -1,6 +1,5 @@
 import { css } from '@emotion/react'
 import OpenColor from 'open-color'
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { zIndexes } from '~/styles/z-indexes'
 

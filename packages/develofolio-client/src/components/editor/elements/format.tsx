@@ -1,5 +1,4 @@
 import { css } from '@emotion/react'
-import React from 'react'
 import { Editor, Text, Transforms } from 'slate'
 import { RenderLeafProps } from 'slate-react'
 import { LeafFormat } from '~/components/editor/custom-types'
