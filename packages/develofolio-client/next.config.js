@@ -20,4 +20,5 @@ module.exports = {
 	images: {
 		domains: [process.env.NEXT_PUBLIC_RESOURCE_DOMAIN],
 	},
+	reactStrictMode: true,
 }
