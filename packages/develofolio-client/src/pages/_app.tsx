@@ -1,3 +1,4 @@
+import React from 'react'
 import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloProvider, NormalizedCache } from '@apollo/client'
 import { globalStyle } from '~/styles/global-styles'
@@ -6,8 +7,8 @@ import { useApollo } from '~/apollo/use-apollo'
 import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
 import { LightTheme, BaseProvider } from 'baseui'
 import { Provider as StyletronProvider } from 'styletron-react'
-import { styletron } from '~/utils/styletron'
-import 'src/components/editor/editor.css'
+import { styletron } from '~/styles/styletron'
+import 'src/modules/editor/editor.css'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>

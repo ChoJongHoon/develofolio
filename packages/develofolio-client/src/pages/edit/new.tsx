@@ -5,7 +5,7 @@ import { CreatePageDocument } from '~/graphql/typed-document-nodes.generated'
 import { Descendant } from 'slate'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/dist/client/router'
-import { withAuth } from '~/lib/hofs/with-auth'
+import { withAuth } from '~/utils/with-auth'
 import { ROUTE_EDIT } from '~/lib/utils/routes'
 
 const getInitialContent = (): Descendant[] => [

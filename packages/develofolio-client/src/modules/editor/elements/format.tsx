@@ -1,6 +1,6 @@
 import { Editor, Text, Transforms } from 'slate'
 import { RenderLeafProps } from 'slate-react'
-import { LeafFormat } from '~/components/editor/custom-types'
+import { LeafFormat } from '~/modules/editor/custom-types'
 
 export const toggleFormat = (editor: Editor, format: LeafFormat) => {
 	const isActive = isFormatActive(editor, format)

@@ -2,7 +2,7 @@ import { Editor, Element, Point, Range, Transforms } from 'slate'
 import {
 	BulletedListElement,
 	CustomElement,
-} from '~/components/editor/custom-types'
+} from '~/modules/editor/custom-types'
 import { isHeading } from '../elements/heading'
 
 const SHORTCUTS: { [key in string]: CustomElement['type'] } = {

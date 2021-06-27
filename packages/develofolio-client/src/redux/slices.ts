@@ -1,6 +1,6 @@
 import { combineReducers, AnyAction } from '@reduxjs/toolkit'
 import { HYDRATE } from 'next-redux-wrapper'
-import { editorSlice, IEditor } from '~/components/editor/editor.reducer'
+import { editorSlice, IEditor } from '~/modules/editor/editor.reducer'
 
 export interface State {
 	editor: IEditor

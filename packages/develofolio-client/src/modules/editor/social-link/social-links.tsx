@@ -3,13 +3,13 @@ import OpenColor from 'open-color'
 import { transitions } from 'polished'
 import React, { useMemo } from 'react'
 import { StyleObject, useStyletron } from 'styletron-react'
-import { Icon, IconType } from '~/components/base/icon'
-import { useModal } from '~/components/base/modal/use-modal'
+import { Icon, IconType } from '~/components/icon'
+import { useModal } from '~/components/modal/use-modal'
 import {
 	MyPageSocialLinksDocument,
 	SocialLinkType,
 } from '~/graphql/typed-document-nodes.generated'
-import { useHover } from '~/lib/hooks/use-hover'
+import { useHover } from '~/hooks/use-hover'
 import { EditSocialLinksModal } from './edit-social-links-modal'
 
 const ICON_TYPE_MAP: { [key in SocialLinkType]: IconType } = {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { Portal } from '~/components/base/portal'
+import { Portal } from '~/components/portal'
 import { ReactEditor, useSlate } from 'slate-react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import {

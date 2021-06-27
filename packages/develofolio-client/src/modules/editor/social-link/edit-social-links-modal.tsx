@@ -1,12 +1,12 @@
 import OpenColor from 'open-color'
 import React, { HTMLProps, useCallback, useEffect } from 'react'
-import { Button } from '~/components/base/button'
-import { Icon, IconType } from '~/components/base/icon'
-import { DefaultModalProps, Modal } from '~/components/base/modal/modal'
+import { Button } from '~/components/button'
+import { Icon, IconType } from '~/components/icon'
+import { DefaultModalProps, Modal } from '~/components/modal/modal'
 import { Control, FieldError, useController, useForm } from 'react-hook-form'
 import Validator from 'validator'
 import { useMutation, useQuery } from '@apollo/client'
-import { useDebounceEffect } from '~/lib/hooks/use-debounce-effect'
+import { useDebounceEffect } from '~/hooks/use-debounce-effect'
 import { useDispatch } from 'react-redux'
 import { setSaved, setSaving } from '../editor.reducer'
 import {
@@ -18,7 +18,7 @@ import {
 } from '~/graphql/typed-document-nodes.generated'
 import { cloneDeep } from 'lodash'
 import { useStyletron } from 'styletron-react'
-import { useHover } from '~/lib/hooks/use-hover'
+import { useHover } from '~/hooks/use-hover'
 import { border, padding, transitions } from 'polished'
 
 interface FormValues {

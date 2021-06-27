@@ -2,7 +2,7 @@ import OpenColor from 'open-color'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useSlate } from 'slate-react'
-import { Portal } from '~/components/base/portal'
+import { Portal } from '~/components/portal'
 import { getScrollbarWidth } from '~/styles/get-scrollbar-width'
 import { zIndexes } from '~/styles/z-indexes'
 import {

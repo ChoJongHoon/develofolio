@@ -1,6 +1,6 @@
 import { setContext } from '@apollo/client/link/context'
-import { getAccessToken } from '~/lib/utils/access-token'
-import { isServer } from '~/lib/utils/is-server'
+import { getAccessToken } from '~/utils/access-token'
+import { isServer } from '~/utils/is-server'
 
 export const createAuthLink = (serverAccessToken?: string) =>
 	setContext((_request, { headers }) => {

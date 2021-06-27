@@ -6,7 +6,7 @@ import { Descendant, Element } from 'slate'
 // 	SetContentDocument,
 // 	GetContentDocument,
 // } from '~/graphql/typed-document-nodes.generated'
-import { useDebounceEffect } from '~/lib/hooks/use-debounce-effect'
+import { useDebounceEffect } from '~/hooks/use-debounce-effect'
 import { setLoading, setSaved, setSaving } from '../editor.reducer'
 import { useAsync } from 'react-use'
 import { nanoid } from 'nanoid'

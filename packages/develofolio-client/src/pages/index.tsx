@@ -2,8 +2,8 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import { MeDocument } from '~/graphql/typed-document-nodes.generated'
-import { withAuth } from '~/lib/hofs/with-auth'
-import { genereateImagePath } from '~/lib/utils/generate-image-path'
+import { withAuth } from '~/utils/with-auth'
+import { genereateImagePath } from '~/utils/generate-image-path'
 
 export const getServerSideProps = withAuth()
 

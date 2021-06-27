@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 import Image from 'next/image'
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
-import { genereateProfileImagePath } from '~/lib/utils/generate-image-path'
-import { Icon } from '~/components/base/icon'
+import { genereateProfileImagePath } from '~/utils/generate-image-path'
+import { Icon } from '~/components/icon'
 import OpenColor from 'open-color'
-import { useModal } from '~/components/base/modal/use-modal'
-import { Modal } from '~/components/base/modal/modal'
-import { Button } from '~/components/base/button'
-import { useFileLoad } from '~/lib/hooks/use-file-load'
+import { useModal } from '~/components/modal/use-modal'
+import { Modal } from '~/components/modal/modal'
+import { Button } from '~/components/button'
+import { useFileLoad } from '~/hooks/use-file-load'
 import axios from 'axios'
 import {
 	ImageUploadPathDocument,
@@ -15,9 +15,9 @@ import {
 	RemovePageAvatarDocument,
 	UpdatePageAvatarDocument,
 } from '~/graphql/typed-document-nodes.generated'
-import { useUser } from '~/components/user/hooks/use-user'
+import { useUser } from '~/modules/user/hooks/use-user'
 import { useStyletron } from 'styletron-react'
-import { useHover } from '~/lib/hooks/use-hover'
+import { useHover } from '~/hooks/use-hover'
 import { padding, transitions } from 'polished'
 
 export const Profile = () => {

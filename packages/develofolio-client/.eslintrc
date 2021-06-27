@@ -1,5 +1,5 @@
 {
-	"extends": ["next", "next/core-web-vitals", "baseui"],
+	"extends": ["next", "next/core-web-vitals", "plugin:baseui/recommended"],
 	"rules": {
 		"react/display-name": "off",
 		"baseui/deprecated-theme-api": "warn",

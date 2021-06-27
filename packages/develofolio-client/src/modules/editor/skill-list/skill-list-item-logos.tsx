@@ -2,7 +2,7 @@ import OpenColor from 'open-color'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlateStatic } from 'slate-react'
-import { Icon } from '~/components/base/icon'
+import { Icon } from '~/components/icon'
 import {
 	CustomRenderElementProps,
 	LogoElement,
@@ -15,7 +15,7 @@ import { ILogo } from '../logo/types'
 import { StatefulPopover } from 'baseui/popover'
 import { useStyletron } from 'styletron-react'
 import { border, padding, transitions } from 'polished'
-import { useHover } from '~/lib/hooks/use-hover'
+import { useHover } from '~/hooks/use-hover'
 import mergeRefs from 'react-merge-refs'
 
 export const SkillListItemLogos = ({

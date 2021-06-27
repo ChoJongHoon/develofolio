@@ -1,12 +1,12 @@
 import { NextPage } from 'next'
-import { PageEditor } from '~/components/editor/page-editor'
-import { EditorHeader } from '~/components/editor/editor-header'
+import { PageEditor } from '~/modules/editor/page-editor'
+import { EditorHeader } from '~/modules/editor/editor-header'
 import {
 	MyPageDocument,
 	PagePartsFragment,
 } from '~/graphql/typed-document-nodes.generated'
-import { withAuth } from '~/lib/hofs/with-auth'
-import { ROUTE_EDIT_NEW } from '~/lib/utils/routes'
+import { withAuth } from '~/utils/with-auth'
+import { ROUTE_EDIT_NEW } from '~/utils/routes'
 
 interface EditProps {
 	page: PagePartsFragment
