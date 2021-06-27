@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import Image from 'next/image'
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
-import { css } from '@emotion/react'
 import { genereateProfileImagePath } from '~/lib/utils/generate-image-path'
 import { Icon } from '~/components/base/icon'
 import OpenColor from 'open-color'
@@ -17,8 +16,13 @@ import {
 	UpdatePageAvatarDocument,
 } from '~/graphql/typed-document-nodes.generated'
 import { useUser } from '~/components/user/hooks/use-user'
+import { useStyletron } from 'styletron-react'
+import { useHover } from '~/lib/hooks/use-hover'
+import { padding, transitions } from 'polished'
 
 export const Profile = () => {
+	const [css] = useStyletron()
+	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 	const client = useApolloClient()
 	const user = useUser()
 	const { data } = useQuery(MyAvatarDocument)
@@ -75,17 +79,52 @@ export const Profile = () => {
 	}
 
 	return (
-		<div css={container()}>
+		<div
+			className={css({
+				position: 'relative',
+				width: '100%',
+				height: '100%',
+			})}
+			ref={hoverRef}
+		>
 			{avatar ? (
 				<>
 					<Image
-						css={imageStyles}
+						className={css({
+							...transitions(['opacity'], '0.2s'),
+							opacity: isHovered ? 0.7 : 1,
+						})}
 						src={genereateProfileImagePath(user.id, avatar)}
 						layout="fill"
 						objectFit="cover"
 						alt={user.name}
 					/>
-					<button css={deleteButton} onClick={onOpenDeleteModal}>
+					<button
+						className={css({
+							cursor: 'pointer',
+							backgroundColor: OpenColor.red[7],
+							border: 'none',
+							borderRadius: '50%',
+							width: '24px',
+							height: '24px',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							opacity: isHovered ? 1 : 0,
+							position: 'absolute',
+							top: '8px',
+							right: '8px',
+							...transitions(['background-color'], '0.2s'),
+							...padding('0px'),
+							':hover': {
+								backgroundColor: OpenColor.red[6],
+							},
+							':active': {
+								backgroundColor: OpenColor.red[8],
+							},
+						})}
+						onClick={onOpenDeleteModal}
+					>
 						<Icon type="TrashLine" color="white" size={16} />
 					</button>
 					<Modal
@@ -117,7 +156,23 @@ export const Profile = () => {
 				</>
 			) : (
 				<>
-					<button css={addButton} onClick={onClickUploadButton}>
+					<button
+						className={css({
+							backgroundColor: OpenColor.gray[1],
+							width: '100%',
+							height: '100%',
+							border: 'none',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							cursor: 'pointer',
+							...transitions(['background-color'], '0.2s'),
+							':hover': {
+								backgroundColor: OpenColor.gray[2],
+							},
+						})}
+						onClick={onClickUploadButton}
+					>
 						<Icon type="UserAddOutlined" size={64} color={OpenColor.gray[5]} />
 					</button>
 				</>
@@ -125,60 +180,3 @@ export const Profile = () => {
 		</div>
 	)
 }
-
-const container = () => css`
-	position: relative;
-	width: 100%;
-	height: 100%;
-	&:hover {
-		.css-${imageStyles.name} {
-			opacity: 0.7;
-		}
-		.css-${deleteButton.name} {
-			opacity: 1;
-		}
-	}
-`
-
-const imageStyles = css`
-	transition: opacity 0.2s;
-`
-
-const deleteButton = css`
-	cursor: pointer;
-	background-color: ${OpenColor.red[7]};
-	border: none;
-	border-radius: 50%;
-	width: 24px;
-	height: 24px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	opacity: 0;
-	position: absolute;
-	top: 8px;
-	right: 8px;
-	transition: background-color 0.2s;
-	padding: 0;
-	&:hover {
-		background-color: ${OpenColor.red[6]};
-	}
-	&:active {
-		background-color: ${OpenColor.red[8]};
-	}
-`
-
-const addButton = css`
-	background-color: ${OpenColor.gray[1]};
-	width: 100%;
-	height: 100%;
-	border: none;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-	transition: background-color 0.2s;
-	&:hover {
-		background-color: ${OpenColor.gray[2]};
-	}
-`

@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import { useEffect, useRef } from 'react'
 import { Editor, Range } from 'slate'
@@ -9,8 +8,12 @@ import { Icon, IconType } from '../base/icon'
 import { Portal } from '../base/portal'
 import { isFormatActive, toggleFormat } from './elements/format'
 import { debounce } from 'lodash'
+import { StyleObject } from 'styletron-standard'
+import { transitions } from 'polished'
+import { useStyletron } from 'styletron-react'
 
 export const HoveringToolbar = () => {
+	const [css] = useStyletron()
 	const ref = useRef<HTMLDivElement>(null)
 	const editor = useSlate()
 
@@ -53,7 +56,7 @@ export const HoveringToolbar = () => {
 
 	return (
 		<Portal>
-			<div ref={ref} css={tooltipStyles}>
+			<div className={css(tooltipStyles)} ref={ref}>
 				<FormatButton format="bold" />
 				<FormatButton format="italic" />
 				<FormatButton format="code" />
@@ -67,6 +70,7 @@ type FormatButtonProps = {
 }
 
 const FormatButton = ({ format }: FormatButtonProps) => {
+	const [css] = useStyletron()
 	const editor = useSlate()
 	const isActive = isFormatActive(editor, format)
 	const iconType = useMemo<IconType>(() => {
@@ -81,40 +85,40 @@ const FormatButton = ({ format }: FormatButtonProps) => {
 	}, [format])
 	return (
 		<button
+			className={css(buttonStyles(isActive))}
 			onMouseDown={(event) => {
 				event.preventDefault()
 				toggleFormat(editor, format)
 			}}
-			css={buttonStyles(isActive)}
 		>
 			<Icon type={iconType} color={OpenColor.gray[0]} size={24} />
 		</button>
 	)
 }
 
-const tooltipStyles = css`
-	padding: 4px;
-	position: absolute;
-	z-index: 1;
-	top: -10000px;
-	left: -10000px;
-	margin-top: -6px;
-	opacity: 0;
-	background-color: ${OpenColor.gray[9]};
-	border-radius: 8px;
-	transition: opacity 0.25s;
-	display: flex;
-	backdrop-filter: blur(4px);
-`
+const tooltipStyles: StyleObject = {
+	padding: '4px',
+	position: 'absolute',
+	zIndex: 1,
+	top: '-10000px',
+	left: '-10000px',
+	marginTop: '-6px',
+	opacity: 0,
+	backgroundColor: OpenColor.gray[9],
+	borderRadius: '8px',
+	...transitions(['opacity'], '0.25s'),
+	display: 'flex',
+	backdropFilter: 'blur(4px)',
+}
 
-const buttonStyles = (isActive: boolean) => css`
-	background: none;
-	border: none;
-	display: inline-flex;
-	opacity: ${isActive ? 1 : 0.5};
-	cursor: pointer;
-	border-radius: 4px;
-	&:hover {
-		background-color: ${OpenColor.gray[7]};
-	}
-`
+const buttonStyles = (isActive: boolean): StyleObject => ({
+	background: 'none',
+	border: 'none',
+	display: 'inline-flex',
+	opacity: isActive ? 1 : 0.5,
+	cursor: 'pointer',
+	borderRadius: '4px',
+	':hover': {
+		backgroundColor: OpenColor.gray[7],
+	},
+})

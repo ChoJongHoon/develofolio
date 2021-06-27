@@ -4,7 +4,6 @@ import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './hovering-toolbar'
 import { renderLeaf, toggleFormat } from './elements/format'
-import { css } from '@emotion/react'
 import { withNodeId } from './node-id/with-node-id'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -23,6 +22,9 @@ import { BlockPicker } from './blocks/block-picker'
 import { useBlocks } from './blocks/use-blocks'
 import OpenColor from 'open-color'
 import { withSkillList } from './skill-list/with-skill-list'
+import { useStyletron } from 'baseui'
+import { StyleObject } from 'styletron-standard'
+import { border, padding, transitions } from 'polished'
 
 interface PageEditorProps {
 	initialContent: Descendant[]
@@ -30,6 +32,7 @@ interface PageEditorProps {
 }
 
 export const PageEditor = ({ initialContent }: PageEditorProps) => {
+	const [css] = useStyletron()
 	const dispatch = useDispatch()
 	const editor = useMemo(
 		() =>
@@ -86,7 +89,7 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 	)
 
 	return (
-		<div css={rootStyles}>
+		<div className={css(rootStyles)}>
 			<DndProvider backend={HTML5Backend}>
 				<Slate editor={editor} value={content} onChange={onChange}>
 					<Editable
@@ -103,7 +106,7 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 									return toggleFormat(editor, 'italic')
 							}
 						}}
-						css={editorStyles}
+						className={css(editorStyles)}
 						onKeyDown={onKeyDown}
 					/>
 					<HoveringToolbar />
@@ -111,45 +114,39 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 					<BlockPicker />
 				</Slate>
 			</DndProvider>
-			<button css={addBlockButton} onMouseDown={onAddBlockButtonClick}>
+			<button
+				className={css(addBlockButton)}
+				onMouseDown={onAddBlockButtonClick}
+			>
 				Add a Block
 			</button>
 		</div>
 	)
 }
 
-const rootStyles = css`
-	display: flex;
-	flex-direction: column;
-	padding-bottom: 30vh;
-`
+const rootStyles: StyleObject = {
+	display: 'flex',
+	flexDirection: 'column',
+	paddingBottom: '30vh',
+}
 
-const editorStyles = css`
-	padding-left: 32px;
-	padding-right: 32px;
+const editorStyles: StyleObject = {
+	paddingLeft: '32px',
+	paddingRight: '32px',
+}
 
-	[data-slate-node='element'] {
-		position: relative;
-		& > * {
-			vertical-align: middle;
-			font-size: var(--font-size);
-			line-height: var(--line-height);
-		}
-	}
-`
-
-const addBlockButton = css`
-	margin-left: 32px;
-	margin-right: 32px;
-	padding: 32px;
-	background: none;
-	cursor: pointer;
-	border-radius: 8px;
-	border: dotted 1px ${OpenColor.gray[4]};
-	color: ${OpenColor.gray[4]};
-	transition: border-color 0.2s, color 0.2s;
-	&:hover {
-		border: dotted 1px ${OpenColor.gray[6]};
-		color: ${OpenColor.gray[6]};
-	}
-`
+const addBlockButton: StyleObject = {
+	marginLeft: '32px',
+	marginRight: '32px',
+	...padding('32px'),
+	background: 'none',
+	cursor: 'pointer',
+	borderRadius: '8px',
+	color: OpenColor.gray[4],
+	...border('1px', 'dotted', OpenColor.gray[4]),
+	...transitions(['color', 'border-color'], '0.2s'),
+	':hover': {
+		borderColor: OpenColor.gray[6],
+		color: OpenColor.gray[6],
+	},
+}

@@ -4,13 +4,16 @@ import { globalStyle } from '~/styles/global-styles'
 import { wrapper } from '~/redux/store'
 import { useApollo } from '~/apollo/use-apollo'
 import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
-import { LayersManager } from '~/components/base/layer/layers-manager'
+import { LightTheme, BaseProvider } from 'baseui'
+import { Provider as StyletronProvider } from 'styletron-react'
+import { styletron } from '~/utils/styletron'
+import 'src/components/editor/editor.css'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
 }
 
-function MyApp({ Component, pageProps }: MyAppProps) {
+const App = ({ Component, pageProps }: MyAppProps) => {
 	const client = useApollo(
 		pageProps[INIT_STATE],
 		pageProps[SERVER_ACCESS_TOKEN]
@@ -20,12 +23,14 @@ function MyApp({ Component, pageProps }: MyAppProps) {
 		<>
 			{globalStyle}
 			<ApolloProvider client={client}>
-				<LayersManager>
-					<Component {...pageProps} />
-				</LayersManager>
+				<StyletronProvider value={styletron}>
+					<BaseProvider theme={LightTheme}>
+						<Component {...pageProps} />
+					</BaseProvider>
+				</StyletronProvider>
 			</ApolloProvider>
 		</>
 	)
 }
 
-export default wrapper.withRedux(MyApp)
+export default wrapper.withRedux(App)

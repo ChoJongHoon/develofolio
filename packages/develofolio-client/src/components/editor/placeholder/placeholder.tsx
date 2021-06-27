@@ -1,7 +1,7 @@
-import { css } from '@emotion/react'
 import React, { useMemo } from 'react'
 import { Editor } from 'slate'
 import { useSlateStatic } from 'slate-react'
+import { useStyletron } from 'styletron-react'
 import { CustomElement } from '../custom-types'
 
 interface PlaceholderProps {
@@ -10,12 +10,13 @@ interface PlaceholderProps {
 }
 
 export const Placeholder = ({ children, element }: PlaceholderProps) => {
+	const [css] = useStyletron()
 	const editor = useSlateStatic()
 
-	const isEmpty = useMemo(() => Editor.isEmpty(editor, element), [
-		editor,
-		element,
-	])
+	const isEmpty = useMemo(
+		() => Editor.isEmpty(editor, element),
+		[editor, element]
+	)
 
 	if (!isEmpty) {
 		return <></>
@@ -25,21 +26,19 @@ export const Placeholder = ({ children, element }: PlaceholderProps) => {
 		<span
 			contentEditable={false}
 			data-slate-placeholder={true}
-			css={placeholder}
+			className={css({
+				position: 'absolute',
+				pointerEvents: 'none',
+				userSelect: 'none',
+				textDecoration: 'none',
+				width: '100%',
+				maxWidth: '100%',
+				opacity: 0.3,
+				top: '50%',
+				transform: 'translateY(-50%)',
+			})}
 		>
 			{children}
 		</span>
 	)
 }
-
-const placeholder = css`
-	position: absolute;
-	pointer-events: none;
-	user-select: none;
-	text-decoration: none;
-	width: 100%;
-	max-width: 100%;
-	opacity: 0.3;
-	top: 50%;
-	transform: translateY(-50%);
-`

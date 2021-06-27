@@ -1,17 +1,19 @@
-import { css } from '@emotion/react'
+import { useStyletron } from 'styletron-react'
+import { StyleObject } from 'styletron-standard'
 import { BulletedListElement, CustomRenderElementProps } from '../custom-types'
 
 export const BulletedList = ({
 	attributes,
 	children,
 }: CustomRenderElementProps<BulletedListElement>) => {
+	const [css] = useStyletron()
 	return (
-		<ul {...attributes} css={styles}>
+		<ul {...attributes} className={css(styles)}>
 			{children}
 		</ul>
 	)
 }
 
-const styles = css`
-	list-style: none;
-`
+const styles: StyleObject = {
+	listStyle: 'none',
+}

@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import oc from 'open-color'
-import { css } from '@emotion/react'
 import { Portal } from '~/components/base/portal'
 import { ReactEditor, useSlate } from 'slate-react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
@@ -13,8 +11,13 @@ import { insertLogo } from './insert-logo'
 import { createPopper, Instance } from '@popperjs/core'
 import { LogoPickerResults } from './logo-picker-results'
 import { ILogo } from './types'
+import { StyleObject } from 'styletron-standard'
+import { border, padding } from 'polished'
+import OpenColor from 'open-color'
+import { useStyletron } from 'styletron-react'
 
 export const InlineLogoPicker = () => {
+	const [css] = useStyletron()
 	const ref = useRef<HTMLDivElement>(null)
 	const instance = useRef<Instance | null>(null)
 	const editor = useSlate()
@@ -92,8 +95,8 @@ export const InlineLogoPicker = () => {
 
 	return (
 		<Portal>
-			<div ref={ref} css={boxStyles}>
-				<div css={gridWrapperStyles}>
+			<div ref={ref} className={css(boxStyles)}>
+				<div className={css(gridWrapperStyles)}>
 					<LogoPickerResults
 						results={results}
 						selectedIndex={selectedIndex}
@@ -106,22 +109,22 @@ export const InlineLogoPicker = () => {
 	)
 }
 
-const boxStyles = css`
-	display: block;
-	box-sizing: border-box;
-	position: absolute;
-	top: -1000px;
-	left: -1000px;
-	padding: 8px;
-	border: 1px solid ${oc.gray[2]};
-	overflow: hidden;
-	flex-direction: column;
-	border-radius: 8px;
-	background-color: white;
-`
+const boxStyles: StyleObject = {
+	display: 'block',
+	boxSizing: 'border-box',
+	position: 'absolute',
+	top: '-1000px',
+	left: '-1000px',
+	...padding('8px'),
+	...border('solid', '1px', OpenColor.gray[2]),
+	overflow: 'hidden',
+	flexDirection: 'column',
+	borderRadius: '8px',
+	backgroundColor: OpenColor.white,
+}
 
-const gridWrapperStyles = css`
-	max-height: 240px;
-	overflow-y: auto;
-	width: 320px;
-`
+const gridWrapperStyles: StyleObject = {
+	maxHeight: '240px',
+	overflowY: 'auto',
+	width: '320px',
+}

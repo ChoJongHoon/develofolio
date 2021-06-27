@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { FixedSizeGrid as Grid, GridChildComponentProps } from 'react-window'
 import { ILogo } from './types'
 import Image from 'next/image'
-import { css } from '@emotion/react'
 import OpenColor from 'open-color'
+import { StyleObject } from 'styletron-standard'
+import { padding } from 'polished'
+import { useStyletron } from 'styletron-react'
 
 const ICON_SIZE = 40
 const BOX_WIDTH = 320
@@ -85,9 +87,7 @@ const Cell = ({
 	rowIndex,
 	style,
 }: GridChildComponentProps<ItemData>) => {
-	// const editor = useSlateStatic()
-	// const dispatch = useDispatch()
-	// const target = useSelector((state) => state.editor.iconPicker.target)
+	const [css] = useStyletron()
 	const {
 		columnCount,
 		filteredLogos,
@@ -121,7 +121,7 @@ const Cell = ({
 					key={logo.name}
 					onMouseEnter={onMouseEnter}
 					onMouseDown={onMouseDown}
-					css={itemStyles(selected)}
+					className={css(itemStyles(selected))}
 				>
 					<Image
 						key={logo.name}
@@ -137,16 +137,15 @@ const Cell = ({
 	)
 }
 
-const itemStyles = (selected: boolean) => css`
-	width: ${ICON_SIZE}px;
-	height: ${ICON_SIZE}px;
-	padding: 0px;
-	cursor: pointer;
-	background-color: transparent;
-	border: none;
-	border-radius: 4px;
-	background-color: ${selected && OpenColor.blue[1]};
-	&:focus {
-		outline: none;
-	}
-`
+const itemStyles = (selected: boolean): StyleObject => ({
+	width: `${ICON_SIZE}px`,
+	height: `${ICON_SIZE}px`,
+	...padding('0px'),
+	cursor: 'pointer',
+	border: 'none',
+	borderRadius: '4px',
+	backgroundColor: selected ? OpenColor.blue[1] : 'transparent',
+	':focus': {
+		outlineStyle: 'none',
+	},
+})

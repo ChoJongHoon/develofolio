@@ -1,4 +1,3 @@
-import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import React, { HTMLProps, useCallback, useEffect } from 'react'
 import { Button } from '~/components/base/button'
@@ -18,6 +17,9 @@ import {
 	SocialLinkType,
 } from '~/graphql/typed-document-nodes.generated'
 import { cloneDeep } from 'lodash'
+import { useStyletron } from 'styletron-react'
+import { useHover } from '~/lib/hooks/use-hover'
+import { border, padding, transitions } from 'polished'
 
 interface FormValues {
 	[SocialLinkType.Github]: string
@@ -27,6 +29,7 @@ interface FormValues {
 }
 
 export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
+	const [css] = useStyletron()
 	const { data } = useQuery(MyPageSocialLinksDocument)
 	const socialLinks = data?.page?.socialLinks
 
@@ -44,7 +47,13 @@ export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
 			onClose={onClose}
 			title="SNS 링크"
 			content={
-				<div css={list}>
+				<div
+					className={css({
+						display: 'flex',
+						flexDirection: 'column',
+						gap: '8px',
+					})}
+				>
 					<Input
 						icon="Github"
 						placeholder="GitHub"
@@ -84,12 +93,6 @@ export const EditSocialLinksModal = ({ onClose, open }: DefaultModalProps) => {
 	)
 }
 
-const list = css`
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-`
-
 interface InputProps extends Omit<HTMLProps<HTMLInputElement>, 'defaultValue'> {
 	icon: IconType
 	type: keyof FormValues
@@ -104,6 +107,8 @@ const Input = ({
 	defaultValue = '',
 	...props
 }: InputProps) => {
+	const [css] = useStyletron()
+	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 	const { data: pageData } = useQuery(MyPageDocument)
 	const dispatch = useDispatch()
 	const [save] = useMutation(SaveSocialLinkDocument, {
@@ -180,76 +185,74 @@ const Input = ({
 	const isValid = field.value !== '' && !invalid
 
 	return (
-		<div css={inputWrapper}>
-			<div css={inputBoxWrapper(isValid)}>
-				<input css={inputStyles} {...props} {...field} />
-				<Icon css={iconStyles} type={icon} size={18} />
+		<div>
+			<div
+				ref={hoverRef}
+				className={css({
+					position: 'relative',
+				})}
+			>
+				<input
+					className={css({
+						color: OpenColor.gray[7],
+						...border(
+							'1px',
+							'solid',
+							isValid
+								? isHovered
+									? OpenColor.teal[8]
+									: OpenColor.teal[6]
+								: isHovered
+								? OpenColor.gray[5]
+								: OpenColor.gray[4]
+						),
+						borderRadius: '4px',
+						fontSize: '16px',
+						...padding('8px', '8px', '8px', '30px'),
+						...transitions(['border-color'], '0.2s'),
+						width: '512px',
+						'::placeholder': {
+							color: OpenColor.gray[3],
+						},
+						':focus': {
+							outline: 'none',
+							boxShadow: `${OpenColor.blue[0]} 0px 0px 0px 4px`,
+						},
+					})}
+					{...props}
+					{...field}
+				/>
+				<Icon
+					type={icon}
+					size={18}
+					className={css({
+						position: 'absolute',
+						left: '6px',
+						top: '50%',
+						transform: 'translateY(-50%)',
+						...transitions(['fill'], '0,2s'),
+						pointerEvents: 'none',
+						fill: isValid
+							? isHovered
+								? OpenColor.teal[8]
+								: OpenColor.teal[6]
+							: isHovered
+							? OpenColor.gray[5]
+							: OpenColor.gray[4],
+					})}
+				/>
 			</div>
-			{error && <span css={errorMessage}>{error?.message}</span>}
+			{error && (
+				<span
+					className={css({
+						color: OpenColor.red[7],
+						fontSize: '12px',
+						marginTop: '4px',
+					})}
+				>
+					{error?.message}
+				</span>
+			)}
 		</div>
 	)
 }
-
-const inputWrapper = css``
-
-const inputBoxWrapper = (isValid: boolean) => css`
-	position: relative;
-	&:hover {
-		& > .css-${inputStyles.name} {
-			border-color: ${OpenColor.gray[5]};
-		}
-		& > .icon {
-			fill: ${OpenColor.gray[5]};
-		}
-	}
-	${isValid &&
-	css`
-		& > .css-${inputStyles.name} {
-			border-color: ${OpenColor.teal[7]};
-		}
-		& > .icon {
-			fill: ${OpenColor.teal[7]};
-		}
-		&:hover {
-			& > .css-${inputStyles.name} {
-				border-color: ${OpenColor.teal[8]};
-			}
-			& > .icon {
-				fill: ${OpenColor.teal[8]};
-			}
-		}
-	`}
-`
-
-const inputStyles = css`
-	color: ${OpenColor.gray[7]};
-	border: solid 1px ${OpenColor.gray[4]};
-	border-radius: 4px;
-	font-size: 16px;
-	padding: 8px 8px 8px 30px;
-	transition: border-color 0.2;
-	width: 512px;
-	::placeholder {
-		color: ${OpenColor.gray[3]};
-	}
-	&:focus {
-		outline: none;
-		box-shadow: ${OpenColor.blue[0]} 0px 0px 0px 4px;
-	}
-`
-
-const iconStyles = css`
-	position: absolute;
-	left: 6px;
-	top: 50%;
-	transform: translateY(-50%);
-	transition: fill 0.2s;
-	fill: ${OpenColor.gray[4]};
-	pointer-events: none;
-`
-
-const errorMessage = css`
-	color: ${OpenColor.red[7]};
-	font-size: 12px;
-	margin-top: 4px;
-`

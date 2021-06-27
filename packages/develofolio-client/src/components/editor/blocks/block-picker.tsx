@@ -1,4 +1,3 @@
-import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
@@ -13,6 +12,8 @@ import {
 import AboutMeThumbnail from 'public/images/block-thumbnails/about-me.svg'
 import FocusLock from 'react-focus-lock'
 import { Descendant, Transforms } from 'slate'
+import { useStyletron } from 'styletron-react'
+import { transitions } from 'polished'
 
 const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
 	{
@@ -49,6 +50,7 @@ const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
 ]
 
 export const BlockPicker = () => {
+	const [css] = useStyletron()
 	const dispatch = useDispatch()
 	const { selectedIndex, show } = useSelector(
 		(state) => state.editor.blockPicker,
@@ -121,13 +123,72 @@ export const BlockPicker = () => {
 	return (
 		<Portal>
 			<FocusLock autoFocus>
-				<div css={root(show)} onClick={onRootClick}>
-					<div ref={backdropRef} css={drawerContainer}>
-						<div ref={drawerRef} css={drawer(show, isVisible)}>
+				<div
+					className={css({
+						zIndex: zIndexes.backdrop,
+						position: 'fixed',
+						right: '0px',
+						bottom: '0px',
+						top: '0px',
+						left: '0px',
+						overflowX: 'hidden',
+						overflowY: 'auto',
+						pointerEvents: show ? 'auto' : 'none',
+					})}
+					onClick={onRootClick}
+				>
+					<div
+						ref={backdropRef}
+						className={css({
+							display: 'flex',
+							alignItems: 'flex-start',
+							justifyContent: 'flex-end',
+							width: '100%',
+							minHeight: '100%',
+							userSelect: 'none',
+							pointerEvents: 'auto',
+							backgroundColor: 'rgba(0, 0, 0, 0.5)',
+							WebkitTapHighlightColor: 'transparent',
+						})}
+					>
+						<div
+							ref={drawerRef}
+							className={css({
+								zIndex: zIndexes.backdrop,
+								height: 'fit-content',
+								...transitions(['opacity', 'transform'], '0.3s'),
+								opacity: isVisible && show ? 1 : 0,
+								transform: `translateX(${isVisible ? '0' : '512px'})`,
+								color: OpenColor.white,
+								paddingTop: '32px',
+								paddingRight: '16px',
+								paddingBottom: '32px',
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '32px',
+								userSelect: 'text',
+								pointerEvents: show ? 'all' : 'none',
+							})}
+						>
 							{BLOCKS.map((block, index) => (
 								<button
 									key={block.name}
-									css={blockThumbnail}
+									className={css({
+										borderStyle: 'none',
+										cursor: 'pointer',
+										background: 'rgba(0, 0, 0, 0.3)',
+										backdropFilter: 'blur(60px)',
+										borderRadius: '16px',
+										padding: '8px',
+										display: 'flex',
+										flexDirection: 'column',
+										...transitions('transform', '0.2s'),
+										transformOrigin: 'center right',
+										':focus': {
+											transform: 'scale(1.05)',
+											outlineStyle: 'none',
+										},
+									})}
 									onMouseEnter={onBlockMouseEnter}
 									onFocus={() => {
 										dispatch(setBlockPickerSelectedIndex(index))
@@ -144,11 +205,24 @@ export const BlockPicker = () => {
 										onClose()
 									}}
 								>
-									<div className="thumbnail">
+									<div className={css({ marginBottom: '4px' })}>
 										<AboutMeThumbnail />
 									</div>
-									<h4 className="title">{block.name}</h4>
-									<span className="description">{block.description}</span>
+									<h4
+										className={css({
+											marginBottom: '8px',
+											color: OpenColor.white,
+										})}
+									>
+										{block.name}
+									</h4>
+									<span
+										className={css({
+											color: OpenColor.gray[0],
+										})}
+									>
+										{block.description}
+									</span>
 								</button>
 							))}
 						</div>
@@ -158,73 +232,3 @@ export const BlockPicker = () => {
 		</Portal>
 	)
 }
-
-const root = (isOpen: boolean) => css`
-	z-index: ${zIndexes.backdrop};
-	position: fixed;
-	right: 0;
-	bottom: 0;
-	top: 0;
-	left: 0;
-	overflow-x: hidden;
-	overflow-y: auto;
-	pointer-events: ${isOpen ? 'auto' : 'none'};
-	/* background-color: green; */
-`
-
-const drawerContainer = css`
-	display: flex;
-	align-items: flex-start;
-	justify-content: flex-end;
-	width: 100%;
-	min-height: 100%;
-	user-select: none;
-	pointer-events: auto;
-	background-color: rgba(0, 0, 0, 0.5);
-	-webkit-tap-highlight-color: transparent;
-`
-
-const drawer = (isOpen: boolean, isVisible: boolean) => css`
-	z-index: ${zIndexes.backdrop};
-	height: fit-content;
-	transition: opacity 0.3s, transform 0.3s;
-	opacity: ${isVisible && isOpen ? 1 : 0};
-	transform: translateX(${isVisible ? '0' : '512px'});
-	color: ${OpenColor.white};
-	padding-top: 32px;
-	padding-right: 16px;
-	padding-bottom: 32px;
-	display: flex;
-	flex-direction: column;
-	gap: 32px;
-	user-select: text;
-	pointer-events: ${isOpen ? 'all' : 'none'};
-`
-
-const blockThumbnail = css`
-	border: none;
-	cursor: pointer;
-	background: rgba(0, 0, 0, 0.3);
-	backdrop-filter: blur(60px);
-	border-radius: 16px;
-	padding: 8px;
-	display: flex;
-	flex-direction: column;
-
-	& > .thumbnail {
-		margin-bottom: 4px;
-	}
-	& > .title {
-		margin-bottom: 8px;
-		color: ${OpenColor.white};
-	}
-	& > .description {
-		color: ${OpenColor.gray[0]};
-	}
-	transition: transform 0.2s;
-	transform-origin: center right;
-	&:focus {
-		transform: scale(1.05);
-		outline: none;
-	}
-`

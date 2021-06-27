@@ -1,13 +1,15 @@
 import { useQuery } from '@apollo/client'
-import { css } from '@emotion/react'
 import OpenColor from 'open-color'
+import { transitions } from 'polished'
 import React, { useMemo } from 'react'
+import { StyleObject, useStyletron } from 'styletron-react'
 import { Icon, IconType } from '~/components/base/icon'
 import { useModal } from '~/components/base/modal/use-modal'
 import {
 	MyPageSocialLinksDocument,
 	SocialLinkType,
 } from '~/graphql/typed-document-nodes.generated'
+import { useHover } from '~/lib/hooks/use-hover'
 import { EditSocialLinksModal } from './edit-social-links-modal'
 
 const ICON_TYPE_MAP: { [key in SocialLinkType]: IconType } = {
@@ -18,6 +20,8 @@ const ICON_TYPE_MAP: { [key in SocialLinkType]: IconType } = {
 }
 
 export const SocialLinks = () => {
+	const [css] = useStyletron()
+	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 	const [isOpen, onOpen, onClose] = useModal()
 
 	const { data } = useQuery(MyPageSocialLinksDocument)
@@ -28,7 +32,13 @@ export const SocialLinks = () => {
 		() => (
 			<>
 				{Object.values(ICON_TYPE_MAP).map((icon) => (
-					<div key={icon} css={[circle, transparently]}>
+					<div
+						key={icon}
+						className={css({
+							...circle,
+							opacity: 0.5,
+						})}
+					>
 						<Icon type={icon} color={OpenColor.teal[6]} size={20} />
 					</div>
 				))}
@@ -39,11 +49,21 @@ export const SocialLinks = () => {
 
 	return (
 		<>
-			<div css={wrapper()} onClick={onOpen}>
+			<div
+				className={css({
+					display: 'flex',
+					flexWrap: 'wrap',
+					gap: '16px',
+					position: 'relative',
+					cursor: 'pointer',
+				})}
+				ref={hoverRef}
+				onClick={onOpen}
+			>
 				{socialLinks && socialLinks.length > 0
 					? socialLinks.map((socialLink) => {
 							return (
-								<div key={socialLink.type} css={circle}>
+								<div key={socialLink.type} className={css(circle)}>
 									<Icon
 										type={ICON_TYPE_MAP[socialLink.type]}
 										color={OpenColor.teal[6]}
@@ -53,7 +73,22 @@ export const SocialLinks = () => {
 							)
 					  })
 					: placeholder}
-				<div css={mask}>
+				<div
+					className={css({
+						position: 'absolute',
+						top: '0px',
+						left: '0px',
+						right: '0px',
+						bottom: '0px',
+						backgroundColor: 'rgba(0, 0, 0, 0.3)',
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						borderRadius: '4px',
+						opacity: isHovered ? 1 : 0,
+						...transitions(['opacity'], '0.2s'),
+					})}
+				>
 					<Icon type="Pencil" color={OpenColor.gray[1]} size={24} />
 				</div>
 			</div>
@@ -62,45 +97,13 @@ export const SocialLinks = () => {
 	)
 }
 
-const wrapper = () => css`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	position: relative;
-	cursor: pointer;
-	&:hover {
-		.css-${mask.name} {
-			opacity: 1;
-		}
-	}
-`
-
-const circle = css`
-	border: none;
-	display: flex;
-	width: 32px;
-	height: 32px;
-	background-color: #ffffff;
-	border-radius: 50%;
-	justify-content: center;
-	align-items: center;
-`
-
-const transparently = css`
-	opacity: 0.5;
-`
-
-const mask = css`
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	bottom: 0px;
-	background-color: rgba(0, 0, 0, 0.3);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: 4px;
-	opacity: 0;
-	transition: opacity 0.2s;
-`
+const circle: StyleObject = {
+	border: 'none',
+	display: 'flex',
+	width: '32px',
+	height: '32px',
+	backgroundColor: OpenColor.white,
+	borderRadius: '50%',
+	justifyContent: 'center',
+	alignItems: 'center',
+}

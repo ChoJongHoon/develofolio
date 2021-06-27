@@ -1,3 +1,4 @@
+import React from 'react'
 import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import { MeDocument } from '~/graphql/typed-document-nodes.generated'

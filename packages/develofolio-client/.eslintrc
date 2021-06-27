@@ -1,6 +1,9 @@
 {
-	"extends": ["next", "next/core-web-vitals"],
+	"extends": ["next", "next/core-web-vitals", "baseui"],
 	"rules": {
-		"react/display-name": "off"
+		"react/display-name": "off",
+		"baseui/deprecated-theme-api": "warn",
+		"baseui/deprecated-component-api": "warn",
+		"baseui/no-deep-imports": "warn"
 	}
 }

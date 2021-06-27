@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import Link, { LinkProps } from 'next/link'
-import { css } from '@emotion/react'
 import OpenColor from 'open-color'
+import { StyleObject } from 'styletron-standard'
+import { padding, transitions } from 'polished'
 
 // ====================================
 // 모든 버튼에 공용으로 들어갈 style 관련 props
@@ -91,144 +92,147 @@ const ButtonLink: FC<
 	)
 }
 
-const styles = ({ color, disabled, size, variant }: ButtonStyleProps) => css`
+const styles = ({
+	color,
+	disabled,
+	size,
+	variant,
+}: ButtonStyleProps): StyleObject => ({
 	/* normarlize */
-	appearance: none;
-	border: none;
-	text-decoration: none;
-	background: none;
-	color: inherit;
+	appearance: 'none',
+	border: 'none',
+	textDecoration: 'none',
+	background: 'none',
+	color: 'inherit',
 
 	/* default styles */
-	cursor: ${disabled ? 'not-allowed' : 'pointer'};
-	font-weight: 700;
-	border-radius: 24px;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	user-select: none;
-	white-space: nowrap;
-	box-sizing: border-box;
-	transition: background-color 0.2s, color 0.2s;
-	width: max-content;
+	cursor: disabled ? 'not-allowed' : 'pointer',
+	fontWeight: 700,
+	borderRadius: '24px',
+	display: 'inline-flex',
+	justifyContent: 'center',
+	alignItems: 'center',
+	userSelect: 'none',
+	whiteSpace: 'nowrap',
+	boxSizing: 'border-box',
+	...transitions(['background-color', 'color'], '0.2s'),
+	width: 'max-content',
 
 	/* variant, disabled */
-	${variant === 'primary'
+	...(variant === 'primary'
 		? primaryStyles(color, disabled)
 		: variant === 'secondary'
 		? secondaryStyles(color, disabled)
 		: variant === 'outline'
 		? outlineStyles(color, disabled)
-		: ghostStyles(color, disabled)}
+		: ghostStyles(color, disabled)),
 
 	/* size */
-  ${size === 'l'
+	...(size === 'l'
 		? largeStyles
 		: size === 'm'
 		? mediumStyles
 		: size === 's'
 		? smallStyles
-		: xsmallStyles}
-`
+		: xsmallStyles),
+})
 
 // ==============================================================
 //                        variant style
 // ==============================================================
-const primaryStyles = (color: ButtonColor, disabled: boolean) =>
+const primaryStyles = (color: ButtonColor, disabled: boolean): StyleObject =>
 	disabled
-		? css`
+		? {
 				/* disabled */
-				background-color: ${OpenColor.gray[5]};
-				color: white;
-		  `
-		: css`
-				background-color: ${OpenColor[color][7]};
-				&:hover {
-					background-color: ${OpenColor[color][5]};
-				}
-				color: white;
-		  `
-const secondaryStyles = (color: ButtonColor, disabled: boolean) =>
+				backgroundColor: OpenColor.gray[5],
+				color: OpenColor.white,
+		  }
+		: {
+				backgroundColor: OpenColor[color][7],
+				':hover': {
+					backgroundColor: OpenColor[color][5],
+				},
+				color: OpenColor.white,
+		  }
+const secondaryStyles = (color: ButtonColor, disabled: boolean): StyleObject =>
 	disabled
-		? css`
+		? {
 				/* disabled */
-				background-color: ${OpenColor.gray[0]};
-				color: ${OpenColor.gray[4]};
-		  `
-		: css`
-				background-color: ${OpenColor[color][0]};
-				color: ${OpenColor[color][7]};
-				&:hover {
-					color: ${OpenColor[color][5]};
-				}
-		  `
-const outlineStyles = (color: ButtonColor, disabled: boolean) =>
+				backgroundColor: OpenColor.gray[0],
+				color: OpenColor.gray[4],
+		  }
+		: {
+				backgroundColor: OpenColor[color][0],
+				color: OpenColor[color][7],
+				':hover': {
+					color: OpenColor[color][5],
+				},
+		  }
+const outlineStyles = (color: ButtonColor, disabled: boolean): StyleObject =>
 	disabled
-		? css`
+		? {
 				/* disabled */
-				background-color: white;
-				color: ${OpenColor.gray[3]};
-				border: 1.5px solid ${OpenColor.gray[3]};
-		  `
-		: css`
-				background-color: white;
-				border-style: solid;
-				border-width: 1.5px;
-				border-color: ${OpenColor[color][7]};
-				color: ${OpenColor[color][7]};
-				&:hover {
-					border-color: ${OpenColor[color][5]};
-					color: ${OpenColor[color][5]};
-				}
-		  `
-const ghostStyles = (color: ButtonColor, disabled: boolean) =>
+				backgroundColor: OpenColor.white,
+				color: OpenColor.gray[3],
+				// border: 1.5px solid OpenColor.gray[3]},
+		  }
+		: {
+				backgroundColor: OpenColor.white,
+				borderStyle: 'solid',
+				borderWidth: '1.5px',
+				borderColor: OpenColor[color][7],
+				color: OpenColor[color][7],
+				':hover': {
+					borderColor: OpenColor[color][5],
+					color: OpenColor[color][5],
+				},
+		  }
+const ghostStyles = (color: ButtonColor, disabled: boolean): StyleObject =>
 	disabled
-		? css`
+		? {
 				/* disabled */
-				background-color: white;
-				color: ${OpenColor.gray[5]};
-		  `
-		: css`
-				background-color: transparent;
-				color: ${OpenColor[color][7]};
-				&:hover {
-					background-color: ${OpenColor.gray[0]};
-					color: ${OpenColor[color][6]};
-				}
-		  `
+				backgroundColor: OpenColor.white,
+				color: OpenColor.gray[5],
+		  }
+		: {
+				backgroundColor: 'transparent',
+				color: OpenColor[color][7],
+				':hover': {
+					backgroundColor: OpenColor.gray[0],
+					color: OpenColor[color][6],
+				},
+		  }
 
 // ==============================================================
 //                          size style
 // ==============================================================
-const largeStyles = css`
-	padding: 12px 24px;
-	--label-icon-gap: 8px;
-	--icon-size: 12px;
-`
-const mediumStyles = css`
-	padding: 8px 16px;
-	--label-icon-gap: 8px;
-	--icon-size: 12px;
-`
-const smallStyles = css`
-	padding: 3px 12px;
-	--label-icon-gap: 8px;
-	--icon-size: 12px;
-`
-const xsmallStyles = css`
-	padding: 2px 8px;
-	--label-icon-gap: 4px;
-	--icon-size: 10px;
-`
+const largeStyles: StyleObject = {
+	...padding('12px', '24px'),
+	'--label-icon-gap': '8px',
+	'--icon-size': '12px',
+}
+const mediumStyles: StyleObject = {
+	...padding('8px', '16px'),
+	'--label-icon-gap': '8px',
+	'--icon-size': '12px',
+}
+const smallStyles: StyleObject = {
+	...padding('3px', '12px'),
+	'--label-icon-gap': '8px',
+	'--icon-size': '12px',
+}
+const xsmallStyles: StyleObject = {
+	...padding('2px', '8px'),
+	'--label-icon-gap': '4px',
+	'--icon-size': '10px',
+}
 
 /**
  * prefix, suffix 스타일
  */
-const iconStyles = (position: 'start' | 'end') => css`
-	margin-right: ${position === 'start' && 'var(--label-icon-gap)'};
-	margin-left: ${position === 'end' && 'var(--label-icon-gap)'};
-	svg {
-		width: var(--icon-size);
-		height: var(--icon-size);
-	}
-`
+const iconStyles = (position: 'start' | 'end'): StyleObject => ({
+	marginRight: position === 'start' ? 'var(--label-icon-gap)' : undefined,
+	marginLeft: position === 'end' ? 'var(--label-icon-gap)' : undefined,
+	display: 'flex',
+	alignItems: 'center',
+})

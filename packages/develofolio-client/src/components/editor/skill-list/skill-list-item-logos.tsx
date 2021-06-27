@@ -1,4 +1,3 @@
-import { css } from '@emotion/react'
 import OpenColor from 'open-color'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Transforms } from 'slate'
@@ -6,20 +5,27 @@ import { ReactEditor, useSlateStatic } from 'slate-react'
 import { Icon } from '~/components/base/icon'
 import {
 	CustomRenderElementProps,
+	LogoElement,
 	SkillListItemLogosElement,
 } from '../custom-types'
 import { LogoPickerResults } from '../logo/logo-picker-results'
 import logos from 'public/logos.json'
-import { Popover } from '~/components/base/popover/popover'
 import { logoIndex } from '../logo/logo-index'
 import { ILogo } from '../logo/types'
-import Image from 'next/image'
+import { StatefulPopover } from 'baseui/popover'
+import { useStyletron } from 'styletron-react'
+import { border, padding, transitions } from 'polished'
+import { useHover } from '~/lib/hooks/use-hover'
+import mergeRefs from 'react-merge-refs'
 
 export const SkillListItemLogos = ({
 	attributes,
 	children,
 	element,
 }: CustomRenderElementProps<SkillListItemLogosElement>) => {
+	const [css] = useStyletron()
+	const [hoverRef, isHovered] = useHover()
+	const [isOpen, setIsOpen] = useState(false)
 	const editor = useSlateStatic()
 
 	const onLogoRemove = useCallback(
@@ -53,47 +59,127 @@ export const SkillListItemLogos = ({
 	)
 
 	return (
-		<div {...attributes} css={root}>
-			<div contentEditable={false} css={list}>
+		<div
+			{...attributes}
+			className={css({ marginBottom: '8px' })}
+			ref={mergeRefs([attributes.ref, hoverRef])}
+		>
+			<div
+				contentEditable={false}
+				className={css({
+					display: 'flex',
+					gap: '8px',
+				})}
+			>
 				{element.logos.map((logo, index) => (
-					<button
-						key={logo.file}
-						css={removeButton}
+					<Logo
+						key={`${logo.name}-${index}`}
+						logo={logo}
 						onClick={() => {
 							onLogoRemove(index)
 						}}
-					>
-						<Image
-							layout="fill"
-							src={`/logos/${logo.file}`}
-							css={imgStyles}
-							alt={logo.name}
-						/>
-						<div css={removeButtonMask}>
-							<Icon type="TrashLine" size={20} color={OpenColor.red[7]} />
-						</div>
-					</button>
+					/>
 				))}
-				<Popover
-					anchor={
-						<button css={addButton}>
-							<Icon type="Plus" size={16} color={OpenColor.gray[5]} />
-						</button>
-					}
-					content={<LogoPicker onLogoAdd={onLogoAdd} />}
-					placement="bottom-start"
-				/>
+				<StatefulPopover
+					content={({ close }) => (
+						<LogoPicker onLogoAdd={onLogoAdd} onClose={close} />
+					)}
+					placement="bottomLeft"
+					onOpen={() => {
+						setIsOpen(true)
+					}}
+					onClose={() => {
+						setIsOpen(false)
+					}}
+				>
+					<button
+						className={css({
+							width: '24px',
+							height: '24px',
+							display: 'inline-flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							border: 'none',
+							background: 'none',
+							cursor: 'pointer',
+							...padding('0px'),
+							borderRadius: '4px',
+							opacity: isHovered || isOpen ? 1 : 0,
+							...transitions(['background-color', 'opacity'], '0.2s'),
+							':hover': {
+								backgroundColor: OpenColor.gray[1],
+							},
+						})}
+					>
+						<Icon type="Plus" size={16} color={OpenColor.gray[5]} />
+					</button>
+				</StatefulPopover>
 			</div>
 			{children}
 		</div>
 	)
 }
 
-interface LogoPickerProps {
-	onLogoAdd: (logo: ILogo) => void
+interface LogoProps {
+	logo: Omit<LogoElement, 'type' | 'children'>
+	onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
-const LogoPicker = ({ onLogoAdd }: LogoPickerProps) => {
+const Logo = ({ logo, onClick }: LogoProps) => {
+	const [css] = useStyletron()
+	const [hoverRef, isHovered] = useHover<HTMLButtonElement>()
+
+	return (
+		<button
+			key={logo.file}
+			className={css({
+				position: 'relative',
+				border: 'none',
+				background: 'none',
+				cursor: 'pointer',
+				padding: '0px',
+				display: 'inline-flex',
+			})}
+			onClick={onClick}
+			ref={hoverRef}
+		>
+			<img
+				src={`/logos/${logo.file}`}
+				className={css({
+					height: '24px',
+					display: 'block',
+				})}
+				alt={logo.name}
+			/>
+			<div
+				className={css({
+					position: 'absolute',
+					top: '0px',
+					left: '0px',
+					bottom: '0px',
+					right: '0px',
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					borderRadius: '4px',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					opacity: isHovered ? 1 : 0,
+					...transitions(['opacity'], '0.2s'),
+				})}
+			>
+				<Icon type="TrashLine" size={20} color={OpenColor.red[7]} />
+			</div>
+		</button>
+	)
+}
+
+interface LogoPickerProps {
+	onLogoAdd: (logo: ILogo) => void
+	onClose: () => void
+}
+
+const LogoPicker = ({ onLogoAdd, onClose }: LogoPickerProps) => {
+	const [css] = useStyletron()
 	const [value, setValue] = useState('')
 	const [results, setResults] = useState(logos)
 	const [selectedIndex, setSelectedIndex] = useState(0)
@@ -159,6 +245,7 @@ const LogoPicker = ({ onLogoAdd }: LogoPickerProps) => {
 				event.preventDefault()
 				const selectedLogo = results[selectedIndex]
 				onLogoAdd(selectedLogo)
+				onClose()
 				return
 			}
 		},
@@ -166,14 +253,40 @@ const LogoPicker = ({ onLogoAdd }: LogoPickerProps) => {
 	)
 
 	return (
-		<div css={logoPickerStyles}>
+		<div
+			className={css({
+				display: 'block',
+				boxSizing: 'border-box',
+				...padding('8px'),
+				...border('1px', 'solid', OpenColor.gray[2]),
+				overflow: 'hidden',
+				flexDirection: 'column',
+				borderRadius: '8px',
+				backgroundColor: OpenColor.white,
+			})}
+		>
 			<input
-				css={inputStyles}
+				className={css({
+					backgroundColor: OpenColor.gray[1],
+					...border('1px', 'solid', OpenColor.gray[2]),
+					borderRadius: '4px',
+					width: '100%',
+					marginBottom: '16px',
+					...padding('4px', '8px'),
+					fontSize: '14px',
+				})}
 				value={value}
 				onChange={onChange}
 				onKeyDown={onKeyDown}
+				autoFocus
 			/>
-			<div css={gridWrapperStyles}>
+			<div
+				className={css({
+					maxHeight: '240px',
+					overflowY: 'auto',
+					width: '320px',
+				})}
+			>
 				<LogoPickerResults
 					results={results}
 					selectedIndex={selectedIndex}
@@ -184,92 +297,3 @@ const LogoPicker = ({ onLogoAdd }: LogoPickerProps) => {
 		</div>
 	)
 }
-
-const root = css`
-	margin-bottom: 8px;
-`
-const removeButtonMask = css`
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	bottom: 0px;
-	right: 0px;
-	background-color: rgba(0, 0, 0, 0.5);
-	border-radius: 4px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	opacity: 0;
-	transition: opacity 0.2s;
-`
-
-const removeButton = css`
-	position: relative;
-	border: none;
-	background: none;
-	cursor: pointer;
-	padding: 0px;
-	display: inline-flex;
-
-	&:hover .css-${removeButtonMask.name} {
-		opacity: 1;
-	}
-`
-
-const addButton = css`
-	width: 24px;
-	height: 24px;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	border: none;
-	background: none;
-	cursor: pointer;
-	padding: 0px;
-	border-radius: 4px;
-	opacity: 0;
-	transition: background-color 0.2s, opacity 0.2s;
-	&:hover {
-		background-color: ${OpenColor.gray[1]};
-	}
-`
-
-const list = css`
-	display: flex;
-	gap: 8px;
-	&:hover .css-${addButton.name} {
-		opacity: 1;
-	}
-`
-
-const imgStyles = css`
-	height: 24px;
-	display: block;
-`
-
-const logoPickerStyles = css`
-	display: block;
-	box-sizing: border-box;
-	padding: 8px;
-	border: 1px solid ${OpenColor.gray[2]};
-	overflow: hidden;
-	flex-direction: column;
-	border-radius: 8px;
-	background-color: white;
-`
-
-const gridWrapperStyles = css`
-	max-height: 240px;
-	overflow-y: auto;
-	width: 320px;
-`
-
-const inputStyles = css`
-	background-color: ${OpenColor.gray[1]};
-	border: 1px solid ${OpenColor.gray[2]};
-	border-radius: 4px;
-	width: 100%;
-	margin-bottom: 16px;
-	padding: 4px 8px;
-	font-size: 14px;
-`
