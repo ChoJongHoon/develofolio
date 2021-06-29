@@ -108,6 +108,8 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 						}}
 						className={css(editorStyles)}
 						onKeyDown={onKeyDown}
+						autoCapitalize="false"
+						autoCorrect="false"
 					/>
 					<HoveringToolbar />
 					<InlineLogoPicker />

@@ -143,6 +143,7 @@ const Logo = ({ logo, onClick }: LogoProps) => {
 			onClick={onClick}
 			ref={hoverRef}
 		>
+			{/* eslint-disable-next-line @next/next/no-img-element */}
 			<img
 				src={`/logos/${logo.file}`}
 				className={css({
@@ -249,7 +250,7 @@ const LogoPicker = ({ onLogoAdd, onClose }: LogoPickerProps) => {
 				return
 			}
 		},
-		[onLogoAdd, results, selectedIndex]
+		[onClose, onLogoAdd, results, selectedIndex]
 	)
 
 	return (

@@ -8,7 +8,6 @@ import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
 import { LightTheme, BaseProvider } from 'baseui'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { styletron } from '~/styles/styletron'
-import 'src/modules/editor/editor.css'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
