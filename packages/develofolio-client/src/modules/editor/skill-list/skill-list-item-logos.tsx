@@ -91,6 +91,8 @@ export const SkillListItemLogos = ({
 					onClose={() => {
 						setIsOpen(false)
 					}}
+					focusLock
+					autoFocus
 				>
 					<button
 						className={css({
@@ -279,7 +281,6 @@ const LogoPicker = ({ onLogoAdd, onClose }: LogoPickerProps) => {
 				value={value}
 				onChange={onChange}
 				onKeyDown={onKeyDown}
-				autoFocus
 			/>
 			<div
 				className={css({
