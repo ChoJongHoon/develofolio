@@ -87,9 +87,19 @@ export const BlockPicker = () => {
 		}
 	}, [show])
 
-	const onClose = useCallback(() => {
-		dispatch(setBlockPickerShow(false))
-	}, [dispatch])
+	const onClose = useCallback(
+		(selectedIndex?: number) => {
+			dispatch(setBlockPickerShow(false))
+			drawerRef.current?.childNodes.forEach((child, index) => {
+				if (child instanceof HTMLElement) {
+					child.style.transform = `translateX(${
+						index === selectedIndex ? '-40px' : '600px'
+					})`
+				}
+			})
+		},
+		[dispatch]
+	)
 
 	const onRootClick = useCallback<React.MouseEventHandler<HTMLDivElement>>(
 		(event) => {
@@ -195,14 +205,7 @@ export const BlockPicker = () => {
 									}}
 									onClick={() => {
 										Transforms.insertNodes(editor, block.node)
-										drawerRef.current?.childNodes.forEach((child, index) => {
-											if (child instanceof HTMLElement) {
-												child.style.transform = `translateX(${
-													index === selectedIndex ? '-40px' : '600px'
-												})`
-											}
-										})
-										onClose()
+										onClose(index)
 									}}
 								>
 									<div className={css({ marginBottom: '4px' })}>
