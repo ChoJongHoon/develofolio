@@ -110,6 +110,10 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 						onKeyDown={onKeyDown}
 						autoCapitalize="false"
 						autoCorrect="false"
+						// https://github.com/ianstormtaylor/slate/pull/4299
+						// 자체 drop event 을 skip 한다.
+						// TODO: 블록 DnD 일때만 true 반환하도록
+						onDrop={() => true}
 					/>
 					<HoveringToolbar />
 					<InlineLogoPicker />
