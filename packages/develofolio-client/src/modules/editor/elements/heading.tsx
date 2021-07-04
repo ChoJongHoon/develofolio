@@ -60,4 +60,5 @@ const beforeStyles: StyleObject = {
 	height: '45px',
 	backgroundColor: OpenColor.teal[6],
 	marginRight: '16px',
+	verticalAlign: 'bottom',
 }
