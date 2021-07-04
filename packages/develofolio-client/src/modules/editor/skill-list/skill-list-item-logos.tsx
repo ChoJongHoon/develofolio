@@ -69,6 +69,7 @@ export const SkillListItemLogos = ({
 				className={css({
 					display: 'flex',
 					gap: '8px',
+					flexWrap: 'wrap',
 				})}
 			>
 				{element.logos.map((logo, index) => (
