@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Icon } from '../../../components/icon'
 import { useDndBlock } from './hooks/use-dnd-block'
 import OpenColor from 'open-color'
@@ -15,11 +15,21 @@ export const Draggable: FC<DraggableProps> = ({ children, id }) => {
 	const [css] = useStyletron()
 	const rootRef = useRef<HTMLDivElement>(null)
 	const [hoverRef, isHovered] = useHover()
+	const [height, setHeight] = useState(0)
 
 	const { dropLine, dragRef, isDragging } = useDndBlock({
 		id: id as string,
 		blockRef: rootRef,
 	})
+
+	useEffect(() => {
+		const child = rootRef.current?.querySelector('[data-slate-node="element"]')
+		if (!child) return
+
+		const { height } = child.getBoundingClientRect()
+		console.log(`height`, height)
+		setHeight(height)
+	}, [])
 
 	return (
 		<div
@@ -55,10 +65,10 @@ export const Draggable: FC<DraggableProps> = ({ children, id }) => {
 					boxSizing: 'border-box',
 					...padding('0px'),
 					position: 'absolute',
-					top: '0px',
+					bottom: '4px',
 					transform: 'translateX(-100%)',
 					display: 'flex',
-					height: '100%',
+					height: `${height}px`,
 				})}
 				contentEditable={false}
 			>
