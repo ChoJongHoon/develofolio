@@ -34,8 +34,6 @@ export const Placeholder = ({ children, element }: PlaceholderProps) => {
 				width: '100%',
 				maxWidth: '100%',
 				opacity: 0.3,
-				top: '50%',
-				transform: 'translateY(-50%)',
 			})}
 		>
 			{children}
