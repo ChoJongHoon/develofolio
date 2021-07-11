@@ -8,6 +8,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 import { Page } from 'src/models/page/models/page.entity'
+import { ProviderType } from './enum/provider-type.enum'
 
 @ObjectType()
 @Entity({ name: 'users' })
@@ -28,25 +29,13 @@ export class User {
 	@Column({ type: 'text', nullable: true })
 	avatar?: string | null
 
+	@Field(() => ProviderType)
+	@Column({ name: 'provider', type: 'enum', enum: ProviderType })
+	provider: ProviderType
+
 	@Field(() => String)
 	@Column({ name: 'provider_id', type: 'varchar', length: 255 })
 	providerId: string
-
-	@Field(() => String)
-	@Column({ name: 'provider_account_id', type: 'varchar', length: 255 })
-	providerAccountId: string
-
-	@Field(() => String, { nullable: true })
-	@Column({ name: 'refresh_token', type: 'text', nullable: true })
-	refreshToken?: string | null
-
-	@Field(() => String, { nullable: true })
-	@Column({ name: 'access_token', type: 'text', nullable: true })
-	accessToken?: string | null
-
-	@Field(() => Date, { nullable: true })
-	@Column({ name: 'access_token_expires', type: 'timestamptz', nullable: true })
-	accessTokenExpires?: Date | null
 
 	@Field(() => Date)
 	@CreateDateColumn({
