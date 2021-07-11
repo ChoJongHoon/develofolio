@@ -29,7 +29,7 @@ export class SocialLinkResolver {
 		@Args('type', { type: () => SocialLinkType }) type: SocialLinkType,
 		@Args('link', { type: () => String }) link: string
 	) {
-		const page = await this.pageService.findByUser(user.id)
+		const page = await this.pageService.findByUserId(user.id)
 		if (!page) {
 			throw new HttpException('Page not found', HttpStatus.NOT_FOUND)
 		}

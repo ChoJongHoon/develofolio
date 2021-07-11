@@ -1,47 +1,51 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DeepPartial, Repository } from 'typeorm'
+import { getConnection, Repository } from 'typeorm'
+import { UserService } from '../user/user.service'
+import { CreatePageDto } from './dto/create-page.dto'
 import { Page } from './page.entity'
 
 @Injectable()
 export class PageService {
 	constructor(
 		@InjectRepository(Page)
-		private pageRepository: Repository<Page>
+		private readonly pageRepository: Repository<Page>,
+		private readonly userService: UserService
 	) {}
 
-	async findByUser(userId: string) {
+	async findByUserId(userId: string) {
 		return await this.pageRepository.findOne({
-			where: {
-				userId,
-			},
+			where: { userId },
 		})
 	}
 
-	async create(userId: string, slug: string, initialContent: any) {
+	async create(input: CreatePageDto) {
+		const connection = getConnection()
+		const queryRunner = connection.createQueryRunner()
+
+		await queryRunner.startTransaction()
+
+		const page = await this.pageRepository.save({
+			...input,
+		})
+
+		await this.userService.bindPage(input.userId, page.id)
+
+		await queryRunner.commitTransaction()
+
+		return page
+	}
+
+	async updateByUserId(userId: string, fields: Omit<Partial<Page>, 'id'>) {
+		const page = await this.findByUserId(userId)
+
+		if (!page) {
+			return null
+		}
+
 		return await this.pageRepository.save({
-			userId,
-			slug,
-			content: initialContent,
+			...page,
+			...fields,
 		})
-	}
-
-	async save(userId: string, content: any) {
-		const page = await this.findByUser(userId)
-		if (!page) {
-			return null
-		}
-		page.content = content
-
-		return await this.pageRepository.save(page)
-	}
-
-	async updateByUserId(userId: string, fields: DeepPartial<Page>) {
-		const page = await this.findByUser(userId)
-
-		if (!page) {
-			return null
-		}
-		return await this.pageRepository.save({ id: page.id, ...fields })
 	}
 }

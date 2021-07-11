@@ -4,8 +4,8 @@ import {
 	CreateDateColumn,
 	Entity,
 	JoinColumn,
-	ManyToOne,
 	OneToMany,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
@@ -20,13 +20,12 @@ export class Page {
 	@PrimaryGeneratedColumn('uuid')
 	id: string
 
-	@Field(() => String)
 	@Column({ name: 'user_id', type: 'uuid' })
 	userId: string
 
 	@Field(() => User)
+	@OneToOne(() => User, (user) => user.page, { onDelete: 'CASCADE' })
 	@JoinColumn({ name: 'user_id' })
-	@ManyToOne(() => User, (user) => user.pages, { onDelete: 'CASCADE' })
 	user: User
 
 	@Field(() => GraphQLJSON)

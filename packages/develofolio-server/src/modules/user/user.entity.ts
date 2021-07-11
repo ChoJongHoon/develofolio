@@ -3,7 +3,8 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	OneToMany,
+	JoinColumn,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
@@ -37,6 +38,14 @@ export class User {
 	@Column({ name: 'provider_id', type: 'varchar', length: 255 })
 	providerId: string
 
+	@Column({ name: 'page_id', type: 'uuid', nullable: true })
+	pageId?: string
+
+	@Field(() => Page, { nullable: true })
+	@OneToOne(() => Page, (page) => page.user, { nullable: true })
+	@JoinColumn({ name: 'page_id' })
+	page?: Page
+
 	@Field(() => Date)
 	@CreateDateColumn({
 		name: 'created_at',
@@ -53,7 +62,7 @@ export class User {
 	})
 	updatedAt: Date
 
-	@Field(() => [Page])
-	@OneToMany(() => Page, (page) => page.user, { cascade: ['remove'] })
-	pages: Page[]
+	// @Field(() => [Page])
+	// @OneToMany(() => Page, (page) => page.user, { cascade: ['remove'] })
+	// pages: Page[]
 }

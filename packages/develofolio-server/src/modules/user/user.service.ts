@@ -12,8 +12,12 @@ export class UserService {
 		private userRepository: Repository<User>
 	) {}
 
-	findOne(id: string): Promise<User | undefined> {
+	findOne(id: string) {
 		return this.userRepository.findOne(id)
+	}
+
+	findOneOrFail(id: string) {
+		return this.userRepository.findOneOrFail(id)
 	}
 
 	async findByProvider(provider: ProviderType, providerId: string) {
@@ -42,5 +46,9 @@ export class UserService {
 		}
 
 		return user
+	}
+
+	async bindPage(userId: string, pageId: string) {
+		return await this.userRepository.save({ id: userId, pageId })
 	}
 }
