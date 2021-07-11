@@ -23,6 +23,7 @@ import { padding, transitions } from 'polished'
 export const Profile = () => {
 	const [css] = useStyletron()
 	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
+
 	const client = useApolloClient()
 	const user = useUser()
 	const { data } = useQuery(MyAvatarDocument)
@@ -74,10 +75,6 @@ export const Profile = () => {
 		})
 	}, [client, onLoad, updateMutation])
 
-	if (!page || !user) {
-		return <></>
-	}
-
 	return (
 		<div
 			className={css({
@@ -87,7 +84,7 @@ export const Profile = () => {
 			})}
 			ref={hoverRef}
 		>
-			{avatar ? (
+			{user && avatar ? (
 				<>
 					<Image
 						className={css({
