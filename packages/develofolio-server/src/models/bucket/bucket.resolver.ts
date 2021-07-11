@@ -1,11 +1,11 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Query, Resolver } from '@nestjs/graphql'
-import { GqlAuthGuard } from '../auth/guard/gql-auth.guard'
 import { CurrentUser } from '../user/decorator/current-user.decorator'
 import { User } from '../user/user.entity'
 import { SignedUrlType } from './args/file-upload.args'
 import { BucketService } from './bucket.service'
 import path from 'path'
+import { GqlAuthGuard } from '../auth/graphql/gql-auth.guard'
 
 @Resolver()
 export class BucketResolver {

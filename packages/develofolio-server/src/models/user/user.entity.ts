@@ -21,9 +21,9 @@ export class User {
 	@Column({ type: 'text' })
 	name: string
 
-	@Field(() => String)
-	@Column({ type: 'varchar', length: 255 })
-	email: string
+	@Field(() => String, { nullable: true })
+	@Column({ type: 'varchar', length: 255, nullable: true })
+	email?: string
 
 	@Field(() => String, { nullable: true })
 	@Column({ type: 'text', nullable: true })

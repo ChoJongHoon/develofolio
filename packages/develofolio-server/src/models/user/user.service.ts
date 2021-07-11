@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { ProviderType } from 'aws-sdk/clients/codegurureviewer'
 import { Repository } from 'typeorm'
-import { CreateUserInput } from './dto/create-user.input'
+import { CreateUserDto } from './dto/create-user.dto'
 import { User } from './user.entity'
 
 @Injectable()
@@ -15,24 +16,24 @@ export class UserService {
 		return this.userRepository.findOne(id)
 	}
 
-	async findByProvider(providerId: string, providerAccountId: string) {
+	async findByProvider(provider: ProviderType, providerId: string) {
 		return await this.userRepository.findOne({
 			where: {
-				providerId: providerId,
-				providerAccountId: providerAccountId,
+				provider,
+				providerId,
 			},
 		})
 	}
 
-	async create(input: CreateUserInput) {
+	async create(input: CreateUserDto) {
 		return await this.userRepository.save({ ...input })
 	}
 
-	async findOrCreate(input: CreateUserInput) {
+	async findOrCreate(input: CreateUserDto) {
 		let user = await this.userRepository.findOne({
 			where: {
+				provider: input.provider,
 				providerId: input.providerId,
-				providerAccountId: input.providerAccountId,
 			},
 		})
 

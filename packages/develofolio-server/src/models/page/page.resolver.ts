@@ -8,7 +8,7 @@ import {
 	Resolver,
 } from '@nestjs/graphql'
 import GraphQLJSON from 'graphql-type-json'
-import { GqlAuthGuard } from '../auth/guard/gql-auth.guard'
+import { GqlAuthGuard } from '../auth/graphql/gql-auth.guard'
 import { SocialLink } from '../social-link/models/social-link.entity'
 import { SocialLinkService } from '../social-link/social-link.service'
 import { CurrentUser } from '../user/decorator/current-user.decorator'
