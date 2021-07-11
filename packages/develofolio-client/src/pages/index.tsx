@@ -2,10 +2,10 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import { MeDocument } from '~/graphql/typed-document-nodes.generated'
-import { withAuth } from '~/utils/with-auth'
 import { genereateImagePath } from '~/utils/generate-image-path'
+import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 
-export const getServerSideProps = withAuth()
+export const getServerSideProps = withAuthSsr()
 
 const Home = () => {
 	const { data } = useQuery(MeDocument)

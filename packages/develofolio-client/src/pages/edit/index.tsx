@@ -5,33 +5,35 @@ import {
 	MyPageDocument,
 	PagePartsFragment,
 } from '~/graphql/typed-document-nodes.generated'
-import { withAuth } from '~/utils/with-auth'
 import { ROUTE_EDIT_NEW } from '~/utils/routes'
+import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 
 interface EditProps {
 	page: PagePartsFragment
 }
 
-export const getServerSideProps = withAuth<EditProps>((client) => async () => {
-	const {
-		data: { page },
-	} = await client.query({ query: MyPageDocument })
+export const getServerSideProps = withAuthSsr<EditProps>(
+	(client) => async () => {
+		const {
+			data: { page },
+		} = await client.query({ query: MyPageDocument })
 
-	if (!page) {
+		if (!page) {
+			return {
+				redirect: {
+					destination: ROUTE_EDIT_NEW,
+					permanent: false,
+				},
+			}
+		}
+
 		return {
-			redirect: {
-				destination: ROUTE_EDIT_NEW,
-				permanent: false,
+			props: {
+				page,
 			},
 		}
 	}
-
-	return {
-		props: {
-			page,
-		},
-	}
-})
+)
 
 const Edit: NextPage<EditProps> = ({ page }) => {
 	return (

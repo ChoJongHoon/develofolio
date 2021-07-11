@@ -6,9 +6,3 @@ query Me {
 		avatar
 	}
 }
-
-query FindOrCreateUser($input: CreateUserInput!) {
-	user: findOrCreateUser(input: $input) {
-		id
-	}
-}

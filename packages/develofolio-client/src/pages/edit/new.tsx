@@ -5,8 +5,8 @@ import { CreatePageDocument } from '~/graphql/typed-document-nodes.generated'
 import { Descendant } from 'slate'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/dist/client/router'
-import { withAuth } from '~/utils/with-auth'
-import { ROUTE_EDIT } from '~/lib/utils/routes'
+import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
+import { ROUTE_EDIT } from '~/routes'
 
 const getInitialContent = (): Descendant[] => [
 	{
@@ -21,7 +21,7 @@ const getInitialContent = (): Descendant[] => [
 	{ key: nanoid(), type: 'paragraph', children: [{ text: '' }] },
 ]
 
-export const getServerSideProps = withAuth()
+export const getServerSideProps = withAuthSsr()
 
 const New: NextPage = () => {
 	const router = useRouter()
