@@ -4,14 +4,17 @@ import Document, {
 	Main,
 	NextScript,
 	DocumentContext,
+	DocumentProps,
 } from 'next/document'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { Server, Sheet } from 'styletron-engine-atomic'
 import { styletron } from '~/styles/styletron'
 
-export default class MyDocument extends Document<{
-	styletronSheets: Sheet[]
-}> {
+interface MyDocumentProps extends DocumentProps {
+	stylesheets: Sheet[]
+}
+
+export default class MyDocument extends Document<MyDocumentProps> {
 	static async getInitialProps(context: DocumentContext) {
 		const renderPage = () =>
 			context.renderPage({
@@ -37,7 +40,17 @@ export default class MyDocument extends Document<{
 	render() {
 		return (
 			<Html>
-				<Head />
+				<Head>
+					{this.props.stylesheets.map((sheet, i) => (
+						<style
+							className="_styletron_hydrate_"
+							dangerouslySetInnerHTML={{ __html: sheet.css }}
+							media={sheet.attrs.media}
+							data-hydrate={sheet.attrs['data-hydrate']}
+							key={i}
+						/>
+					))}
+				</Head>
 				<body>
 					<Main />
 					<div id="portal" />
