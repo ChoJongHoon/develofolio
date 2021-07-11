@@ -7,6 +7,7 @@ export const globalStyle = (
 			${emotionNormalize};
 			html {
 				font-size: 16px;
+				height: 100%;
 			}
 
 			body {
@@ -14,6 +15,7 @@ export const globalStyle = (
 					'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 나눔고딕,
 					'Nanum Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', arial, 돋움, Dotum,
 					Tahoma, Geneva, sans-serif;
+				height: 100%;
 			}
 			html,
 			body,

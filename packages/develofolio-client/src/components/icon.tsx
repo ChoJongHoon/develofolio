@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import cx from 'classnames'
-import OpenColor from 'open-color'
+import { useStyletron } from 'styletron-react'
 
 // Icons
 import Bold from 'public/icons/bold.svg'
@@ -16,7 +16,7 @@ import UserAddOutlined from 'public/icons/user-add-outlined.svg'
 import TrashLine from 'public/icons/trash-line.svg'
 import Plus from 'public/icons/plus.svg'
 import Pencil from 'public/icons/pencil.svg'
-import { useStyletron } from 'styletron-react'
+import Setting from 'public/icons/setting.svg'
 
 const icons = {
 	Bold,
@@ -32,6 +32,7 @@ const icons = {
 	TrashLine,
 	Plus,
 	Pencil,
+	Setting,
 }
 
 export type IconType = keyof typeof icons

@@ -25,13 +25,14 @@ import { withSkillList } from './skill-list/with-skill-list'
 import { useStyletron } from 'baseui'
 import { StyleObject } from 'styletron-standard'
 import { border, padding, transitions } from 'polished'
+import classNames from 'classnames'
 
 interface PageEditorProps {
 	initialContent: Descendant[]
 	className?: string
 }
 
-export const PageEditor = ({ initialContent }: PageEditorProps) => {
+export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	const [css] = useStyletron()
 	const dispatch = useDispatch()
 	const editor = useMemo(
@@ -89,7 +90,7 @@ export const PageEditor = ({ initialContent }: PageEditorProps) => {
 	)
 
 	return (
-		<div className={css(rootStyles)}>
+		<div className={classNames(className, css(rootStyles))}>
 			<DndProvider backend={HTML5Backend}>
 				<Slate editor={editor} value={content} onChange={onChange}>
 					<Editable
@@ -139,6 +140,7 @@ const rootStyles: StyleObject = {
 const editorStyles: StyleObject = {
 	paddingLeft: '32px',
 	paddingRight: '32px',
+	paddingBottom: '32px',
 }
 
 const addBlockButton: StyleObject = {
