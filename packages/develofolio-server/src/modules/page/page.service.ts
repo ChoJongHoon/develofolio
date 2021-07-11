@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DeepPartial, Repository } from 'typeorm'
-import { Page } from './models/page.entity'
+import { Page } from './page.entity'
 
 @Injectable()
 export class PageService {

@@ -4,9 +4,9 @@ import { PassportStrategy } from '@nestjs/passport'
 import { Profile, Strategy } from 'passport-github'
 import { baseConfig } from 'src/config/base.config'
 import { githubConfig } from 'src/config/github.config'
-import { BucketService } from 'src/models/bucket/bucket.service'
-import { ProviderType } from 'src/models/user/enum/provider-type.enum'
-import { UserService } from 'src/models/user/user.service'
+import { BucketService } from 'src/modules/bucket/bucket.service'
+import { ProviderType } from 'src/modules/user/enum/provider-type.enum'
+import { UserService } from 'src/modules/user/user.service'
 import { v4 as uuid } from 'uuid'
 
 @Injectable()

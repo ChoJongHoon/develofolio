@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { Page } from 'src/models/page/models/page.entity'
+import { Page } from 'src/modules/page/page.entity'
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
-import { SocialLinkType } from './social-link-type.enum'
+import { SocialLinkType } from './enum/social-link-type.enum'
 
 @ObjectType()
 @Entity({ name: 'social_links' })

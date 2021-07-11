@@ -1,4 +1,4 @@
-import { User } from 'src/models/user/user.entity'
+import { User } from 'src/modules/user/user.entity'
 
 declare module 'express' {
 	export interface Request {

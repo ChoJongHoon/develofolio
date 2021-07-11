@@ -9,11 +9,11 @@ import {
 } from '@nestjs/graphql'
 import GraphQLJSON from 'graphql-type-json'
 import { GqlAuthGuard } from '../auth/graphql/gql-auth.guard'
-import { SocialLink } from '../social-link/models/social-link.entity'
+import { SocialLink } from '../social-link/social-link.entity'
 import { SocialLinkService } from '../social-link/social-link.service'
 import { CurrentUser } from '../user/decorator/current-user.decorator'
 import { User } from '../user/user.entity'
-import { Page } from './models/page.entity'
+import { Page } from './page.entity'
 import { PageService } from './page.service'
 
 @Resolver()

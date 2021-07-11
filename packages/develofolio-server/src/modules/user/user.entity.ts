@@ -7,7 +7,7 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
-import { Page } from 'src/models/page/models/page.entity'
+import { Page } from 'src/modules/page/page.entity'
 import { ProviderType } from './enum/provider-type.enum'
 
 @ObjectType()

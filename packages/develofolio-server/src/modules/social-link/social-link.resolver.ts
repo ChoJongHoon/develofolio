@@ -10,8 +10,8 @@ import { GqlAuthGuard } from '../auth/graphql/gql-auth.guard'
 import { PageService } from '../page/page.service'
 import { CurrentUser } from '../user/decorator/current-user.decorator'
 import { User } from '../user/user.entity'
-import { SocialLinkType } from './models/social-link-type.enum'
-import { SocialLink } from './models/social-link.entity'
+import { SocialLinkType } from './enum/social-link-type.enum'
+import { SocialLink } from './social-link.entity'
 import { SocialLinkService } from './social-link.service'
 
 @Resolver()

@@ -10,8 +10,8 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 import { GraphQLJSON } from 'graphql-type-json'
-import { User } from 'src/models/user/user.entity'
-import { SocialLink } from 'src/models/social-link/models/social-link.entity'
+import { User } from 'src/modules/user/user.entity'
+import { SocialLink } from 'src/modules/social-link/social-link.entity'
 
 @ObjectType()
 @Entity({ name: 'pages' })

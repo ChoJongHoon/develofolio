@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { SocialLinkType } from './models/social-link-type.enum'
-import { SocialLink } from './models/social-link.entity'
+import { SocialLinkType } from './enum/social-link-type.enum'
+import { SocialLink } from './social-link.entity'
 
 @Injectable()
 export class SocialLinkService {
