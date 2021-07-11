@@ -14,7 +14,7 @@ import {
 	MyAvatarDocument,
 	RemovePageAvatarDocument,
 	UpdatePageAvatarDocument,
-} from '~/graphql/typed-document-nodes.generated'
+} from '~/graphql/document.generated'
 import { useUser } from '~/modules/user/hooks/use-user'
 import { useStyletron } from 'styletron-react'
 import { useHover } from '~/hooks/use-hover'

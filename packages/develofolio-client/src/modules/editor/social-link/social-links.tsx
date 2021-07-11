@@ -8,7 +8,7 @@ import { useModal } from '~/components/modal/use-modal'
 import {
 	MyPageSocialLinksDocument,
 	SocialLinkType,
-} from '~/graphql/typed-document-nodes.generated'
+} from '~/graphql/document.generated'
 import { useHover } from '~/hooks/use-hover'
 import { EditSocialLinksModal } from './edit-social-links-modal'
 

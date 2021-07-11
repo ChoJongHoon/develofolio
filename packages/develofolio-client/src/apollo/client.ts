@@ -5,7 +5,7 @@ import {
 	NormalizedCacheObject,
 } from '@apollo/client'
 import { typePolicies } from './type-policies'
-import generatedIntrospection from '~/graphql/apollo-fragment-matcher.generated.json'
+import generatedIntrospection from '~/graphql/fragment-matcher.generated.json'
 import { errorLink } from './links/error.link'
 import { isServer } from '~/utils/is-server'
 import { httpLink } from './links/http.link'

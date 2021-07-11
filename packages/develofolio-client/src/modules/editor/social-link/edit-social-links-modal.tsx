@@ -15,7 +15,7 @@ import {
 	SaveSocialLinkDocument,
 	SocialLinkPartsFragment,
 	SocialLinkType,
-} from '~/graphql/typed-document-nodes.generated'
+} from '~/graphql/document.generated'
 import { cloneDeep } from 'lodash'
 import { useStyletron } from 'styletron-react'
 import { useHover } from '~/hooks/use-hover'

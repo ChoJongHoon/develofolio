@@ -1,10 +1,7 @@
 import { NextPage } from 'next'
 import { PageEditor } from '~/modules/editor/page-editor'
 import { EditorHeader } from '~/modules/editor/editor-header'
-import {
-	MyPageDocument,
-	PagePartsFragment,
-} from '~/graphql/typed-document-nodes.generated'
+import { MyPageDocument, PagePartsFragment } from '~/graphql/document.generated'
 import { ROUTE_EDIT_NEW } from '~/utils/routes'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { NextPage } from 'next'
 import { useMutation } from '@apollo/client'
-import { CreatePageDocument } from '~/graphql/typed-document-nodes.generated'
+import { CreatePageDocument } from '~/graphql/document.generated'
 import { Descendant } from 'slate'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/dist/client/router'

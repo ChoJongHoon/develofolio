@@ -5,7 +5,7 @@ import { Descendant, Element } from 'slate'
 // import {
 // 	SetContentDocument,
 // 	GetContentDocument,
-// } from '~/graphql/typed-document-nodes.generated'
+// } from '~/graphql/document.generated'
 import { useDebounceEffect } from '~/hooks/use-debounce-effect'
 import { setLoading, setSaved, setSaving } from '../editor.reducer'
 import { useAsync } from 'react-use'

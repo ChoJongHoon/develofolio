@@ -6,17 +6,17 @@ schema:
 documents: src/graphql/schema/*.graphql
 
 generates:
-  src/graphql/typed-document-nodes.generated.ts:
+  src/graphql/document.generated.ts:
     plugins:
       - typescript
       - typescript-operations
       - typed-document-node
-  src/graphql/apollo-client-helpers.generated.ts:
+  src/graphql/helpers.generated.ts:
     plugins:
       - typescript-apollo-client-helpers
     config:
       useTypeImports: true
-  src/graphql/apollo-fragment-matcher.generated.json:
+  src/graphql/fragment-matcher.generated.json:
     plugins:
       - fragment-matcher
     config:
