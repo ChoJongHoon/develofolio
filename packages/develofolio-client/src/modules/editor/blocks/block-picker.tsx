@@ -17,7 +17,7 @@ import { transitions } from 'polished'
 
 const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
 	{
-		name: 'Skill List',
+		name: '스킬 리스트',
 		description: '사용할 수 있는 기술을 나열하는 그리드 형태의 블럭입니다.',
 		node: {
 			type: 'skill-list',
