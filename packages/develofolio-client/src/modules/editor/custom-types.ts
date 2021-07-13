@@ -85,6 +85,28 @@ export type SkillListItemDescriptionElement = {
 	children: CustomText[]
 }
 
+// ==============================
+//           ProjectList
+// ==============================
+export type ProjectListElement = {
+	type: 'project-list'
+	children: ProjectListItemElement[]
+}
+export type ProjectListItemElement = {
+	type: 'project-list-item'
+	thumbnail: null | string
+	logos: Omit<LogoElement, 'type' | 'children'>[]
+	children: [ProjectListItemNameElement, ProjectListItemDescriptionElement]
+}
+export type ProjectListItemNameElement = {
+	type: 'project-list-item-name'
+	children: CustomText[]
+}
+export type ProjectListItemDescriptionElement = {
+	type: 'project-list-item-description'
+	children: CustomText[]
+}
+
 export type CustomElement = WithKey<
 	| ParagraphElement
 	| HeadingElement
@@ -101,6 +123,10 @@ export type CustomElement = WithKey<
 	| SkillListItemLogosElement
 	| SkillListItemNameElement
 	| SkillListItemDescriptionElement
+	| ProjectListElement
+	| ProjectListItemElement
+	| ProjectListItemNameElement
+	| ProjectListItemDescriptionElement
 >
 
 export type LeafFormat = 'bold' | 'italic' | 'code'

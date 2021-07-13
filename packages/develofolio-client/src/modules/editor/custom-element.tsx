@@ -21,16 +21,20 @@ import { SkillListItem } from './skill-list/skill-list-item'
 import { SkillListItemLogos } from './skill-list/skill-list-item-logos'
 import { SkillListItemName } from './skill-list/skill-list-item-name'
 import { SkillListItemDescription } from './skill-list/skill-list-item-description'
+import { ProjectList } from './project-list/project-list'
+import { ProjectListItem } from './project-list/project-list-item'
+import { ProjectListItemName } from './project-list/project-list-item-name'
+import { ProjectListItemDescription } from './project-list/project-list-item-description'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
 
 	const editor = useSlateStatic()
 
-	const path = useMemo(() => ReactEditor.findPath(editor, element), [
-		editor,
-		element,
-	])
+	const path = useMemo(
+		() => ReactEditor.findPath(editor, element),
+		[editor, element]
+	)
 
 	let data: EmotionJSX.Element
 
@@ -134,6 +138,34 @@ export const CustomElement = (props: RenderElementProps) => {
 				<SkillListItemDescription attributes={attributes} element={element}>
 					{children}
 				</SkillListItemDescription>
+			)
+			break
+		case 'project-list':
+			data = (
+				<ProjectList attributes={attributes} element={element}>
+					{children}
+				</ProjectList>
+			)
+			break
+		case 'project-list-item':
+			data = (
+				<ProjectListItem attributes={attributes} element={element}>
+					{children}
+				</ProjectListItem>
+			)
+			break
+		case 'project-list-item-name':
+			data = (
+				<ProjectListItemName attributes={attributes} element={element}>
+					{children}
+				</ProjectListItemName>
+			)
+			break
+		case 'project-list-item-description':
+			data = (
+				<ProjectListItemDescription attributes={attributes} element={element}>
+					{children}
+				</ProjectListItemDescription>
 			)
 			break
 		default:

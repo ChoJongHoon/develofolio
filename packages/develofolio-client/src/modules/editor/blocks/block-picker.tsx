@@ -47,6 +47,27 @@ const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
 			],
 		},
 	},
+	{
+		name: '프로젝트 리스트',
+		description: '주요 프로젝트를 소개합니다.',
+		node: {
+			type: 'project-list',
+			children: [
+				{
+					type: 'project-list-item',
+					logos: [],
+					thumbnail: null,
+					children: [
+						{ type: 'project-list-item-name', children: [{ text: 'Name' }] },
+						{
+							type: 'project-list-item-description',
+							children: [{ text: 'Description' }],
+						},
+					],
+				},
+			],
+		},
+	},
 ]
 
 export const BlockPicker = () => {
