@@ -15,6 +15,12 @@ import { PopoverLogoPicker } from '../logo/popover-logo-picker'
 import { ILogo } from '../logo/types'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { Transforms } from 'slate'
+import { useFileLoad } from '~/hooks/use-file-load'
+import { useApolloClient } from '@apollo/client'
+import axios from 'axios'
+import { ImageUploadPathDocument } from '~/graphql/document.generated'
+import { useUser } from '~/modules/user/hooks/use-user'
+import { genereateImagePath } from '~/utils/generate-image-path'
 
 export const ProjectListItem = ({
 	attributes,
@@ -22,7 +28,10 @@ export const ProjectListItem = ({
 	element,
 }: CustomRenderElementProps<ProjectListItemElement>) => {
 	const [css] = useStyletron()
+	const client = useApolloClient()
+	const user = useUser()
 	const [logoHoverRef, isLogoHovered] = useHover<HTMLDivElement>()
+	const [thumbnailHoverRef, isThumbnailHovered] = useHover<HTMLDivElement>()
 	const [isOpen, setIsOpen] = useState(false)
 	const editor = useSlateStatic()
 
@@ -56,6 +65,38 @@ export const ProjectListItem = ({
 		[editor, element]
 	)
 
+	const { onLoad } = useFileLoad({ accept: 'image/*' })
+	const onClickUploadButton = useCallback(async () => {
+		if (!user) return
+
+		const file = await onLoad()
+
+		if (!file) return
+		const {
+			data: {
+				imageUploadPath: { filename, uploadPath },
+			},
+		} = await client.query({
+			query: ImageUploadPathDocument,
+			variables: {
+				type: 'projects',
+				filename: file.name,
+			},
+		})
+
+		await axios.put(uploadPath, file, {
+			headers: {
+				'Content-Type': file.type,
+			},
+		})
+
+		const path = ReactEditor.findPath(editor, element)
+		const newProperties: Partial<ProjectListItemElement> = {
+			thumbnail: `${user.id}/projects/${filename}`,
+		}
+		Transforms.setNodes(editor, newProperties, { at: path })
+	}, [client, editor, element, onLoad, user])
+
 	return (
 		<div
 			{...attributes}
@@ -81,46 +122,48 @@ export const ProjectListItem = ({
 						paddingTop: `${(9 / 16) * 100}%`,
 					},
 				})}
+				ref={thumbnailHoverRef}
 			>
-				{element.thumbnail ? (
-					<Image
-						src={element.thumbnail}
-						alt={element.children[0].children.join(' ')}
-						layout="fill"
-						className={css({
-							position: 'absolute',
-							top: '0px',
-							left: '0px',
-							width: '100%',
-							height: '100%',
-						})}
-					/>
-				) : (
+				{element.thumbnail && (
 					<>
-						<button
+						<Image
+							src={genereateImagePath(element.thumbnail)}
+							alt="Project thumbnail"
+							layout="fill"
+							objectFit="cover"
 							className={css({
-								backgroundColor: OpenColor.gray[1],
 								position: 'absolute',
 								top: '0px',
 								left: '0px',
 								width: '100%',
 								height: '100%',
-								border: 'none',
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-								cursor: 'pointer',
-								...transitions(['background-color'], '0.2s'),
-								':hover': {
-									backgroundColor: OpenColor.gray[2],
-								},
 							})}
-							// onClick={onClickUploadButton}
-						>
-							<Icon type="Plus" size={64} color={OpenColor.gray[5]} />
-						</button>
+						/>
 					</>
 				)}
+				<button
+					className={css({
+						backgroundColor: OpenColor.gray[1],
+						position: 'absolute',
+						top: '0px',
+						left: '0px',
+						width: '100%',
+						height: '100%',
+						border: 'none',
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						cursor: 'pointer',
+						opacity: !element.thumbnail ? 1 : isThumbnailHovered ? 0.5 : 0,
+						...transitions(['background-color', 'opacity'], '0.2s'),
+						':hover': {
+							backgroundColor: OpenColor.gray[2],
+						},
+					})}
+					onClick={onClickUploadButton}
+				>
+					<Icon type="Plus" size={64} color={OpenColor.gray[5]} />
+				</button>
 			</div>
 			<div
 				className={css({
