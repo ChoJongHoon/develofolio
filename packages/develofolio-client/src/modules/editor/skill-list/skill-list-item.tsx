@@ -8,6 +8,22 @@ import { Icon } from '~/components/icon'
 import { useHover } from '~/hooks/use-hover'
 import { CustomRenderElementProps, SkillListItemElement } from '../custom-types'
 
+export const EMPTY_SKILL_LIST_ITEM: SkillListItemElement = {
+	type: 'skill-list-item',
+	children: [
+		{
+			type: 'skill-list-item-logos',
+			logos: [],
+			children: [{ text: '' }],
+		},
+		{ type: 'skill-list-item-name', children: [{ text: '' }] },
+		{
+			type: 'skill-list-item-description',
+			children: [{ text: '' }],
+		},
+	],
+}
+
 export const SkillListItem = ({
 	attributes,
 	children,

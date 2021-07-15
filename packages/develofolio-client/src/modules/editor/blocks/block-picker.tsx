@@ -14,67 +14,26 @@ import FocusLock from 'react-focus-lock'
 import { Descendant, Transforms } from 'slate'
 import { useStyletron } from 'styletron-react'
 import { transitions } from 'polished'
+import { EMPTY_PROJECT_LIST } from '../project-list/project-list'
+import { EMPTY_SKILL_LIST } from '../skill-list/skill-list'
 
 const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
 	{
 		name: '스킬 리스트',
 		description: '사용할 수 있는 기술을 나열하는 그리드 형태의 블럭입니다.',
-		node: {
-			type: 'skill-list',
-			children: [
-				{
-					type: 'skill-list-item',
-					children: [
-						{
-							type: 'skill-list-item-logos',
-							logos: [
-								{
-									file: 'react.svg',
-									name: 'React',
-									shortname: 'react',
-									url: 'https://facebook.github.io/react/',
-								},
-							],
-							children: [{ text: '' }],
-						},
-						{ type: 'skill-list-item-name', children: [{ text: 'Name' }] },
-						{
-							type: 'skill-list-item-description',
-							children: [{ text: 'Description' }],
-						},
-					],
-				},
-			],
-		},
+		node: EMPTY_SKILL_LIST,
 	},
 	{
 		name: '프로젝트 리스트',
 		description: '주요 프로젝트를 소개합니다.',
-		node: {
-			type: 'project-list',
-			children: [
-				{
-					type: 'project-list-item',
-					logos: [],
-					thumbnail: null,
-					links: { appstore: null, github: null, playstore: null, web: null },
-					children: [
-						{ type: 'project-list-item-name', children: [{ text: 'Name' }] },
-						{
-							type: 'project-list-item-description',
-							children: [{ text: 'Description' }],
-						},
-					],
-				},
-			],
-		},
+		node: EMPTY_PROJECT_LIST,
 	},
 ]
 
 export const BlockPicker = () => {
 	const [css] = useStyletron()
 	const dispatch = useDispatch()
-	const { selectedIndex, show } = useSelector(
+	const { show } = useSelector(
 		(state) => state.editor.blockPicker,
 		shallowEqual
 	)

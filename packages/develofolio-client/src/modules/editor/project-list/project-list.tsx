@@ -8,6 +8,11 @@ import { Icon } from '~/components/icon'
 import { CustomRenderElementProps, ProjectListElement } from '../custom-types'
 import { EMPTY_PROJECT_LIST_ITEM } from './project-list-item'
 
+export const EMPTY_PROJECT_LIST: ProjectListElement = {
+	type: 'project-list',
+	children: [EMPTY_PROJECT_LIST_ITEM],
+}
+
 export const ProjectList = ({
 	attributes,
 	children,

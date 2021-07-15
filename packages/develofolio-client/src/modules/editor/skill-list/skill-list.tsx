@@ -1,5 +1,5 @@
 import OpenColor from 'open-color'
-import { border, padding, transitions } from 'polished'
+import { border, transitions } from 'polished'
 import { useCallback } from 'react'
 import mergeRefs from 'react-merge-refs'
 import { Transforms } from 'slate'
@@ -12,6 +12,12 @@ import {
 	SkillListElement,
 	SkillListItemElement,
 } from '../custom-types'
+import { EMPTY_SKILL_LIST_ITEM } from './skill-list-item'
+
+export const EMPTY_SKILL_LIST: SkillListElement = {
+	type: 'skill-list',
+	children: [EMPTY_SKILL_LIST_ITEM],
+}
 
 export const SkillList = ({
 	attributes,
@@ -26,22 +32,7 @@ export const SkillList = ({
 
 	const onSkillAdd = useCallback(() => {
 		const path = ReactEditor.findPath(editor, element)
-		const newProperties: SkillListItemElement = {
-			type: 'skill-list-item',
-			children: [
-				{
-					type: 'skill-list-item-logos',
-					logos: [],
-					children: [{ text: '' }],
-				},
-				{ type: 'skill-list-item-name', children: [{ text: 'Name' }] },
-				{
-					type: 'skill-list-item-description',
-					children: [{ text: 'Description' }],
-				},
-			],
-		}
-		Transforms.insertNodes(editor, newProperties, {
+		Transforms.insertNodes(editor, EMPTY_SKILL_LIST_ITEM, {
 			at: path.concat(element.children.length),
 		})
 	}, [editor, element])
