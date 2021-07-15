@@ -53,7 +53,7 @@ export const ProjectListItem = ({
 	const [css] = useStyletron()
 	const client = useApolloClient()
 	const user = useUser()
-	const [logoHoverRef, isLogoHovered] = useHover<HTMLDivElement>()
+
 	const [thumbnailHoverRef, isThumbnailHovered] = useHover<HTMLDivElement>()
 	const [isOpen, setIsOpen] = useState(false)
 	const editor = useSlateStatic()
@@ -196,7 +196,6 @@ export const ProjectListItem = ({
 			>
 				{children[0]}
 				<div
-					ref={logoHoverRef}
 					contentEditable={false}
 					className={css({
 						marginBottom: '8px',
@@ -240,7 +239,6 @@ export const ProjectListItem = ({
 								cursor: 'pointer',
 								...padding('0px'),
 								borderRadius: '4px',
-								opacity: isLogoHovered || isOpen ? 1 : 0,
 								...transitions(['background-color', 'opacity'], '0.2s'),
 								':hover': {
 									backgroundColor: OpenColor.gray[2],

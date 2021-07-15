@@ -1,5 +1,5 @@
 import OpenColor from 'open-color'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { Icon } from '~/components/icon'
@@ -13,7 +13,6 @@ import { StatefulPopover } from 'baseui/popover'
 import { useStyletron } from 'styletron-react'
 import { padding, transitions } from 'polished'
 import { useHover } from '~/hooks/use-hover'
-import mergeRefs from 'react-merge-refs'
 import { PopoverLogoPicker } from '../logo/popover-logo-picker'
 
 export const SkillListItemLogos = ({
@@ -22,7 +21,6 @@ export const SkillListItemLogos = ({
 	element,
 }: CustomRenderElementProps<SkillListItemLogosElement>) => {
 	const [css] = useStyletron()
-	const [hoverRef, isHovered] = useHover()
 	const [isOpen, setIsOpen] = useState(false)
 	const editor = useSlateStatic()
 
@@ -60,7 +58,7 @@ export const SkillListItemLogos = ({
 		<div
 			{...attributes}
 			className={css({ marginBottom: '8px' })}
-			ref={mergeRefs([attributes.ref, hoverRef])}
+			ref={attributes.ref}
 		>
 			<div
 				contentEditable={false}
@@ -105,7 +103,6 @@ export const SkillListItemLogos = ({
 							cursor: 'pointer',
 							...padding('0px'),
 							borderRadius: '4px',
-							opacity: isHovered || isOpen ? 1 : 0,
 							...transitions(['background-color', 'opacity'], '0.2s'),
 							':hover': {
 								backgroundColor: OpenColor.gray[1],

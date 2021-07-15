@@ -4,6 +4,7 @@ import {
 	CustomRenderElementProps,
 	ProjectListItemNameElement,
 } from '../custom-types'
+import { Placeholder } from '../placeholder/placeholder'
 
 export const ProjectListItemName = ({
 	attributes,
@@ -23,6 +24,7 @@ export const ProjectListItemName = ({
 				marginBottom: '8px',
 			})}
 		>
+			<Placeholder element={element}>프로젝트 이름</Placeholder>
 			{children}
 		</div>
 	)

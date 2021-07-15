@@ -4,6 +4,7 @@ import {
 	CustomRenderElementProps,
 	ProjectListItemDescriptionElement,
 } from '../custom-types'
+import { Placeholder } from '../placeholder/placeholder'
 
 export const ProjectListItemDescription = ({
 	attributes,
@@ -22,6 +23,7 @@ export const ProjectListItemDescription = ({
 				fontWeight: 400,
 			})}
 		>
+			<Placeholder element={element}>프로젝트 설명</Placeholder>
 			{children}
 		</p>
 	)
