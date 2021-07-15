@@ -23,6 +23,17 @@ import { useUser } from '~/modules/user/hooks/use-user'
 import { genereateImagePath } from '~/utils/generate-image-path'
 import { EditLinkPopover } from '../social-link/edit-link-popover'
 
+export const EMPTY_PROJECT_LIST_ITEM: ProjectListItemElement = {
+	type: 'project-list-item',
+	logos: [],
+	links: { appstore: null, github: null, playstore: null, web: null },
+	thumbnail: null,
+	children: [
+		{ type: 'project-list-item-name', children: [{ text: '' }] },
+		{ type: 'project-list-item-description', children: [{ text: '' }] },
+	],
+}
+
 const LINKS: Array<{
 	name: keyof ProjectListItemElement['links']
 	label: string
