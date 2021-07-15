@@ -17,6 +17,9 @@ import TrashLine from 'public/icons/trash-line.svg'
 import Plus from 'public/icons/plus.svg'
 import Pencil from 'public/icons/pencil.svg'
 import Setting from 'public/icons/setting.svg'
+import Web from 'public/icons/web.svg'
+import Playstore from 'public/icons/playstore.svg'
+import Appstore from 'public/icons/appstore.svg'
 
 const icons = {
 	Bold,
@@ -33,6 +36,9 @@ const icons = {
 	Plus,
 	Pencil,
 	Setting,
+	Web,
+	Playstore,
+	Appstore,
 }
 
 export type IconType = keyof typeof icons

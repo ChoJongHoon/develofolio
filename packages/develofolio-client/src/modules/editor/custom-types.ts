@@ -94,8 +94,14 @@ export type ProjectListElement = {
 }
 export type ProjectListItemElement = {
 	type: 'project-list-item'
-	thumbnail: null | string
+	thumbnail: string | null
 	logos: Omit<LogoElement, 'type' | 'children'>[]
+	links: {
+		web: string | null
+		playstore: string | null
+		appstore: string | null
+		github: string | null
+	}
 	children: [ProjectListItemNameElement, ProjectListItemDescriptionElement]
 }
 export type ProjectListItemNameElement = {

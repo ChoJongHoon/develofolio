@@ -57,6 +57,7 @@ const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
 					type: 'project-list-item',
 					logos: [],
 					thumbnail: null,
+					links: { appstore: null, github: null, playstore: null, web: null },
 					children: [
 						{ type: 'project-list-item-name', children: [{ text: 'Name' }] },
 						{

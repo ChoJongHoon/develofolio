@@ -8,7 +8,7 @@ import {
 import Image from 'next/image'
 import OpenColor from 'open-color'
 import { padding, transitions } from 'polished'
-import { Icon } from '~/components/icon'
+import { Icon, IconType } from '~/components/icon'
 import { useHover } from '~/hooks/use-hover'
 import { StatefulPopover } from 'baseui/popover'
 import { PopoverLogoPicker } from '../logo/popover-logo-picker'
@@ -21,6 +21,18 @@ import axios from 'axios'
 import { ImageUploadPathDocument } from '~/graphql/document.generated'
 import { useUser } from '~/modules/user/hooks/use-user'
 import { genereateImagePath } from '~/utils/generate-image-path'
+import { EditLinkPopover } from '../social-link/edit-link-popover'
+
+const LINKS: Array<{
+	name: keyof ProjectListItemElement['links']
+	label: string
+	icon: IconType
+}> = [
+	{ name: 'web', label: '웹사이트', icon: 'Web' },
+	{ name: 'playstore', label: '플레이스토어', icon: 'Playstore' },
+	{ name: 'appstore', label: '앱스토어', icon: 'Appstore' },
+	{ name: 'github', label: '깃허브', icon: 'Github' },
+]
 
 export const ProjectListItem = ({
 	attributes,
@@ -116,6 +128,7 @@ export const ProjectListItem = ({
 					borderTopLeftRadius: '8px',
 					borderTopRightRadius: '8px',
 					position: 'relative',
+					userSelect: 'none',
 					':before': {
 						content: '" "',
 						display: 'block',
@@ -174,7 +187,12 @@ export const ProjectListItem = ({
 				<div
 					ref={logoHoverRef}
 					contentEditable={false}
-					className={css({ marginBottom: '8px', display: 'flex', gap: '8px' })}
+					className={css({
+						marginBottom: '8px',
+						display: 'flex',
+						gap: '8px',
+						userSelect: 'none',
+					})}
 				>
 					{element.logos.map((logo, index) => (
 						<Logo
@@ -223,6 +241,63 @@ export const ProjectListItem = ({
 					</StatefulPopover>
 				</div>
 				{children.slice(1)}
+				<div
+					contentEditable={false}
+					className={css({
+						userSelect: 'none',
+						display: 'flex',
+						justifyContent: 'flex-end',
+						marginTop: '8px',
+					})}
+				>
+					{LINKS.map((link) => (
+						<StatefulPopover
+							key={link.name}
+							content={({ close }) => (
+								<EditLinkPopover
+									defaultValue={element.links[link.name]}
+									onChange={(value) => {
+										const path = ReactEditor.findPath(editor, element)
+										const newProperties: Partial<ProjectListItemElement> = {
+											links: {
+												...element.links,
+												[link.name]: value,
+											},
+										}
+										Transforms.setNodes(editor, newProperties, { at: path })
+									}}
+								/>
+							)}
+							placement="bottomLeft"
+							focusLock
+						>
+							<button
+								className={css({
+									backgroundColor: OpenColor.white,
+									border: 'none',
+									width: '28px',
+									height: '28px',
+									borderRadius: '50%',
+									cursor: 'pointer',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+									opacity: element.links[link.name] ? 1 : 0.5,
+									...padding('0px'),
+									...transitions(['opacity'], '0.2s'),
+									':hover': {
+										opacity: element.links[link.name] ? 1 : 0.8,
+									},
+									':not(:last-child)': {
+										marginRight: '8px',
+									},
+								})}
+							>
+								<Icon type={link.icon} color={OpenColor.teal[7]} size={20} />
+							</button>
+						</StatefulPopover>
+					))}
+				</div>
 			</div>
 		</div>
 	)
