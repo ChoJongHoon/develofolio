@@ -37,6 +37,14 @@ export type LogoElement = {
 // ==============================
 export type BannerElement = {
 	type: 'banner'
+	profile?: string
+	links: {
+		github?: string
+		stackOverflow?: string
+		facebook?: string
+		twitter?: string
+		linkedIn?: string
+	}
 	children: [
 		WithKey<BannerNameElement>,
 		WithKey<BannerTaglineElement>,

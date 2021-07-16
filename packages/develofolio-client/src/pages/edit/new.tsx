@@ -12,6 +12,7 @@ const getInitialContent = (): Descendant[] => [
 	{
 		key: nanoid(),
 		type: 'banner',
+		links: {},
 		children: [
 			{ key: nanoid(), type: 'banner-name', children: [{ text: '' }] },
 			{ key: nanoid(), type: 'banner-tagline', children: [{ text: '' }] },
