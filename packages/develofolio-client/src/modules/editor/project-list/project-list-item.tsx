@@ -20,7 +20,7 @@ import { useApolloClient } from '@apollo/client'
 import axios from 'axios'
 import { ImageUploadPathDocument } from '~/graphql/document.generated'
 import { useUser } from '~/modules/user/hooks/use-user'
-import { genereateImagePath } from '~/utils/generate-image-path'
+import { generateImagePath } from '~/utils/generate-image-path'
 import { EditLinkPopover } from '../social-link/edit-link-popover'
 
 export const EMPTY_PROJECT_LIST_ITEM: ProjectListItemElement = {
@@ -151,7 +151,7 @@ export const ProjectListItem = ({
 				{element.thumbnail && (
 					<>
 						<Image
-							src={genereateImagePath(element.thumbnail)}
+							src={generateImagePath(element.thumbnail)}
 							alt="Project thumbnail"
 							layout="fill"
 							objectFit="cover"

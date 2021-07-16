@@ -1,0 +1,17 @@
+fragment FileParts on File {
+	id
+	key
+}
+
+query GenerateUploadUrl($filename: String!, $type: UploadType!) {
+	generateUploadPath(filename: $filename, type: $type) {
+		key
+		url
+	}
+}
+
+mutation CreateFile($key: String!) {
+	file: createFile(key: $key) {
+		...FileParts
+	}
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import { MeDocument } from '~/graphql/document.generated'
-import { genereateImagePath } from '~/utils/generate-image-path'
+import { generateImagePath } from '~/utils/generate-image-path'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 
 export const getServerSideProps = withAuthSsr()
@@ -16,9 +16,7 @@ const Home = () => {
 				<>
 					{data.me.avatar && (
 						<Image
-							src={genereateImagePath(
-								`${data.me.id}/profile/${data.me.avatar}`
-							)}
+							src={generateImagePath(`${data.me.id}/profile/${data.me.avatar}`)}
 							layout="fill"
 							alt={data.me.name}
 						/>

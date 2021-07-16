@@ -13,6 +13,7 @@ export const withNodeId = (editor: Editor) => {
 	const idPropsCreator = () => ({ key: nanoid() })
 
 	editor.apply = (operation) => {
+		console.log(`operation`, operation)
 		if (operation.type === 'insert_node') {
 			// clone to be able to write (read-only)
 			const node = cloneDeep(operation.node)
