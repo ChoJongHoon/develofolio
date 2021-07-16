@@ -42,7 +42,10 @@ export class User {
 	pageId?: string
 
 	@Field(() => Page, { nullable: true })
-	@OneToOne(() => Page, (page) => page.user, { nullable: true })
+	@OneToOne(() => Page, (page) => page.user, {
+		nullable: true,
+		onDelete: 'SET NULL',
+	})
 	@JoinColumn({ name: 'page_id' })
 	page?: Page
 
