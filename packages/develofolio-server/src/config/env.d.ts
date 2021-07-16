@@ -20,5 +20,9 @@ declare namespace NodeJS {
 		readonly JWT_ACCESS_TOKEN_EXPIRES_IN: string
 		readonly JWT_REFRESH_TOKEN_SECRET: string
 		readonly JWT_REFRESH_TOKEN_EXPIRES_IN: string
+
+		readonly AWS_ACCESS_KEY_ID: string
+		readonly AWS_SECRET_ACCESS_KEY: string
+		readonly AWS_PUBLIC_BUCKET_NAME: string
 	}
 }

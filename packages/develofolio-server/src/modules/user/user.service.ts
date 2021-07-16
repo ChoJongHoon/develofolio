@@ -51,4 +51,8 @@ export class UserService {
 	async bindPage(userId: string, pageId: string) {
 		return await this.userRepository.save({ id: userId, pageId })
 	}
+
+	async update(id: string, properties: Partial<User>) {
+		return await this.userRepository.update(id, { ...properties })
+	}
 }

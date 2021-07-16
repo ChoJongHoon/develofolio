@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from './modules/auth/auth.module'
-import { BucketModule } from './modules/bucket/bucket.module'
 import { PageModule } from './modules/page/page.module'
 import { SocialLinkModule } from './modules/social-link/social-link.module'
 import { UserModule } from './modules/user/user.module'
@@ -11,12 +10,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { githubConfig } from './config/github.config'
 import { jwtConfig } from './config/jwt.config'
 import { baseConfig } from './config/base.config'
+import { FileModule } from './modules/file/file.module'
+import { awsConfig } from './config/aws.config'
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			load: [githubConfig, jwtConfig, baseConfig],
+			load: [githubConfig, jwtConfig, baseConfig, awsConfig],
 		}),
 		TypeOrmModule.forRoot(ormconifg),
 		GraphQLModule.forRootAsync({
@@ -39,9 +40,9 @@ import { baseConfig } from './config/base.config'
 		}),
 		UserModule,
 		AuthModule,
-		BucketModule,
 		PageModule,
 		SocialLinkModule,
+		FileModule,
 	],
 	controllers: [],
 	providers: [],

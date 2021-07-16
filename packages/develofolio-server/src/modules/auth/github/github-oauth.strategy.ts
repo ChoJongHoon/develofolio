@@ -4,7 +4,6 @@ import { PassportStrategy } from '@nestjs/passport'
 import { Profile, Strategy } from 'passport-github'
 import { baseConfig } from 'src/config/base.config'
 import { githubConfig } from 'src/config/github.config'
-import { BucketService } from 'src/modules/bucket/bucket.service'
 import { ProviderType } from 'src/modules/user/enum/provider-type.enum'
 import { UserService } from 'src/modules/user/user.service'
 import { v4 as uuid } from 'uuid'
@@ -16,8 +15,7 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
 		githubEnv: ConfigType<typeof githubConfig>,
 		@Inject(baseConfig.KEY)
 		baseEnv: ConfigType<typeof baseConfig>,
-		private readonly userService: UserService,
-		private readonly bucketService: BucketService
+		private readonly userService: UserService
 	) {
 		super({
 			clientID: githubEnv.clientId,
@@ -33,20 +31,12 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
 	) {
 		const { id, photos, emails, displayName } = profile
 
-		let avatar = photos && photos.length > 0 ? photos[0].value : undefined
+		const avatar = photos && photos.length > 0 ? photos[0].value : undefined
 
 		let user = await this.userService.findByProvider(ProviderType.GITHUB, id)
 
 		if (!user) {
 			const userId = uuid()
-
-			if (avatar) {
-				const { filename } = await this.bucketService.syncProfileImage(
-					avatar,
-					userId
-				)
-				avatar = filename
-			}
 
 			user = await this.userService.create({
 				id: userId,
@@ -56,6 +46,10 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
 				providerId: id,
 				avatar,
 			})
+		}
+
+		if (user.avatar !== avatar) {
+			await this.userService.update(user.id, { avatar })
 		}
 
 		return user
