@@ -4,6 +4,11 @@ import { StyleObject, useStyletron } from 'styletron-react'
 import { CustomRenderElementProps, ParagraphElement } from '../custom-types'
 import { Placeholder } from '../placeholder/placeholder'
 
+export const EMPTY_PARAGRAPH: ParagraphElement = {
+	type: 'paragraph',
+	children: [{ text: '' }],
+}
+
 export const Paragraph = ({
 	attributes,
 	children,

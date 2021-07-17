@@ -26,6 +26,7 @@ import { useStyletron } from 'baseui'
 import { StyleObject } from 'styletron-standard'
 import { border, padding, transitions } from 'polished'
 import classNames from 'classnames'
+import { withEditor } from './with-editor'
 
 interface PageEditorProps {
 	initialContent: Descendant[]
@@ -37,10 +38,12 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	const dispatch = useDispatch()
 	const editor = useMemo(
 		() =>
-			withHistory(
-				withReact(
-					withBanner(
-						withSkillList(withLogo(withShortcuts(withNodeId(createEditor()))))
+			withEditor(
+				withHistory(
+					withReact(
+						withBanner(
+							withSkillList(withLogo(withShortcuts(withNodeId(createEditor()))))
+						)
 					)
 				)
 			),
