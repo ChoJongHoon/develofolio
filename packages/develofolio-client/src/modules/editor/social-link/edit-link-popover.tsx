@@ -4,7 +4,7 @@ import OpenColor from 'open-color'
 
 interface EditLinkPopoverProps {
 	onChange: (value: string) => void
-	defaultValue: string | null
+	defaultValue?: string | null
 }
 
 export const EditLinkPopover = ({

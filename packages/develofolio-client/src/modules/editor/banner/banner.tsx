@@ -1,5 +1,6 @@
 import { useApolloClient, useMutation } from '@apollo/client'
 import axios from 'axios'
+import { StatefulPopover } from 'baseui/popover'
 import Image from 'next/image'
 import OpenColor from 'open-color'
 import { padding, transitions } from 'polished'
@@ -7,7 +8,7 @@ import React from 'react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { useStyletron } from 'styletron-react'
-import { Icon } from '~/components/icon'
+import { Icon, IconType } from '~/components/icon'
 import {
 	CreateFileDocument,
 	GenerateUploadUrlDocument,
@@ -17,7 +18,18 @@ import { useFileLoad } from '~/hooks/use-file-load'
 import { useHover } from '~/hooks/use-hover'
 import { generateImagePath } from '~/utils/generate-image-path'
 import { BannerElement, CustomRenderElementProps } from '../custom-types'
-import { SocialLinks } from '../social-link/social-links'
+import { EditLinkPopover } from '../social-link/edit-link-popover'
+
+const LINKS: Array<{
+	name: keyof BannerElement['links']
+	icon: IconType
+}> = [
+	{ name: 'github', icon: 'Github' },
+	// { name: 'linkedIn', con: 'LinkedIn' },
+	{ name: 'stackOverflow', icon: 'StackOverflow' },
+	{ name: 'facebook', icon: 'Facebook' },
+	{ name: 'twitter', icon: 'Twitter' },
+]
 
 export const Banner = ({
 	attributes,
@@ -27,6 +39,7 @@ export const Banner = ({
 	const client = useApolloClient()
 	const [css] = useStyletron()
 	const [profileHoverRef, isProfileHovered] = useHover<HTMLDivElement>()
+	const [linkHoverRef, isLinkHovered] = useHover<HTMLDivElement>()
 	const editor = useSlateStatic()
 	const [createFile] = useMutation(CreateFileDocument)
 	const { onLoad } = useFileLoad({ accept: 'image/*' })
@@ -86,8 +99,57 @@ export const Banner = ({
 				})}
 			>
 				<div {...attributes}>{children}</div>
-				<div contentEditable={false}>
-					<SocialLinks />
+				<div
+					contentEditable={false}
+					className={css({ userSelect: 'none', display: 'flex' })}
+				>
+					{LINKS.map((link) => (
+						<StatefulPopover
+							key={link.name}
+							content={({ close }) => (
+								<EditLinkPopover
+									defaultValue={element.links[link.name]}
+									onChange={(value) => {
+										const path = ReactEditor.findPath(editor, element)
+										const newProperties: Partial<BannerElement> = {
+											links: {
+												...element.links,
+												[link.name]: value,
+											},
+										}
+										Transforms.setNodes(editor, newProperties, { at: path })
+									}}
+								/>
+							)}
+							placement="bottomLeft"
+							focusLock
+						>
+							<button
+								className={css({
+									backgroundColor: OpenColor.white,
+									border: 'none',
+									width: '28px',
+									height: '28px',
+									borderRadius: '50%',
+									cursor: 'pointer',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+									opacity: element.links[link.name] ? 1 : 0.5,
+									...padding('0px'),
+									...transitions(['opacity'], '0.2s'),
+									':hover': {
+										opacity: element.links[link.name] ? 1 : 0.8,
+									},
+									':not(:last-child)': {
+										marginRight: '8px',
+									},
+								})}
+							>
+								<Icon type={link.icon} color={OpenColor.teal[7]} size={20} />
+							</button>
+						</StatefulPopover>
+					))}
 				</div>
 			</div>
 			<div
