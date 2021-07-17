@@ -3,6 +3,11 @@ import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 import { useStyletron } from 'styletron-react'
 
+export const EMPTY_BANNER_BIO: BannerBioElement = {
+	type: 'banner-bio',
+	children: [{ text: '' }],
+}
+
 export const BannerBio = ({
 	attributes,
 	children,

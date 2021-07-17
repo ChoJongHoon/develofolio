@@ -20,6 +20,16 @@ import { generateImagePath } from '~/utils/generate-image-path'
 import { BannerElement, CustomRenderElementProps } from '../custom-types'
 import { EditLinkPopover } from '../social-link/edit-link-popover'
 
+export const EMPTY_BANNER: BannerElement = {
+	type: 'banner',
+	links: {},
+	children: [
+		{ type: 'banner-name', children: [{ text: '' }] },
+		{ type: 'banner-tagline', children: [{ text: '' }] },
+		{ type: 'banner-bio', children: [{ text: '' }] },
+	],
+}
+
 const LINKS: Array<{
 	name: keyof BannerElement['links']
 	icon: IconType

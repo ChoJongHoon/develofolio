@@ -1,12 +1,10 @@
 import { Editor, Element, Point, Range, Transforms } from 'slate'
-import {
-	BannerBioElement,
-	BannerElement,
-	BannerNameElement,
-	BannerTaglineElement,
-	CustomElement,
-	ParagraphElement,
-} from '../custom-types'
+import { BannerElement, CustomElement, ParagraphElement } from '../custom-types'
+import { EMPTY_PARAGRAPH } from '../elements/paragraph'
+import { EMPTY_BANNER } from './banner'
+import { EMPTY_BANNER_BIO } from './banner-bio'
+import { EMPTY_BANNER_NAME } from './banner-name'
+import { EMPTY_BANNER_TAGLIN } from './banner-tagline'
 
 const BANNER_CHILD_TYPES: CustomElement['type'][] = [
 	'banner-name',
@@ -33,60 +31,48 @@ export const withBanner = (editor: Editor) => {
 	 */
 	editor.normalizeNode = ([node, path]) => {
 		if (Editor.isEditor(node)) {
-			const banner: BannerElement = {
-				type: 'banner',
-				children: [
-					{ type: 'banner-name', children: [{ text: '' }] },
-					{ type: 'banner-tagline', children: [{ text: '' }] },
-					{ type: 'banner-bio', children: [{ text: '' }] },
-				],
-			}
 			const firstChild = node.children[0]
 			if (
 				!firstChild ||
 				!Editor.isBlock(editor, firstChild) ||
 				firstChild.type !== 'banner'
 			) {
-				Transforms.insertNodes(editor, banner, { at: path.concat(0) })
+				Transforms.insertNodes<BannerElement>(editor, EMPTY_BANNER, {
+					at: path.concat(0),
+				})
 			}
 
 			if (node.children.length < 2) {
-				const paragraph: ParagraphElement = {
-					type: 'paragraph',
-					children: [{ text: '' }],
-				}
-				Transforms.insertNodes(editor, paragraph, { at: path.concat(1) })
+				Transforms.insertNodes<ParagraphElement>(editor, EMPTY_PARAGRAPH, {
+					at: path.concat(1),
+				})
 			}
 		}
 
 		if (Editor.isBlock(editor, node)) {
 			if (node.type === 'banner') {
-				const name: BannerNameElement = {
-					type: 'banner-name',
-					children: [{ text: '' }],
-				}
-				const tagline: BannerTaglineElement = {
-					type: 'banner-tagline',
-					children: [{ text: '' }],
-				}
-				const bio: BannerBioElement = {
-					type: 'banner-bio',
-					children: [{ text: '' }],
-				}
 				if (node.children.length < 1) {
-					Transforms.insertNodes(editor, name, { at: path.concat(0) })
+					Transforms.insertNodes(editor, EMPTY_BANNER_NAME, {
+						at: path.concat(0),
+					})
 				} else if (node.children[0].type !== 'banner-name') {
-					Transforms.setNodes(editor, name, { at: path.concat(0) })
+					Transforms.setNodes(editor, EMPTY_BANNER_NAME, { at: path.concat(0) })
 				}
 				if (node.children.length < 2) {
-					Transforms.insertNodes(editor, tagline, { at: path.concat(1) })
+					Transforms.insertNodes(editor, EMPTY_BANNER_TAGLIN, {
+						at: path.concat(1),
+					})
 				} else if (node.children[1].type !== 'banner-tagline') {
-					Transforms.setNodes(editor, tagline, { at: path.concat(1) })
+					Transforms.setNodes(editor, EMPTY_BANNER_TAGLIN, {
+						at: path.concat(1),
+					})
 				}
 				if (node.children.length < 3) {
-					Transforms.insertNodes(editor, bio, { at: path.concat(1) })
+					Transforms.insertNodes(editor, EMPTY_BANNER_BIO, {
+						at: path.concat(1),
+					})
 				} else if (node.children[2].type !== 'banner-bio') {
-					Transforms.setNodes(editor, bio, { at: path.concat(2) })
+					Transforms.setNodes(editor, EMPTY_BANNER_BIO, { at: path.concat(2) })
 				}
 
 				if (node.children.length > 3) {

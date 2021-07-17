@@ -3,6 +3,11 @@ import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 import { useStyletron } from 'styletron-react'
 
+export const EMPTY_BANNER_TAGLIN: BannerTaglineElement = {
+	type: 'banner-tagline',
+	children: [{ text: '' }],
+}
+
 export const BannerTagline = ({
 	attributes,
 	children,
