@@ -19,7 +19,12 @@ export class FileResolver {
 		@Args({ name: 'type', type: () => UploadType }) type: UploadType,
 		@CurrentUser() user: User
 	): Promise<UploadUrl> {
-		const path = type === UploadType.PROFILE ? `images/${user.id}/profile/` : ''
+		const path =
+			type === UploadType.PROFILE
+				? `images/${user.id}/profile/`
+				: type === UploadType.PROJECT
+				? `images/${user.id}/project/`
+				: ''
 		const key = path + this.fileService.hashFilename(filename)
 		const url = await this.fileService.generateUploadUrl(key)
 
