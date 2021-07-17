@@ -18,10 +18,13 @@ import { Transforms } from 'slate'
 import { useFileLoad } from '~/hooks/use-file-load'
 import { useApolloClient } from '@apollo/client'
 import axios from 'axios'
-import { ImageUploadPathDocument } from '~/graphql/document.generated'
 import { useUser } from '~/modules/user/hooks/use-user'
 import { generateImagePath } from '~/utils/generate-image-path'
 import { EditLinkPopover } from '../social-link/edit-link-popover'
+import {
+	GenerateUploadUrlDocument,
+	UploadType,
+} from '~/graphql/document.generated'
 
 export const EMPTY_PROJECT_LIST_ITEM: ProjectListItemElement = {
 	type: 'project-list-item',
@@ -97,17 +100,17 @@ export const ProjectListItem = ({
 		if (!file) return
 		const {
 			data: {
-				imageUploadPath: { filename, uploadPath },
+				generateUploadPath: { key, url },
 			},
 		} = await client.query({
-			query: ImageUploadPathDocument,
+			query: GenerateUploadUrlDocument,
 			variables: {
-				type: 'projects',
+				type: UploadType.Project,
 				filename: file.name,
 			},
 		})
 
-		await axios.put(uploadPath, file, {
+		await axios.put(url, file, {
 			headers: {
 				'Content-Type': file.type,
 			},
@@ -115,7 +118,7 @@ export const ProjectListItem = ({
 
 		const path = ReactEditor.findPath(editor, element)
 		const newProperties: Partial<ProjectListItemElement> = {
-			thumbnail: `${user.id}/projects/${filename}`,
+			thumbnail: key,
 		}
 		Transforms.setNodes(editor, newProperties, { at: path })
 	}, [client, editor, element, onLoad, user])
