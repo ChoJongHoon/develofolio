@@ -3,7 +3,6 @@ import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AuthModule } from './modules/auth/auth.module'
 import { PageModule } from './modules/page/page.module'
-import { SocialLinkModule } from './modules/social-link/social-link.module'
 import { UserModule } from './modules/user/user.module'
 import * as ormconifg from './config/ormconfig'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -41,7 +40,6 @@ import { awsConfig } from './config/aws.config'
 		UserModule,
 		AuthModule,
 		PageModule,
-		SocialLinkModule,
 		FileModule,
 	],
 	controllers: [],

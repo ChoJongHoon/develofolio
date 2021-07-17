@@ -4,14 +4,12 @@ import {
 	CreateDateColumn,
 	Entity,
 	JoinColumn,
-	OneToMany,
 	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 import { GraphQLJSON } from 'graphql-type-json'
 import { User } from 'src/modules/user/user.entity'
-import { SocialLink } from 'src/modules/social-link/social-link.entity'
 
 @ObjectType()
 @Entity({ name: 'pages' })
@@ -55,10 +53,4 @@ export class Page {
 		default: () => 'CURRENT_TIMESTAMP',
 	})
 	updatedAt: Date
-
-	@Field(() => [SocialLink])
-	@OneToMany(() => SocialLink, (socialLink) => socialLink.page, {
-		cascade: ['remove'],
-	})
-	socialLinks: SocialLink[]
 }
