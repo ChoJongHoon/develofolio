@@ -3,6 +3,7 @@ import { Element } from 'slate'
 import { useStyletron } from 'styletron-react'
 import { StyleObject } from 'styletron-standard'
 import { CustomRenderElementProps, HeadingElement } from '../custom-types'
+import { Placeholder } from '../placeholder/placeholder'
 
 export const isHeading = (
 	element: Partial<Element>
@@ -30,6 +31,7 @@ export const Heading = ({
 			{element.level === 1 && (
 				<span className={css(beforeStyles)} contentEditable={false} />
 			)}
+			<Placeholder element={element}>Heading {element.level}</Placeholder>
 			{children}
 		</CustomTag>
 	)
