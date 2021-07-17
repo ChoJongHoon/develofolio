@@ -26,40 +26,44 @@ export const withShortcuts = (editor: Editor) => {
 
 		if (text === ' ' && selection && Range.isCollapsed(selection)) {
 			const { anchor } = selection
-			const block = Editor.above(editor, {
+			const block = Editor.above<CustomElement>(editor, {
 				match: (n) => Editor.isBlock(editor, n),
 			})
-			const path = block ? block[1] : []
-			const start = Editor.start(editor, path)
-			const range: Range = { anchor, focus: start }
-			const beforeText = Editor.string(editor, range)
+			if (block) {
+				const [element, path] = block
+				if (element.type === 'paragraph') {
+					const start = Editor.start(editor, path)
+					const range: Range = { anchor, focus: start }
+					const beforeText = Editor.string(editor, range)
 
-			if (isShortcuts(beforeText)) {
-				const type = SHORTCUTS[beforeText]
-				Transforms.select(editor, range)
-				Transforms.delete(editor)
+					if (isShortcuts(beforeText)) {
+						const type = SHORTCUTS[beforeText]
+						Transforms.select(editor, range)
+						Transforms.delete(editor)
 
-				const newProperties: Partial<Element> = { type }
-				if (isHeading(newProperties)) {
-					newProperties.level = beforeText.length as 1 | 2 | 3
-				}
-				Transforms.setNodes(editor, newProperties, {
-					match: (n) => Editor.isBlock(editor, n),
-				})
+						const newProperties: Partial<Element> = { type }
+						if (isHeading(newProperties)) {
+							newProperties.level = beforeText.length as 1 | 2 | 3
+						}
+						Transforms.setNodes(editor, newProperties, {
+							match: (n) => Editor.isBlock(editor, n),
+						})
 
-				if (type === 'list-item') {
-					const list: BulletedListElement = {
-						type: 'bulleted-list',
-						children: [],
+						if (type === 'list-item') {
+							const list: BulletedListElement = {
+								type: 'bulleted-list',
+								children: [],
+							}
+							Transforms.wrapNodes(editor, list, {
+								match: (n) =>
+									!Editor.isEditor(n) &&
+									Element.isElement(n) &&
+									n.type === 'list-item',
+							})
+						}
+						return
 					}
-					Transforms.wrapNodes(editor, list, {
-						match: (n) =>
-							!Editor.isEditor(n) &&
-							Element.isElement(n) &&
-							n.type === 'list-item',
-					})
 				}
-				return
 			}
 		}
 
