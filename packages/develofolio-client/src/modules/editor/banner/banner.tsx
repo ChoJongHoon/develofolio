@@ -4,7 +4,7 @@ import { StatefulPopover } from 'baseui/popover'
 import Image from 'next/image'
 import OpenColor from 'open-color'
 import { padding, transitions } from 'polished'
-import React from 'react'
+import React, { useState } from 'react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { useStyletron } from 'styletron-react'
@@ -19,6 +19,7 @@ import { useHover } from '~/hooks/use-hover'
 import { generateImagePath } from '~/utils/generate-image-path'
 import { BannerElement, CustomRenderElementProps } from '../custom-types'
 import { EditLinkPopover } from '../social-link/edit-link-popover'
+import { Skeleton } from 'baseui/skeleton'
 
 export const EMPTY_BANNER: BannerElement = {
 	type: 'banner',
@@ -49,14 +50,15 @@ export const Banner = ({
 	const client = useApolloClient()
 	const [css] = useStyletron()
 	const [profileHoverRef, isProfileHovered] = useHover<HTMLDivElement>()
-	const [linkHoverRef, isLinkHovered] = useHover<HTMLDivElement>()
 	const editor = useSlateStatic()
+	const [loading, setLoading] = useState(false)
 	const [createFile] = useMutation(CreateFileDocument)
 	const { onLoad } = useFileLoad({ accept: 'image/*' })
 	const onAddProfle = async () => {
 		const file = await onLoad()
 
 		if (!file) return
+		setLoading(true)
 		const {
 			data: {
 				generateUploadPath: { key, url },
@@ -83,6 +85,7 @@ export const Banner = ({
 
 		const path = ReactEditor.findPath(editor, element)
 		Transforms.setNodes<BannerElement>(editor, { profile: key }, { at: path })
+		setLoading(false)
 	}
 
 	const onRemoveProfile = () => {
@@ -225,7 +228,7 @@ export const Banner = ({
 								<Icon type="TrashLine" color="white" size={16} />
 							</button>
 						</>
-					) : (
+					) : !loading ? (
 						<>
 							<button
 								className={css({
@@ -251,6 +254,8 @@ export const Banner = ({
 								/>
 							</button>
 						</>
+					) : (
+						<Skeleton width="100%" height="100%" animation />
 					)}
 				</div>
 			</div>
