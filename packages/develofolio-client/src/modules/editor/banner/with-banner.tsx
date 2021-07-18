@@ -135,12 +135,14 @@ export const withBanner = (editor: Editor) => {
 			})
 			if (match) {
 				const [block] = match
-				if (
-					Editor.isBlock(editor, block) &&
-					BANNER_CHILD_TYPES.includes(block.type)
-				) {
-					Transforms.move(editor, { distance: 1, unit: 'line' })
-					return
+				if (Editor.isBlock(editor, block)) {
+					if (block.type === 'banner-name' || block.type === 'banner-tagline') {
+						Transforms.move(editor, { distance: 1, unit: 'line' })
+						return
+					} else if (block.type === 'banner-bio') {
+						Transforms.insertText(editor, '\n')
+						return
+					}
 				}
 			}
 		}
