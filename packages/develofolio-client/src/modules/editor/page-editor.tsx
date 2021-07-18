@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { createEditor, Descendant } from 'slate'
+import { createEditor, Descendant, Transforms } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './hovering-toolbar'
@@ -60,8 +60,12 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 			if (handleIconPicker(event)) {
 				event.preventDefault()
 			}
+			if (event.key === 'Tab') {
+				event.preventDefault()
+				Transforms.move(editor, { distance: 1, unit: 'line' })
+			}
 		},
-		[handleIconPicker]
+		[editor, handleIconPicker]
 	)
 
 	const onChange = useCallback((newContent: Descendant[]) => {
