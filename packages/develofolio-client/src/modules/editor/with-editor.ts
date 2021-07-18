@@ -1,4 +1,4 @@
-import { Editor, Path, Transforms } from 'slate'
+import { Editor, Transforms } from 'slate'
 import { EMPTY_PARAGRAPH } from './elements/paragraph'
 
 export const withEditor = (editor: Editor) => {
