@@ -70,8 +70,9 @@ export const Banner = ({
 			headers: {
 				'Content-Type': file.type,
 			},
-			onUploadProgress: ({ loaded, total }: ProgressEvent) =>
-				setProgress((loaded / total) * 100),
+			onUploadProgress: ({ loaded, total }: ProgressEvent) => {
+				setProgress((loaded / total) * 100)
+			},
 		})
 
 		await createFile({

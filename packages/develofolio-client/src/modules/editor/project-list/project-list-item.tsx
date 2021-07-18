@@ -25,6 +25,7 @@ import {
 	GenerateUploadUrlDocument,
 	UploadType,
 } from '~/graphql/document.generated'
+import { ImageUploader } from '~/components/image-uploader'
 
 export const EMPTY_PROJECT_LIST_ITEM: ProjectListItemElement = {
 	type: 'project-list-item',
@@ -55,10 +56,6 @@ export const ProjectListItem = ({
 }: CustomRenderElementProps<ProjectListItemElement>) => {
 	const [css] = useStyletron()
 	const client = useApolloClient()
-	const user = useUser()
-
-	const [thumbnailHoverRef, isThumbnailHovered] = useHover<HTMLDivElement>()
-	const [isOpen, setIsOpen] = useState(false)
 	const editor = useSlateStatic()
 
 	const onLogoRemove = useCallback(
@@ -91,37 +88,46 @@ export const ProjectListItem = ({
 		[editor, element]
 	)
 
-	const { onLoad } = useFileLoad({ accept: 'image/*' })
-	const onClickUploadButton = useCallback(async () => {
-		if (!user) return
+	const [progress, setProgress] = useState(0)
+	const onAddThumbnail = useCallback(
+		async (file: File) => {
+			const {
+				data: {
+					generateUploadPath: { key, url },
+				},
+			} = await client.query({
+				query: GenerateUploadUrlDocument,
+				variables: {
+					type: UploadType.Project,
+					filename: file.name,
+				},
+			})
 
-		const file = await onLoad()
+			await axios.put(url, file, {
+				headers: {
+					'Content-Type': file.type,
+				},
+				onUploadProgress: ({ loaded, total }: ProgressEvent) => {
+					setProgress((loaded / total) * 100)
+				},
+			})
 
-		if (!file) return
-		const {
-			data: {
-				generateUploadPath: { key, url },
-			},
-		} = await client.query({
-			query: GenerateUploadUrlDocument,
-			variables: {
-				type: UploadType.Project,
-				filename: file.name,
-			},
-		})
-
-		await axios.put(url, file, {
-			headers: {
-				'Content-Type': file.type,
-			},
-		})
-
+			const path = ReactEditor.findPath(editor, element)
+			const newProperties: Partial<ProjectListItemElement> = {
+				thumbnail: key,
+			}
+			Transforms.setNodes(editor, newProperties, { at: path })
+		},
+		[client, editor, element]
+	)
+	const onRemoveThumbnail = useCallback(() => {
 		const path = ReactEditor.findPath(editor, element)
-		const newProperties: Partial<ProjectListItemElement> = {
-			thumbnail: key,
-		}
-		Transforms.setNodes(editor, newProperties, { at: path })
-	}, [client, editor, element, onLoad, user])
+		Transforms.setNodes<ProjectListItemElement>(
+			editor,
+			{ thumbnail: null },
+			{ at: path }
+		)
+	}, [editor, element])
 
 	return (
 		<div
@@ -149,9 +155,21 @@ export const ProjectListItem = ({
 						paddingTop: `${(9 / 16) * 100}%`,
 					},
 				})}
-				ref={thumbnailHoverRef}
 			>
-				{element.thumbnail && (
+				<ImageUploader
+					onDrop={onAddThumbnail}
+					onDelete={onRemoveThumbnail}
+					image={element.thumbnail}
+					className={css({
+						position: 'absolute',
+						top: '0px',
+						left: '0px',
+						borderTopLeftRadius: '8px',
+						borderTopRightRadius: '8px',
+					})}
+					progressAmount={progress}
+				/>
+				{/* {element.thumbnail && (
 					<>
 						<Image
 							src={generateImagePath(element.thumbnail)}
@@ -190,7 +208,7 @@ export const ProjectListItem = ({
 					onClick={onClickUploadButton}
 				>
 					<Icon type="Plus" size={64} color={OpenColor.gray[5]} />
-				</button>
+				</button> */}
 			</div>
 			<div
 				className={css({
@@ -221,12 +239,6 @@ export const ProjectListItem = ({
 							<PopoverLogoPicker onLogoAdd={onLogoAdd} onClose={close} />
 						)}
 						placement="bottomLeft"
-						onOpen={() => {
-							setIsOpen(true)
-						}}
-						onClose={() => {
-							setIsOpen(false)
-						}}
 						focusLock
 						autoFocus
 					>

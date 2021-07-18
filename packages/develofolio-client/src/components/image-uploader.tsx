@@ -13,12 +13,14 @@ import ImagesIllust from 'public/images/illust/images.svg'
 import { Icon } from './icon'
 import { useHover } from '~/hooks/use-hover'
 import mergeRefs from 'react-merge-refs'
+import classNames from 'classnames'
 
 interface ImageUploaderProps {
 	onDrop: (file: File) => Promise<void>
 	onDelete?: () => void
 	image?: string | null
 	progressAmount?: number
+	className?: string
 }
 
 export const ImageUploader = ({
@@ -26,6 +28,7 @@ export const ImageUploader = ({
 	onDelete: _onDelete,
 	image,
 	progressAmount,
+	className,
 }: ImageUploaderProps) => {
 	const [css] = useStyletron()
 	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
@@ -73,9 +76,12 @@ export const ImageUploader = ({
 		<Root
 			{...getRootProps()}
 			ref={mergeRefs([rootRef, hoverRef])}
-			className={css({
-				borderStyle: preview || image ? 'none' : 'dashed',
-			})}
+			className={classNames(
+				css({
+					borderStyle: preview || image ? 'none' : 'dashed',
+				}),
+				className
+			)}
 		>
 			{image && !loading && (
 				<Image
@@ -122,7 +128,7 @@ export const ImageUploader = ({
 					</span>
 				</Mask>
 			)}
-			{image && onDelete && (
+			{image && _onDelete && (
 				<button
 					className={css({
 						cursor: 'pointer',
