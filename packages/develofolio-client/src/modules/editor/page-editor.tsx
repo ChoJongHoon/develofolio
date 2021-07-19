@@ -97,7 +97,16 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	)
 
 	return (
-		<div className={classNames(className, css(rootStyles))}>
+		<div
+			className={classNames(
+				className,
+				css({
+					display: 'flex',
+					flexDirection: 'column',
+					paddingBottom: '30vh',
+				})
+			)}
+		>
 			<DndProvider backend={HTML5Backend}>
 				<Slate editor={editor} value={content} onChange={onChange}>
 					<Editable

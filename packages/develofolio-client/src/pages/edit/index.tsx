@@ -38,15 +38,31 @@ const Edit: NextPage<EditProps> = ({ page }) => {
 	return (
 		<div
 			className={css({
-				display: 'flex',
 				minHeight: '100vh',
 			})}
 		>
-			<EditorSidebar />
-			<PageEditor
-				className={css({ flex: '1 1 0' })}
-				initialContent={page.content}
-			/>
+			<div
+				className={css({
+					position: 'fixed',
+					top: '0px',
+					left: '0px',
+					bottom: '0px',
+					width: '72px',
+				})}
+			>
+				<EditorSidebar />
+			</div>
+			<div
+				className={css({
+					marginLeft: '72px',
+					width: 'calc(100% - 72px)',
+				})}
+			>
+				<PageEditor
+					className={css({ flex: '1 1 0' })}
+					initialContent={page.content}
+				/>
+			</div>
 		</div>
 	)
 }

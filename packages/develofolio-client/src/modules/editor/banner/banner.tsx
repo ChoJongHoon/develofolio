@@ -89,6 +89,7 @@ export const Banner = ({
 		const path = ReactEditor.findPath(editor, element)
 		Transforms.setNodes<BannerElement>(editor, { profile: null }, { at: path })
 	}
+
 	return (
 		<div
 			className={css({
@@ -96,16 +97,16 @@ export const Banner = ({
 				marginLeft: '-32px',
 				marginRight: '-32px',
 				display: 'flex',
-				userSelect: 'none',
 			})}
 		>
 			<div
 				className={css({
 					flex: '1 1 0',
-					padding: '48px',
+					...padding('48px'),
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'space-between',
+					position: 'relative',
 				})}
 			>
 				<div {...attributes}>{children}</div>
