@@ -169,46 +169,6 @@ export const ProjectListItem = ({
 					})}
 					progressAmount={progress}
 				/>
-				{/* {element.thumbnail && (
-					<>
-						<Image
-							src={generateImagePath(element.thumbnail)}
-							alt="Project thumbnail"
-							layout="fill"
-							objectFit="cover"
-							className={css({
-								position: 'absolute',
-								top: '0px',
-								left: '0px',
-								width: '100%',
-								height: '100%',
-							})}
-						/>
-					</>
-				)}
-				<button
-					className={css({
-						backgroundColor: OpenColor.gray[1],
-						position: 'absolute',
-						top: '0px',
-						left: '0px',
-						width: '100%',
-						height: '100%',
-						border: 'none',
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						cursor: 'pointer',
-						opacity: !element.thumbnail ? 1 : isThumbnailHovered ? 0.5 : 0,
-						...transitions(['background-color', 'opacity'], '0.2s'),
-						':hover': {
-							backgroundColor: OpenColor.gray[2],
-						},
-					})}
-					onClick={onClickUploadButton}
-				>
-					<Icon type="Plus" size={64} color={OpenColor.gray[5]} />
-				</button> */}
 			</div>
 			<div
 				className={css({

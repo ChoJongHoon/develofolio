@@ -37,6 +37,13 @@ export const PopoverLogoPicker = ({
 		})
 	}, [value])
 
+	const onSelect = useCallback(() => {
+		const selectedLogo = results[selectedIndex]
+		onLogoAdd(selectedLogo)
+		setValue('')
+		setSelectedIndex(0)
+	}, [onLogoAdd, results, selectedIndex])
+
 	const onKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
 			const key = event.key
@@ -80,13 +87,11 @@ export const PopoverLogoPicker = ({
 			}
 			if (key === 'Enter') {
 				event.preventDefault()
-				const selectedLogo = results[selectedIndex]
-				onLogoAdd(selectedLogo)
-				onClose()
+				onSelect()
 				return
 			}
 		},
-		[onClose, onLogoAdd, results, selectedIndex]
+		[onSelect, results.length, selectedIndex]
 	)
 
 	return (
@@ -127,7 +132,7 @@ export const PopoverLogoPicker = ({
 					results={results}
 					selectedIndex={selectedIndex}
 					onChangeSelectedIndex={setSelectedIndex}
-					onSelect={onLogoAdd}
+					onSelect={onSelect}
 				/>
 			</div>
 		</div>
