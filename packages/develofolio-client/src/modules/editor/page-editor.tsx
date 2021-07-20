@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { createEditor, Descendant, Transforms } from 'slate'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { createEditor, Descendant, Editor, Transforms } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './hovering-toolbar'
@@ -29,6 +29,18 @@ import classNames from 'classnames'
 import { withEditor } from './with-editor'
 import { withProjectList } from './project-list/with-project-list'
 
+const PLUGINS = [
+	withEditor,
+	withHistory,
+	withReact,
+	withBanner,
+	withSkillList,
+	withProjectList,
+	withLogo,
+	withShortcuts,
+	withNodeId,
+]
+
 interface PageEditorProps {
 	initialContent: Descendant[]
 	className?: string
@@ -37,23 +49,15 @@ interface PageEditorProps {
 export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	const [css] = useStyletron()
 	const dispatch = useDispatch()
-	const editor = useMemo(
-		() =>
-			withEditor(
-				withHistory(
-					withReact(
-						withBanner(
-							withSkillList(
-								withProjectList(
-									withLogo(withShortcuts(withNodeId(createEditor())))
-								)
-							)
-						)
-					)
-				)
-			),
-		[]
-	)
+
+	// https://github.com/ianstormtaylor/slate/issues/4081#issuecomment-782136472
+	const editorRef = useRef<Editor>()
+	if (!editorRef.current)
+		editorRef.current = PLUGINS.reduce(
+			(editor, plugin) => plugin(editor),
+			createEditor()
+		)
+	const editor = editorRef.current
 
 	const [content, setContent] = useState<Descendant[]>(initialContent)
 
