@@ -240,6 +240,7 @@ export const ProjectListItem = ({
 							content={({ close }) => (
 								<EditLinkPopover
 									defaultValue={element.links[link.name]}
+									onClose={close}
 									onChange={(value) => {
 										const path = ReactEditor.findPath(editor, element)
 										const newProperties: Partial<ProjectListItemElement> = {

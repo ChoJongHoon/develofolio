@@ -4,11 +4,13 @@ import OpenColor from 'open-color'
 
 interface EditLinkPopoverProps {
 	onChange: (value: string) => void
+	onClose?: () => void
 	defaultValue?: string | null
 }
 
 export const EditLinkPopover = ({
 	onChange,
+	onClose,
 	defaultValue,
 }: EditLinkPopoverProps) => {
 	const [css] = useStyletron()
@@ -24,6 +26,12 @@ export const EditLinkPopover = ({
 				defaultValue={defaultValue ?? ''}
 				onChange={(event) => {
 					onChange(event.target.value)
+				}}
+				onKeyDown={(event) => {
+					if (event.key === 'Enter') {
+						onClose?.()
+						event.preventDefault()
+					}
 				}}
 			/>
 		</div>
