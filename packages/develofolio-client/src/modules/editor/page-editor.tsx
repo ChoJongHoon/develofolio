@@ -123,7 +123,11 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 									return toggleFormat(editor, 'italic')
 							}
 						}}
-						className={css(editorStyles)}
+						className={css({
+							paddingLeft: '32px',
+							paddingRight: '32px',
+							paddingBottom: '96px',
+						})}
 						onKeyDown={onKeyDown}
 						autoCapitalize="false"
 						autoCorrect="false"
@@ -145,18 +149,6 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 			</button>
 		</div>
 	)
-}
-
-const rootStyles: StyleObject = {
-	display: 'flex',
-	flexDirection: 'column',
-	paddingBottom: '30vh',
-}
-
-const editorStyles: StyleObject = {
-	paddingLeft: '32px',
-	paddingRight: '32px',
-	paddingBottom: '32px',
 }
 
 const addBlockButton: StyleObject = {
