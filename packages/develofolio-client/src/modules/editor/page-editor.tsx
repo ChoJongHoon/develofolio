@@ -27,6 +27,7 @@ import { StyleObject } from 'styletron-standard'
 import { border, padding, transitions } from 'polished'
 import classNames from 'classnames'
 import { withEditor } from './with-editor'
+import { withProjectList } from './project-list/with-project-list'
 
 interface PageEditorProps {
 	initialContent: Descendant[]
@@ -42,7 +43,11 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 				withHistory(
 					withReact(
 						withBanner(
-							withSkillList(withLogo(withShortcuts(withNodeId(createEditor()))))
+							withSkillList(
+								withProjectList(
+									withLogo(withShortcuts(withNodeId(createEditor())))
+								)
+							)
 						)
 					)
 				)
