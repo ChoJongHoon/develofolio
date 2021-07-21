@@ -48,33 +48,35 @@ export const SkillList = ({
 			ref={mergeRefs([attributes.ref, hoverRef])}
 		>
 			{children}
-			<button
-				ref={addButtonHoverRef}
-				contentEditable={false}
-				onClick={onSkillAdd}
-				className={css({
-					display: isHover ? 'block' : 'none',
-					backgroundColor: 'transparent',
-					borderStyle: 'none',
-					borderRadius: '8px',
-					cursor: 'pointer',
-					minHeight: '68px',
-					...transitions(['border-color'], '0.2s'),
-					...border('1px', 'dotted', OpenColor.gray[3]),
-					':hover': {
-						borderColor: OpenColor.gray[6],
-					},
-				})}
-			>
-				<Icon
-					type="Plus"
-					size={16}
+			{element.children.length < 4 && (
+				<button
+					ref={addButtonHoverRef}
+					contentEditable={false}
+					onClick={onSkillAdd}
 					className={css({
-						fill: isAddButtonHover ? OpenColor.gray[6] : OpenColor.gray[3],
-						...transitions(['fill'], '0.2s'),
+						display: isHover ? 'block' : 'none',
+						backgroundColor: 'transparent',
+						borderStyle: 'none',
+						borderRadius: '8px',
+						cursor: 'pointer',
+						minHeight: '68px',
+						...transitions(['border-color'], '0.2s'),
+						...border('1px', 'dotted', OpenColor.gray[3]),
+						':hover': {
+							borderColor: OpenColor.gray[6],
+						},
 					})}
-				/>
-			</button>
+				>
+					<Icon
+						type="Plus"
+						size={16}
+						className={css({
+							fill: isAddButtonHover ? OpenColor.gray[6] : OpenColor.gray[3],
+							...transitions(['fill'], '0.2s'),
+						})}
+					/>
+				</button>
+			)}
 		</ul>
 	)
 }
