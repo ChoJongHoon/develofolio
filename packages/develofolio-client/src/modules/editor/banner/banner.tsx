@@ -106,7 +106,6 @@ export const Banner = ({
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'space-between',
-					position: 'relative',
 				})}
 			>
 				<div {...attributes}>{children}</div>

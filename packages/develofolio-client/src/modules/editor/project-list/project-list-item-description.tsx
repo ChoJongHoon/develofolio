@@ -21,6 +21,7 @@ export const ProjectListItemDescription = ({
 				lineHeight: '20px',
 				color: OpenColor.gray[7],
 				fontWeight: 400,
+				position: 'relative',
 			})}
 		>
 			<Placeholder element={element}>프로젝트 설명</Placeholder>

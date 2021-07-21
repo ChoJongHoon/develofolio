@@ -22,6 +22,7 @@ export const BannerTagline = ({
 				marginTop: '4px',
 				fontWeight: 500,
 				color: OpenColor.gray[6],
+				position: 'relative',
 			})}
 			{...attributes}
 		>

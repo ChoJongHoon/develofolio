@@ -22,6 +22,7 @@ export const BannerBio = ({
 				marginTop: '16px',
 				color: OpenColor.gray[7],
 				marginBottom: '16px',
+				position: 'relative',
 			})}
 			{...attributes}
 		>

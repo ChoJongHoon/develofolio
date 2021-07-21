@@ -22,6 +22,7 @@ export const ProjectListItemName = ({
 				fontSize: '24px',
 				lineHeight: '28px',
 				marginBottom: '8px',
+				position: 'relative',
 			})}
 		>
 			<Placeholder element={element}>프로젝트 이름</Placeholder>
