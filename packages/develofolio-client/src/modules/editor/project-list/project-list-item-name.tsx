@@ -6,6 +6,11 @@ import {
 } from '../custom-types'
 import { Placeholder } from '../placeholder/placeholder'
 
+export const EMPTY_PROJECT_LIST_ITEM_NAME: ProjectListItemNameElement = {
+	type: 'project-list-item-name',
+	children: [{ text: '' }],
+}
+
 export const ProjectListItemName = ({
 	attributes,
 	children,
