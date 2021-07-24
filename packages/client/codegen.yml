@@ -1,9 +1,8 @@
 overwrite: true
 
-schema:
-  - ${NEXT_PUBLIC_GRAPHQL_HOST}
+schema: '../server/schema.graphql'
 
-documents: src/graphql/schema/*.graphql
+documents: 'src/graphql/schema/*.graphql'
 
 generates:
   src/graphql/document.generated.ts:

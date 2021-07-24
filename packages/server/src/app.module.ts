@@ -22,7 +22,7 @@ import { awsConfig } from './config/aws.config'
 		GraphQLModule.forRootAsync({
 			inject: [ConfigService],
 			useFactory: async (configService: ConfigService) => ({
-				autoSchemaFile: true,
+				autoSchemaFile: './schema.graphql',
 				context: ({ req, res }: { req: Request; res: Response }) => {
 					return { req, res }
 				},
