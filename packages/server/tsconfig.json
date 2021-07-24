@@ -13,6 +13,7 @@
 		"incremental": true,
 		"strict": true,
 		"strictPropertyInitialization": false,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"skipLibCheck": true
 	}
 }

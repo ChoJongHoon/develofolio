@@ -1,10 +1,13 @@
 {
-  "name": "root",
+  "name": "develofolio",
   "private": true,
   "workspaces": [
-    "packages/*/*"
+    "packages/*"
   ],
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "scripts": {
+    "dev": "lerna run dev --parallel --stream --scope={client,server}"
   }
 }
