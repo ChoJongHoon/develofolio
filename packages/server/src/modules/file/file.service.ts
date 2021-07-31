@@ -4,9 +4,9 @@ import { Repository } from 'typeorm'
 import { S3 } from 'aws-sdk'
 import { ConfigType } from '@nestjs/config'
 import { v4 as uuid } from 'uuid'
-import { awsConfig } from 'src/config/aws.config'
 import { File } from './file.entity'
 import mimeTypes from 'mime-types'
+import { awsConfig } from '../../config/aws.config'
 
 @Injectable()
 export class FileService {

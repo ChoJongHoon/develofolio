@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Req, Res, UseGuards } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import { RequestWithAuth, Response } from 'express'
-import { baseConfig } from 'src/config/base.config'
+import { baseConfig } from '../../../config/base.config'
 import { JwtAuthService } from '../jwt/jwt-auth.service'
 import { GithubOauthGuard } from './github-oauth.guard'
 

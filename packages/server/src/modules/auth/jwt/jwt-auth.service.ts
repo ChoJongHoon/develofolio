@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { Response } from 'express'
-import { jwtConfig } from 'src/config/jwt.config'
+import { jwtConfig } from '../../../config/jwt.config'
 import { JwtPayload } from './jwt-access.strategy'
 import { JwtRefreshPayload } from './jwt-refresh.strategy'
 

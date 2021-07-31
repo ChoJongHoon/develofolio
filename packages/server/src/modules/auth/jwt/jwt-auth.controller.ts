@@ -1,7 +1,7 @@
 import { Req, Controller, Get, Res, Query, Inject } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import { Request, Response } from 'express'
-import { baseConfig } from 'src/config/base.config'
+import { baseConfig } from '../../../config/base.config'
 import { JwtAuthService } from './jwt-auth.service'
 
 @Controller('jwt')

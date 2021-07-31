@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { UserModule } from 'src/modules/user/user.module'
+import { UserModule } from '../../user/user.module'
 import { JwtAuthModule } from '../jwt/jwt-auth.module'
 import { GithubOauthController } from './github-oauth.controller'
 import { GithubOauthStrategy } from './github-oauth.strategy'

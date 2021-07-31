@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { Profile, Strategy } from 'passport-github'
-import { baseConfig } from 'src/config/base.config'
-import { githubConfig } from 'src/config/github.config'
-import { ProviderType } from 'src/modules/user/enum/provider-type.enum'
-import { UserService } from 'src/modules/user/user.service'
 import { v4 as uuid } from 'uuid'
+import { baseConfig } from '../../../config/base.config'
+import { githubConfig } from '../../../config/github.config'
+import { ProviderType } from '../../user/enum/provider-type.enum'
+import { UserService } from '../../user/user.service'
 
 @Injectable()
 export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {

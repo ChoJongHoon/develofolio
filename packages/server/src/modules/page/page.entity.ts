@@ -9,7 +9,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 import { GraphQLJSON } from 'graphql-type-json'
-import { User } from 'src/modules/user/user.entity'
+import { User } from '../user/user.entity'
 
 @ObjectType()
 @Entity({ name: 'pages' })

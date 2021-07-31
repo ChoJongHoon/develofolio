@@ -1,5 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { User } from 'src/modules/user/user.entity'
 import {
 	Column,
 	Entity,
@@ -7,6 +6,7 @@ import {
 	ManyToOne,
 	PrimaryGeneratedColumn,
 } from 'typeorm'
+import { User } from '../user/user.entity'
 
 @ObjectType()
 @Entity({ name: 'files' })

@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport'
 import { Inject, Injectable } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import { Request } from 'express'
-import { jwtConfig } from 'src/config/jwt.config'
+import { jwtConfig } from '../../../config/jwt.config'
 
 export type JwtRefreshPayload = { uid: string }
 
