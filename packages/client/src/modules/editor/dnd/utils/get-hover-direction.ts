@@ -11,12 +11,12 @@ export const getHoverDirection = (
 	ref: any,
 	hoverId: string
 ): DropDirection => {
-	if (!ref.current) return
+	if (!ref.current) return null
 
 	const dragId = dragItem.id
 
 	// Don't replace items with themselves
-	if (dragId === hoverId) return
+	if (dragId === hoverId) return null
 
 	// Determine rectangle on screen
 	const hoverBoundingRect = ref.current?.getBoundingClientRect()
@@ -26,7 +26,7 @@ export const getHoverDirection = (
 
 	// Determine mouse position
 	const clientOffset = monitor.getClientOffset()
-	if (!clientOffset) return
+	if (!clientOffset) return null
 
 	// Get pixels to the top
 	const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
@@ -46,4 +46,6 @@ export const getHoverDirection = (
 	if (hoverClientY >= hoverMiddleY) {
 		return 'bottom'
 	}
+
+	return null
 }

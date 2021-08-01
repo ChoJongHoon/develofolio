@@ -1,3 +1,3 @@
-import { TypedTypePolicies } from 'src/graphql/apollo-client-helpers.generated'
+import { TypedTypePolicies } from 'src/graphql/helpers.generated'
 
 export const typePolicies: TypedTypePolicies = {}
