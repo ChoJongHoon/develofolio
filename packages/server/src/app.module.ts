@@ -22,7 +22,8 @@ import { awsConfig } from './config/aws.config'
 		GraphQLModule.forRootAsync({
 			inject: [ConfigService],
 			useFactory: async (configService: ConfigService) => ({
-				autoSchemaFile: './schema.graphql',
+				autoSchemaFile:
+					process.env.NODE_ENV === 'development' ? './schema.graphql' : true,
 				context: ({ req, res }: { req: Request; res: Response }) => {
 					return { req, res }
 				},
@@ -35,6 +36,7 @@ import { awsConfig } from './config/aws.config'
 					origin: configService.get('CLIENT_HOST'),
 					credentials: true,
 				},
+				introspection: true,
 			}),
 		}),
 		UserModule,

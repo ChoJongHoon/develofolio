@@ -27,9 +27,9 @@ const config: ConnectionOptions = {
 
 	// Run migrations automatically,
 	// you can disable this if you prefer running migration manually.
-	migrationsRun: false,
+	migrationsRun: process.env.NODE_ENV === 'production',
 	logging: true,
-	logger: 'file',
+	logger: process.env.NODE_ENV === 'development' ? 'file' : 'advanced-console',
 
 	// Allow both start:prod and start:dev to use migrations
 	// __dirname is either dist or src folder, meaning either
@@ -41,5 +41,7 @@ const config: ConnectionOptions = {
 		migrationsDir: 'src/migrations',
 	},
 }
+
+console.log(`config`, config)
 
 export = config
