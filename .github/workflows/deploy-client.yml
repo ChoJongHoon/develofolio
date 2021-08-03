@@ -1,0 +1,55 @@
+name: Deploy Client
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/client/**"
+      - ".github/workflows/deploy-client.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Check cached yarn.lock
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install NPM dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo "NEXT_PUBLIC_SERVER=https://api.develofolio.com" >> .env
+          echo "NEXT_PUBLIC_GRAPHQL_HOST=https://api.develofolio.com/graphql" >> .env
+          echo "NEXT_PUBLIC_RESOURCE_DOMAIN=d7fqhej1dapno.cloudfront.net" >> .env
+        working-directory: ./packages/client
+
+      - name: Build package
+        run: |
+          yarn codegen
+          yarn build
+        working-directory: ./packages/client
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy Next.js app
+        run: yarn deploy
+        working-directory: ./packages/client

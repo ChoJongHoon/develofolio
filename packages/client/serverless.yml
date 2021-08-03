@@ -1,0 +1,10 @@
+develofolioClientNextApplication:
+  component: '@sls-next/serverless-component@3.1.0'
+  inputs:
+    bucketName: 'develofolio-client'
+    cloudfront:
+      distributionId: E2HS7N1G1PHSRK
+    name:
+      defaultLambda: 'develofolio-client-default-lambda'
+      apiLambda: 'develofolio-client-api-lambda'
+      imageLambda: 'develofolio-client-image-lambda'
