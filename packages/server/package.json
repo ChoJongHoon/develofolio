@@ -21,7 +21,7 @@
 		"test:e2e": "jest --config ./test/jest-e2e.json",
 		"typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/config/ormconfig.ts",
 		"predeploy": "yarn build",
-		"deploy": "sls deploy -v"
+		"deploy": "serverless deploy -v"
 	},
 	"dependencies": {
 		"@nestjs/common": "^7.6.15",

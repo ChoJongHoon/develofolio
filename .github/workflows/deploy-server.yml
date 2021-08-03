@@ -1,0 +1,67 @@
+name: Deploy Server
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/server/**"
+      - ".github/workflows/deploy-server.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Check cached yarn.lock
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install NPM dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install
+        working-directory: ./packages/server
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo "CLIENT_HOST=https://develofolio.com" >> .env
+          echo "HOST=https://api.develofolio.com" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "GITHUB_CLIENT_ID=${{ secrets.GH_CLIENT_ID }}" >> .env
+          echo "GITHUB_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }}" >> .env
+          echo "JWT_ACCESS_TOKEN_SECRET=${{ secrets.JWT_ACCESS_TOKEN_SECRET }}" >> .env
+          echo "JWT_ACCESS_TOKEN_EXPIRES_IN=15m" >> .env
+          echo "JWT_REFRESH_TOKEN_SECRET=${{ secrets.JWT_REFRESH_TOKEN_SECRET }}" >> .env
+          echo "JWT_REFRESH_TOKEN_EXPIRES_IN=30d" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
+          echo "AWS_PUBLIC_BUCKET_NAME=${{ secrets.AWS_PUBLIC_BUCKET_NAME }}" >> .env
+        working-directory: ./packages/server
+
+      - name: Build package
+        run: yarn build
+        working-directory: ./packages/server
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy Nest.js app
+        run: yarn deploy
+        working-directory: ./packages/server
