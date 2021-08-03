@@ -42,6 +42,4 @@ const config: ConnectionOptions = {
 	},
 }
 
-console.log(`config`, config)
-
 export = config
