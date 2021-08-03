@@ -28,6 +28,7 @@ jobs:
       - name: Install NPM dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
+        working-directory: ./packages/client
 
       - name: Create env file
         run: |
