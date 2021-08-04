@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 import OpenColor from 'open-color'
 import { useStyletron } from 'styletron-react'
-import { generateImagePath } from '~/utils/generate-image-path'
 import { useUser } from '../user/hooks/use-user'
 import { Icon, IconType } from '~/components/icon'
 import Link from 'next/link'
@@ -36,7 +35,7 @@ export const EditorSidebar = () => {
 			{user &&
 				(user.avatar ? (
 					<Image
-						src={generateImagePath(`images/${user.id}/profile/${user.avatar}`)}
+						src={user.avatar}
 						width="40px"
 						height="40px"
 						className={css({

@@ -18,7 +18,10 @@ const nextConfig = {
 		return config
 	},
 	images: {
-		domains: [process.env.NEXT_PUBLIC_RESOURCE_DOMAIN],
+		domains: [
+			process.env.NEXT_PUBLIC_RESOURCE_DOMAIN,
+			'avatars.githubusercontent.com',
+		],
 	},
 	reactStrictMode: true,
 }
