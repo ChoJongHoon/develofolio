@@ -30,7 +30,7 @@ export const withAuthSsr =
 	async (
 		context: GetServerSidePropsContext<Q>
 	): Promise<GetServerSidePropsResult<P>> => {
-		const { req, res, resolvedUrl } = context
+		const { req, resolvedUrl } = context
 
 		const cookies = cookie.parse(req?.headers.cookie || '')
 
@@ -44,7 +44,7 @@ export const withAuthSsr =
 		if (accessToken && !isLogged) {
 			return {
 				redirect: {
-					destination: `${process.env.NEXT_PUBLIC_SERVER}/jwt/refresh?redirect=${req.url}`,
+					destination: `${process.env.NEXT_PUBLIC_SERVER}/jwt/refresh?redirect=${resolvedUrl}`,
 					permanent: false,
 				},
 			}

@@ -6,10 +6,10 @@ import {
 } from '@apollo/client'
 import { typePolicies } from './type-policies'
 import generatedIntrospection from '~/graphql/fragment-matcher.generated.json'
-import { errorLink } from './links/error.link'
 import { isServer } from '~/utils/is-server'
 import { httpLink } from './links/http.link'
 import { createAuthLink } from './links/auth.link'
+import { refreshLink } from './links/refresh.link'
 
 function createApolloClient(
 	initialState: NormalizedCacheObject = {},
@@ -18,8 +18,8 @@ function createApolloClient(
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined', // set to true for SSR
 		link: ApolloLink.from([
+			refreshLink,
 			createAuthLink(serverAccessToken),
-			errorLink,
 			httpLink,
 		]),
 		cache: new InMemoryCache({
