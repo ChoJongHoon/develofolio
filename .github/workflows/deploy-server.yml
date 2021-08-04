@@ -33,6 +33,7 @@ jobs:
       - name: Create env file
         run: |
           touch .env
+          echo "NODE_ENV=production" >> .env
           echo "CLIENT_HOST=https://develofolio.com" >> .env
           echo "HOST=https://api.develofolio.com" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
