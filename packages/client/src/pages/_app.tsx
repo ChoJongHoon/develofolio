@@ -8,9 +8,11 @@ import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
 import { LightTheme, BaseProvider } from 'baseui'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { styletron } from '~/styles/styletron'
+import { NextPage } from 'next'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
+	Component: NextPage
 }
 
 const App = ({ Component, pageProps }: MyAppProps) => {
@@ -19,13 +21,15 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 		pageProps[SERVER_ACCESS_TOKEN]
 	)
 
+	const getLayout = Component.getLayout || ((page) => page)
+
 	return (
 		<>
 			{globalStyle}
 			<ApolloProvider client={client}>
 				<StyletronProvider value={styletron}>
 					<BaseProvider theme={LightTheme}>
-						<Component {...pageProps} />
+						{getLayout(<Component {...pageProps} />)}
 					</BaseProvider>
 				</StyletronProvider>
 			</ApolloProvider>

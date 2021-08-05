@@ -33,11 +33,9 @@ export const getServerSideProps = withAuthSsr<EditProps>(
 )
 
 const Edit: NextPage<EditProps> = ({ page }) => {
-	return (
-		<EditorLayout>
-			<PageEditor initialContent={page.content} />
-		</EditorLayout>
-	)
+	return <PageEditor initialContent={page.content} />
 }
+
+Edit.getLayout = (page) => <EditorLayout>{page}</EditorLayout>
 
 export default Edit

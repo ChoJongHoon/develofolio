@@ -1,0 +1,15 @@
+diff --git a/node_modules/next/types/index.d.ts b/node_modules/next/types/index.d.ts
+index 476d491..2ac8968 100644
+--- a/node_modules/next/types/index.d.ts
++++ b/node_modules/next/types/index.d.ts
+@@ -57,7 +57,9 @@ export type Redirect =
+ /**
+  * `Page` type, use it as a guide to create `pages`.
+  */
+-export type NextPage<P = {}, IP = P> = NextComponentType<NextPageContext, IP, P>
++export type NextPage<P = {}, IP = P> = NextComponentType<NextPageContext, IP, P> & {
++  getLayout?: (page: React.ReactNode) => React.ReactNode
++}
+ 
+ /**
+  * `Config` type, use it for export const config
