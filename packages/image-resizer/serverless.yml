@@ -1,0 +1,18 @@
+service: develofolio-image-resizer
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  endpointType: Edge
+  timeout: 30
+
+functions:
+  imageResizer:
+    role: arn:aws:iam::372828675833:role/EdgeLambdaRole
+    handler: dist/src/handler.resize
+    name: ${self:service}
+    package:
+      patterns:
+        - 'node_modules/**'
+        - 'handler.js'

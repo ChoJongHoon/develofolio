@@ -4,3 +4,4 @@ ormlogs.log
 yarn-error.log
 .serverless
 .DS_STORE
+dist

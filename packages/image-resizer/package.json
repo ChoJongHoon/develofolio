@@ -1,0 +1,21 @@
+{
+	"name": "image-resizer",
+	"version": "0.1.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsc",
+		"deploy": "yarn build && serverless deploy -v"
+	},
+	"dependencies": {
+		"image-size": "^1.0.0",
+		"query-string": "^7.0.1",
+		"sharp": "^0.28.3"
+	},
+	"devDependencies": {
+		"@types/aws-lambda": "^8.10.81",
+		"@types/aws-sdk": "^2.7.0",
+		"@types/sharp": "^0.28.5",
+		"serverless": "^2.53.0"
+	}
+}
