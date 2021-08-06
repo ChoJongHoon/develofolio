@@ -17,8 +17,6 @@ async function bootstrap() {
 	app.use(cookieParser())
 
 	config.update({
-		accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
-		secretAccessKey: configService.get('AWS_SECRET_ACCESS_KEY'),
 		region: 'ap-northeast-2',
 	})
 
