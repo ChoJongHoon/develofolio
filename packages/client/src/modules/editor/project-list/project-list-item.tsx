@@ -5,7 +5,6 @@ import {
 	LogoElement,
 	ProjectListItemElement,
 } from '../custom-types'
-import Image from 'next/image'
 import OpenColor from 'open-color'
 import { padding, transitions } from 'polished'
 import { Icon, IconType } from '~/components/icon'
@@ -15,11 +14,8 @@ import { PopoverLogoPicker } from '../logo/popover-logo-picker'
 import { ILogo } from '../logo/types'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { Transforms } from 'slate'
-import { useFileLoad } from '~/hooks/use-file-load'
 import { useApolloClient } from '@apollo/client'
 import axios from 'axios'
-import { useUser } from '~/modules/user/hooks/use-user'
-import { generateImagePath } from '~/utils/generate-image-path'
 import { EditLinkPopover } from '../social-link/edit-link-popover'
 import {
 	GenerateUploadUrlDocument,

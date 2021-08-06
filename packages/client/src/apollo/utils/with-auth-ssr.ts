@@ -40,11 +40,15 @@ export const withAuthSsr =
 			accessToken &&
 				jwtDecode<{ exp: number }>(accessToken).exp * 1000 > Date.now()
 		)
-
+		console.log(
+			`jwtDecode<{ exp: number }>(accessToken)`,
+			jwtDecode<{ exp: number }>(accessToken)
+		)
+		console.log(`isLogged`, isLogged)
 		if (accessToken && !isLogged) {
 			return {
 				redirect: {
-					destination: `${process.env.NEXT_PUBLIC_SERVER}/jwt/refresh?redirect=${resolvedUrl}`,
+					destination: `${process.env.NEXT_PUBLIC_SERVER_HOST}/jwt/refresh?redirect=${resolvedUrl}`,
 					permanent: false,
 				},
 			}

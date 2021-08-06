@@ -19,7 +19,7 @@ const nextConfig = {
 	},
 	images: {
 		domains: [
-			process.env.NEXT_PUBLIC_RESOURCE_DOMAIN,
+			process.env.NEXT_PUBLIC_IMAGES_HOST.replace(/(^\w+:|^)\/\//, ''),
 			'avatars.githubusercontent.com',
 		],
 	},

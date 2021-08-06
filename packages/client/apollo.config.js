@@ -5,7 +5,7 @@ module.exports = {
 	client: {
 		service: {
 			name: 'develofolio',
-			url: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
+			url: `${process.env.NEXT_PUBLIC_SERVER_HOST}/graphql`,
 		},
 		excludes: ['**/*.generated.*'],
 	},

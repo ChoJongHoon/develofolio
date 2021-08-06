@@ -23,7 +23,7 @@ export const refreshLink = new TokenRefreshLink({
 		}
 	},
 	fetchAccessToken: () => {
-		return fetch(`${process.env.NEXT_PUBLIC_SERVER}/jwt/refresh`, {
+		return fetch(`${process.env.NEXT_PUBLIC_SERVER_HOST}/jwt/refresh`, {
 			method: 'GET',
 			credentials: 'include',
 		})

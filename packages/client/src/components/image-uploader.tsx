@@ -7,13 +7,13 @@ import { useDropzone } from 'react-dropzone'
 import { useStyletron } from 'styletron-react'
 import { ProgressBar } from 'baseui/progress-bar'
 import Image from 'next/image'
-import { generateImagePath } from '~/utils/generate-image-path'
 import { hexToRGB } from '~/styles/hex-to-rgb'
 import ImagesIllust from 'public/images/illust/images.svg'
 import { Icon } from './icon'
 import { useHover } from '~/hooks/use-hover'
 import mergeRefs from 'react-merge-refs'
 import classNames from 'classnames'
+import { generateFileUrl } from '~/utils/generate-file-url'
 
 interface ImageUploaderProps {
 	onDrop: (file: File) => Promise<void>
@@ -85,7 +85,7 @@ export const ImageUploader = ({
 		>
 			{image && !loading && (
 				<Image
-					src={generateImagePath(image)}
+					src={generateFileUrl(image)}
 					layout="fill"
 					alt="Profile"
 					objectFit="cover"

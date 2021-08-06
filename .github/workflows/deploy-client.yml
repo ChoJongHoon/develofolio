@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "packages/client/**"
-      - ".github/workflows/deploy-client.yml"
+      - 'packages/client/**'
+      - '.github/workflows/deploy-client.yml'
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
         uses: actions/cache@v2
         id: yarn-cache
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install NPM dependencies
@@ -33,9 +33,8 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo "NEXT_PUBLIC_SERVER=https://api.develofolio.com" >> .env
-          echo "NEXT_PUBLIC_GRAPHQL_HOST=https://api.develofolio.com/graphql" >> .env
-          echo "NEXT_PUBLIC_RESOURCE_DOMAIN=d7fqhej1dapno.cloudfront.net" >> .env
+          echo "NEXT_PUBLIC_SERVER_HOST=https://api.develofolio.com" >> .env
+          echo "NEXT_PUBLIC_IMAGES_HOST=https://images.develofolio.com" >> .env
         working-directory: ./packages/client
 
       - name: Build package
