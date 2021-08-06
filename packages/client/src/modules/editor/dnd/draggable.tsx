@@ -27,7 +27,6 @@ export const Draggable: FC<DraggableProps> = ({ children, id }) => {
 		if (!child) return
 
 		const { height } = child.getBoundingClientRect()
-		console.log(`height`, height)
 		setHeight(height)
 	}, [])
 

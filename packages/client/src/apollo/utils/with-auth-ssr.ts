@@ -40,11 +40,7 @@ export const withAuthSsr =
 			accessToken &&
 				jwtDecode<{ exp: number }>(accessToken).exp * 1000 > Date.now()
 		)
-		console.log(
-			`jwtDecode<{ exp: number }>(accessToken)`,
-			jwtDecode<{ exp: number }>(accessToken)
-		)
-		console.log(`isLogged`, isLogged)
+
 		if (accessToken && !isLogged) {
 			return {
 				redirect: {

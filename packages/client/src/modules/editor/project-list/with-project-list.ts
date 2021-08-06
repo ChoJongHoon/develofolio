@@ -97,7 +97,6 @@ export const withProjectList = (editor: Editor) => {
 			if (match) {
 				const [block] = match
 				if (Editor.isBlock(editor, block)) {
-					console.log(`block.type`, block.type)
 					if (
 						block.type === 'project-list-item-name' ||
 						block.type === 'project-list-item-description'

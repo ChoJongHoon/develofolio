@@ -24,7 +24,6 @@ export class PageResolver {
 		@Args('slug', { type: () => String }) slug: string,
 		@Args('initialContent', { type: () => GraphQLJSON }) initialContent: any
 	) {
-		console.log(`initialContent`, initialContent)
 		return await this.pageService.create({
 			userId: user.id,
 			content: initialContent,

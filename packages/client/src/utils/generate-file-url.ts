@@ -24,7 +24,6 @@ export const generateFileUrl = (
 				url += `${d.width * 2}x${d.height * 2}`
 			}
 		}
-		console.log(`url`, url)
 		return url
 	}
 
