@@ -3,7 +3,7 @@ import axios from 'axios'
 import { StatefulPopover } from 'baseui/popover'
 import OpenColor from 'open-color'
 import { padding, transitions } from 'polished'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { useStyletron } from 'styletron-react'
@@ -13,10 +13,11 @@ import {
 	GenerateUploadUrlDocument,
 	UploadType,
 } from '~/graphql/document.generated'
-import { useHover } from '~/hooks/use-hover'
 import { BannerElement, CustomRenderElementProps } from '../custom-types'
 import { EditLinkPopover } from '../social-link/edit-link-popover'
 import { ImageUploader } from '~/components/image-uploader'
+import { Cell, Grid } from 'baseui/layout-grid'
+import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 
 export const EMPTY_BANNER: BannerElement = {
 	type: 'banner',
@@ -46,7 +47,6 @@ export const Banner = ({
 }: CustomRenderElementProps<BannerElement>) => {
 	const client = useApolloClient()
 	const [css] = useStyletron()
-	const [profileHoverRef, isProfileHovered] = useHover<HTMLDivElement>()
 	const editor = useSlateStatic()
 
 	const [createFile] = useMutation(CreateFileDocument)
@@ -94,104 +94,111 @@ export const Banner = ({
 		<div
 			className={css({
 				backgroundColor: OpenColor.gray[0],
-				marginLeft: '-32px',
-				marginRight: '-32px',
-				display: 'flex',
 			})}
 		>
-			<div
-				className={css({
-					flex: '1 1 0',
-					...padding('48px'),
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'space-between',
-				})}
-			>
-				<div {...attributes}>{children}</div>
-				<div
-					contentEditable={false}
-					className={css({ userSelect: 'none', display: 'flex' })}
+			<Grid>
+				<Cell
+					span={[4, 4, 5]}
+					overrides={{
+						Cell: {
+							style: {
+								paddingTop: '48px',
+								paddingBottom: '48px',
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'space-between',
+							},
+						},
+					}}
+					skip={[0, 0, 1]}
 				>
-					{LINKS.map((link) => (
-						<StatefulPopover
-							key={link.name}
-							content={({ close }) => (
-								<EditLinkPopover
-									defaultValue={element.links[link.name]}
-									onClose={close}
-									onChange={(value) => {
-										const path = ReactEditor.findPath(editor, element)
-										const newProperties: Partial<BannerElement> = {
-											links: {
-												...element.links,
-												[link.name]: value,
-											},
-										}
-										Transforms.setNodes(editor, newProperties, { at: path })
-									}}
-								/>
-							)}
-							placement="bottomLeft"
-							focusLock
-						>
-							<button
-								className={css({
-									backgroundColor: OpenColor.white,
-									border: 'none',
-									width: '28px',
-									height: '28px',
-									borderRadius: '50%',
-									cursor: 'pointer',
-									display: 'flex',
-									justifyContent: 'center',
-									alignItems: 'center',
-									opacity: element.links[link.name] ? 1 : 0.5,
-									...padding('0px'),
-									...transitions(['opacity'], '0.2s'),
-									':hover': {
-										opacity: element.links[link.name] ? 1 : 0.8,
-									},
-									':not(:last-child)': {
-										marginRight: '8px',
-									},
-								})}
+					<div {...attributes}>{children}</div>
+					<div
+						contentEditable={false}
+						className={css({ userSelect: 'none', display: 'flex' })}
+					>
+						{LINKS.map((link) => (
+							<StatefulPopover
+								key={link.name}
+								content={({ close }) => (
+									<EditLinkPopover
+										defaultValue={element.links[link.name]}
+										onClose={close}
+										onChange={(value) => {
+											const path = ReactEditor.findPath(editor, element)
+											const newProperties: Partial<BannerElement> = {
+												links: {
+													...element.links,
+													[link.name]: value,
+												},
+											}
+											Transforms.setNodes(editor, newProperties, { at: path })
+										}}
+									/>
+								)}
+								placement="bottomLeft"
+								focusLock
 							>
-								<Icon type={link.icon} color={OpenColor.teal[7]} size={20} />
-							</button>
-						</StatefulPopover>
-					))}
-				</div>
-			</div>
-			<div
-				className={css({
-					boxSizing: 'content-box',
-					userSelect: 'none',
-					paddingTop: '48px',
-					paddingRight: '48px',
-					paddingBottom: '48px',
-					width: '400px',
-					height: '300px',
-					position: 'relative',
-				})}
-				contentEditable={false}
-			>
-				<div
-					className={css({
-						position: 'relative',
-						width: '100%',
-						height: '100%',
-					})}
-					ref={profileHoverRef}
+								<button
+									className={css({
+										backgroundColor: OpenColor.white,
+										border: 'none',
+										width: '28px',
+										height: '28px',
+										borderRadius: '50%',
+										cursor: 'pointer',
+										display: 'flex',
+										justifyContent: 'center',
+										alignItems: 'center',
+										opacity: element.links[link.name] ? 1 : 0.5,
+										...padding('0px'),
+										...transitions(['opacity'], '0.2s'),
+										':hover': {
+											opacity: element.links[link.name] ? 1 : 0.8,
+										},
+										':not(:last-child)': {
+											marginRight: '8px',
+										},
+									})}
+								>
+									<Icon type={link.icon} color={OpenColor.teal[7]} size={20} />
+								</button>
+							</StatefulPopover>
+						))}
+					</div>
+				</Cell>
+				<Cell
+					span={[4, 4, 5]}
+					overrides={{
+						Cell: {
+							style: {
+								paddingTop: '48px',
+								paddingBottom: '48px',
+							},
+						},
+					}}
 				>
-					<ImageUploader
-						onDrop={onAddProfle}
-						onDelete={onRemoveProfile}
-						image={element.profile}
-						progressAmount={progress}
-					/>
-				</div>
-			</div>
+					<AspectRatioBox aspectRatio={4 / 3}>
+						<AspectRatioBoxBody>
+							<div
+								className={css({
+									position: 'relative',
+									width: '100%',
+									height: '100%',
+								})}
+								contentEditable={false}
+							>
+								<ImageUploader
+									onDrop={onAddProfle}
+									onDelete={onRemoveProfile}
+									image={element.profile}
+									progressAmount={progress}
+								/>
+							</div>
+						</AspectRatioBoxBody>
+					</AspectRatioBox>
+				</Cell>
+			</Grid>
 		</div>
 	)
 }
