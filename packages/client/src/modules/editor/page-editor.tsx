@@ -133,8 +133,6 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 							}
 						}}
 						className={css({
-							paddingLeft: '32px',
-							paddingRight: '32px',
 							paddingBottom: '96px',
 						})}
 						onKeyDown={onKeyDown}
