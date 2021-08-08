@@ -4,7 +4,7 @@ import { StyleObject } from 'styletron-standard'
 import {
 	BulletedListElement,
 	CustomRenderElementProps,
-	WithKey,
+	WithId,
 } from '../custom-types'
 import { RootDraggable } from '../dnd/root-draggable'
 
@@ -12,10 +12,10 @@ export const BulletedList = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<WithKey<BulletedListElement>>) => {
+}: CustomRenderElementProps<WithId<BulletedListElement>>) => {
 	const [css] = useStyletron()
 	return (
-		<RootDraggable id={element.key}>
+		<RootDraggable id={element.id}>
 			<Cell span={[4, 8, 12]}>
 				<ul {...attributes} className={css(styles)}>
 					{children}

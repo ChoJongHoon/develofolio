@@ -2,25 +2,28 @@ import { BaseEditor, Descendant } from 'slate'
 import { HistoryEditor } from 'slate-history'
 import { ReactEditor, RenderElementProps } from 'slate-react'
 
-export type WithKey<Element> = Element & { key?: string }
+export type WithId<Element> = Element & { id: string }
 
 // ==============================
 //           Elements
 // ==============================
-export type ParagraphElement = {
+export type ParagraphElement = WithId<{
 	type: 'paragraph'
 	children: Descendant[]
-}
-export type HeadingElement = {
+}>
+export type HeadingElement = WithId<{
 	type: 'heading'
 	level: 1 | 2 | 3
 	children: Descendant[]
-}
-export type BlockQuoteElement = { type: 'block-quote'; children: Descendant[] }
-export type BulletedListElement = {
+}>
+export type BlockQuoteElement = WithId<{
+	type: 'block-quote'
+	children: Descendant[]
+}>
+export type BulletedListElement = WithId<{
 	type: 'bulleted-list'
 	children: Descendant[]
-}
+}>
 export type ListItemElement = { type: 'list-item'; children: Descendant[] }
 
 export type LogoElement = {
@@ -45,11 +48,7 @@ export type BannerElement = {
 		twitter?: string | null
 		linkedIn?: string | null
 	}
-	children: [
-		WithKey<BannerNameElement>,
-		WithKey<BannerTaglineElement>,
-		WithKey<BannerBioElement>
-	]
+	children: [BannerNameElement, BannerTaglineElement, BannerBioElement]
 }
 export type BannerNameElement = {
 	type: 'banner-name'
@@ -67,10 +66,10 @@ export type BannerBioElement = {
 // ==============================
 //           SkillList
 // ==============================
-export type SkillListElement = {
+export type SkillListElement = WithId<{
 	type: 'skill-list'
 	children: SkillListItemElement[]
-}
+}>
 export type SkillListItemElement = {
 	type: 'skill-list-item'
 	children: [
@@ -96,10 +95,10 @@ export type SkillListItemDescriptionElement = {
 // ==============================
 //           ProjectList
 // ==============================
-export type ProjectListElement = {
+export type ProjectListElement = WithId<{
 	type: 'project-list'
 	children: ProjectListItemElement[]
-}
+}>
 export type ProjectListItemElement = {
 	type: 'project-list-item'
 	thumbnail: string | null
@@ -121,7 +120,7 @@ export type ProjectListItemDescriptionElement = {
 	children: CustomText[]
 }
 
-export type CustomElement = WithKey<
+export type CustomElement =
 	| ParagraphElement
 	| HeadingElement
 	| BlockQuoteElement
@@ -141,7 +140,6 @@ export type CustomElement = WithKey<
 	| ProjectListItemElement
 	| ProjectListItemNameElement
 	| ProjectListItemDescriptionElement
->
 
 export type LeafFormat = 'bold' | 'italic' | 'code'
 

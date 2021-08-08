@@ -24,7 +24,7 @@ import {
 import { ImageUploader } from '~/components/image-uploader'
 import { Cell } from 'baseui/layout-grid'
 
-export const EMPTY_PROJECT_LIST_ITEM: ProjectListItemElement = {
+export const generateProjectListItemElement = (): ProjectListItemElement => ({
 	type: 'project-list-item',
 	logos: [],
 	links: { appstore: null, github: null, playstore: null, web: null },
@@ -33,7 +33,7 @@ export const EMPTY_PROJECT_LIST_ITEM: ProjectListItemElement = {
 		{ type: 'project-list-item-name', children: [{ text: '' }] },
 		{ type: 'project-list-item-description', children: [{ text: '' }] },
 	],
-}
+})
 
 const LINKS: Array<{
 	name: keyof ProjectListItemElement['links']

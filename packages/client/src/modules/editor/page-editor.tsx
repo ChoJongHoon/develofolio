@@ -4,7 +4,6 @@ import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './hovering-toolbar'
 import { renderLeaf, toggleFormat } from './elements/format'
-import { withNodeId } from './node-id/with-node-id'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { CustomElement } from './custom-element'
@@ -38,7 +37,6 @@ const PLUGINS = [
 	withProjectList,
 	withLogo,
 	withShortcuts,
-	withNodeId,
 ]
 
 interface PageEditorProps {

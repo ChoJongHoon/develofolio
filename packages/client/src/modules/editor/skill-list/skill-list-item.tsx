@@ -9,7 +9,7 @@ import { Icon } from '~/components/icon'
 import { useHover } from '~/hooks/use-hover'
 import { CustomRenderElementProps, SkillListItemElement } from '../custom-types'
 
-export const EMPTY_SKILL_LIST_ITEM: SkillListItemElement = {
+export const generateSkillListItemElement = (): SkillListItemElement => ({
 	type: 'skill-list-item',
 	children: [
 		{
@@ -23,7 +23,7 @@ export const EMPTY_SKILL_LIST_ITEM: SkillListItemElement = {
 			children: [{ text: '' }],
 		},
 	],
-}
+})
 
 export const SkillListItem = ({
 	attributes,

@@ -10,16 +10,15 @@ import { ROUTE_EDIT } from '~/routes'
 
 const getInitialContent = (): Descendant[] => [
 	{
-		key: nanoid(),
 		type: 'banner',
 		links: {},
 		children: [
-			{ key: nanoid(), type: 'banner-name', children: [{ text: '' }] },
-			{ key: nanoid(), type: 'banner-tagline', children: [{ text: '' }] },
-			{ key: nanoid(), type: 'banner-bio', children: [{ text: '' }] },
+			{ type: 'banner-name', children: [{ text: '' }] },
+			{ type: 'banner-tagline', children: [{ text: '' }] },
+			{ type: 'banner-bio', children: [{ text: '' }] },
 		],
 	},
-	{ key: nanoid(), type: 'paragraph', children: [{ text: '' }] },
+	{ id: nanoid(), type: 'paragraph', children: [{ text: '' }] },
 ]
 
 export const getServerSideProps = withAuthSsr()

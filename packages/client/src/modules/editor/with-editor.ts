@@ -1,5 +1,5 @@
 import { Editor, Transforms } from 'slate'
-import { EMPTY_PARAGRAPH } from './elements/paragraph'
+import { generateParagraphElement } from './elements/paragraph'
 
 export const withEditor = (editor: Editor) => {
 	const { normalizeNode } = editor
@@ -8,7 +8,7 @@ export const withEditor = (editor: Editor) => {
 		const lastBlock = editor.children[editor.children.length - 1]
 
 		if (Editor.isBlock(editor, lastBlock) && lastBlock.type !== 'paragraph') {
-			Transforms.insertNodes(editor, EMPTY_PARAGRAPH, {
+			Transforms.insertNodes(editor, generateParagraphElement(), {
 				at: [editor.children.length],
 			})
 		}

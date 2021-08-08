@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { Editor, Element, Point, Range, Transforms } from 'slate'
 import {
 	BulletedListElement,
@@ -51,6 +52,7 @@ export const withShortcuts = (editor: Editor) => {
 
 						if (type === 'list-item') {
 							const list: BulletedListElement = {
+								id: nanoid(),
 								type: 'bulleted-list',
 								children: [],
 							}

@@ -11,21 +11,23 @@ import { useHover } from '~/hooks/use-hover'
 import {
 	CustomRenderElementProps,
 	SkillListElement,
-	WithKey,
+	WithId,
 } from '../custom-types'
 import { RootDraggable } from '../dnd/root-draggable'
-import { EMPTY_SKILL_LIST_ITEM } from './skill-list-item'
+import { generateSkillListItemElement } from './skill-list-item'
+import { nanoid } from 'nanoid'
 
-export const EMPTY_SKILL_LIST: SkillListElement = {
+export const generateSkillListElement = (): SkillListElement => ({
+	id: nanoid(),
 	type: 'skill-list',
-	children: [EMPTY_SKILL_LIST_ITEM],
-}
+	children: [generateSkillListItemElement()],
+})
 
 export const SkillList = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<WithKey<SkillListElement>>) => {
+}: CustomRenderElementProps<WithId<SkillListElement>>) => {
 	const [css] = useStyletron()
 
 	const [hoverRef, isHover] = useHover<HTMLDivElement>()
@@ -35,7 +37,7 @@ export const SkillList = ({
 
 	const onSkillAdd = useCallback(() => {
 		const path = ReactEditor.findPath(editor, element)
-		Transforms.insertNodes(editor, EMPTY_SKILL_LIST_ITEM, {
+		Transforms.insertNodes(editor, generateSkillListItemElement(), {
 			at: path.concat(element.children.length),
 		})
 	}, [editor, element])
@@ -84,7 +86,7 @@ export const SkillList = ({
 				</Cell>
 			</Grid>
 			<RootDraggable
-				id={element.key}
+				id={element.id}
 				overrides={{
 					Grid: {
 						style: {

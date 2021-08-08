@@ -11,7 +11,7 @@ import { up } from '~/styles/responsive'
 import classNames from 'classnames'
 
 type RootDraggableProps = {
-	id?: string
+	id: string
 	className?: string
 	overrides?: GridOverrides
 }
@@ -27,7 +27,7 @@ export const RootDraggable: FC<RootDraggableProps> = ({
 	const [hoverRef, isHovered] = useHover()
 
 	const { dropLine, dragRef, isDragging } = useDndBlock({
-		id: id as string,
+		id,
 		blockRef: rootRef,
 	})
 

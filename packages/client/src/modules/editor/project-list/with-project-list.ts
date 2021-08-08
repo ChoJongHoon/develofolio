@@ -1,7 +1,7 @@
 import { Editor, Element, Point, Range, Transforms } from 'slate'
 import { CustomElement } from '../custom-types'
-import { EMPTY_PROJECT_LIST_DESCRIPTION } from './project-list-item-description'
-import { EMPTY_PROJECT_LIST_ITEM_NAME } from './project-list-item-name'
+import { generateProjectListItemDescriptionElement } from './project-list-item-description'
+import { generateProjectListItemNameElement } from './project-list-item-name'
 
 const PROJECT_LIST_CHILD_TYPES: CustomElement['type'][] = [
 	'project-list-item-name',
@@ -16,7 +16,7 @@ export const withProjectList = (editor: Editor) => {
 		if (Editor.isBlock(editor, block)) {
 			if (block.type === 'project-list-item') {
 				if (block.children.length < 1) {
-					Transforms.insertNodes(editor, EMPTY_PROJECT_LIST_ITEM_NAME, {
+					Transforms.insertNodes(editor, generateProjectListItemNameElement(), {
 						at: [...path, 0],
 					})
 				} else if (block.children[0].type !== 'project-list-item-name') {
@@ -27,9 +27,13 @@ export const withProjectList = (editor: Editor) => {
 					)
 				}
 				if (block.children.length < 2) {
-					Transforms.insertNodes(editor, EMPTY_PROJECT_LIST_DESCRIPTION, {
-						at: [...path, 1],
-					})
+					Transforms.insertNodes(
+						editor,
+						generateProjectListItemDescriptionElement(),
+						{
+							at: [...path, 1],
+						}
+					)
 				} else if (block.children[1].type !== 'project-list-item-description') {
 					Transforms.setNodes(
 						editor,

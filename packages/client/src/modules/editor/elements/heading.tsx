@@ -6,7 +6,7 @@ import { StyleObject } from 'styletron-standard'
 import {
 	CustomRenderElementProps,
 	HeadingElement,
-	WithKey,
+	WithId,
 } from '../custom-types'
 import { RootDraggable } from '../dnd/root-draggable'
 import { Placeholder } from '../placeholder/placeholder'
@@ -19,13 +19,13 @@ export const Heading = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<WithKey<HeadingElement>>) => {
+}: CustomRenderElementProps<WithId<HeadingElement>>) => {
 	const [css] = useStyletron()
 
 	const CustomTag = `h${element.level}` as const
 	return (
 		<RootDraggable
-			id={element.key}
+			id={element.id}
 			overrides={{
 				Grid: {
 					style: {

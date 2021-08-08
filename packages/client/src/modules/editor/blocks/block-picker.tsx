@@ -14,19 +14,23 @@ import FocusLock from 'react-focus-lock'
 import { Descendant, Transforms } from 'slate'
 import { useStyletron } from 'styletron-react'
 import { transitions } from 'polished'
-import { EMPTY_PROJECT_LIST } from '../project-list/project-list'
-import { EMPTY_SKILL_LIST } from '../skill-list/skill-list'
+import { generateProjectListElement } from '../project-list/project-list'
+import { generateSkillListElement } from '../skill-list/skill-list'
 
-const BLOCKS: Array<{ name: string; description: string; node: Descendant }> = [
+const BLOCKS: Array<{
+	name: string
+	description: string
+	generateNode: () => Descendant
+}> = [
 	{
 		name: '스킬 리스트',
 		description: '사용할 수 있는 기술을 나열하는 그리드 형태의 블럭입니다.',
-		node: EMPTY_SKILL_LIST,
+		generateNode: generateSkillListElement,
 	},
 	{
 		name: '프로젝트 리스트',
 		description: '주요 프로젝트를 소개합니다.',
-		node: EMPTY_PROJECT_LIST,
+		generateNode: generateProjectListElement,
 	},
 ]
 
@@ -185,7 +189,7 @@ export const BlockPicker = () => {
 										dispatch(setBlockPickerSelectedIndex(index))
 									}}
 									onClick={() => {
-										Transforms.insertNodes(editor, block.node)
+										Transforms.insertNodes(editor, block.generateNode())
 										onClose(index)
 									}}
 								>

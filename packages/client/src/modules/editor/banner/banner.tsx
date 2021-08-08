@@ -19,7 +19,7 @@ import { ImageUploader } from '~/components/image-uploader'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 
-export const EMPTY_BANNER: BannerElement = {
+export const generateBannerElement = (): BannerElement => ({
 	type: 'banner',
 	links: {},
 	children: [
@@ -27,7 +27,7 @@ export const EMPTY_BANNER: BannerElement = {
 		{ type: 'banner-tagline', children: [{ text: '' }] },
 		{ type: 'banner-bio', children: [{ text: '' }] },
 	],
-}
+})
 
 const LINKS: Array<{
 	name: keyof BannerElement['links']

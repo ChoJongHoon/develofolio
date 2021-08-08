@@ -1,4 +1,5 @@
 import { Cell, Grid } from 'baseui/layout-grid'
+import { nanoid } from 'nanoid'
 import OpenColor from 'open-color'
 import { borderRadius, borderStyle, padding, transitions } from 'polished'
 import { useCallback } from 'react'
@@ -10,20 +11,21 @@ import { useHover } from '~/hooks/use-hover'
 import {
 	CustomRenderElementProps,
 	ProjectListElement,
-	WithKey,
+	WithId,
 } from '../custom-types'
 import { RootDraggable } from '../dnd/root-draggable'
-import { EMPTY_PROJECT_LIST_ITEM } from './project-list-item'
+import { generateProjectListItemElement } from './project-list-item'
 
-export const EMPTY_PROJECT_LIST: ProjectListElement = {
+export const generateProjectListElement = (): ProjectListElement => ({
+	id: nanoid(),
 	type: 'project-list',
-	children: [EMPTY_PROJECT_LIST_ITEM],
-}
+	children: [generateProjectListItemElement()],
+})
 
 export const ProjectList = ({
 	children,
 	element,
-}: CustomRenderElementProps<WithKey<ProjectListElement>>) => {
+}: CustomRenderElementProps<ProjectListElement>) => {
 	const [css] = useStyletron()
 	const editor = useSlateStatic()
 
@@ -32,7 +34,7 @@ export const ProjectList = ({
 
 	const onAdd = useCallback(() => {
 		const path = ReactEditor.findPath(editor, element)
-		Transforms.insertNodes(editor, EMPTY_PROJECT_LIST_ITEM, {
+		Transforms.insertNodes(editor, generateProjectListItemElement(), {
 			at: [...path, element.children.length],
 		})
 	}, [editor, element])
@@ -81,7 +83,7 @@ export const ProjectList = ({
 				</Cell>
 			</Grid>
 			<RootDraggable
-				id={element.key}
+				id={element.id}
 				overrides={{
 					Grid: {
 						style: {

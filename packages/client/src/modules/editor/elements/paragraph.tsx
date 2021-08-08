@@ -1,30 +1,32 @@
 import { Cell } from 'baseui/layout-grid'
+import { nanoid } from 'nanoid'
 import OpenColor from 'open-color'
 import { useSelected } from 'slate-react'
 import { StyleObject, useStyletron } from 'styletron-react'
 import {
 	CustomRenderElementProps,
 	ParagraphElement,
-	WithKey,
+	WithId,
 } from '../custom-types'
 import { RootDraggable } from '../dnd/root-draggable'
 import { Placeholder } from '../placeholder/placeholder'
 
-export const EMPTY_PARAGRAPH: ParagraphElement = {
+export const generateParagraphElement = (): ParagraphElement => ({
+	id: nanoid(),
 	type: 'paragraph',
 	children: [{ text: '' }],
-}
+})
 
 export const Paragraph = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<WithKey<ParagraphElement>>) => {
+}: CustomRenderElementProps<WithId<ParagraphElement>>) => {
 	const [css] = useStyletron()
 	const selected = useSelected()
 
 	return (
-		<RootDraggable id={element.key}>
+		<RootDraggable id={element.id}>
 			<Cell span={[4, 8, 12]}>
 				<p {...attributes} className={css(styles)}>
 					{selected && (

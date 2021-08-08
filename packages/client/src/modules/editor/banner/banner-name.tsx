@@ -3,10 +3,10 @@ import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 import { useStyletron } from 'styletron-react'
 
-export const EMPTY_BANNER_NAME: BannerNameElement = {
+export const generateBannerNameElement = (): BannerNameElement => ({
 	type: 'banner-name',
 	children: [{ text: '' }],
-}
+})
 
 export const BannerName = ({
 	attributes,

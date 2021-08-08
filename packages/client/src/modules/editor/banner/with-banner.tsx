@@ -1,10 +1,10 @@
 import { Editor, Element, Point, Range, Transforms } from 'slate'
 import { BannerElement, CustomElement, ParagraphElement } from '../custom-types'
-import { EMPTY_PARAGRAPH } from '../elements/paragraph'
-import { EMPTY_BANNER } from './banner'
-import { EMPTY_BANNER_BIO } from './banner-bio'
-import { EMPTY_BANNER_NAME } from './banner-name'
-import { EMPTY_BANNER_TAGLIN } from './banner-tagline'
+import { generateParagraphElement } from '../elements/paragraph'
+import { generateBannerElement } from './banner'
+import { generateBannerBioElement } from './banner-bio'
+import { generateBannerNameElement } from './banner-name'
+import { generateBannerTaglineElement } from './banner-tagline'
 
 const BANNER_CHILD_TYPES: CustomElement['type'][] = [
 	'banner-name',
@@ -37,42 +37,50 @@ export const withBanner = (editor: Editor) => {
 				!Editor.isBlock(editor, firstChild) ||
 				firstChild.type !== 'banner'
 			) {
-				Transforms.insertNodes<BannerElement>(editor, EMPTY_BANNER, {
+				Transforms.insertNodes<BannerElement>(editor, generateBannerElement(), {
 					at: path.concat(0),
 				})
 			}
 
 			if (node.children.length < 2) {
-				Transforms.insertNodes<ParagraphElement>(editor, EMPTY_PARAGRAPH, {
-					at: path.concat(1),
-				})
+				Transforms.insertNodes<ParagraphElement>(
+					editor,
+					generateParagraphElement(),
+					{
+						at: path.concat(1),
+					}
+				)
 			}
 		}
 
 		if (Editor.isBlock(editor, node)) {
 			if (node.type === 'banner') {
 				if (node.children.length < 1) {
-					Transforms.insertNodes(editor, EMPTY_BANNER_NAME, {
+					Transforms.insertNodes(editor, generateBannerNameElement(), {
 						at: path.concat(0),
 					})
 				} else if (node.children[0].type !== 'banner-name') {
-					Transforms.setNodes(editor, EMPTY_BANNER_NAME, { at: path.concat(0) })
+					Transforms.setNodes(editor, generateBannerNameElement(), {
+						at: path.concat(0),
+					})
 				}
 				if (node.children.length < 2) {
-					Transforms.insertNodes(editor, EMPTY_BANNER_TAGLIN, {
+					Transforms.insertNodes(editor, generateBannerTaglineElement(), {
 						at: path.concat(1),
 					})
 				} else if (node.children[1].type !== 'banner-tagline') {
-					Transforms.setNodes(editor, EMPTY_BANNER_TAGLIN, {
+					Transforms.setNodes(editor, generateBannerTaglineElement(), {
 						at: path.concat(1),
 					})
 				}
 				if (node.children.length < 3) {
-					Transforms.insertNodes(editor, EMPTY_BANNER_BIO, {
+					Transforms.insertNodes(editor, generateBannerBioElement(), {
 						at: path.concat(1),
 					})
 				} else if (node.children[2].type !== 'banner-bio') {
-					Transforms.setNodes(editor, EMPTY_BANNER_BIO, { at: path.concat(2) })
+					Transforms.setNodes(editor, generateBannerBioElement(), {
+						at: path.concat(2),
+					})
 				}
 
 				if (node.children.length > 3) {

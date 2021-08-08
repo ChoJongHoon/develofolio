@@ -29,7 +29,8 @@ export const useDropBlockOnEditor = (
 
 			const dragEntry = findNode(editor, {
 				at: [],
-				match: (n) => Editor.isBlock(editor, n) && n.key === dragItem.id,
+				match: (n) =>
+					Editor.isBlock(editor, n) && 'id' in n && n.id === dragItem.id,
 			})
 			if (!dragEntry) return
 			const [, dragPath] = dragEntry
@@ -40,7 +41,7 @@ export const useDropBlockOnEditor = (
 			if (direction === 'bottom') {
 				dropPath = findNode(editor, {
 					at: [],
-					match: (n) => Editor.isBlock(editor, n) && n.key === id,
+					match: (n) => Editor.isBlock(editor, n) && 'id' in n && n.id === id,
 				})?.[1]
 				if (!dropPath) return
 
@@ -50,7 +51,7 @@ export const useDropBlockOnEditor = (
 			if (direction === 'top') {
 				const nodePath = findNode(editor, {
 					at: [],
-					match: (n) => Editor.isBlock(editor, n) && n.key === id,
+					match: (n) => Editor.isBlock(editor, n) && 'id' in n && n.id === id,
 				})?.[1]
 
 				if (!nodePath) return
