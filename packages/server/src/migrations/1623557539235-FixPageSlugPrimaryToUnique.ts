@@ -1,7 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
 export class FixPageSlugPrimaryToUnique1623557539235
-	implements MigrationInterface {
+	implements MigrationInterface
+{
 	name = 'FixPageSlugPrimaryToUnique1623557539235'
 
 	public async up(queryRunner: QueryRunner): Promise<void> {

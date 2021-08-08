@@ -1,19 +1,20 @@
 {
-  "name": "develofolio",
-  "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ],
-    "nohoist": [
-      "**"
-    ]
-  },
-  "devDependencies": {
-    "lerna": "^4.0.0",
-    "prettier": "^2.3.2"
-  },
-  "scripts": {
-    "dev": "lerna run dev --parallel --stream --scope={client,server}"
-  }
+	"name": "develofolio",
+	"private": true,
+	"workspaces": {
+		"packages": [
+			"packages/*"
+		],
+		"nohoist": [
+			"**"
+		]
+	},
+	"devDependencies": {
+		"lerna": "^4.0.0",
+		"prettier": "^2.3.2"
+	},
+	"scripts": {
+		"dev": "lerna run dev --parallel --stream --scope={client,server}",
+		"lint": "lerna run lint --stream --scope={client,server}"
+	}
 }
