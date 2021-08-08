@@ -1,12 +1,4 @@
-import React, { useMemo } from 'react'
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace'
-import {
-	RenderElementProps,
-	DefaultElement,
-	useSlateStatic,
-	ReactEditor,
-} from 'slate-react'
-import { Draggable } from './dnd/draggable'
+import { RenderElementProps, DefaultElement } from 'slate-react'
 import { Logo } from './logo/logo'
 import { Heading } from './elements/heading'
 import { Paragraph } from './elements/paragraph'
@@ -29,156 +21,122 @@ import { ProjectListItemDescription } from './project-list/project-list-item-des
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
 
-	const editor = useSlateStatic()
-
-	const path = useMemo(
-		() => ReactEditor.findPath(editor, element),
-		[editor, element]
-	)
-
-	let data: EmotionJSX.Element
-
 	switch (element.type) {
 		case 'logo':
-			data = (
+			return (
 				<Logo attributes={attributes} element={element}>
 					{children}
 				</Logo>
 			)
-			break
 		case 'heading':
-			data = (
+			return (
 				<Heading attributes={attributes} element={element}>
 					{children}
 				</Heading>
 			)
-			break
 		case 'block-quote':
-			data = <blockquote {...attributes}>{children}</blockquote>
-			break
+			return <blockquote {...attributes}>{children}</blockquote>
 		case 'bulleted-list':
-			data = (
+			return (
 				<BulletedList attributes={attributes} element={element}>
 					{children}
 				</BulletedList>
 			)
-			break
 		case 'list-item':
-			data = (
+			return (
 				<ListItem attributes={attributes} element={element}>
 					{children}
 				</ListItem>
 			)
-			break
 		case 'paragraph':
-			data = (
+			return (
 				<Paragraph attributes={attributes} element={element}>
 					{children}
 				</Paragraph>
 			)
-			break
 		case 'banner':
-			data = (
+			return (
 				<Banner attributes={attributes} element={element}>
 					{children}
 				</Banner>
 			)
-			break
 		case 'banner-name':
-			data = (
+			return (
 				<BannerName attributes={attributes} element={element}>
 					{children}
 				</BannerName>
 			)
-			break
 		case 'banner-tagline':
-			data = (
+			return (
 				<BannerTagline attributes={attributes} element={element}>
 					{children}
 				</BannerTagline>
 			)
-			break
 		case 'banner-bio':
-			data = (
+			return (
 				<BannerBio attributes={attributes} element={element}>
 					{children}
 				</BannerBio>
 			)
-			break
 		case 'skill-list':
-			data = (
+			return (
 				<SkillList attributes={attributes} element={element}>
 					{children}
 				</SkillList>
 			)
-			break
 		case 'skill-list-item':
-			data = (
+			return (
 				<SkillListItem attributes={attributes} element={element}>
 					{children}
 				</SkillListItem>
 			)
-			break
 		case 'skill-list-item-logos':
-			data = (
+			return (
 				<SkillListItemLogos attributes={attributes} element={element}>
 					{children}
 				</SkillListItemLogos>
 			)
-			break
 		case 'skill-list-item-name':
-			data = (
+			return (
 				<SkillListItemName attributes={attributes} element={element}>
 					{children}
 				</SkillListItemName>
 			)
-			break
 		case 'skill-list-item-description':
-			data = (
+			return (
 				<SkillListItemDescription attributes={attributes} element={element}>
 					{children}
 				</SkillListItemDescription>
 			)
-			break
 		case 'project-list':
-			data = (
+			return (
 				<ProjectList attributes={attributes} element={element}>
 					{children}
 				</ProjectList>
 			)
-			break
 		case 'project-list-item':
-			data = (
+			return (
 				<ProjectListItem attributes={attributes} element={element}>
 					{children}
 				</ProjectListItem>
 			)
-			break
 		case 'project-list-item-name':
-			data = (
+			return (
 				<ProjectListItemName attributes={attributes} element={element}>
 					{children}
 				</ProjectListItemName>
 			)
-			break
 		case 'project-list-item-description':
-			data = (
+			return (
 				<ProjectListItemDescription attributes={attributes} element={element}>
 					{children}
 				</ProjectListItemDescription>
 			)
-			break
 		default:
-			data = (
+			return (
 				<DefaultElement attributes={attributes} element={element}>
 					{children}
 				</DefaultElement>
 			)
 	}
-
-	if (path.length === 1 && element.type !== 'banner') {
-		return <Draggable id={element.key as string}>{data}</Draggable>
-	}
-
-	return data
 }

@@ -1,16 +1,27 @@
+import { Cell, Grid } from 'baseui/layout-grid'
 import { useStyletron } from 'styletron-react'
 import { StyleObject } from 'styletron-standard'
-import { BulletedListElement, CustomRenderElementProps } from '../custom-types'
+import {
+	BulletedListElement,
+	CustomRenderElementProps,
+	WithKey,
+} from '../custom-types'
+import { RootDraggable } from '../dnd/root-draggable'
 
 export const BulletedList = ({
 	attributes,
 	children,
-}: CustomRenderElementProps<BulletedListElement>) => {
+	element,
+}: CustomRenderElementProps<WithKey<BulletedListElement>>) => {
 	const [css] = useStyletron()
 	return (
-		<ul {...attributes} className={css(styles)}>
-			{children}
-		</ul>
+		<RootDraggable id={element.key}>
+			<Cell span={[4, 8, 12]}>
+				<ul {...attributes} className={css(styles)}>
+					{children}
+				</ul>
+			</Cell>
+		</RootDraggable>
 	)
 }
 

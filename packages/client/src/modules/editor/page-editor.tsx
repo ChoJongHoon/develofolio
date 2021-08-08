@@ -23,11 +23,11 @@ import { useBlocks } from './blocks/use-blocks'
 import OpenColor from 'open-color'
 import { withSkillList } from './skill-list/with-skill-list'
 import { useStyletron } from 'baseui'
-import { StyleObject } from 'styletron-standard'
 import { border, padding, transitions } from 'polished'
 import classNames from 'classnames'
 import { withEditor } from './with-editor'
 import { withProjectList } from './project-list/with-project-list'
+import { Cell, Grid } from 'baseui/layout-grid'
 
 const PLUGINS = [
 	withEditor,
@@ -110,9 +110,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 			className={classNames(
 				className,
 				css({
-					display: 'flex',
-					flexDirection: 'column',
-					paddingBottom: '30vh',
+					paddingBottom: '10vh',
 				})
 			)}
 		>
@@ -148,28 +146,30 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 					<BlockPicker />
 				</Slate>
 			</DndProvider>
-			<button
-				className={css(addBlockButton)}
-				onMouseDown={onAddBlockButtonClick}
-			>
-				Add a Block
-			</button>
+			<Grid>
+				<Cell span={[4, 8, 12]}>
+					<button
+						className={css({
+							width: '100%',
+							boxSizing: 'border-box',
+							...padding('32px'),
+							background: 'none',
+							cursor: 'pointer',
+							borderRadius: '8px',
+							color: OpenColor.gray[4],
+							...border('1px', 'dotted', OpenColor.gray[4]),
+							...transitions(['color', 'border-color'], '0.2s'),
+							':hover': {
+								borderColor: OpenColor.gray[6],
+								color: OpenColor.gray[6],
+							},
+						})}
+						onMouseDown={onAddBlockButtonClick}
+					>
+						Add a Block
+					</button>
+				</Cell>
+			</Grid>
 		</div>
 	)
-}
-
-const addBlockButton: StyleObject = {
-	marginLeft: '32px',
-	marginRight: '32px',
-	...padding('32px'),
-	background: 'none',
-	cursor: 'pointer',
-	borderRadius: '8px',
-	color: OpenColor.gray[4],
-	...border('1px', 'dotted', OpenColor.gray[4]),
-	...transitions(['color', 'border-color'], '0.2s'),
-	':hover': {
-		borderColor: OpenColor.gray[6],
-		color: OpenColor.gray[6],
-	},
 }

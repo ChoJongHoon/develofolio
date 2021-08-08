@@ -1,3 +1,4 @@
+import { Cell } from 'baseui/layout-grid'
 import OpenColor from 'open-color'
 import { padding, transitions } from 'polished'
 import { useCallback } from 'react'
@@ -30,7 +31,7 @@ export const SkillListItem = ({
 	element,
 }: CustomRenderElementProps<SkillListItemElement>) => {
 	const [css] = useStyletron()
-	const [hoverRef, isHovered] = useHover<HTMLLIElement>()
+	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 	const editor = useSlateStatic()
 	const onRemove = useCallback<React.MouseEventHandler<HTMLButtonElement>>(
 		(event) => {
@@ -42,33 +43,35 @@ export const SkillListItem = ({
 	)
 
 	return (
-		<li
-			className={css({ listStyle: 'none', position: 'relative' })}
-			ref={hoverRef}
-		>
-			<div {...attributes}>{children}</div>
-			<button
-				contentEditable={false}
-				onClick={onRemove}
-				className={css({
-					borderStyle: 'none',
-					display: 'flex',
-					cursor: 'pointer',
-					...padding('2px'),
-					borderRadius: '4px',
-					backgroundColor: OpenColor.red[7],
-					opacity: isHovered ? 1 : 0,
-					position: 'absolute',
-					right: '0px',
-					top: '0px',
-					...transitions(['background-color', 'opacity'], '0.2s'),
-					':hover': {
-						backgroundColor: OpenColor.red[5],
-					},
-				})}
+		<Cell span={[2, 2, 3]}>
+			<div
+				className={css({ listStyle: 'none', position: 'relative' })}
+				ref={hoverRef}
 			>
-				<Icon type="TrashLine" size={18} color={OpenColor.white} />
-			</button>
-		</li>
+				<div {...attributes}>{children}</div>
+				<button
+					contentEditable={false}
+					onClick={onRemove}
+					className={css({
+						borderStyle: 'none',
+						display: 'flex',
+						cursor: 'pointer',
+						...padding('2px'),
+						borderRadius: '4px',
+						backgroundColor: OpenColor.red[7],
+						opacity: isHovered ? 1 : 0,
+						position: 'absolute',
+						right: '0px',
+						top: '0px',
+						...transitions(['background-color', 'opacity'], '0.2s'),
+						':hover': {
+							backgroundColor: OpenColor.red[5],
+						},
+					})}
+				>
+					<Icon type="TrashLine" size={18} color={OpenColor.white} />
+				</button>
+			</div>
+		</Cell>
 	)
 }
