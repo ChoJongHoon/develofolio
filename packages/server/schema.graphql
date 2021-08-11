@@ -5,9 +5,8 @@
 type Page {
   id: String!
   user: User!
-  content: JSON!
-  avatar: String
-  slug: String!
+  content: JSON
+  slug: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -29,7 +28,8 @@ type User {
   avatar: String
   provider: ProviderType!
   providerId: String!
-  page: Page
+  pageId: String!
+  page: Page!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -53,7 +53,6 @@ type UploadUrl {
 
 type Query {
   me: User!
-  myPage: Page
   generateUploadPath(type: UploadType!, filename: String!): UploadUrl!
 }
 
@@ -63,9 +62,10 @@ enum UploadType {
 }
 
 type Mutation {
-  createPage(initialContent: JSON!, slug: String!): Page!
-  savePage(content: JSON!): Page!
-  updatePageAvatar(avatar: String!): Page!
-  removePageAvatar: Page!
+  updatePage(fields: UpdatePageInput!): Page!
   createFile(isPrivate: Boolean = false, key: String!): File!
+}
+
+input UpdatePageInput {
+  content: JSON
 }

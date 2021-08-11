@@ -10,9 +10,11 @@ import jwtDecode from 'jwt-decode'
 import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
 import { ROUTE_LOGIN } from '~/routes'
 import { ParsedUrlQuery } from 'querystring'
+import { MeDocument, MeQuery } from '~/graphql/document.generated'
 
 type ServerCallback<P, Q extends ParsedUrlQuery> = (
-	client: ApolloClient<NormalizedCacheObject>
+	client: ApolloClient<NormalizedCacheObject>,
+	user?: MeQuery['me']
 ) => GetServerSideProps<P, Q>
 
 interface Options {
@@ -60,7 +62,13 @@ export const withAuthSsr =
 		}
 
 		const client = initApolloClient({}, accessToken)
-		const gssp = callback(client)
+
+		const { data } = await client.query({
+			query: MeDocument,
+			errorPolicy: 'ignore',
+		})
+
+		const gssp = callback(client, data?.me)
 		const result = await gssp(context)
 
 		if ('props' in result) {

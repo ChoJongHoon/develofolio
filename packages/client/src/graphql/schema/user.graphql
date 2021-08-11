@@ -4,5 +4,9 @@ query Me {
 		name
 		email
 		avatar
+		page {
+			id
+			content
+		}
 	}
 }

@@ -18,25 +18,17 @@ export class Page {
 	@PrimaryGeneratedColumn('uuid')
 	id: string
 
-	@Column({ name: 'user_id', type: 'uuid' })
-	userId: string
-
 	@Field(() => User)
 	@OneToOne(() => User, (user) => user.page, { onDelete: 'CASCADE' })
-	@JoinColumn({ name: 'user_id' })
 	user: User
 
-	@Field(() => GraphQLJSON)
-	@Column({ type: 'jsonb' })
-	content: any
+	@Field(() => GraphQLJSON, { nullable: true })
+	@Column({ type: 'jsonb', nullable: true })
+	content?: any | null
 
 	@Field(() => String, { nullable: true })
-	@Column({ type: 'text', nullable: true })
-	avatar?: string | null
-
-	@Field(() => String)
-	@Column({ type: 'varchar', length: 255, unique: true })
-	slug: string
+	@Column({ type: 'varchar', length: 255, unique: true, nullable: true })
+	slug?: string
 
 	@Field(() => Date)
 	@CreateDateColumn({

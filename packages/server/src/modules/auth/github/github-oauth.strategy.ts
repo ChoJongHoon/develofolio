@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import { Profile, Strategy } from 'passport-github'
-import { v4 as uuid } from 'uuid'
 import { baseConfig } from '../../../config/base.config'
 import { githubConfig } from '../../../config/github.config'
+import { PageService } from '../../page/page.service'
 import { ProviderType } from '../../user/enum/provider-type.enum'
 import { UserService } from '../../user/user.service'
 
@@ -15,7 +15,8 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
 		githubEnv: ConfigType<typeof githubConfig>,
 		@Inject(baseConfig.KEY)
 		baseEnv: ConfigType<typeof baseConfig>,
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		private readonly pageService: PageService
 	) {
 		super({
 			clientID: githubEnv.clientId,
@@ -30,18 +31,17 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
 		profile: Profile
 	) {
 		const { id, photos, emails, displayName } = profile
-
+		console.log(`id`, id)
 		const avatar = photos && photos.length > 0 ? photos[0].value : undefined
 
 		let user = await this.userService.findByProvider(ProviderType.GITHUB, id)
 
 		if (!user) {
-			const userId = uuid()
-
+			const page = await this.pageService.create()
 			user = await this.userService.create({
-				id: userId,
 				name: displayName,
 				email: emails?.[0].value,
+				pageId: page.id,
 				provider: ProviderType.GITHUB,
 				providerId: id,
 				avatar,
@@ -50,6 +50,9 @@ export class GithubOauthStrategy extends PassportStrategy(Strategy, 'github') {
 
 		if (user.avatar !== avatar) {
 			await this.userService.update(user.id, { avatar })
+		}
+		if (user.name !== displayName) {
+			await this.userService.update(user.id, { name: displayName })
 		}
 
 		return user

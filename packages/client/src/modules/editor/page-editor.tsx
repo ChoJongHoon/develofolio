@@ -16,7 +16,6 @@ import { useDispatch } from 'react-redux'
 import { setSaved, setSaving } from './editor.reducer'
 import { useDebounceEffect } from '~/hooks/use-debounce-effect'
 import { useMutation } from '@apollo/client'
-import { SavePageDocument } from '~/graphql/document.generated'
 import { BlockPicker } from './blocks/block-picker'
 import { useBlocks } from './blocks/use-blocks'
 import OpenColor from 'open-color'
@@ -27,6 +26,7 @@ import classNames from 'classnames'
 import { withEditor } from './with-editor'
 import { withProjectList } from './project-list/with-project-list'
 import { Cell, Grid } from 'baseui/layout-grid'
+import { UpdatePageDocument } from '~/graphql/document.generated'
 
 const PLUGINS = [
 	withEditor,
@@ -79,7 +79,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 		setContent(newContent)
 	}, [])
 
-	const [savePage] = useMutation(SavePageDocument, {
+	const [updatePage] = useMutation(UpdatePageDocument, {
 		onCompleted: () => {
 			dispatch(setSaving(false))
 			dispatch(setSaved(true))
@@ -93,9 +93,11 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	useDebounceEffect(
 		() => {
 			dispatch(setSaving(true))
-			savePage({
+			updatePage({
 				variables: {
-					content,
+					fields: {
+						content,
+					},
 				},
 			})
 		},

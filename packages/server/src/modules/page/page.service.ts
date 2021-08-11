@@ -1,50 +1,27 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { getConnection, Repository } from 'typeorm'
-import { UserService } from '../user/user.service'
-import { CreatePageDto } from './dto/create-page.dto'
+import { Repository } from 'typeorm'
+import { UpdatePageInput } from './input/update-page.input'
 import { Page } from './page.entity'
 
 @Injectable()
 export class PageService {
 	constructor(
 		@InjectRepository(Page)
-		private readonly pageRepository: Repository<Page>,
-		private readonly userService: UserService
+		private readonly pageRepository: Repository<Page>
 	) {}
 
-	async findByUserId(userId: string) {
-		return await this.pageRepository.findOne({
-			where: { userId },
-		})
+	async findOne(id: string) {
+		return await this.pageRepository.findOneOrFail(id)
 	}
 
-	async create(input: CreatePageDto) {
-		const connection = getConnection()
-		const queryRunner = connection.createQueryRunner()
-
-		await queryRunner.startTransaction()
-
-		const page = await this.pageRepository.save({
-			...input,
-		})
-
-		await this.userService.bindPage(input.userId, page.id)
-
-		await queryRunner.commitTransaction()
-
-		return page
+	async create() {
+		return await this.pageRepository.save(this.pageRepository.create())
 	}
 
-	async updateByUserId(userId: string, fields: Omit<Partial<Page>, 'id'>) {
-		const page = await this.findByUserId(userId)
-
-		if (!page) {
-			return null
-		}
-
+	async update(id: string, fields: UpdatePageInput) {
 		return await this.pageRepository.save({
-			...page,
+			id,
 			...fields,
 		})
 	}

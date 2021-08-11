@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ProviderType } from 'aws-sdk/clients/codegurureviewer'
 import { Repository } from 'typeorm'
-import { CreateUserDto } from './dto/create-user.dto'
+import { CreateUserInput } from './input/create-user.input'
+import { UpdateUserInput } from './input/update-user.input'
 import { User } from './user.entity'
 
 @Injectable()
@@ -29,30 +30,11 @@ export class UserService {
 		})
 	}
 
-	async create(input: CreateUserDto) {
-		return await this.userRepository.save({ ...input })
+	async create(fields: CreateUserInput) {
+		return await this.userRepository.save({ ...fields })
 	}
 
-	async findOrCreate(input: CreateUserDto) {
-		let user = await this.userRepository.findOne({
-			where: {
-				provider: input.provider,
-				providerId: input.providerId,
-			},
-		})
-
-		if (!user) {
-			user = await this.userRepository.save({ ...input })
-		}
-
-		return user
-	}
-
-	async bindPage(userId: string, pageId: string) {
-		return await this.userRepository.save({ id: userId, pageId })
-	}
-
-	async update(id: string, properties: Partial<User>) {
-		return await this.userRepository.update(id, { ...properties })
+	async update(id: string, fields: UpdateUserInput) {
+		return await this.userRepository.update(id, { ...fields })
 	}
 }

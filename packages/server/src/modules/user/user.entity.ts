@@ -38,16 +38,14 @@ export class User {
 	@Column({ name: 'provider_id', type: 'varchar', length: 255 })
 	providerId: string
 
-	@Column({ name: 'page_id', type: 'uuid', nullable: true })
-	pageId?: string
+	@Field(() => String)
+	@Column({ name: 'page_id', type: 'uuid' })
+	pageId: string
 
-	@Field(() => Page, { nullable: true })
-	@OneToOne(() => Page, (page) => page.user, {
-		nullable: true,
-		onDelete: 'SET NULL',
-	})
+	@Field(() => Page)
+	@OneToOne(() => Page, (page) => page.user)
 	@JoinColumn({ name: 'page_id' })
-	page?: Page
+	page: Page
 
 	@Field(() => Date)
 	@CreateDateColumn({

@@ -1,32 +1,43 @@
 import { NextPage } from 'next'
 import { PageEditor } from '~/modules/editor/page-editor'
-import { MyPageDocument, PagePartsFragment } from '~/graphql/document.generated'
+import {
+	PagePartsFragment,
+	UpdatePageDocument,
+} from '~/graphql/document.generated'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
-import { ROUTE_EDIT_NEW } from '~/routes'
+import { ROUTE_LOGIN } from '~/routes'
 import { EditorLayout } from '~/layouts/editor-layout'
+import { generateInitialContent } from '~/modules/editor/utils/generate-initial-content'
 
 interface EditProps {
 	page: PagePartsFragment
 }
 
 export const getServerSideProps = withAuthSsr<EditProps>(
-	(client) => async () => {
-		const {
-			data: { page },
-		} = await client.query({ query: MyPageDocument })
-
-		if (!page) {
+	(client, user) => async () => {
+		if (!user) {
 			return {
 				redirect: {
-					destination: ROUTE_EDIT_NEW,
+					destination: ROUTE_LOGIN,
 					permanent: false,
 				},
 			}
 		}
 
+		if (!user.page.content) {
+			await client.mutate({
+				mutation: UpdatePageDocument,
+				variables: {
+					fields: {
+						content: generateInitialContent(),
+					},
+				},
+			})
+		}
+
 		return {
 			props: {
-				page,
+				page: user.page,
 			},
 		}
 	}
