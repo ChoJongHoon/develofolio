@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { Response } from 'express'
+import ms from 'ms'
 import { jwtConfig } from '../../../config/jwt.config'
 import { JwtPayload } from './jwt-access.strategy'
 import { JwtRefreshPayload } from './jwt-refresh.strategy'
@@ -37,6 +38,7 @@ export class JwtAuthService {
 	setAccessToken(res: Response, accessToken: string) {
 		res.cookie('access_token', accessToken, {
 			httpOnly: true,
+			maxAge: ms(this.jwtConfigService.refreshTokenExpiresIn),
 			domain:
 				process.env.NODE_ENV === 'production'
 					? '.develofolio.com'
@@ -47,6 +49,7 @@ export class JwtAuthService {
 	setRefreshToken(res: Response, refreshToken: string) {
 		res.cookie('refresh_token', refreshToken, {
 			httpOnly: true,
+			maxAge: ms(this.jwtConfigService.refreshTokenExpiresIn),
 			path: '/jwt/refresh',
 			domain:
 				process.env.NODE_ENV === 'production'
