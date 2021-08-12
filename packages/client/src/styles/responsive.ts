@@ -98,3 +98,7 @@ export const useBreakPoint = (breakpoint: string) => {
 
 	return isBreak
 }
+
+export const mediaQuery = (name: BreakpointsTypeWithoutFirst) => {
+	return `@media screen and (min-width: ${getBreakpointValue(name)}px)`
+}
