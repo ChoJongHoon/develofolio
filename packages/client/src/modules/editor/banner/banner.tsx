@@ -18,6 +18,7 @@ import { EditLinkPopover } from '../social-link/edit-link-popover'
 import { ImageUploader } from '~/components/image-uploader'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
+import { mediaQuery } from '~/styles/responsive'
 
 export const generateBannerElement = (): BannerElement => ({
 	type: 'banner',
@@ -97,74 +98,81 @@ export const Banner = ({
 			})}
 		>
 			<Grid>
-				<Cell
-					span={[4, 4, 5]}
-					overrides={{
-						Cell: {
-							style: {
-								paddingTop: '48px',
-								paddingBottom: '48px',
-								display: 'flex',
-								flexDirection: 'column',
-								justifyContent: 'space-between',
-							},
-						},
-					}}
-					skip={[0, 0, 1]}
-				>
-					<div {...attributes}>{children}</div>
+				<Cell span={[4, 4, 5]} skip={[0, 0, 1]}>
 					<div
-						contentEditable={false}
-						className={css({ userSelect: 'none', display: 'flex' })}
+						className={css({
+							paddingTop: '48px',
+							paddingBottom: '48px',
+							display: 'flex',
+							flexDirection: 'column',
+							height: '100%',
+						})}
 					>
-						{LINKS.map((link) => (
-							<StatefulPopover
-								key={link.name}
-								content={({ close }) => (
-									<EditLinkPopover
-										defaultValue={element.links[link.name]}
-										onClose={close}
-										onChange={(value) => {
-											const path = ReactEditor.findPath(editor, element)
-											const newProperties: Partial<BannerElement> = {
-												links: {
-													...element.links,
-													[link.name]: value,
-												},
-											}
-											Transforms.setNodes(editor, newProperties, { at: path })
-										}}
-									/>
-								)}
-								placement="bottomLeft"
-								focusLock
-							>
-								<button
-									className={css({
-										backgroundColor: OpenColor.white,
-										border: 'none',
-										width: '28px',
-										height: '28px',
-										borderRadius: '50%',
-										cursor: 'pointer',
-										display: 'flex',
-										justifyContent: 'center',
-										alignItems: 'center',
-										opacity: element.links[link.name] ? 1 : 0.5,
-										...padding('0px'),
-										...transitions(['opacity'], '0.2s'),
-										':hover': {
-											opacity: element.links[link.name] ? 1 : 0.8,
-										},
-										':not(:last-child)': {
-											marginRight: '8px',
-										},
-									})}
+						<div
+							{...attributes}
+							className={css({
+								flexGrow: 1,
+							})}
+						>
+							{children}
+						</div>
+						<div
+							contentEditable={false}
+							className={css({ userSelect: 'none', display: 'flex' })}
+						>
+							{LINKS.map((link) => (
+								<StatefulPopover
+									key={link.name}
+									content={({ close }) => (
+										<EditLinkPopover
+											defaultValue={element.links[link.name]}
+											onClose={close}
+											onChange={(value) => {
+												const path = ReactEditor.findPath(editor, element)
+												const newProperties: Partial<BannerElement> = {
+													links: {
+														...element.links,
+														[link.name]: value,
+													},
+												}
+												Transforms.setNodes(editor, newProperties, { at: path })
+											}}
+										/>
+									)}
+									placement="bottomLeft"
+									focusLock
 								>
-									<Icon type={link.icon} color={OpenColor.teal[7]} size={20} />
-								</button>
-							</StatefulPopover>
-						))}
+									<button
+										className={css({
+											backgroundColor: OpenColor.white,
+											border: 'none',
+											width: '28px',
+											height: '28px',
+											borderRadius: '50%',
+											cursor: 'pointer',
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+											opacity: element.links[link.name] ? 1 : 0.5,
+											...padding('0px'),
+											...transitions(['opacity'], '0.2s'),
+											':hover': {
+												opacity: element.links[link.name] ? 1 : 0.8,
+											},
+											':not(:last-child)': {
+												marginRight: '8px',
+											},
+										})}
+									>
+										<Icon
+											type={link.icon}
+											color={OpenColor.teal[7]}
+											size={20}
+										/>
+									</button>
+								</StatefulPopover>
+							))}
+						</div>
 					</div>
 				</Cell>
 				<Cell
@@ -172,8 +180,10 @@ export const Banner = ({
 					overrides={{
 						Cell: {
 							style: {
-								paddingTop: '48px',
 								paddingBottom: '48px',
+								[mediaQuery('SMALL')]: {
+									paddingTop: '48px',
+								},
 							},
 						},
 					}}
