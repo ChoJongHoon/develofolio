@@ -1,3 +1,4 @@
+import OpenColor from 'open-color'
 import { BaseEditor, Descendant } from 'slate'
 import { HistoryEditor } from 'slate-history'
 import { ReactEditor, RenderElementProps } from 'slate-react'
@@ -145,6 +146,8 @@ export type LeafFormat = 'bold' | 'italic' | 'code'
 
 export type CustomText = { [key in LeafFormat]?: boolean } & {
 	text: string
+	color?: keyof OpenColor
+	highlight?: keyof OpenColor
 }
 
 declare module 'slate' {

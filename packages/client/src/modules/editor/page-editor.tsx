@@ -3,7 +3,7 @@ import { createEditor, Descendant, Editor, Transforms } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
 import { HoveringToolbar } from './hovering-toolbar'
-import { renderLeaf, toggleFormat } from './elements/format'
+import { CustomLeaf, toggleFormat } from './elements/format'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { CustomElement } from './custom-element'
@@ -118,7 +118,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 				<Slate editor={editor} value={content} onChange={onChange}>
 					<Editable
 						renderElement={CustomElement}
-						renderLeaf={renderLeaf}
+						renderLeaf={CustomLeaf}
 						spellCheck={false}
 						onDOMBeforeInput={(event) => {
 							switch (event.inputType) {

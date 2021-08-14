@@ -6,6 +6,8 @@ import { useStyletron } from 'styletron-react'
 import Bold from 'public/icons/bold.svg'
 import Code from 'public/icons/code.svg'
 import Italic from 'public/icons/italic.svg'
+import FontColor from 'public/icons/font-color.svg'
+import Highlight from 'public/icons/highlight.svg'
 import DragHandle from 'public/icons/drag-handle.svg'
 import Facebook from 'public/icons/facebook.svg'
 import Github from 'public/icons/github.svg'
@@ -25,6 +27,8 @@ const icons = {
 	Bold,
 	Code,
 	Italic,
+	FontColor,
+	Highlight,
 	DragHandle,
 	Facebook,
 	Github,
