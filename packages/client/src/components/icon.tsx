@@ -8,6 +8,7 @@ import Code from 'public/icons/code.svg'
 import Italic from 'public/icons/italic.svg'
 import FontColor from 'public/icons/font-color.svg'
 import Highlight from 'public/icons/highlight.svg'
+import Link from 'public/icons/link.svg'
 import DragHandle from 'public/icons/drag-handle.svg'
 import Facebook from 'public/icons/facebook.svg'
 import Github from 'public/icons/github.svg'
@@ -29,6 +30,7 @@ const icons = {
 	Italic,
 	FontColor,
 	Highlight,
+	Link,
 	DragHandle,
 	Facebook,
 	Github,

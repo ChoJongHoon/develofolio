@@ -23,6 +23,9 @@ export const EditLinkPopover = ({
 			})}
 		>
 			<input
+				className={css({
+					fontSize: '18px',
+				})}
 				defaultValue={defaultValue ?? ''}
 				onChange={(event) => {
 					onChange(event.target.value)

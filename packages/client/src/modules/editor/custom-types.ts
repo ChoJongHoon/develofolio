@@ -148,6 +148,7 @@ export type CustomText = { [key in LeafFormat]?: boolean } & {
 	text: string
 	color?: keyof OpenColor
 	highlight?: keyof OpenColor
+	link?: string
 }
 
 declare module 'slate' {

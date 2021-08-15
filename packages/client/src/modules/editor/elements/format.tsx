@@ -56,6 +56,21 @@ export const CustomLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 			</span>
 		)
 	}
+	if (leaf.link) {
+		children = (
+			<a
+				href={leaf.link}
+				target="_blank"
+				rel="noreferrer"
+				className={css({
+					cursor: 'pointer',
+					color: OpenColor.gray[7],
+				})}
+			>
+				{children}
+			</a>
+		)
+	}
 
 	return <span {...attributes}>{children}</span>
 }
