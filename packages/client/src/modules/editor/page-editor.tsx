@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createEditor, Descendant, Editor, Transforms } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { withHistory } from 'slate-history'
-import { HoveringToolbar } from './hovering-toolbar'
-import { CustomLeaf, toggleFormat } from './elements/format'
+import { toggleFormat } from './leaf/utils'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { CustomElement } from './custom-element'
@@ -27,6 +26,8 @@ import { withEditor } from './with-editor'
 import { withProjectList } from './project-list/with-project-list'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { UpdatePageDocument } from '~/graphql/document.generated'
+import { CustomLeaf } from './leaf/custom-leaf'
+import { Toolbar } from './leaf/toolbar'
 
 const PLUGINS = [
 	withEditor,
@@ -141,7 +142,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 						// TODO: 블록 DnD 일때만 true 반환하도록
 						onDrop={() => true}
 					/>
-					<HoveringToolbar />
+					<Toolbar />
 					<InlineLogoPicker />
 					<BlockPicker />
 				</Slate>
