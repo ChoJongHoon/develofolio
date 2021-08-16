@@ -24,6 +24,7 @@ import {
 import { ImageUploader } from '~/components/image-uploader'
 import { Cell } from 'baseui/layout-grid'
 import { nanoid } from 'nanoid'
+import mergeRefs from 'react-merge-refs'
 
 export const generateProjectListItemElement = (): ProjectListItemElement => ({
 	id: nanoid(),
@@ -60,6 +61,7 @@ export const ProjectListItem = ({
 	const [css] = useStyletron()
 	const client = useApolloClient()
 	const editor = useSlateStatic()
+	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 
 	const onLogoRemove = useCallback(
 		(index: number) => {
@@ -137,6 +139,7 @@ export const ProjectListItem = ({
 		<Cell span={[4, 4, 3]}>
 			<div
 				{...attributes}
+				ref={mergeRefs([hoverRef, attributes.ref])}
 				className={css({
 					display: 'flex',
 					flexDirection: 'column',
@@ -178,6 +181,7 @@ export const ProjectListItem = ({
 				<div
 					className={css({
 						...padding('16px'),
+						position: 'relative',
 					})}
 				>
 					{children[0]}
@@ -288,6 +292,38 @@ export const ProjectListItem = ({
 							</StatefulPopover>
 						))}
 					</div>
+					<button
+						className={css({
+							cursor: 'pointer',
+							backgroundColor: OpenColor.red[7],
+							border: 'none',
+							borderRadius: '4px',
+							...padding('2px'),
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							opacity: isHovered ? 1 : 0,
+							position: 'absolute',
+							top: '8px',
+							right: '8px',
+							...transitions(['background-color', 'opacity'], '0.2s'),
+							userSelect: 'none',
+							':hover': {
+								backgroundColor: OpenColor.red[6],
+							},
+							':active': {
+								backgroundColor: OpenColor.red[8],
+							},
+						})}
+						contentEditable={false}
+						onMouseDown={(event) => {
+							event.preventDefault()
+							const path = ReactEditor.findPath(editor, element)
+							Transforms.removeNodes(editor, { at: path })
+						}}
+					>
+						<Icon type="TrashLine" color="white" size={18} />
+					</button>
 				</div>
 			</div>
 		</Cell>
