@@ -91,6 +91,7 @@ export const ProjectList = ({
 						},
 					},
 				}}
+				element={element}
 			>
 				{children}
 			</RootDraggable>

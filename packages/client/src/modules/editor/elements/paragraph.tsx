@@ -26,7 +26,7 @@ export const Paragraph = ({
 	const selected = useSelected()
 
 	return (
-		<RootDraggable id={element.id}>
+		<RootDraggable id={element.id} element={element}>
 			<Cell span={[4, 8, 12]}>
 				<p {...attributes} className={css(styles)}>
 					{selected && (

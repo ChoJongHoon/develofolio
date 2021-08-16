@@ -15,7 +15,7 @@ export const BulletedList = ({
 }: CustomRenderElementProps<WithId<BulletedListElement>>) => {
 	const [css] = useStyletron()
 	return (
-		<RootDraggable id={element.id}>
+		<RootDraggable id={element.id} element={element}>
 			<Cell span={[4, 8, 12]}>
 				<ul {...attributes} className={css(styles)}>
 					{children}

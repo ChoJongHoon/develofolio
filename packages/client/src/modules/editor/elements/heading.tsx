@@ -38,7 +38,7 @@ export const Heading = ({
 					},
 				},
 			}}
-			className={css({})}
+			element={element}
 		>
 			<Cell span={[4, 8, 12]}>
 				<CustomTag

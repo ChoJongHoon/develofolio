@@ -1,0 +1,95 @@
+diff --git a/node_modules/baseui/layer/index.d.ts b/node_modules/baseui/layer/index.d.ts
+index ff3e368..fe939a0 100644
+--- a/node_modules/baseui/layer/index.d.ts
++++ b/node_modules/baseui/layer/index.d.ts
+@@ -42,9 +42,9 @@ export interface PopperDataObject {
+ }
+ 
+ export interface TetherProps {
+-  anchorRef?: React.Ref<HTMLElement>;
+-  arrowRef?: React.Ref<HTMLElement>;
+-  popperRef?: React.Ref<HTMLElement>;
++  anchorRef?: HTMLElement | null;
++  arrowRef?: HTMLElement | null;
++  popperRef?: HTMLElement | null;
+   children: React.ReactNode;
+   onPopperUpdate?: (
+     offsets: NormalizedOffsets,
+diff --git a/node_modules/baseui/menu/index.d.ts b/node_modules/baseui/menu/index.d.ts
+index fdf2d61..6d28bd6 100644
+--- a/node_modules/baseui/menu/index.d.ts
++++ b/node_modules/baseui/menu/index.d.ts
+@@ -52,16 +52,16 @@ export interface MenuProps extends BaseMenuPropsT {
+   overrides?: MenuOverrides;
+ }
+ 
+-export type ItemT = any;
+-export type ArrayItemsT = ItemT[];
+-export type GroupedItemsT = {
+-  __ungrouped: ArrayItemsT;
+-  [key: string]: ArrayItemsT;
++export type Item<T> = T;
++export type ArrayItems<T> = Item<T>[];
++export type GroupedItems<T> = {
++  __ungrouped: ArrayItems<T>;
++  [key: string]: ArrayItems<T>;
+ };
+-export type ItemsT = ArrayItemsT | GroupedItemsT;
++export type Items<T> = ArrayItems<T> | GroupedItems<T>;
+ 
+-export type StatefulMenuProps = StatefulContainerProps & MenuProps;
+-export class StatefulMenu extends React.PureComponent<StatefulMenuProps> {}
++export type StatefulMenuProps<T> = StatefulContainerProps<T> & MenuProps;
++export class StatefulMenu<T> extends React.PureComponent<StatefulMenuProps<T>> {}
+ 
+ export interface RenderItemProps {
+   disabled?: boolean;
+@@ -72,8 +72,8 @@ export interface RenderItemProps {
+   resetMenu?: () => any;
+ }
+ 
+-export type OnItemSelect = (args: {
+-  item: any;
++export type OnItemSelect<T> = (args: {
++  item: T;
+   event?: React.SyntheticEvent<HTMLElement> | KeyboardEvent;
+ }) => any;
+ 
+@@ -83,27 +83,27 @@ export type StateReducer = (
+   currentState: StatefulContainerState,
+ ) => StatefulContainerState;
+ 
+-export type GetRequiredItemProps = (
+-  item: any,
++export type GetRequiredItemProps<T> = (
++  item: Item<T>,
+   index: number,
+ ) => RenderItemProps;
+ 
+-export type RenderProps = StatefulContainerState & {
+-  items: ItemsT;
+-  getRequiredItemProps: GetRequiredItemProps;
++export type RenderProps<T> = StatefulContainerState & {
++  items: Items<T>;
++  getRequiredItemProps: GetRequiredItemProps<T>;
+ };
+ 
+-export interface StatefulContainerProps {
+-  items: ItemsT;
++export interface StatefulContainerProps<T> {
++  items: Items<T>;
+   initialState?: StatefulContainerState;
+   stateReducer?: StateReducer;
+-  getRequiredItemProps?: GetRequiredItemProps;
++  getRequiredItemProps?: GetRequiredItemProps<T>;
+   onActiveDescendantChange?: (id?: string) => void;
+-  onItemSelect?: OnItemSelect;
++  onItemSelect?: OnItemSelect<T>;
+   rootRef?: React.Ref<any>;
+   keyboardControlNode?: React.Ref<any>;
+   typeAhead?: boolean;
+-  children?: (args: RenderProps) => React.ReactNode;
++  children?: (args: RenderProps<T>) => React.ReactNode;
+   addMenuToNesting?: (ref: React.Ref<HTMLElement>) => void;
+   removeMenuFromNesting?: (ref: React.Ref<HTMLElement>) => void;
+   getParentMenu?: (ref: React.Ref<HTMLElement>) => void;

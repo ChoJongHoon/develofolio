@@ -94,6 +94,7 @@ export const SkillList = ({
 						},
 					},
 				}}
+				element={element}
 			>
 				{children}
 			</RootDraggable>
