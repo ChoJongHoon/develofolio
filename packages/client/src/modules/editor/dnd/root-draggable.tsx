@@ -142,10 +142,9 @@ export const RootDraggable: FC<RootDraggableProps> = ({
 							...padding('0px'),
 							position: 'absolute',
 							display: 'flex',
-							height: '100%',
 							transform: 'translateX(-7.5px)',
 							[up('MEDIUM')]: {
-								transform: 'translateX(-2px)',
+								transform: 'translateX(-6px)',
 							},
 						})}
 						contentEditable={false}
@@ -156,7 +155,7 @@ export const RootDraggable: FC<RootDraggableProps> = ({
 								cursor: 'grab',
 								border: 'none',
 								background: 'none',
-								...padding('0px'),
+								...padding('4px', '0px'),
 								display: 'inline-flex',
 								outlineStyle: 'none',
 								opacity: isMenuOpen || isHovered ? 1 : 0,
