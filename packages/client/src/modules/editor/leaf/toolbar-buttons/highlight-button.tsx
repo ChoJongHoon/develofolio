@@ -66,7 +66,7 @@ export const HighlightButton = () => {
 					</button>
 					{colorEntries.map(([key, value]) => (
 						<button
-							key={highlight}
+							key={key}
 							className={css({
 								width: '24px',
 								height: '24px',

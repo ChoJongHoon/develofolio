@@ -66,7 +66,7 @@ export const FontColorButton = () => {
 					</button>
 					{colorEntries.map(([key, value]) => (
 						<button
-							key={color}
+							key={key}
 							className={css({
 								width: '24px',
 								height: '24px',
