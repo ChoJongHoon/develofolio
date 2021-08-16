@@ -10,6 +10,7 @@ import {
 import { insertLogo } from './insert-logo'
 import logos from 'public/logos.json'
 import { logoIndex } from './logo-index'
+import { nanoid } from 'nanoid'
 
 export const useLogoPicker = (editor: Editor) => {
 	const dispatch = useDispatch()
@@ -104,6 +105,7 @@ export const useLogoPicker = (editor: Editor) => {
 				const selectedLogo = results[selectedIndex]
 				Transforms.select(editor, target)
 				insertLogo(editor, {
+					id: nanoid(),
 					file: selectedLogo.files[0],
 					name: selectedLogo.name,
 					shortname: selectedLogo.shortname,

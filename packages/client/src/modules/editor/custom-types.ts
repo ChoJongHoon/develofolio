@@ -25,21 +25,24 @@ export type BulletedListElement = WithId<{
 	type: 'bulleted-list'
 	children: Descendant[]
 }>
-export type ListItemElement = { type: 'list-item'; children: Descendant[] }
+export type ListItemElement = WithId<{
+	type: 'list-item'
+	children: Descendant[]
+}>
 
-export type LogoElement = {
+export type LogoElement = WithId<{
 	type: 'logo'
 	name: string
 	shortname: string
 	url: string
 	file: string
 	children: CustomText[]
-}
+}>
 
 // ==============================
 //           Banner
 // ==============================
-export type BannerElement = {
+export type BannerElement = WithId<{
 	type: 'banner'
 	profile?: string | null
 	links: {
@@ -50,19 +53,19 @@ export type BannerElement = {
 		linkedIn?: string | null
 	}
 	children: [BannerNameElement, BannerTaglineElement, BannerBioElement]
-}
-export type BannerNameElement = {
+}>
+export type BannerNameElement = WithId<{
 	type: 'banner-name'
 	children: CustomText[]
-}
-export type BannerTaglineElement = {
+}>
+export type BannerTaglineElement = WithId<{
 	type: 'banner-tagline'
 	children: CustomText[]
-}
-export type BannerBioElement = {
+}>
+export type BannerBioElement = WithId<{
 	type: 'banner-bio'
 	children: CustomText[]
-}
+}>
 
 // ==============================
 //           SkillList
@@ -71,27 +74,27 @@ export type SkillListElement = WithId<{
 	type: 'skill-list'
 	children: SkillListItemElement[]
 }>
-export type SkillListItemElement = {
+export type SkillListItemElement = WithId<{
 	type: 'skill-list-item'
 	children: [
 		SkillListItemLogosElement,
 		SkillListItemNameElement,
 		SkillListItemDescriptionElement
 	]
-}
-export type SkillListItemLogosElement = {
+}>
+export type SkillListItemLogosElement = WithId<{
 	type: 'skill-list-item-logos'
 	logos: Omit<LogoElement, 'type' | 'children'>[]
 	children: CustomText[]
-}
-export type SkillListItemNameElement = {
+}>
+export type SkillListItemNameElement = WithId<{
 	type: 'skill-list-item-name'
 	children: CustomText[]
-}
-export type SkillListItemDescriptionElement = {
+}>
+export type SkillListItemDescriptionElement = WithId<{
 	type: 'skill-list-item-description'
 	children: CustomText[]
-}
+}>
 
 // ==============================
 //           ProjectList
@@ -100,7 +103,7 @@ export type ProjectListElement = WithId<{
 	type: 'project-list'
 	children: ProjectListItemElement[]
 }>
-export type ProjectListItemElement = {
+export type ProjectListItemElement = WithId<{
 	type: 'project-list-item'
 	thumbnail: string | null
 	logos: Omit<LogoElement, 'type' | 'children'>[]
@@ -111,15 +114,15 @@ export type ProjectListItemElement = {
 		github: string | null
 	}
 	children: [ProjectListItemNameElement, ProjectListItemDescriptionElement]
-}
-export type ProjectListItemNameElement = {
+}>
+export type ProjectListItemNameElement = WithId<{
 	type: 'project-list-item-name'
 	children: CustomText[]
-}
-export type ProjectListItemDescriptionElement = {
+}>
+export type ProjectListItemDescriptionElement = WithId<{
 	type: 'project-list-item-description'
 	children: CustomText[]
-}
+}>
 
 export type CustomElement =
 	| ParagraphElement

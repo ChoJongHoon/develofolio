@@ -1,4 +1,5 @@
 import { Cell } from 'baseui/layout-grid'
+import { nanoid } from 'nanoid'
 import OpenColor from 'open-color'
 import { padding, transitions } from 'polished'
 import { useCallback } from 'react'
@@ -10,15 +11,22 @@ import { useHover } from '~/hooks/use-hover'
 import { CustomRenderElementProps, SkillListItemElement } from '../custom-types'
 
 export const generateSkillListItemElement = (): SkillListItemElement => ({
+	id: nanoid(),
 	type: 'skill-list-item',
 	children: [
 		{
+			id: nanoid(),
 			type: 'skill-list-item-logos',
 			logos: [],
 			children: [{ text: '' }],
 		},
-		{ type: 'skill-list-item-name', children: [{ text: '' }] },
 		{
+			id: nanoid(),
+			type: 'skill-list-item-name',
+			children: [{ text: '' }],
+		},
+		{
+			id: nanoid(),
 			type: 'skill-list-item-description',
 			children: [{ text: '' }],
 		},

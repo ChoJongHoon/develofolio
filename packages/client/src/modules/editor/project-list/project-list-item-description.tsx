@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import OpenColor from 'open-color'
 import { useStyletron } from 'styletron-react'
 import {
@@ -8,6 +9,7 @@ import { Placeholder } from '../placeholder/placeholder'
 
 export const generateProjectListItemDescriptionElement =
 	(): ProjectListItemDescriptionElement => ({
+		id: nanoid(),
 		type: 'project-list-item-description',
 		children: [{ text: '' }],
 	})

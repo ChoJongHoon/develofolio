@@ -2,8 +2,10 @@ import { BannerBioElement, CustomRenderElementProps } from '../custom-types'
 import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 import { useStyletron } from 'styletron-react'
+import { nanoid } from 'nanoid'
 
 export const generateBannerBioElement = (): BannerBioElement => ({
+	id: nanoid(),
 	type: 'banner-bio',
 	children: [{ text: '' }],
 })

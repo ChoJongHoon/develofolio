@@ -14,6 +14,7 @@ import { useStyletron } from 'styletron-react'
 import { padding, transitions } from 'polished'
 import { useHover } from '~/hooks/use-hover'
 import { PopoverLogoPicker } from '../logo/popover-logo-picker'
+import { nanoid } from 'nanoid'
 
 export const SkillListItemLogos = ({
 	attributes,
@@ -42,6 +43,7 @@ export const SkillListItemLogos = ({
 				logos: [
 					...element.logos,
 					{
+						id: nanoid(),
 						name: logo.name,
 						url: logo.url,
 						shortname: logo.shortname,

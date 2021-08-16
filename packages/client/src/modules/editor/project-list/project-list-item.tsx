@@ -23,15 +23,21 @@ import {
 } from '~/graphql/document.generated'
 import { ImageUploader } from '~/components/image-uploader'
 import { Cell } from 'baseui/layout-grid'
+import { nanoid } from 'nanoid'
 
 export const generateProjectListItemElement = (): ProjectListItemElement => ({
+	id: nanoid(),
 	type: 'project-list-item',
 	logos: [],
 	links: { appstore: null, github: null, playstore: null, web: null },
 	thumbnail: null,
 	children: [
-		{ type: 'project-list-item-name', children: [{ text: '' }] },
-		{ type: 'project-list-item-description', children: [{ text: '' }] },
+		{ id: nanoid(), type: 'project-list-item-name', children: [{ text: '' }] },
+		{
+			id: nanoid(),
+			type: 'project-list-item-description',
+			children: [{ text: '' }],
+		},
 	],
 })
 
@@ -73,6 +79,7 @@ export const ProjectListItem = ({
 				logos: [
 					...element.logos,
 					{
+						id: nanoid(),
 						name: logo.name,
 						url: logo.url,
 						shortname: logo.shortname,

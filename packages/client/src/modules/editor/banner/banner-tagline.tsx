@@ -2,8 +2,10 @@ import { BannerTaglineElement, CustomRenderElementProps } from '../custom-types'
 import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 import { useStyletron } from 'styletron-react'
+import { nanoid } from 'nanoid'
 
 export const generateBannerTaglineElement = (): BannerTaglineElement => ({
+	id: nanoid(),
 	type: 'banner-tagline',
 	children: [{ text: '' }],
 })

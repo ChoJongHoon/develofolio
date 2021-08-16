@@ -2,8 +2,10 @@ import { BannerNameElement, CustomRenderElementProps } from '../custom-types'
 import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 import { useStyletron } from 'styletron-react'
+import { nanoid } from 'nanoid'
 
 export const generateBannerNameElement = (): BannerNameElement => ({
+	id: nanoid(),
 	type: 'banner-name',
 	children: [{ text: '' }],
 })

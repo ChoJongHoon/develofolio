@@ -1,6 +1,4 @@
 import { CustomRenderElementProps, LogoElement } from '../custom-types'
-import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
 import { StyleObject, useStyletron } from 'styletron-react'
 
 export const Logo = ({
@@ -12,6 +10,7 @@ export const Logo = ({
 
 	return (
 		<span {...attributes} contentEditable={false} className={css(wrapper)}>
+			{/* eslint-disable-next-line @next/next/no-img-element */}
 			<img src={`/logos/${element.file}`} css={imgStyles} alt={element.name} />
 			{children}
 		</span>

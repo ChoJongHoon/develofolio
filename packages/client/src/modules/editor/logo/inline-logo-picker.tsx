@@ -15,6 +15,7 @@ import { StyleObject } from 'styletron-standard'
 import { border, padding } from 'polished'
 import OpenColor from 'open-color'
 import { useStyletron } from 'styletron-react'
+import { nanoid } from 'nanoid'
 
 export const InlineLogoPicker = () => {
 	const [css] = useStyletron()
@@ -84,6 +85,7 @@ export const InlineLogoPicker = () => {
 				Transforms.select(editor, target)
 			}
 			insertLogo(editor, {
+				id: nanoid(),
 				file: logo.files[0],
 				name: logo.name,
 				shortname: logo.shortname,

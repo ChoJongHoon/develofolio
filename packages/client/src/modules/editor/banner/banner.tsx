@@ -19,14 +19,16 @@ import { ImageUploader } from '~/components/image-uploader'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 import { mediaQuery } from '~/styles/responsive'
+import { nanoid } from 'nanoid'
 
 export const generateBannerElement = (): BannerElement => ({
+	id: nanoid(),
 	type: 'banner',
 	links: {},
 	children: [
-		{ type: 'banner-name', children: [{ text: '' }] },
-		{ type: 'banner-tagline', children: [{ text: '' }] },
-		{ type: 'banner-bio', children: [{ text: '' }] },
+		{ id: nanoid(), type: 'banner-name', children: [{ text: '' }] },
+		{ id: nanoid(), type: 'banner-tagline', children: [{ text: '' }] },
+		{ id: nanoid(), type: 'banner-bio', children: [{ text: '' }] },
 	],
 })
 
