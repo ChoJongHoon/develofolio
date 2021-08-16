@@ -23,7 +23,7 @@ jobs:
         id: yarn-cache
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('packages/client/patches/**') }} }}
 
       - name: Install NPM dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
