@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { Portal } from '~/components/portal'
 import { ReactEditor, useSlate } from 'slate-react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import {
-	setIconPickerSelectedIndex,
-	setIconPickerShow,
-} from '../editor.reducer'
 import { Transforms } from 'slate'
 import { insertLogo } from './insert-logo'
 import { createPopper, Instance } from '@popperjs/core'
@@ -16,25 +11,34 @@ import { border, padding } from 'polished'
 import OpenColor from 'open-color'
 import { useStyletron } from 'styletron-react'
 import { nanoid } from 'nanoid'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import {
+	iconPickerResultsState,
+	iconPickerSelectedIndexState,
+	iconPickerShowState,
+	iconPickerTargetState,
+} from '../editor.atoms'
 
 export const InlineLogoPicker = () => {
 	const [css] = useStyletron()
 	const ref = useRef<HTMLDivElement>(null)
 	const instance = useRef<Instance | null>(null)
 	const editor = useSlate()
-	const dispatch = useDispatch()
-	const { selectedIndex, show, target, results } = useSelector(
-		(state) => state.editor.iconPicker,
-		shallowEqual
+
+	const target = useRecoilValue(iconPickerTargetState)
+	const results = useRecoilValue(iconPickerResultsState)
+	const [show, setShow] = useRecoilState(iconPickerShowState)
+	const [selectedIndex, setSelectedIndex] = useRecoilState(
+		iconPickerSelectedIndexState
 	)
 
 	useEffect(() => {
 		const element = ref.current
 		if (!element || !target || results.length === 0) {
-			dispatch(setIconPickerShow(false))
+			setShow(false)
 			return
 		}
-		dispatch(setIconPickerShow(true))
+		setShow(true)
 		const domRange = ReactEditor.toDOMRange(editor, target)
 		if (instance.current) {
 			instance.current.destroy()
@@ -63,7 +67,7 @@ export const InlineLogoPicker = () => {
 				},
 			],
 		})
-	}, [dispatch, editor, results.length, target])
+	}, [editor, results.length, setShow, target])
 
 	useEffect(() => {
 		if (instance.current && !show) {
@@ -74,9 +78,9 @@ export const InlineLogoPicker = () => {
 
 	const onChangeSelectedIndex = useCallback(
 		(index: number) => {
-			dispatch(setIconPickerSelectedIndex(index))
+			setSelectedIndex(index)
 		},
-		[dispatch]
+		[setSelectedIndex]
 	)
 
 	const onSelect = useCallback(

@@ -1,25 +1,25 @@
 import { KeyboardEvent, useCallback, useEffect, useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Editor, Range, Transforms } from 'slate'
-import {
-	setResults,
-	setIconPickerSelectedIndex,
-	setIconPickerShow,
-	setIconPickerTarget,
-} from '../editor.reducer'
 import { insertLogo } from './insert-logo'
 import logos from 'public/logos.json'
 import { logoIndex } from './logo-index'
 import { nanoid } from 'nanoid'
+import { useRecoilState } from 'recoil'
+import {
+	iconPickerResultsState,
+	iconPickerSelectedIndexState,
+	iconPickerShowState,
+	iconPickerTargetState,
+} from '../editor.atoms'
 
 export const useLogoPicker = (editor: Editor) => {
-	const dispatch = useDispatch()
-	const { show, results, selectedIndex, target } = useSelector(
-		(state) => state.editor.iconPicker,
-		shallowEqual
-	)
-
 	const [keyword, setKeyword] = useState('')
+	const [show, setShow] = useRecoilState(iconPickerShowState)
+	const [target, setTarget] = useRecoilState(iconPickerTargetState)
+	const [selectedIndex, setSelectedIndex] = useRecoilState(
+		iconPickerSelectedIndexState
+	)
+	const [results, setResults] = useRecoilState(iconPickerResultsState)
 
 	useEffect(() => {
 		const selection = editor.selection
@@ -36,12 +36,12 @@ export const useLogoPicker = (editor: Editor) => {
 			const afterMatch = afterText.match(/^(\s|$)/)
 
 			if (beforeMatch && afterMatch) {
-				dispatch(setIconPickerTarget(beforeRange || null))
+				setTarget(beforeRange || null)
 				setKeyword(beforeMatch[1])
-				dispatch(setIconPickerSelectedIndex(0))
+				setSelectedIndex(0)
 				return
 			} else {
-				dispatch(setIconPickerTarget(null))
+				setTarget(null)
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,13 +49,13 @@ export const useLogoPicker = (editor: Editor) => {
 
 	useEffect(() => {
 		if (!keyword) {
-			dispatch(setResults(logos))
+			setResults(logos)
 			return
 		}
 		logoIndex.search(keyword).then((res) => {
-			dispatch(setResults(res.map((item) => logos[item.index])))
+			setResults(res.map((item) => logos[item.index]))
 		})
-	}, [dispatch, keyword])
+	}, [keyword, setResults])
 
 	const handleIconPicker = useCallback(
 		(event: KeyboardEvent<HTMLDivElement>) => {
@@ -70,7 +70,7 @@ export const useLogoPicker = (editor: Editor) => {
 				if (totalCount <= next) {
 					return true
 				}
-				dispatch(setIconPickerSelectedIndex(next))
+				setSelectedIndex(next)
 				return true
 			}
 			if (key === 'ArrowLeft') {
@@ -78,7 +78,7 @@ export const useLogoPicker = (editor: Editor) => {
 				if (next < 0) {
 					return true
 				}
-				dispatch(setIconPickerSelectedIndex(next))
+				setSelectedIndex(next)
 				return true
 			}
 			if (key === 'ArrowDown') {
@@ -86,7 +86,7 @@ export const useLogoPicker = (editor: Editor) => {
 				if (totalCount <= next) {
 					return true
 				}
-				dispatch(setIconPickerSelectedIndex(next))
+				setSelectedIndex(next)
 				return true
 			}
 			if (key === 'ArrowUp') {
@@ -94,11 +94,11 @@ export const useLogoPicker = (editor: Editor) => {
 				if (next < 0) {
 					return true
 				}
-				dispatch(setIconPickerSelectedIndex(next))
+				setSelectedIndex(next)
 				return true
 			}
 			if (key === 'Escape') {
-				dispatch(setIconPickerShow(false))
+				setShow(false)
 				return true
 			}
 			if (key === 'Enter' && target) {
@@ -116,7 +116,7 @@ export const useLogoPicker = (editor: Editor) => {
 
 			return false
 		},
-		[dispatch, editor, results, selectedIndex, show, target]
+		[editor, results, selectedIndex, setSelectedIndex, setShow, show, target]
 	)
 
 	return { handleIconPicker }

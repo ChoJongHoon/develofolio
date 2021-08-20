@@ -11,8 +11,6 @@ import { InlineLogoPicker } from './logo/inline-logo-picker'
 import { useLogoPicker } from './logo/use-logo-picker'
 import { withShortcuts } from './shortcuts/with-shortcuts'
 import { withBanner } from './banner/with-banner'
-import { useDispatch } from 'react-redux'
-import { setSaved, setSaving } from './editor.reducer'
 import { useDebounceEffect } from '~/hooks/use-debounce-effect'
 import { useMutation } from '@apollo/client'
 import { BlockPicker } from './blocks/block-picker'
@@ -28,6 +26,8 @@ import { Cell, Grid } from 'baseui/layout-grid'
 import { UpdatePageDocument } from '~/graphql/document.generated'
 import { CustomLeaf } from './leaf/custom-leaf'
 import { Toolbar } from './leaf/toolbar'
+import { useSetRecoilState } from 'recoil'
+import { saveState } from './editor.atoms'
 
 const PLUGINS = [
 	withEditor,
@@ -47,7 +47,7 @@ interface PageEditorProps {
 
 export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	const [css] = useStyletron()
-	const dispatch = useDispatch()
+	const setSave = useSetRecoilState(saveState)
 
 	// https://github.com/ianstormtaylor/slate/issues/4081#issuecomment-782136472
 	const editorRef = useRef<Editor>()
@@ -61,7 +61,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	const [content, setContent] = useState<Descendant[]>(initialContent)
 
 	const { handleIconPicker } = useLogoPicker(editor)
-	const { onAddBlockButtonClick } = useBlocks(editor)
+	const { onAddBlockButtonClick } = useBlocks()
 
 	const onKeyDown = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
 		(event) => {
@@ -82,18 +82,17 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 
 	const [updatePage] = useMutation(UpdatePageDocument, {
 		onCompleted: () => {
-			dispatch(setSaving(false))
-			dispatch(setSaved(true))
+			setSave('SAVED')
 		},
 	})
 
 	useEffect(() => {
-		dispatch(setSaved(false))
-	}, [dispatch, content])
+		setSave(null)
+	}, [content, setSave])
 
 	useDebounceEffect(
 		() => {
-			dispatch(setSaving(true))
+			setSave('SAVING')
 			updatePage({
 				variables: {
 					fields: {

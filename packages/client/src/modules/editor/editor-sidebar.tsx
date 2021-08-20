@@ -10,14 +10,13 @@ import { LabelSmall } from 'baseui/typography'
 import { useHover } from '~/hooks/use-hover'
 import { padding, transitions } from 'polished'
 import { useRouter } from 'next/dist/client/router'
-import { useSelector } from 'react-redux'
+import { useRecoilValue } from 'recoil'
+import { saveState } from './editor.atoms'
 
 export const EditorSidebar = () => {
 	const [css] = useStyletron()
 	const user = useUser()
-	const loading = useSelector((state) => state.editor.loading)
-	const saved = useSelector((state) => state.editor.saved)
-	const saving = useSelector((state) => state.editor.saving)
+	const save = useRecoilValue(saveState)
 
 	return (
 		<div
@@ -60,7 +59,7 @@ export const EditorSidebar = () => {
 				<MenuItem name="Settings" icon="Setting" href={ROUTE_EDIT_SETTINGS} />
 			</nav>
 			<LabelSmall className={css({})} color={OpenColor.gray[5]}>
-				{loading ? 'Loading...' : saving ? 'Saving...' : saved ? 'Saved!' : ''}
+				{save === 'SAVED' ? 'Saved!' : save === 'SAVING' ? 'Saving...' : ''}
 			</LabelSmall>
 		</div>
 	)

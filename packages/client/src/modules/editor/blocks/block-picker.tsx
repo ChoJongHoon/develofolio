@@ -1,14 +1,9 @@
 import OpenColor from 'open-color'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { useSlate } from 'slate-react'
 import { Portal } from '~/components/portal'
 import { getScrollbarWidth } from '~/styles/get-scrollbar-width'
 import { zIndexes } from '~/styles/z-indexes'
-import {
-	setBlockPickerSelectedIndex,
-	setBlockPickerShow,
-} from '../editor.reducer'
 import AboutMeThumbnail from 'public/images/block-thumbnails/about-me.svg'
 import FocusLock from 'react-focus-lock'
 import { Descendant, Transforms } from 'slate'
@@ -16,6 +11,11 @@ import { useStyletron } from 'styletron-react'
 import { transitions } from 'polished'
 import { generateProjectListElement } from '../project-list/project-list'
 import { generateSkillListElement } from '../skill-list/skill-list'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import {
+	blockPickerSelectedIndexState,
+	blockPickerShowState,
+} from '../editor.atoms'
 
 const BLOCKS: Array<{
 	name: string
@@ -36,11 +36,8 @@ const BLOCKS: Array<{
 
 export const BlockPicker = () => {
 	const [css] = useStyletron()
-	const dispatch = useDispatch()
-	const { show } = useSelector(
-		(state) => state.editor.blockPicker,
-		shallowEqual
-	)
+	const [show, setShow] = useRecoilState(blockPickerShowState)
+	const setSelectedIndex = useSetRecoilState(blockPickerSelectedIndexState)
 
 	const drawerRef = useRef<HTMLDivElement>(null)
 	const backdropRef = useRef<HTMLDivElement>(null)
@@ -74,7 +71,7 @@ export const BlockPicker = () => {
 
 	const onClose = useCallback(
 		(selectedIndex?: number) => {
-			dispatch(setBlockPickerShow(false))
+			setShow(false)
 			drawerRef.current?.childNodes.forEach((child, index) => {
 				if (child instanceof HTMLElement) {
 					child.style.transform = `translateX(${
@@ -83,7 +80,7 @@ export const BlockPicker = () => {
 				}
 			})
 		},
-		[dispatch]
+		[setShow]
 	)
 
 	const onRootClick = useCallback<React.MouseEventHandler<HTMLDivElement>>(
@@ -186,7 +183,7 @@ export const BlockPicker = () => {
 									})}
 									onMouseEnter={onBlockMouseEnter}
 									onFocus={() => {
-										dispatch(setBlockPickerSelectedIndex(index))
+										setSelectedIndex(index)
 									}}
 									onClick={() => {
 										Transforms.insertNodes(editor, block.generateNode())

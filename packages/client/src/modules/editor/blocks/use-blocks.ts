@@ -1,21 +1,13 @@
-import { useCallback, useEffect } from 'react'
-import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { Editor, Range } from 'slate'
-import {
-	setIconPickerSelectedIndex,
-	setBlockPickerShow,
-} from '../editor.reducer'
+import { useCallback } from 'react'
+import { useSetRecoilState } from 'recoil'
+import { blockPickerShowState } from '../editor.atoms'
 
-export const useBlocks = (editor: Editor) => {
-	const dispatch = useDispatch()
-	const { show, selectedIndex } = useSelector(
-		(state) => state.editor.blockPicker,
-		shallowEqual
-	)
+export const useBlocks = () => {
+	const setShow = useSetRecoilState(blockPickerShowState)
 
 	const onShowBlockPicker = useCallback(() => {
-		dispatch(setBlockPickerShow(true))
-	}, [dispatch])
+		setShow(true)
+	}, [setShow])
 
 	const onAddBlockButtonClick = useCallback<
 		React.MouseEventHandler<HTMLButtonElement>
