@@ -136,7 +136,7 @@ export type SchoolListItemElement = WithId<{
 	logo: string | null
 	children: [
 		SchoolListItemNameElement,
-		SchoolListItemDescriptionElement,
+		SchoolListItemMajorElement,
 		SchoolListItemPeriodElement
 	]
 }>
@@ -144,8 +144,8 @@ export type SchoolListItemNameElement = WithId<{
 	type: 'school-list-item-name'
 	children: CustomText[]
 }>
-export type SchoolListItemDescriptionElement = WithId<{
-	type: 'school-list-item-description'
+export type SchoolListItemMajorElement = WithId<{
+	type: 'school-list-item-major'
 	children: CustomText[]
 }>
 export type SchoolListItemPeriodElement = WithId<{
@@ -176,7 +176,7 @@ export type CustomElement =
 	| SchoolListElement
 	| SchoolListItemElement
 	| SchoolListItemNameElement
-	| SchoolListItemDescriptionElement
+	| SchoolListItemMajorElement
 	| SchoolListItemPeriodElement
 
 export type LeafFormat = 'bold' | 'italic' | 'code'

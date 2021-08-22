@@ -20,7 +20,7 @@ export const withSchoolList = (editor: Editor) => {
 				if (
 					node.children.length !== 3 ||
 					node.children[0].type !== 'school-list-item-name' ||
-					node.children[1].type !== 'school-list-item-description' ||
+					node.children[1].type !== 'school-list-item-major' ||
 					node.children[2].type !== 'school-list-item-period'
 				) {
 					Transforms.removeNodes(editor, { at: path })
@@ -46,7 +46,7 @@ export const withSchoolList = (editor: Editor) => {
 				if (
 					Point.equals(selection.anchor, start) &&
 					(block.type === 'school-list-item-name' ||
-						block.type === 'school-list-item-description' ||
+						block.type === 'school-list-item-major' ||
 						block.type === 'school-list-item-period')
 				) {
 					return

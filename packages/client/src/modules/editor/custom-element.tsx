@@ -20,7 +20,7 @@ import { ProjectListItemDescription } from './project-list/project-list-item-des
 import { SchoolList } from './school-list/school-list'
 import { SchoolListItem } from './school-list/school-list-item'
 import { SchoolListItemName } from './school-list/school-list-item-name'
-import { SchoolListItemDescription } from './school-list/school-list-item-description'
+import { SchoolListItemMajor } from './school-list/school-list-item-major'
 import { SchoolListItemPeriod } from './school-list/school-list-item-period'
 
 export const CustomElement = (props: RenderElementProps) => {
@@ -155,11 +155,11 @@ export const CustomElement = (props: RenderElementProps) => {
 					{children}
 				</SchoolListItemName>
 			)
-		case 'school-list-item-description':
+		case 'school-list-item-major':
 			return (
-				<SchoolListItemDescription attributes={attributes} element={element}>
+				<SchoolListItemMajor attributes={attributes} element={element}>
 					{children}
-				</SchoolListItemDescription>
+				</SchoolListItemMajor>
 			)
 		case 'school-list-item-period':
 			return (

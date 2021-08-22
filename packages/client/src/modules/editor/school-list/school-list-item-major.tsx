@@ -2,24 +2,24 @@ import { nanoid } from 'nanoid'
 import { useStyletron } from 'styletron-react'
 import {
 	CustomRenderElementProps,
-	SchoolListItemDescriptionElement,
+	SchoolListItemMajorElement,
 } from '../custom-types'
 import { LabelLarge } from 'baseui/typography'
 import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 
-export const generateSchoolListItemDescriptionElement =
-	(): SchoolListItemDescriptionElement => ({
+export const generateSchoolListItemMajorElement =
+	(): SchoolListItemMajorElement => ({
 		id: nanoid(),
-		type: 'school-list-item-description',
+		type: 'school-list-item-major',
 		children: [{ text: '' }],
 	})
 
-export const SchoolListItemDescription = ({
+export const SchoolListItemMajor = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<SchoolListItemDescriptionElement>) => {
+}: CustomRenderElementProps<SchoolListItemMajorElement>) => {
 	const [css] = useStyletron()
 
 	return (
@@ -30,7 +30,7 @@ export const SchoolListItemDescription = ({
 				position: 'relative',
 			})}
 		>
-			<Placeholder element={element}>설명</Placeholder>
+			<Placeholder element={element}>전공</Placeholder>
 			{children}
 		</LabelLarge>
 	)

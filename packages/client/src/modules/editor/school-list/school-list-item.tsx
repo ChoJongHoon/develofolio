@@ -6,7 +6,7 @@ import {
 import { Cell } from 'baseui/layout-grid'
 import { nanoid } from 'nanoid'
 import { generateSchoolListItemNameElement } from './school-list-item-name'
-import { generateSchoolListItemDescriptionElement } from './school-list-item-description'
+import { generateSchoolListItemMajorElement } from './school-list-item-major'
 import { generateSchoolListItemPeriodElement } from './school-list-item-period'
 import { borderRadius, padding, transitions } from 'polished'
 import OpenColor from 'open-color'
@@ -30,7 +30,7 @@ export const generateSchoolListItemElement = (): SchoolListItemElement => ({
 	logo: null,
 	children: [
 		generateSchoolListItemNameElement(),
-		generateSchoolListItemDescriptionElement(),
+		generateSchoolListItemMajorElement(),
 		generateSchoolListItemPeriodElement(),
 	],
 })
@@ -114,32 +114,10 @@ export const SchoolListItem = ({
 								style: {
 									width: '72px',
 									height: '72px',
-									...borderRadius('top', '50%'),
-									...borderRadius('bottom', '50%'),
-								},
-							},
-							Image: {
-								style: {
-									...borderRadius('top', '50%'),
-									...borderRadius('bottom', '50%'),
-								},
-							},
-							Preview: {
-								style: {
-									...borderRadius('top', '50%'),
-									...borderRadius('bottom', '50%'),
-								},
-							},
-							Mask: {
-								style: {
-									...borderRadius('top', '50%'),
-									...borderRadius('bottom', '50%'),
 								},
 							},
 							DeleteButton: {
 								style: {
-									...borderRadius('top', '50%'),
-									...borderRadius('bottom', '50%'),
 									top: '0px',
 									right: '0px',
 								},
