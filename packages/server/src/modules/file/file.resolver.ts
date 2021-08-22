@@ -24,6 +24,8 @@ export class FileResolver {
 				? `images/${user.id}/profile/`
 				: type === UploadType.PROJECT
 				? `images/${user.id}/project/`
+				: type === UploadType.EXPERIENCE
+				? `images/${user.id}/experience/`
 				: ''
 		const key = path + this.fileService.hashFilename(filename)
 		const url = await this.fileService.generateUploadUrl(key)

@@ -23,6 +23,7 @@ import Setting from 'public/icons/setting.svg'
 import Web from 'public/icons/web.svg'
 import Playstore from 'public/icons/playstore.svg'
 import Appstore from 'public/icons/appstore.svg'
+import Image from 'public/icons/image.svg'
 
 const icons = {
 	Bold,
@@ -45,6 +46,7 @@ const icons = {
 	Web,
 	Playstore,
 	Appstore,
+	Image,
 }
 
 export type IconType = keyof typeof icons

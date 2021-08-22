@@ -10,7 +10,7 @@ export type WithId<Element> = Element & { id: string }
 // ==============================
 export type ParagraphElement = WithId<{
 	type: 'paragraph'
-	children: Descendant[]
+	children: (Descendant | CustomText)[]
 }>
 export type HeadingElement = WithId<{
 	type: 'heading'
@@ -124,6 +124,35 @@ export type ProjectListItemDescriptionElement = WithId<{
 	children: CustomText[]
 }>
 
+// ==============================
+//        ExperienceList
+// ==============================
+export type ExperienceListElement = WithId<{
+	type: 'experience-list'
+	children: ExperienceListItemElement[]
+}>
+export type ExperienceListItemElement = WithId<{
+	type: 'experience-list-item'
+	logo: string | null
+	children: [
+		ExperienceListItemNameElement,
+		ExperienceListItemDescriptionElement,
+		ExperienceListItemPeriodElement
+	]
+}>
+export type ExperienceListItemNameElement = WithId<{
+	type: 'experience-list-item-name'
+	children: CustomText[]
+}>
+export type ExperienceListItemDescriptionElement = WithId<{
+	type: 'experience-list-item-description'
+	children: CustomText[]
+}>
+export type ExperienceListItemPeriodElement = WithId<{
+	type: 'experience-list-item-period'
+	children: CustomText[]
+}>
+
 export type CustomElement =
 	| ParagraphElement
 	| HeadingElement
@@ -144,6 +173,11 @@ export type CustomElement =
 	| ProjectListItemElement
 	| ProjectListItemNameElement
 	| ProjectListItemDescriptionElement
+	| ExperienceListElement
+	| ExperienceListItemElement
+	| ExperienceListItemNameElement
+	| ExperienceListItemDescriptionElement
+	| ExperienceListItemPeriodElement
 
 export type LeafFormat = 'bold' | 'italic' | 'code'
 

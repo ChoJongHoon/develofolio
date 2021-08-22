@@ -28,6 +28,9 @@ import { CustomLeaf } from './leaf/custom-leaf'
 import { Toolbar } from './leaf/toolbar'
 import { useSetRecoilState } from 'recoil'
 import { saveState } from './editor.atoms'
+import { useSchoolPicker } from './experience-list/use-school-picker'
+import { SchoolPicker } from './experience-list/school-picker'
+import { withExperienceList } from './experience-list/with-experience-list'
 
 const PLUGINS = [
 	withEditor,
@@ -38,6 +41,7 @@ const PLUGINS = [
 	withProjectList,
 	withLogo,
 	withShortcuts,
+	withExperienceList,
 ]
 
 interface PageEditorProps {
@@ -59,8 +63,10 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	const editor = editorRef.current
 
 	const [content, setContent] = useState<Descendant[]>(initialContent)
-
+	console.log(`content`, content)
 	const { handleIconPicker } = useLogoPicker(editor)
+	const { schools, handleSchoolPicker, onSelectSchool } =
+		useSchoolPicker(editor)
 	const { onAddBlockButtonClick } = useBlocks()
 
 	const onKeyDown = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
@@ -68,12 +74,15 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 			if (handleIconPicker(event)) {
 				event.preventDefault()
 			}
+			if (handleSchoolPicker(event)) {
+				event.preventDefault()
+			}
 			if (event.key === 'Tab') {
 				event.preventDefault()
 				Transforms.move(editor, { distance: 1, unit: 'line' })
 			}
 		},
-		[editor, handleIconPicker]
+		[editor, handleIconPicker, handleSchoolPicker]
 	)
 
 	const onChange = useCallback((newContent: Descendant[]) => {
@@ -143,6 +152,9 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 					/>
 					<Toolbar />
 					<InlineLogoPicker />
+					{schools && schools.length > 0 && (
+						<SchoolPicker schools={schools} onSelect={onSelectSchool} />
+					)}
 					<BlockPicker />
 				</Slate>
 			</DndProvider>

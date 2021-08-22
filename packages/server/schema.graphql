@@ -51,14 +51,47 @@ type UploadUrl {
   key: String!
 }
 
+type School {
+  id: Int!
+  name: String!
+  logo: String!
+}
+
+type CursorPageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  countCurrent: Int!
+  countTotal: Int!
+  countBefore: Int!
+  countNext: Int!
+  startCursor: String!
+  endCursor: String!
+}
+
+type CursorPaginatedSchool {
+  edges: [SchoolCursorEdge!]
+  pageInfo: CursorPageInfo
+}
+
+type SchoolCursorEdge {
+  node: School!
+  cursor: String!
+}
+
 type Query {
   me: User!
   generateUploadPath(type: UploadType!, filename: String!): UploadUrl!
+  getSchoolsByCursor(filter: SchoolFilterInput, first: Int, after: String, last: Int, before: String): CursorPaginatedSchool!
 }
 
 enum UploadType {
   PROFILE
   PROJECT
+  EXPERIENCE
+}
+
+input SchoolFilterInput {
+  keyword: String!
 }
 
 type Mutation {

@@ -17,6 +17,11 @@ import { ProjectList } from './project-list/project-list'
 import { ProjectListItem } from './project-list/project-list-item'
 import { ProjectListItemName } from './project-list/project-list-item-name'
 import { ProjectListItemDescription } from './project-list/project-list-item-description'
+import { ExperienceList } from './experience-list/experience-list'
+import { ExperienceListItem } from './experience-list/experience-list-item'
+import { ExperienceListItemName } from './experience-list/experience-list-item-name'
+import { ExperienceListItemDescription } from './experience-list/experience-list-item-description'
+import { ExperienceListItemPeriod } from './experience-list/experience-list-item-period'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -131,6 +136,39 @@ export const CustomElement = (props: RenderElementProps) => {
 				<ProjectListItemDescription attributes={attributes} element={element}>
 					{children}
 				</ProjectListItemDescription>
+			)
+		case 'experience-list':
+			return (
+				<ExperienceList attributes={attributes} element={element}>
+					{children}
+				</ExperienceList>
+			)
+		case 'experience-list-item':
+			return (
+				<ExperienceListItem attributes={attributes} element={element}>
+					{children}
+				</ExperienceListItem>
+			)
+		case 'experience-list-item-name':
+			return (
+				<ExperienceListItemName attributes={attributes} element={element}>
+					{children}
+				</ExperienceListItemName>
+			)
+		case 'experience-list-item-description':
+			return (
+				<ExperienceListItemDescription
+					attributes={attributes}
+					element={element}
+				>
+					{children}
+				</ExperienceListItemDescription>
+			)
+		case 'experience-list-item-period':
+			return (
+				<ExperienceListItemPeriod attributes={attributes} element={element}>
+					{children}
+				</ExperienceListItemPeriod>
 			)
 		default:
 			return (

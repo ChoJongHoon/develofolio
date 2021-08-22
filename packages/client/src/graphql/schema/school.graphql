@@ -1,0 +1,28 @@
+query GetSchoolsByCursor(
+	$filter: SchoolFilterInput
+	$after: String
+	$before: String
+	$first: Int
+	$last: Int
+) {
+	getSchoolsByCursor(
+		filter: $filter
+		after: $after
+		before: $before
+		first: $first
+		last: $last
+	) {
+		edges {
+			node {
+				id
+				logo
+				name
+			}
+		}
+		pageInfo {
+			endCursor
+			hasNextPage
+			countTotal
+		}
+	}
+}

@@ -34,3 +34,16 @@ export const blockPickerSelectedIndexState = atom<number>({
 	key: 'blockPickerSelectedIndexState',
 	default: 0,
 })
+
+export const schoolPickerShowState = atom<boolean>({
+	key: 'schoolPickerShowState',
+	default: false,
+})
+export const schoolPickerTargetState = atom<Range | null>({
+	key: 'schoolPickerTargetState',
+	default: null,
+})
+export const schoolPickerSelectedIndexState = atom<number>({
+	key: 'schoolPickerSelectedIndexState',
+	default: 0,
+})

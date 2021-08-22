@@ -11,6 +11,7 @@ import { jwtConfig } from './config/jwt.config'
 import { baseConfig } from './config/base.config'
 import { FileModule } from './modules/file/file.module'
 import { awsConfig } from './config/aws.config'
+import { SchoolModule } from './modules/school/school.module'
 
 @Module({
 	imports: [
@@ -43,6 +44,7 @@ import { awsConfig } from './config/aws.config'
 		AuthModule,
 		PageModule,
 		FileModule,
+		SchoolModule,
 	],
 	controllers: [],
 	providers: [],
