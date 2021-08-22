@@ -2,24 +2,24 @@ import { nanoid } from 'nanoid'
 import { useStyletron } from 'styletron-react'
 import {
 	CustomRenderElementProps,
-	ExperienceListItemNameElement,
+	SchoolListItemNameElement,
 } from '../custom-types'
 import { HeadingXSmall } from 'baseui/typography'
 import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 
-export const generateExperienceListItemNameElement =
-	(): ExperienceListItemNameElement => ({
+export const generateSchoolListItemNameElement =
+	(): SchoolListItemNameElement => ({
 		id: nanoid(),
-		type: 'experience-list-item-name',
+		type: 'school-list-item-name',
 		children: [{ text: '' }],
 	})
 
-export const ExperienceListItemName = ({
+export const SchoolListItemName = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<ExperienceListItemNameElement>) => {
+}: CustomRenderElementProps<SchoolListItemNameElement>) => {
 	const [css] = useStyletron()
 
 	return (

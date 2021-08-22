@@ -8,24 +8,21 @@ import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
 import { useStyletron } from 'styletron-react'
 import { Icon } from '~/components/icon'
 import { useHover } from '~/hooks/use-hover'
-import {
-	CustomRenderElementProps,
-	ExperienceListElement,
-} from '../custom-types'
+import { CustomRenderElementProps, SchoolListElement } from '../custom-types'
 import { RootDraggable } from '../dnd/root-draggable'
-import { generateExperienceListItemElement } from './experience-list-item'
+import { generateSchoolListItemElement } from './school-list-item'
 
-export const generateExperienceListElement = (): ExperienceListElement => ({
+export const generateSchoolListElement = (): SchoolListElement => ({
 	id: nanoid(),
-	type: 'experience-list',
-	children: [generateExperienceListItemElement()],
+	type: 'school-list',
+	children: [generateSchoolListItemElement()],
 })
 
-export const ExperienceList = ({
+export const SchoolList = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<ExperienceListElement>) => {
+}: CustomRenderElementProps<SchoolListElement>) => {
 	const [css] = useStyletron()
 	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
 	const isSelected = useSelected()
@@ -50,13 +47,9 @@ export const ExperienceList = ({
 					<button
 						onClick={() => {
 							const path = ReactEditor.findPath(editor, element)
-							Transforms.insertNodes(
-								editor,
-								generateExperienceListItemElement(),
-								{
-									at: [...path, element.children.length],
-								}
-							)
+							Transforms.insertNodes(editor, generateSchoolListItemElement(), {
+								at: [...path, element.children.length],
+							})
 						}}
 						className={css({
 							...borderStyle('none'),

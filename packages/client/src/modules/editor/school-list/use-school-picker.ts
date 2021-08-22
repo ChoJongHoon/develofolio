@@ -5,8 +5,8 @@ import { Editor, Node, Range, Transforms } from 'slate'
 import { GetSchoolsByCursorDocument } from '~/graphql/document.generated'
 import { useDebounceState } from '~/hooks/use-debounce-state'
 import {
-	ExperienceListItemElement,
-	ExperienceListItemNameElement,
+	SchoolListItemElement,
+	SchoolListItemNameElement,
 } from '../custom-types'
 import {
 	schoolPickerSelectedIndexState,
@@ -25,10 +25,10 @@ export const useSchoolPicker = (editor: Editor) => {
 	useEffect(() => {
 		const selection = editor.selection
 		if (selection && Range.isCollapsed(selection)) {
-			const entry = Editor.above<ExperienceListItemNameElement>(editor, {
+			const entry = Editor.above<SchoolListItemNameElement>(editor, {
 				at: selection,
 				match: (n) =>
-					Editor.isBlock(editor, n) && n.type === 'experience-list-item-name',
+					Editor.isBlock(editor, n) && n.type === 'school-list-item-name',
 			})
 			if (entry) {
 				const [node, path] = entry
@@ -66,10 +66,10 @@ export const useSchoolPicker = (editor: Editor) => {
 		}
 
 		const selectedSchool = edges[selectedIndex]
-		const nameEntry = Editor.above<ExperienceListItemNameElement>(editor, {
+		const nameEntry = Editor.above<SchoolListItemNameElement>(editor, {
 			at: target,
 			match: (n) =>
-				Editor.isBlock(editor, n) && n.type === 'experience-list-item-name',
+				Editor.isBlock(editor, n) && n.type === 'school-list-item-name',
 		})
 
 		if (nameEntry) {
@@ -78,7 +78,7 @@ export const useSchoolPicker = (editor: Editor) => {
 
 			Transforms.select(editor, target)
 			Transforms.insertText(editor, selectedSchool.node.name)
-			Transforms.setNodes<ExperienceListItemElement>(
+			Transforms.setNodes<SchoolListItemElement>(
 				editor,
 				{ logo: selectedSchool.node.logo },
 				{

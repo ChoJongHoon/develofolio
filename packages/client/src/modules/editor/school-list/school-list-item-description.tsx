@@ -2,36 +2,36 @@ import { nanoid } from 'nanoid'
 import { useStyletron } from 'styletron-react'
 import {
 	CustomRenderElementProps,
-	ExperienceListItemPeriodElement,
+	SchoolListItemDescriptionElement,
 } from '../custom-types'
-import { LabelSmall } from 'baseui/typography'
+import { LabelLarge } from 'baseui/typography'
 import OpenColor from 'open-color'
 import { Placeholder } from '../placeholder/placeholder'
 
-export const generateExperienceListItemPeriodElement =
-	(): ExperienceListItemPeriodElement => ({
+export const generateSchoolListItemDescriptionElement =
+	(): SchoolListItemDescriptionElement => ({
 		id: nanoid(),
-		type: 'experience-list-item-period',
+		type: 'school-list-item-description',
 		children: [{ text: '' }],
 	})
 
-export const ExperienceListItemPeriod = ({
+export const SchoolListItemDescription = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<ExperienceListItemPeriodElement>) => {
+}: CustomRenderElementProps<SchoolListItemDescriptionElement>) => {
 	const [css] = useStyletron()
 
 	return (
-		<LabelSmall
+		<LabelLarge
 			{...attributes}
 			color={OpenColor.gray[6]}
 			className={css({
 				position: 'relative',
 			})}
 		>
-			<Placeholder element={element}>기간</Placeholder>
+			<Placeholder element={element}>설명</Placeholder>
 			{children}
-		</LabelSmall>
+		</LabelLarge>
 	)
 }

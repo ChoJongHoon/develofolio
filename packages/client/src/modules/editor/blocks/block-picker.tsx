@@ -11,7 +11,7 @@ import { useStyletron } from 'styletron-react'
 import { transitions } from 'polished'
 import { generateProjectListElement } from '../project-list/project-list'
 import { generateSkillListElement } from '../skill-list/skill-list'
-import { generateExperienceListElement } from '../experience-list/experience-list'
+import { generateSchoolListElement } from '../school-list/school-list'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import {
 	blockPickerSelectedIndexState,
@@ -34,9 +34,9 @@ const BLOCKS: Array<{
 		generateNode: generateProjectListElement,
 	},
 	{
-		name: '학력 및 경력',
-		description: '본인의 이력을 작성해주세요.',
-		generateNode: generateExperienceListElement,
+		name: '학력 리스트',
+		description: '본인의 학력을 작성해주세요.',
+		generateNode: generateSchoolListElement,
 	},
 ]
 

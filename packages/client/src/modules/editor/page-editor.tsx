@@ -28,9 +28,9 @@ import { CustomLeaf } from './leaf/custom-leaf'
 import { Toolbar } from './leaf/toolbar'
 import { useSetRecoilState } from 'recoil'
 import { saveState } from './editor.atoms'
-import { useSchoolPicker } from './experience-list/use-school-picker'
-import { SchoolPicker } from './experience-list/school-picker'
-import { withExperienceList } from './experience-list/with-experience-list'
+import { useSchoolPicker } from './school-list/use-school-picker'
+import { SchoolPicker } from './school-list/school-picker'
+import { withSchoolList } from './school-list/with-school-list'
 
 const PLUGINS = [
 	withEditor,
@@ -41,7 +41,7 @@ const PLUGINS = [
 	withProjectList,
 	withLogo,
 	withShortcuts,
-	withExperienceList,
+	withSchoolList,
 ]
 
 interface PageEditorProps {

@@ -1,13 +1,13 @@
 import { useStyletron } from 'styletron-react'
 import {
 	CustomRenderElementProps,
-	ExperienceListItemElement,
+	SchoolListItemElement,
 } from '../custom-types'
 import { Cell } from 'baseui/layout-grid'
 import { nanoid } from 'nanoid'
-import { generateExperienceListItemNameElement } from './experience-list-item-name'
-import { generateExperienceListItemDescriptionElement } from './experience-list-item-description'
-import { generateExperienceListItemPeriodElement } from './experience-list-item-period'
+import { generateSchoolListItemNameElement } from './school-list-item-name'
+import { generateSchoolListItemDescriptionElement } from './school-list-item-description'
+import { generateSchoolListItemPeriodElement } from './school-list-item-period'
 import { borderRadius, padding, transitions } from 'polished'
 import OpenColor from 'open-color'
 import { ReactEditor, useSlateStatic } from 'slate-react'
@@ -24,23 +24,22 @@ import {
 import { useApolloClient } from '@apollo/client'
 import axios from 'axios'
 
-export const generateExperienceListItemElement =
-	(): ExperienceListItemElement => ({
-		id: nanoid(),
-		type: 'experience-list-item',
-		logo: null,
-		children: [
-			generateExperienceListItemNameElement(),
-			generateExperienceListItemDescriptionElement(),
-			generateExperienceListItemPeriodElement(),
-		],
-	})
+export const generateSchoolListItemElement = (): SchoolListItemElement => ({
+	id: nanoid(),
+	type: 'school-list-item',
+	logo: null,
+	children: [
+		generateSchoolListItemNameElement(),
+		generateSchoolListItemDescriptionElement(),
+		generateSchoolListItemPeriodElement(),
+	],
+})
 
-export const ExperienceListItem = ({
+export const SchoolListItem = ({
 	attributes,
 	children,
 	element,
-}: CustomRenderElementProps<ExperienceListItemElement>) => {
+}: CustomRenderElementProps<SchoolListItemElement>) => {
 	const client = useApolloClient()
 	const [css] = useStyletron()
 	const editor = useSlateStatic()
@@ -56,7 +55,7 @@ export const ExperienceListItem = ({
 			} = await client.query({
 				query: GenerateUploadUrlDocument,
 				variables: {
-					type: UploadType.Experience,
+					type: UploadType.School,
 					filename: file.name,
 				},
 			})
@@ -71,7 +70,7 @@ export const ExperienceListItem = ({
 			})
 
 			const path = ReactEditor.findPath(editor, element)
-			const newProperties: Partial<ExperienceListItemElement> = {
+			const newProperties: Partial<SchoolListItemElement> = {
 				logo: key,
 			}
 			Transforms.setNodes(editor, newProperties, { at: path })
@@ -80,7 +79,7 @@ export const ExperienceListItem = ({
 	)
 	const onRemoveLogo = useCallback(() => {
 		const path = ReactEditor.findPath(editor, element)
-		Transforms.setNodes<ExperienceListItemElement>(
+		Transforms.setNodes<SchoolListItemElement>(
 			editor,
 			{ logo: null },
 			{ at: path }

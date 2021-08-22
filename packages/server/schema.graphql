@@ -87,7 +87,7 @@ type Query {
 enum UploadType {
   PROFILE
   PROJECT
-  EXPERIENCE
+  SCHOOL
 }
 
 input SchoolFilterInput {

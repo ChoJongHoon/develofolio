@@ -125,31 +125,31 @@ export type ProjectListItemDescriptionElement = WithId<{
 }>
 
 // ==============================
-//        ExperienceList
+//        SchoolList
 // ==============================
-export type ExperienceListElement = WithId<{
-	type: 'experience-list'
-	children: ExperienceListItemElement[]
+export type SchoolListElement = WithId<{
+	type: 'school-list'
+	children: SchoolListItemElement[]
 }>
-export type ExperienceListItemElement = WithId<{
-	type: 'experience-list-item'
+export type SchoolListItemElement = WithId<{
+	type: 'school-list-item'
 	logo: string | null
 	children: [
-		ExperienceListItemNameElement,
-		ExperienceListItemDescriptionElement,
-		ExperienceListItemPeriodElement
+		SchoolListItemNameElement,
+		SchoolListItemDescriptionElement,
+		SchoolListItemPeriodElement
 	]
 }>
-export type ExperienceListItemNameElement = WithId<{
-	type: 'experience-list-item-name'
+export type SchoolListItemNameElement = WithId<{
+	type: 'school-list-item-name'
 	children: CustomText[]
 }>
-export type ExperienceListItemDescriptionElement = WithId<{
-	type: 'experience-list-item-description'
+export type SchoolListItemDescriptionElement = WithId<{
+	type: 'school-list-item-description'
 	children: CustomText[]
 }>
-export type ExperienceListItemPeriodElement = WithId<{
-	type: 'experience-list-item-period'
+export type SchoolListItemPeriodElement = WithId<{
+	type: 'school-list-item-period'
 	children: CustomText[]
 }>
 
@@ -173,11 +173,11 @@ export type CustomElement =
 	| ProjectListItemElement
 	| ProjectListItemNameElement
 	| ProjectListItemDescriptionElement
-	| ExperienceListElement
-	| ExperienceListItemElement
-	| ExperienceListItemNameElement
-	| ExperienceListItemDescriptionElement
-	| ExperienceListItemPeriodElement
+	| SchoolListElement
+	| SchoolListItemElement
+	| SchoolListItemNameElement
+	| SchoolListItemDescriptionElement
+	| SchoolListItemPeriodElement
 
 export type LeafFormat = 'bold' | 'italic' | 'code'
 

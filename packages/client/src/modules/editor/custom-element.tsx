@@ -17,11 +17,11 @@ import { ProjectList } from './project-list/project-list'
 import { ProjectListItem } from './project-list/project-list-item'
 import { ProjectListItemName } from './project-list/project-list-item-name'
 import { ProjectListItemDescription } from './project-list/project-list-item-description'
-import { ExperienceList } from './experience-list/experience-list'
-import { ExperienceListItem } from './experience-list/experience-list-item'
-import { ExperienceListItemName } from './experience-list/experience-list-item-name'
-import { ExperienceListItemDescription } from './experience-list/experience-list-item-description'
-import { ExperienceListItemPeriod } from './experience-list/experience-list-item-period'
+import { SchoolList } from './school-list/school-list'
+import { SchoolListItem } from './school-list/school-list-item'
+import { SchoolListItemName } from './school-list/school-list-item-name'
+import { SchoolListItemDescription } from './school-list/school-list-item-description'
+import { SchoolListItemPeriod } from './school-list/school-list-item-period'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -137,38 +137,35 @@ export const CustomElement = (props: RenderElementProps) => {
 					{children}
 				</ProjectListItemDescription>
 			)
-		case 'experience-list':
+		case 'school-list':
 			return (
-				<ExperienceList attributes={attributes} element={element}>
+				<SchoolList attributes={attributes} element={element}>
 					{children}
-				</ExperienceList>
+				</SchoolList>
 			)
-		case 'experience-list-item':
+		case 'school-list-item':
 			return (
-				<ExperienceListItem attributes={attributes} element={element}>
+				<SchoolListItem attributes={attributes} element={element}>
 					{children}
-				</ExperienceListItem>
+				</SchoolListItem>
 			)
-		case 'experience-list-item-name':
+		case 'school-list-item-name':
 			return (
-				<ExperienceListItemName attributes={attributes} element={element}>
+				<SchoolListItemName attributes={attributes} element={element}>
 					{children}
-				</ExperienceListItemName>
+				</SchoolListItemName>
 			)
-		case 'experience-list-item-description':
+		case 'school-list-item-description':
 			return (
-				<ExperienceListItemDescription
-					attributes={attributes}
-					element={element}
-				>
+				<SchoolListItemDescription attributes={attributes} element={element}>
 					{children}
-				</ExperienceListItemDescription>
+				</SchoolListItemDescription>
 			)
-		case 'experience-list-item-period':
+		case 'school-list-item-period':
 			return (
-				<ExperienceListItemPeriod attributes={attributes} element={element}>
+				<SchoolListItemPeriod attributes={attributes} element={element}>
 					{children}
-				</ExperienceListItemPeriod>
+				</SchoolListItemPeriod>
 			)
 		default:
 			return (
