@@ -22,6 +22,12 @@ import { SchoolListItem } from './school-list/school-list-item'
 import { SchoolListItemName } from './school-list/school-list-item-name'
 import { SchoolListItemMajor } from './school-list/school-list-item-major'
 import { SchoolListItemPeriod } from './school-list/school-list-item-period'
+import { CareerList } from './career-list/school-list'
+import { CareerListItem } from './career-list/career-list-item'
+import { CareerListItemName } from './career-list/career-list-item-name'
+import { CareerListItemPosition } from './career-list/career-list-item-position'
+import { CareerListItemPeriod } from './career-list/career-list-item-period'
+import { CareerListItemDescription } from './career-list/career-list-item-description'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -166,6 +172,42 @@ export const CustomElement = (props: RenderElementProps) => {
 				<SchoolListItemPeriod attributes={attributes} element={element}>
 					{children}
 				</SchoolListItemPeriod>
+			)
+		case 'career-list':
+			return (
+				<CareerList attributes={attributes} element={element}>
+					{children}
+				</CareerList>
+			)
+		case 'career-list-item':
+			return (
+				<CareerListItem attributes={attributes} element={element}>
+					{children}
+				</CareerListItem>
+			)
+		case 'career-list-item-name':
+			return (
+				<CareerListItemName attributes={attributes} element={element}>
+					{children}
+				</CareerListItemName>
+			)
+		case 'career-list-item-position':
+			return (
+				<CareerListItemPosition attributes={attributes} element={element}>
+					{children}
+				</CareerListItemPosition>
+			)
+		case 'career-list-item-period':
+			return (
+				<CareerListItemPeriod attributes={attributes} element={element}>
+					{children}
+				</CareerListItemPeriod>
+			)
+		case 'career-list-item-description':
+			return (
+				<CareerListItemDescription attributes={attributes} element={element}>
+					{children}
+				</CareerListItemDescription>
 			)
 		default:
 			return (

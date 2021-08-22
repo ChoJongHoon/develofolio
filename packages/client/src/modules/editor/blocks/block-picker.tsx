@@ -17,6 +17,7 @@ import {
 	blockPickerSelectedIndexState,
 	blockPickerShowState,
 } from '../editor.atoms'
+import { generateCareerListElement } from '../career-list/school-list'
 
 const BLOCKS: Array<{
 	name: string
@@ -37,6 +38,11 @@ const BLOCKS: Array<{
 		name: '학력 리스트',
 		description: '본인의 학력을 작성해주세요.',
 		generateNode: generateSchoolListElement,
+	},
+	{
+		name: '경력 리스트',
+		description: '본인의 경력을 작성해주세요.',
+		generateNode: generateCareerListElement,
 	},
 ]
 

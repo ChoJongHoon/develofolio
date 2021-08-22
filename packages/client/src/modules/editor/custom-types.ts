@@ -153,6 +153,40 @@ export type SchoolListItemPeriodElement = WithId<{
 	children: CustomText[]
 }>
 
+// ==============================
+//          CareerList
+// ==============================
+export type CareerListElement = WithId<{
+	type: 'career-list'
+	children: CareerListItemElement[]
+}>
+export type CareerListItemElement = WithId<{
+	type: 'career-list-item'
+	logo: string | null
+	children: [
+		CareerListItemNameElement,
+		CareerListItemPositionElement,
+		CareerListItemPeriodElement,
+		CareerListItemDescriptionElement
+	]
+}>
+export type CareerListItemNameElement = WithId<{
+	type: 'career-list-item-name'
+	children: CustomText[]
+}>
+export type CareerListItemPositionElement = WithId<{
+	type: 'career-list-item-position'
+	children: CustomText[]
+}>
+export type CareerListItemPeriodElement = WithId<{
+	type: 'career-list-item-period'
+	children: CustomText[]
+}>
+export type CareerListItemDescriptionElement = WithId<{
+	type: 'career-list-item-description'
+	children: CustomText[]
+}>
+
 export type CustomElement =
 	| ParagraphElement
 	| HeadingElement
@@ -178,6 +212,12 @@ export type CustomElement =
 	| SchoolListItemNameElement
 	| SchoolListItemMajorElement
 	| SchoolListItemPeriodElement
+	| CareerListElement
+	| CareerListItemElement
+	| CareerListItemNameElement
+	| CareerListItemPositionElement
+	| CareerListItemPeriodElement
+	| CareerListItemDescriptionElement
 
 export type LeafFormat = 'bold' | 'italic' | 'code'
 

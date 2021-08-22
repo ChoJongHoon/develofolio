@@ -31,6 +31,7 @@ import { saveState } from './editor.atoms'
 import { useSchoolPicker } from './school-list/use-school-picker'
 import { SchoolPicker } from './school-list/school-picker'
 import { withSchoolList } from './school-list/with-school-list'
+import { withCareerList } from './career-list/with-carrer-list'
 
 const PLUGINS = [
 	withEditor,
@@ -42,6 +43,7 @@ const PLUGINS = [
 	withLogo,
 	withShortcuts,
 	withSchoolList,
+	withCareerList,
 ]
 
 interface PageEditorProps {
@@ -63,7 +65,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	const editor = editorRef.current
 
 	const [content, setContent] = useState<Descendant[]>(initialContent)
-	console.log(`content`, content)
+
 	const { handleIconPicker } = useLogoPicker(editor)
 	const { schools, handleSchoolPicker, onSelectSchool } =
 		useSchoolPicker(editor)

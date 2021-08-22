@@ -4,6 +4,7 @@ export enum UploadType {
 	PROFILE = 'PROFILE',
 	PROJECT = 'PROJECT',
 	SCHOOL = 'SCHOOL',
+	CAREER = 'CAREER',
 }
 
 registerEnumType(UploadType, {
