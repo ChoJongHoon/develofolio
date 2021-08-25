@@ -6,7 +6,7 @@ import {
 } from '~/modules/editor/custom-types'
 import { isHeading } from '../elements/heading'
 
-const SHORTCUTS: { [key in string]: CustomElement['type'] } = {
+const SHORTCUTS = {
 	'*': 'list-item',
 	'-': 'list-item',
 	'+': 'list-item',
@@ -14,7 +14,7 @@ const SHORTCUTS: { [key in string]: CustomElement['type'] } = {
 	'#': 'heading',
 	'##': 'heading',
 	'###': 'heading',
-}
+} as const
 
 const isShortcuts = (text: string): text is keyof typeof SHORTCUTS =>
 	Object.keys(SHORTCUTS).includes(text)
@@ -42,7 +42,7 @@ export const withShortcuts = (editor: Editor) => {
 						Transforms.select(editor, range)
 						Transforms.delete(editor)
 
-						const newProperties: Partial<Element> = { type }
+						const newProperties: Partial<CustomElement> = { type }
 						if (isHeading(newProperties)) {
 							newProperties.level = beforeText.length as 1 | 2 | 3
 						}
@@ -87,7 +87,7 @@ export const withShortcuts = (editor: Editor) => {
 				if (
 					!Editor.isEditor(block) &&
 					Element.isElement(block) &&
-					Object.values(SHORTCUTS).includes(block.type) &&
+					Object.values(SHORTCUTS).includes(block.type as any) &&
 					Point.equals(selection.anchor, start)
 				) {
 					const newProperties: Partial<Element> = {
@@ -133,7 +133,7 @@ export const withShortcuts = (editor: Editor) => {
 				if (
 					!Editor.isEditor(block) &&
 					Element.isElement(block) &&
-					Object.values(SHORTCUTS).includes(block.type) &&
+					Object.values(SHORTCUTS).includes(block.type as any) &&
 					Point.equals(selection.anchor, start) &&
 					Editor.isEmpty(editor, block)
 				) {
