@@ -11,7 +11,11 @@ export const Logo = ({
 	return (
 		<span {...attributes} contentEditable={false} className={css(wrapper)}>
 			{/* eslint-disable-next-line @next/next/no-img-element */}
-			<img src={`/logos/${element.file}`} css={imgStyles} alt={element.name} />
+			<img
+				src={`/logos/${element.file}`}
+				className={css(imgStyles)}
+				alt={element.name}
+			/>
 			{children}
 		</span>
 	)

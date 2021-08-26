@@ -1,7 +1,6 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloProvider, NormalizedCache } from '@apollo/client'
-import { globalStyle } from '~/styles/global-styles'
 import { useApollo } from '~/apollo/use-apollo'
 import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
 import { LightTheme, BaseProvider } from 'baseui'
@@ -9,6 +8,7 @@ import { Provider as StyletronProvider } from 'styletron-react'
 import { styletron } from '~/styles/styletron'
 import { NextPage } from 'next'
 import { RecoilRoot } from 'recoil'
+import '~/styles/global-styles.css'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
@@ -24,18 +24,15 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 	const getLayout = Component.getLayout || ((page) => page)
 
 	return (
-		<>
-			{globalStyle}
-			<ApolloProvider client={client}>
-				<RecoilRoot>
-					<StyletronProvider value={styletron}>
-						<BaseProvider theme={LightTheme}>
-							{getLayout(<Component {...pageProps} />)}
-						</BaseProvider>
-					</StyletronProvider>
-				</RecoilRoot>
-			</ApolloProvider>
-		</>
+		<ApolloProvider client={client}>
+			<RecoilRoot>
+				<StyletronProvider value={styletron}>
+					<BaseProvider theme={LightTheme}>
+						{getLayout(<Component {...pageProps} />)}
+					</BaseProvider>
+				</StyletronProvider>
+			</RecoilRoot>
+		</ApolloProvider>
 	)
 }
 

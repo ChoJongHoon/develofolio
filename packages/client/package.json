@@ -17,7 +17,6 @@
 	},
 	"dependencies": {
 		"@apollo/client": "^3.3.16",
-		"@emotion/react": "^11.4.0",
 		"@popperjs/core": "^2.9.2",
 		"@svgr/webpack": "^5.5.0",
 		"@types/styletron-engine-atomic": "^1.1.0",
@@ -28,7 +27,6 @@
 		"baseui": "^9.116.2",
 		"classnames": "^2.3.1",
 		"cookie": "^0.4.1",
-		"emotion-normalize": "^11.0.1",
 		"flexsearch": "^0.6.32",
 		"graphql": "^15.5.0",
 		"jwt-decode": "^3.1.2",
@@ -61,7 +59,6 @@
 		"validator": "^13.6.0"
 	},
 	"devDependencies": {
-		"@emotion/babel-preset-css-prop": "^11.2.0",
 		"@graphql-codegen/cli": "^1.21.4",
 		"@graphql-codegen/fragment-matcher": "^2.0.1",
 		"@graphql-codegen/introspection": "^1.18.2",
