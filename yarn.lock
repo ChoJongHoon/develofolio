@@ -3684,6 +3684,11 @@
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.10.tgz#61cc8469849e5bcdd0c7044122265c39cec10cf4"
   integrity sha512-C7srjHiVG3Ey1nR6d511dtDkCEjxuN9W1HWAEjGq8kpcwmNM6JJkpC0xvabM7BXTG2wDq8Eu33iH9aQKa7IvLQ==
 
+"@types/debounce-promise@^3.1.1":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/debounce-promise/-/debounce-promise-3.1.4.tgz#bf10eead11724e666ea541df1c9d3969677a505b"
+  integrity sha512-9SEVY3nsz+uMN2DwDocftB5TAgZe7D0cOzxxRhpotWs6T4QFqRaTXpXbOSzbk31/7iYcfCkJJPwWGzTxyuGhCg==
+
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/@types/eslint-scope/-/eslint-scope-3.7.1.tgz#8dc390a7b4f9dd9f1284629efce982e41612116e"
@@ -5224,6 +5229,28 @@ available-typed-arrays@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.4.tgz#9e0ae84ecff20caae6a94a1c3bc39b955649b7a9"
   integrity sha512-SA5mXJWrId1TaQjfxUYghbqQ/hYioKmLJvPJyDuYRtXXenFNMjj4hSSt1Cf1xsuXSXrtxrVC5Ot4eU6cOtBDdA==
+
+awesome-debounce-promise@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/awesome-debounce-promise/-/awesome-debounce-promise-2.1.0.tgz#7c21cadf2eaa1fa0a29449dd4dfdbd5004811e53"
+  integrity sha512-0Dv4j2wKk5BrNZh4jgV2HUdznaeVgEK/WTvcHhZWUElhmQ1RR+iURRoLEwICFyR0S/5VtxfcvY6gR+qSe95jNg==
+  dependencies:
+    "@types/debounce-promise" "^3.1.1"
+    awesome-imperative-promise "^1.0.1"
+    awesome-only-resolves-last-promise "^1.0.3"
+    debounce-promise "^3.1.0"
+
+awesome-imperative-promise@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/awesome-imperative-promise/-/awesome-imperative-promise-1.0.1.tgz#be143d89615b9110ac310345457f37e9791ddac9"
+  integrity sha512-EmPr3FqbQGqlNh+WxMNcF9pO9uDQJnOC4/3rLBQNH9m4E9qI+8lbfHCmHpVAsmGqPJPKhCjJLHUQzQW/RBHRdQ==
+
+awesome-only-resolves-last-promise@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/awesome-only-resolves-last-promise/-/awesome-only-resolves-last-promise-1.0.3.tgz#f2dac3ff7df238e48b818b423483031750f13ef0"
+  integrity sha512-7q4WPsYiD8Omvi/yHL314DkvsD/lM//Z2/KcU1vWk0xJotiV0GMJTgHTpWl3n90HJqpXKg7qX+VVNs5YbQyPRQ==
+  dependencies:
+    awesome-imperative-promise "^1.0.1"
 
 aws-lambda@^1.0.6:
   version "1.0.6"
@@ -7160,6 +7187,11 @@ dayjs@^1.10.4, dayjs@^1.10.6:
   version "1.10.6"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
   integrity sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==
+
+debounce-promise@^3.1.0:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/debounce-promise/-/debounce-promise-3.1.2.tgz#320fb8c7d15a344455cd33cee5ab63530b6dc7c5"
+  integrity sha512-rZHcgBkbYavBeD9ej6sP56XfG53d51CD4dnaw989YX/nZ/ZJfgRx/9ePKmTNiUiyQvh4mtrMoS3OAWW+yoYtpg==
 
 debounce@^1.2.0:
   version "1.2.1"

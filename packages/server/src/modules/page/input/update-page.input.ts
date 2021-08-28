@@ -4,6 +4,6 @@ import { Page } from '../page.entity'
 @InputType()
 export class UpdatePageInput extends PickType(
 	Page,
-	['content'] as const,
+	['content', 'slug', 'title', 'gtag'] as const,
 	InputType
 ) {}

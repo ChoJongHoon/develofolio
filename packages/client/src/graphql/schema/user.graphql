@@ -5,8 +5,7 @@ query Me {
 		email
 		avatar
 		page {
-			id
-			content
+			...PageParts
 		}
 	}
 }

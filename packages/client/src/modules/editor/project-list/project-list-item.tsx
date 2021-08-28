@@ -25,6 +25,7 @@ import { ImageUploader } from '~/components/image-uploader'
 import { Cell } from 'baseui/layout-grid'
 import { nanoid } from 'nanoid'
 import mergeRefs from 'react-merge-refs'
+import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 
 export const generateProjectListItemElement = (): ProjectListItemElement => ({
 	id: nanoid(),
@@ -147,37 +148,32 @@ export const ProjectListItem = ({
 					borderRadius: '8px',
 				})}
 			>
-				<div
-					contentEditable={false}
-					className={css({
-						width: '100%',
-						backgroundColor: OpenColor.gray[1],
-						overflow: 'hidden',
-						borderTopLeftRadius: '8px',
-						borderTopRightRadius: '8px',
-						position: 'relative',
-						userSelect: 'none',
-						':before': {
-							content: '" "',
-							display: 'block',
-							paddingTop: `${(9 / 16) * 100}%`,
+				<AspectRatioBox
+					aspectRatio={16 / 9}
+					overrides={{
+						Block: {
+							props: {
+								contentEditable: false,
+							},
 						},
-					})}
+					}}
 				>
-					<ImageUploader
-						onDrop={onAddThumbnail}
-						onDelete={onRemoveThumbnail}
-						image={element.thumbnail}
-						className={css({
-							position: 'absolute',
-							top: '0px',
-							left: '0px',
-							borderTopLeftRadius: '8px',
-							borderTopRightRadius: '8px',
-						})}
-						progressAmount={progress}
-					/>
-				</div>
+					<AspectRatioBoxBody>
+						<ImageUploader
+							onDrop={onAddThumbnail}
+							onDelete={onRemoveThumbnail}
+							image={element.thumbnail}
+							className={css({
+								position: 'absolute',
+								top: '0px',
+								left: '0px',
+								borderTopLeftRadius: '8px',
+								borderTopRightRadius: '8px',
+							})}
+							progressAmount={progress}
+						/>
+					</AspectRatioBoxBody>
+				</AspectRatioBox>
 				<div
 					className={css({
 						...padding('16px'),

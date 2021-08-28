@@ -23,7 +23,7 @@ import classNames from 'classnames'
 import { withEditor } from './with-editor'
 import { withProjectList } from './project-list/with-project-list'
 import { Cell, Grid } from 'baseui/layout-grid'
-import { UpdatePageDocument } from '~/graphql/document.generated'
+import { UpdateContentDocument } from '~/graphql/document.generated'
 import { CustomLeaf } from './leaf/custom-leaf'
 import { Toolbar } from './leaf/toolbar'
 import { useSetRecoilState } from 'recoil'
@@ -91,7 +91,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 		setContent(newContent)
 	}, [])
 
-	const [updatePage] = useMutation(UpdatePageDocument, {
+	const [updateContent] = useMutation(UpdateContentDocument, {
 		onCompleted: () => {
 			setSave('SAVED')
 		},
@@ -104,11 +104,9 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 	useDebounceEffect(
 		() => {
 			setSave('SAVING')
-			updatePage({
+			updateContent({
 				variables: {
-					fields: {
-						content,
-					},
+					content,
 				},
 			})
 		},

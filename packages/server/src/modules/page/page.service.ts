@@ -25,4 +25,14 @@ export class PageService {
 			...fields,
 		})
 	}
+
+	async isDuplicatedSlug(slug: string) {
+		const count = await this.pageRepository.count({
+			where: {
+				slug,
+			},
+		})
+
+		return count > 0
+	}
 }

@@ -2,10 +2,38 @@ fragment PageParts on Page {
 	id
 	content
 	slug
+	title
+	gtag
 }
 
-mutation UpdatePage($fields: UpdatePageInput!) {
-	updatePage(fields: $fields) {
-		...PageParts
+mutation UpdateContent($content: JSON!) {
+	page: updatePage(fields: { content: $content }) {
+		id
+		slug
 	}
+}
+
+mutation UpdateSlug($slug: String!) {
+	page: updatePage(fields: { slug: $slug }) {
+		id
+		slug
+	}
+}
+
+mutation UpdateTitle($title: String!) {
+	page: updatePage(fields: { title: $title }) {
+		id
+		title
+	}
+}
+
+mutation UpdateGtag($gtag: String!) {
+	page: updatePage(fields: { gtag: $gtag }) {
+		id
+		gtag
+	}
+}
+
+mutation CheckDuplicatedSlug($slug: String!) {
+	checkDuplicatedSlug(slug: $slug)
 }

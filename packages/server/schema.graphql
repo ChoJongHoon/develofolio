@@ -7,6 +7,8 @@ type Page {
   user: User!
   content: JSON
   slug: String
+  title: String
+  gtag: String
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -97,9 +99,13 @@ input SchoolFilterInput {
 
 type Mutation {
   updatePage(fields: UpdatePageInput!): Page!
+  checkDuplicatedSlug(slug: String!): Boolean!
   createFile(isPrivate: Boolean = false, key: String!): File!
 }
 
 input UpdatePageInput {
   content: JSON
+  slug: String
+  title: String
+  gtag: String
 }

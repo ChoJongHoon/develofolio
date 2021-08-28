@@ -9,6 +9,7 @@ import { styletron } from '~/styles/styletron'
 import { NextPage } from 'next'
 import { RecoilRoot } from 'recoil'
 import '~/styles/global-styles.css'
+import { SnackbarProvider } from 'baseui/snackbar'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
@@ -28,7 +29,9 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 			<RecoilRoot>
 				<StyletronProvider value={styletron}>
 					<BaseProvider theme={LightTheme}>
-						{getLayout(<Component {...pageProps} />)}
+						<SnackbarProvider>
+							{getLayout(<Component {...pageProps} />)}
+						</SnackbarProvider>
 					</BaseProvider>
 				</StyletronProvider>
 			</RecoilRoot>

@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { PageEditor } from '~/modules/editor/page-editor'
 import {
 	PagePartsFragment,
-	UpdatePageDocument,
+	UpdateContentDocument,
 } from '~/graphql/document.generated'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 import { ROUTE_LOGIN } from '~/routes'
@@ -26,11 +26,9 @@ export const getServerSideProps = withAuthSsr<EditProps>(
 
 		if (!user.page.content) {
 			await client.mutate({
-				mutation: UpdatePageDocument,
+				mutation: UpdateContentDocument,
 				variables: {
-					fields: {
-						content: generateInitialContent(),
-					},
+					content: generateInitialContent(),
 				},
 			})
 		}

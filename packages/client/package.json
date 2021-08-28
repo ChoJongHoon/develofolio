@@ -23,6 +23,7 @@
 		"@types/styletron-react": "^5.0.2",
 		"@types/styletron-standard": "^2.0.1",
 		"apollo-link-token-refresh": "^0.3.2",
+		"awesome-debounce-promise": "^2.1.0",
 		"axios": "^0.21.1",
 		"baseui": "^9.116.2",
 		"classnames": "^2.3.1",

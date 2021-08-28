@@ -19,4 +19,11 @@ export class PageResolver {
 	) {
 		return await this.pageService.update(user.pageId, fields)
 	}
+
+	@Mutation(() => Boolean)
+	async checkDuplicatedSlug(
+		@Args('slug', { type: () => String }) slug: string
+	) {
+		return await this.pageService.isDuplicatedSlug(slug)
+	}
 }

@@ -28,7 +28,15 @@ export class Page {
 
 	@Field(() => String, { nullable: true })
 	@Column({ type: 'varchar', length: 255, unique: true, nullable: true })
-	slug?: string
+	slug?: string | null
+
+	@Field(() => String, { nullable: true })
+	@Column({ type: 'varchar', length: 255, nullable: true })
+	title?: string | null
+
+	@Field(() => String, { nullable: true })
+	@Column({ type: 'varchar', length: 255, nullable: true })
+	gtag?: string | null
 
 	@Field(() => Date)
 	@CreateDateColumn({
