@@ -85,11 +85,11 @@ export const withCareerList = (editor: Editor) => {
 						return
 					}
 				}
-				return
 			}
 		}
 
 		insertBreak()
 	}
+
 	return editor
 }
