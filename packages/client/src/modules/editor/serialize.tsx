@@ -303,7 +303,7 @@ export const Serialize = ({ value }: SerializeProps) => {
 											marginTop: '16px',
 											marginBottom: '16px',
 											position: 'relative',
-											whiteSpace: 'pre',
+											whiteSpace: 'break-spaces',
 										},
 									},
 								}}
@@ -319,8 +319,9 @@ export const Serialize = ({ value }: SerializeProps) => {
 								overrides={{
 									Grid: {
 										style: {
-											marginTop: '4px',
-											marginBottom: '4px',
+											rowGap: '32px',
+											marginTop: '16px',
+											marginBottom: '16px',
 										},
 									},
 								}}
@@ -396,8 +397,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 									Grid: {
 										style: {
 											rowGap: '32px',
-											marginTop: '8px',
-											marginBottom: '8px',
+											marginTop: '16px',
+											marginBottom: '16px',
 										},
 									},
 								}}
@@ -505,8 +506,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 								overrides={{
 									Grid: {
 										style: {
-											marginTop: '8px',
-											marginBottom: '8px',
+											marginTop: '16px',
+											marginBottom: '16px',
 										},
 									},
 								}}
@@ -601,8 +602,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 								overrides={{
 									Grid: {
 										style: {
-											marginTop: '8px',
-											marginBottom: '8px',
+											marginTop: '16px',
+											marginBottom: '16px',
 										},
 									},
 								}}
