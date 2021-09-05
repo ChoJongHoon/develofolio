@@ -33,11 +33,7 @@ export const SchoolList = ({
 			<Grid
 				overrides={{
 					Grid: {
-						props: {
-							contentEditable: false,
-						},
 						style: {
-							userSelect: 'none',
 							marginBottom: '8px',
 						},
 					},
@@ -76,7 +72,17 @@ export const SchoolList = ({
 					</button>
 				</Cell>
 			</Grid>
-			<RootDraggable id={element.id} element={element}>
+			<RootDraggable
+				id={element.id}
+				element={element}
+				overrides={{
+					Grid: {
+						props: {
+							...attributes,
+						},
+					},
+				}}
+			>
 				{children}
 			</RootDraggable>
 		</div>

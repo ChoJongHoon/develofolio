@@ -76,7 +76,17 @@ export const CareerList = ({
 					</button>
 				</Cell>
 			</Grid>
-			<RootDraggable id={element.id} element={element}>
+			<RootDraggable
+				id={element.id}
+				element={element}
+				overrides={{
+					Grid: {
+						props: {
+							...attributes,
+						},
+					},
+				}}
+			>
 				{children}
 			</RootDraggable>
 		</div>
