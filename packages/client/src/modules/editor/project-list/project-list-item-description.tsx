@@ -1,6 +1,6 @@
+import { ParagraphSmall } from 'baseui/typography'
 import { nanoid } from 'nanoid'
 import OpenColor from 'open-color'
-import { useStyletron } from 'styletron-react'
 import {
 	CustomRenderElementProps,
 	ProjectListItemDescriptionElement,
@@ -19,21 +19,20 @@ export const ProjectListItemDescription = ({
 	children,
 	element,
 }: CustomRenderElementProps<ProjectListItemDescriptionElement>) => {
-	const [css] = useStyletron()
-
 	return (
-		<p
+		<ParagraphSmall
 			{...attributes}
-			className={css({
-				fontSize: '14px',
-				lineHeight: '20px',
-				color: OpenColor.gray[7],
-				fontWeight: 400,
-				position: 'relative',
-			})}
+			overrides={{
+				Block: {
+					style: {
+						position: 'relative',
+					},
+				},
+			}}
+			color={OpenColor.gray[7]}
 		>
 			<Placeholder element={element}>프로젝트 설명</Placeholder>
 			{children}
-		</p>
+		</ParagraphSmall>
 	)
 }

@@ -33,8 +33,14 @@ export const Heading = ({
 							element.level === 1
 								? '60px'
 								: element.level === 2
-								? '33.6px'
+								? '32px'
 								: '20px',
+						marginBottom:
+							element.level === 1
+								? '24px'
+								: element.level === 2
+								? '16px'
+								: '8px',
 					},
 				},
 			}}

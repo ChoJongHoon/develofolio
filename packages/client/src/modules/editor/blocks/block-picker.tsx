@@ -17,7 +17,7 @@ import {
 	blockPickerSelectedIndexState,
 	blockPickerShowState,
 } from '../editor.atoms'
-import { generateCareerListElement } from '../career-list/school-list'
+import { generateCareerListElement } from '../career-list/career-list'
 
 const BLOCKS: Array<{
 	name: string

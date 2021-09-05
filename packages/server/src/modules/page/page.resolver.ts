@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Mutation, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { GqlAuthGuard } from '../auth/graphql/gql-auth.guard'
 import { CurrentUser } from '../user/decorator/current-user.decorator'
 import { User } from '../user/user.entity'
@@ -10,6 +10,16 @@ import { PageService } from './page.service'
 @Resolver()
 export class PageResolver {
 	constructor(private readonly pageService: PageService) {}
+
+	@Query(() => [String])
+	async getPaths() {
+		return this.pageService.getPaths()
+	}
+
+	@Query(() => Page)
+	async getPageBySlug(@Args('slug', { type: () => String }) slug: string) {
+		return this.pageService.findOneBySlug(slug)
+	}
 
 	@Mutation(() => Page)
 	@UseGuards(GqlAuthGuard)

@@ -1,3 +1,4 @@
+import { ParagraphSmall } from 'baseui/typography'
 import {
 	CustomRenderElementProps,
 	SkillListItemDescriptionElement,
@@ -10,9 +11,9 @@ export const SkillListItemDescription = ({
 	element,
 }: CustomRenderElementProps<SkillListItemDescriptionElement>) => {
 	return (
-		<p {...attributes}>
+		<ParagraphSmall {...attributes}>
 			<Placeholder element={element}>스킬 설명</Placeholder>
 			{children}
-		</p>
+		</ParagraphSmall>
 	)
 }

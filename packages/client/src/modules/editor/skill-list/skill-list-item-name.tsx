@@ -1,6 +1,6 @@
+import { LabelMedium } from 'baseui/typography'
 import {
 	CustomRenderElementProps,
-	SkillListItemLogosElement,
 	SkillListItemNameElement,
 } from '../custom-types'
 import { Placeholder } from '../placeholder/placeholder'
@@ -11,9 +11,19 @@ export const SkillListItemName = ({
 	element,
 }: CustomRenderElementProps<SkillListItemNameElement>) => {
 	return (
-		<h3 {...attributes}>
+		<LabelMedium
+			{...attributes}
+			overrides={{
+				Block: {
+					style: {
+						fontWeight: 'bold',
+						marginBottom: '4px',
+					},
+				},
+			}}
+		>
 			<Placeholder element={element}>스킬 이름</Placeholder>
 			{children}
-		</h3>
+		</LabelMedium>
 	)
 }

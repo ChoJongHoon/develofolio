@@ -6,7 +6,7 @@ import {
 	ProjectListItemElement,
 } from '../custom-types'
 import OpenColor from 'open-color'
-import { padding, transitions } from 'polished'
+import { borderRadius, padding, transitions } from 'polished'
 import { Icon, IconType } from '~/components/icon'
 import { useHover } from '~/hooks/use-hover'
 import { StatefulPopover } from 'baseui/popover'
@@ -145,7 +145,8 @@ export const ProjectListItem = ({
 					display: 'flex',
 					flexDirection: 'column',
 					backgroundColor: OpenColor.gray[0],
-					borderRadius: '8px',
+					...borderRadius('top', '8px'),
+					...borderRadius('bottom', '8px'),
 				})}
 			>
 				<AspectRatioBox
@@ -167,9 +168,24 @@ export const ProjectListItem = ({
 								position: 'absolute',
 								top: '0px',
 								left: '0px',
-								borderTopLeftRadius: '8px',
-								borderTopRightRadius: '8px',
 							})}
+							overrides={{
+								Root: {
+									style: {
+										...borderRadius('top', '8px'),
+									},
+								},
+								Preview: {
+									style: {
+										...borderRadius('top', '8px'),
+									},
+								},
+								Image: {
+									style: {
+										...borderRadius('top', '8px'),
+									},
+								},
+							}}
 							progressAmount={progress}
 						/>
 					</AspectRatioBoxBody>

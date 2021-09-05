@@ -1,6 +1,6 @@
+import { HeadingSmall } from 'baseui/typography'
 import { nanoid } from 'nanoid'
 import OpenColor from 'open-color'
-import { useStyletron } from 'styletron-react'
 import {
 	CustomRenderElementProps,
 	ProjectListItemNameElement,
@@ -19,22 +19,22 @@ export const ProjectListItemName = ({
 	children,
 	element,
 }: CustomRenderElementProps<ProjectListItemNameElement>) => {
-	const [css] = useStyletron()
-
 	return (
-		<div
+		<HeadingSmall
 			{...attributes}
-			className={css({
-				fontWeight: 700,
-				color: OpenColor.gray[9],
-				fontSize: '24px',
-				lineHeight: '28px',
-				marginBottom: '8px',
-				position: 'relative',
-			})}
+			overrides={{
+				Block: {
+					style: {
+						fontWeight: 'bold',
+						marginBottom: '8px',
+						position: 'relative',
+					},
+				},
+			}}
+			color={OpenColor.gray[9]}
 		>
 			<Placeholder element={element}>프로젝트 이름</Placeholder>
 			{children}
-		</div>
+		</HeadingSmall>
 	)
 }

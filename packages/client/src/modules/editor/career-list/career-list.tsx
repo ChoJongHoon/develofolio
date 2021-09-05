@@ -33,11 +33,7 @@ export const CareerList = ({
 			<Grid
 				overrides={{
 					Grid: {
-						props: {
-							contentEditable: false,
-						},
 						style: {
-							userSelect: 'none',
 							marginBottom: '8px',
 						},
 					},

@@ -82,6 +82,8 @@ type SchoolCursorEdge {
 
 type Query {
   me: User!
+  getPaths: [String!]!
+  getPageBySlug(slug: String!): Page!
   generateUploadPath(type: UploadType!, filename: String!): UploadUrl!
   getSchoolsByCursor(filter: SchoolFilterInput, first: Int, after: String, last: Int, before: String): CursorPaginatedSchool!
 }

@@ -32,7 +32,7 @@ export const generateBannerElement = (): BannerElement => ({
 	],
 })
 
-const LINKS: Array<{
+export const LINKS: Array<{
 	name: keyof BannerElement['links']
 	icon: IconType
 }> = [

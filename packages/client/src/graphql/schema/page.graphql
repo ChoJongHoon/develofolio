@@ -6,6 +6,16 @@ fragment PageParts on Page {
 	gtag
 }
 
+query GetPaths {
+	paths: getPaths
+}
+
+query GetPageBySlug($slug: String!) {
+	page: getPageBySlug(slug: $slug) {
+		...PageParts
+	}
+}
+
 mutation UpdateContent($content: JSON!) {
 	page: updatePage(fields: { content: $content }) {
 		id
