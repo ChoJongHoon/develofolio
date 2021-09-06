@@ -17,13 +17,14 @@ import OpenColor from 'open-color'
 import { borderRadius, padding } from 'polished'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { Icon, IconType } from '~/components/icon'
-import { LINKS } from './banner/banner'
+import { LINKS as BANNER_LINKS } from './banner/banner'
 import { Button } from 'baseui/button'
 import Link from 'next/link'
 import { mediaQuery } from '~/styles/responsive'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 import Image from 'next/image'
 import { generateFileUrl } from '~/utils/generate-file-url'
+import { LINKS as PROJECT_LINKS } from './project-list/project-list-item'
 
 const generateKey = (type: CustomElement['type'], index: number) =>
 	`${type}-${index}`
@@ -227,8 +228,9 @@ export const Serialize = ({ value }: SerializeProps) => {
 																>
 																	<Icon
 																		type={
-																			LINKS.find((LINK) => LINK.name === key)
-																				?.icon as IconType
+																			BANNER_LINKS.find(
+																				(LINK) => LINK.name === key
+																			)?.icon as IconType
 																		}
 																		size={20}
 																		color={OpenColor.teal[6]}
@@ -469,6 +471,66 @@ export const Serialize = ({ value }: SerializeProps) => {
 											</ul>
 										)}
 										<Serialize value={[element.children[1]]} />
+										<ul
+											className={css({
+												display: 'flex',
+												justifyContent: 'flex-end',
+												marginTop: '8px',
+												listStyle: 'none',
+											})}
+										>
+											{Object.keys(element.links)
+												.filter(
+													(key) =>
+														element.links[key as keyof typeof element.links]
+												)
+												.map((key) => (
+													<li
+														key={key}
+														className={css({
+															border: 'none',
+															[':not(:last-child)']: {
+																marginRight: '8px',
+															},
+														})}
+													>
+														<Link
+															href={
+																element.links[
+																	key as keyof typeof element.links
+																] as string
+															}
+															passHref
+														>
+															<Button
+																$as="a"
+																target="_blank"
+																kind="secondary"
+																shape="round"
+																size="mini"
+																overrides={{
+																	BaseButton: {
+																		style: {
+																			backgroundColor: OpenColor.white,
+																			...padding('2px'),
+																		},
+																	},
+																}}
+															>
+																<Icon
+																	type={
+																		PROJECT_LINKS.find(
+																			(LINK) => LINK.name === key
+																		)?.icon as IconType
+																	}
+																	size={18}
+																	color={OpenColor.teal[6]}
+																/>
+															</Button>
+														</Link>
+													</li>
+												))}
+										</ul>
 									</div>
 								</div>
 							</Cell>
@@ -495,6 +557,9 @@ export const Serialize = ({ value }: SerializeProps) => {
 							<ParagraphSmall
 								key={generateKey(element.type, index)}
 								color={OpenColor.gray[7]}
+								className={css({
+									whiteSpace: 'break-spaces',
+								})}
 							>
 								{children}
 							</ParagraphSmall>
@@ -697,6 +762,7 @@ export const Serialize = ({ value }: SerializeProps) => {
 								key={generateKey(element.type, index)}
 								color={OpenColor.gray[7]}
 								className={css({
+									whiteSpace: 'break-spaces',
 									position: 'relative',
 									paddingTop: '16px',
 									paddingBottom: '16px',

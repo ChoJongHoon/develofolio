@@ -43,7 +43,7 @@ export const generateProjectListItemElement = (): ProjectListItemElement => ({
 	],
 })
 
-const LINKS: Array<{
+export const LINKS: Array<{
 	name: keyof ProjectListItemElement['links']
 	label: string
 	icon: IconType
