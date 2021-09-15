@@ -1,8 +1,8 @@
 /**
- * @type {import('next/dist/next-server/server/config').NextConfig}
+ * @type {import('next').NextConfig}
  **/
 const nextConfig = {
-	webpack(config) {
+	webpack: (config) => {
 		config.module.rules.push({
 			test: /\.svg$/,
 			use: [
@@ -24,6 +24,9 @@ const nextConfig = {
 		],
 	},
 	reactStrictMode: true,
+	experimental: {
+		nftTracing: true,
+	},
 }
 
 module.exports = nextConfig

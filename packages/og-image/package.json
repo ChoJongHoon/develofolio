@@ -1,0 +1,33 @@
+{
+	"name": "og-image",
+	"version": "0.1.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"deploy": "serverless deploy -v"
+	},
+	"devDependencies": {
+		"@serverless/typescript": "^2.55.0",
+		"@types/aws-lambda": "^8.10.83",
+		"@types/node": "^16.9.1",
+		"@types/puppeteer": "5.4.3",
+		"@types/puppeteer-core": "5.4.0",
+		"dotenv-webpack": "^7.0.3",
+		"serverless": "^2.57.0",
+		"serverless-apigw-binary": "^0.4.4",
+		"serverless-offline": "^8.1.0",
+		"serverless-webpack": "^5.5.4",
+		"ts-loader": "^9.2.5",
+		"ts-node": "^10.2.1",
+		"tsconfig-paths": "^3.11.0",
+		"tsconfig-paths-webpack-plugin": "^3.5.1",
+		"typescript": "^4.4.3",
+		"webpack": "^5.52.1",
+		"webpack-node-externals": "^3.0.0"
+	},
+	"dependencies": {
+		"chrome-aws-lambda": "7.0.0",
+		"open-color": "^1.9.1",
+		"puppeteer-core": "7.0.0"
+	}
+}

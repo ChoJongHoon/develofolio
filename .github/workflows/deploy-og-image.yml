@@ -1,11 +1,11 @@
-name: Deploy Client
+name: Deploy og-image
 
 on:
   push:
     branches: [main]
     paths:
-      - 'packages/client/**'
-      - '.github/workflows/deploy-client.yml'
+      - 'packages/og-image/**'
+      - '.github/workflows/deploy-og-image.yml'
 
 jobs:
   build:
@@ -23,26 +23,18 @@ jobs:
         id: yarn-cache
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('packages/client/patches/**') }} }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('packages/og-image/patches/**') }} }}
 
       - name: Install NPM dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
-        working-directory: ./packages/client
+        working-directory: ./packages/og-image
 
       - name: Create env file
         run: |
           touch .env
-          echo "NEXT_PUBLIC_CLIENT_HOST=https://develofolio.com" >> .env
-          echo "NEXT_PUBLIC_SERVER_HOST=https://api.develofolio.com" >> .env
-          echo "NEXT_PUBLIC_IMAGES_HOST=https://images.develofolio.com" >> .env
-          echo "NEXT_PUBLIC_OG_IMAGE_HOST=https://og-image.develofolio.com" >> .env
-        working-directory: ./packages/client
-
-      - name: Build package
-        run: |
-          yarn codegen
-          yarn build
+          echo "CLIENT_HOST=https://develofolio.com" >> .env
+          echo "IMAGES_HOST=https://images.develofolio.com" >> .env
         working-directory: ./packages/client
 
       - name: Configure AWS Credentials
@@ -52,6 +44,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Deploy Next.js app
+      - name: Deploy og-image
         run: yarn deploy
-        working-directory: ./packages/client
+        working-directory: ./packages/og-image

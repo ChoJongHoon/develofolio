@@ -1,6 +1,8 @@
+import { chain, flatten } from 'lodash'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { Helmet } from 'react-helmet'
+import { Descendant, Node } from 'slate'
 import { initApolloClient } from '~/apollo/client'
 import {
 	GetPageBySlugDocument,
@@ -8,12 +10,18 @@ import {
 	PagePartsFragment,
 } from '~/graphql/document.generated'
 import { Serialize } from '~/modules/editor/serialize'
+import { deepFilter } from '~/utils/deep-filter'
+import Head from 'next/head'
 
 interface PortfolioPageParams extends ParsedUrlQuery {
 	slug: string
 }
 interface PortfolioPageProps {
 	page: PagePartsFragment
+	logos: string[]
+	name: string
+	tagline: string
+	profile: string
 }
 
 export const getStaticPaths: GetStaticPaths<PortfolioPageParams> = async () => {
@@ -53,20 +61,50 @@ export const getStaticProps: GetStaticProps<
 		},
 	})
 
+	const logos = flatten(
+		deepFilter(
+			data.page.content,
+			'children',
+			(item) => item.type === 'skill-list-item-logos'
+		).map((item) => item.logos)
+	).map((item) => item.file)
+
+	const name = Node.string(data.page.content[0].children[0])
+	const tagline = Node.string(data.page.content[0].children[1])
+	const profile = data.page.content[0].profile
+	console.log(`profile`, profile)
 	return {
 		props: {
 			page: data.page,
+			logos,
+			name,
+			tagline,
+			profile: profile ?? '',
 		},
 		revalidate: 60,
 	}
 }
 
-const PortfolioPage: NextPage<PortfolioPageProps> = ({ page }) => {
+const PortfolioPage: NextPage<PortfolioPageProps> = ({
+	page,
+	logos,
+	name,
+	tagline,
+	profile,
+}) => {
 	return (
 		<>
-			<Helmet>
+			<Head>
 				<title>{page.title ?? `${page.slug} | DeveloFolio`}</title>
-			</Helmet>
+				<meta
+					property="og:image"
+					content={`${
+						process.env.NEXT_PUBLIC_OG_IMAGE_HOST
+					}/?name=${name}&tagline=${tagline}${
+						profile ? `&image=${profile}` : ''
+					}&${logos.map((logo) => `logos=${logo}`).join('&')}`}
+				/>
+			</Head>
 			<main>
 				<Serialize value={page.content} />
 			</main>
