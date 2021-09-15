@@ -35,7 +35,7 @@ jobs:
           touch .env
           echo "CLIENT_HOST=https://develofolio.com" >> .env
           echo "IMAGES_HOST=https://images.develofolio.com" >> .env
-        working-directory: ./packages/client
+        working-directory: ./packages/og-image
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
