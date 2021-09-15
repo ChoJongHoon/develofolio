@@ -57,7 +57,7 @@ export const useLogoPicker = (editor: Editor) => {
 		})
 	}, [keyword, setResults])
 
-	const handleIconPicker = useCallback(
+	const onKeyDown = useCallback(
 		(event: KeyboardEvent<HTMLDivElement>) => {
 			if (!show) {
 				return false
@@ -119,5 +119,5 @@ export const useLogoPicker = (editor: Editor) => {
 		[editor, results, selectedIndex, setSelectedIndex, setShow, show, target]
 	)
 
-	return { handleIconPicker }
+	return { onKeyDown }
 }

@@ -13,10 +13,7 @@ export const Placeholder = ({ children, element }: PlaceholderProps) => {
 	const [css] = useStyletron()
 	const editor = useSlateStatic()
 
-	const isEmpty = useMemo(
-		() => Editor.isEmpty(editor, element),
-		[editor, element]
-	)
+	const isEmpty = Editor.isEmpty(editor, element)
 
 	if (!isEmpty) {
 		return <></>

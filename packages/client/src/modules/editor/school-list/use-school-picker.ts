@@ -92,7 +92,7 @@ export const useSchoolPicker = (editor: Editor) => {
 		return false
 	}, [edges, editor, selectedIndex, setShow, target])
 
-	const handleSchoolPicker = useCallback(
+	const onKeyDown = useCallback(
 		(event: KeyboardEvent<HTMLDivElement>) => {
 			if (!show || !totalCount || !edges) {
 				return false
@@ -119,27 +119,26 @@ export const useSchoolPicker = (editor: Editor) => {
 				setShow(false)
 				return true
 			}
-			if (key === 'Enter' && target) {
-				return onSelectSchool()
-			}
 
 			return false
 		},
-		[
-			edges,
-			onSelectSchool,
-			selectedIndex,
-			setSelectedIndex,
-			setShow,
-			show,
-			target,
-			totalCount,
-		]
+		[edges, selectedIndex, setSelectedIndex, setShow, show, totalCount]
+	)
+
+	const onKeyPress = useCallback(
+		(event: KeyboardEvent<HTMLDivElement>) => {
+			const key = event.key
+			if (key === 'Enter' && target) {
+				return onSelectSchool()
+			}
+		},
+		[onSelectSchool, target]
 	)
 
 	return {
 		schools: data?.getSchoolsByCursor.edges,
-		handleSchoolPicker,
+		onKeyDown,
+		onKeyPress,
 		onSelectSchool,
 	}
 }

@@ -66,17 +66,21 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 
 	const [content, setContent] = useState<Descendant[]>(initialContent)
 
-	const { handleIconPicker } = useLogoPicker(editor)
-	const { schools, handleSchoolPicker, onSelectSchool } =
-		useSchoolPicker(editor)
+	const { onKeyDown: onLogoPickerKeyDown } = useLogoPicker(editor)
+	const {
+		schools,
+		onKeyDown: onSchoolPickerKeyDown,
+		onKeyPress: onSchoolPickerPress,
+		onSelectSchool,
+	} = useSchoolPicker(editor)
 	const { onAddBlockButtonClick } = useBlocks()
 
 	const onKeyDown = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
 		(event) => {
-			if (handleIconPicker(event)) {
+			if (onLogoPickerKeyDown(event)) {
 				event.preventDefault()
 			}
-			if (handleSchoolPicker(event)) {
+			if (onSchoolPickerKeyDown(event)) {
 				event.preventDefault()
 			}
 			if (event.key === 'Tab') {
@@ -84,7 +88,16 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 				Transforms.move(editor, { distance: 1, unit: 'line' })
 			}
 		},
-		[editor, handleIconPicker, handleSchoolPicker]
+		[editor, onLogoPickerKeyDown, onSchoolPickerKeyDown]
+	)
+
+	const onKeyPress = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
+		(event) => {
+			if (onSchoolPickerPress(event)) {
+				event.preventDefault()
+			}
+		},
+		[onSchoolPickerPress]
 	)
 
 	const onChange = useCallback((newContent: Descendant[]) => {
@@ -143,6 +156,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 							paddingBottom: '96px',
 						})}
 						onKeyDown={onKeyDown}
+						onKeyPress={onKeyPress}
 						autoCapitalize="false"
 						autoCorrect="false"
 						// https://github.com/ianstormtaylor/slate/pull/4299
