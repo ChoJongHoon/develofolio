@@ -22,6 +22,7 @@ interface PortfolioPageProps {
 	name: string
 	tagline: string
 	profile: string
+	description: string
 }
 
 export const getStaticPaths: GetStaticPaths<PortfolioPageParams> = async () => {
@@ -71,8 +72,9 @@ export const getStaticProps: GetStaticProps<
 
 	const name = Node.string(data.page.content[0].children[0])
 	const tagline = Node.string(data.page.content[0].children[1])
+	const description = Node.string(data.page.content[0].children[2])
 	const profile = data.page.content[0].profile
-	console.log(`profile`, profile)
+
 	return {
 		props: {
 			page: data.page,
@@ -80,6 +82,7 @@ export const getStaticProps: GetStaticProps<
 			name,
 			tagline,
 			profile: profile ?? '',
+			description,
 		},
 		revalidate: 60,
 	}
@@ -91,11 +94,23 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 	name,
 	tagline,
 	profile,
+	description,
 }) => {
 	return (
 		<>
 			<Head>
 				<title>{page.title ?? `${page.slug} | DeveloFolio`}</title>
+				<meta
+					property="og:title"
+					content={page.title ?? `${page.slug} | DeveloFolio`}
+				/>
+				<meta property="og:type" content="profile" />
+				<meta property="og:description" content={description} />
+				<meta
+					property="og:url"
+					content={`${process.env.NEXT_PUBLIC_CLIENT_HOST}/${page.slug}`}
+				/>
+				<meta property="og:description" content={description} />
 				<meta
 					property="og:image"
 					content={`${
