@@ -13,7 +13,8 @@
 		"lint:eslint": "next lint",
 		"lint:prettier": "prettier --check \"**/*.{css,md,js,jsx,json,ts,tsx}\"",
 		"codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
-		"deploy": "serverless"
+		"deploy": "serverless",
+		"index:logo": "ts-node scripts/index-logo.js"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.3.16",

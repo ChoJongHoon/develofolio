@@ -2,3 +2,5 @@
 .next
 .serverless_nextjs
 public
+
+*.index.json
