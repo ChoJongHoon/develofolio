@@ -1,7 +1,7 @@
 import { KeyboardEvent, useCallback, useEffect, useState } from 'react'
 import { Editor, Range, Transforms } from 'slate'
 import { insertLogo } from './insert-logo'
-import logos from 'public/logos.json'
+import logos from './logos.json'
 import { logoIndex } from './logo-index'
 import { nanoid } from 'nanoid'
 import { useRecoilState } from 'recoil'

@@ -1,5 +1,5 @@
 const FlexSearch = require('flexsearch')
-const logos = require('../public/logos.json')
+const logos = require('../src/modules/editor/logo/logos.json')
 const fs = require('fs')
 
 const logoIndex = FlexSearch.create({
@@ -20,4 +20,4 @@ logos.forEach(async (logo, i) => {
 	})
 })
 
-fs.writeFileSync('public/logos.index.json', logoIndex.export())
+fs.writeFileSync('src/modules/editor/logo/logos.index.json', logoIndex.export())

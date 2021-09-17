@@ -1,3 +1,3 @@
-import logos from 'public/logos.json'
+import logos from './logos.json'
 
 export type ILogo = typeof logos[number]

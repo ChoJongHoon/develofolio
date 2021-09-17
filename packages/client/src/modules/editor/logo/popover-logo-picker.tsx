@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useStyletron } from 'styletron-react'
 import { ILogo } from './types'
-import logos from 'public/logos.json'
+import logos from './logos.json'
 import { logoIndex } from './logo-index'
 import { border, padding } from 'polished'
 import OpenColor from 'open-color'

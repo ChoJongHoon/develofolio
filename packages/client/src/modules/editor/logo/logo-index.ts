@@ -1,5 +1,5 @@
 import FlexSearch from 'flexsearch'
-import index from 'public/logos.index.json'
+import index from './logos.index.json'
 
 export const logoIndex = FlexSearch.create<{
 	index: number
