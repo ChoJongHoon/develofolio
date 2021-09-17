@@ -43,7 +43,7 @@ export const EditorSidebar = () => {
 						alt={user.name}
 					/>
 				) : (
-					<span>{user?.name}</span>
+					<LabelSmall color={OpenColor.gray[3]}>{user?.name}</LabelSmall>
 				))}
 			<nav
 				className={css({

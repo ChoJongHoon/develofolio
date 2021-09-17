@@ -16,6 +16,9 @@ declare namespace NodeJS {
 		readonly GITHUB_CLIENT_ID: string
 		readonly GITHUB_CLIENT_SECRET: string
 
+		readonly FACEBOOK_CLIENT_ID: string
+		readonly FACEBOOK_CLIENT_SECRET: string
+
 		readonly JWT_ACCESS_TOKEN_SECRET: string
 		readonly JWT_ACCESS_TOKEN_EXPIRES_IN: string
 		readonly JWT_REFRESH_TOKEN_SECRET: string

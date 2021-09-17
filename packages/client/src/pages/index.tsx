@@ -3,6 +3,8 @@ import { useQuery } from '@apollo/client'
 import Image from 'next/image'
 import { MeDocument } from '~/graphql/document.generated'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
+import Link from 'next/link'
+import { ROUTE_EDIT, ROUTE_LOGIN } from '~/routes'
 
 export const getServerSideProps = withAuthSsr()
 
@@ -22,11 +24,10 @@ const Home = () => {
 						/>
 					)}
 					<span>{data.me.name}</span>
+					<Link href={ROUTE_EDIT}>Edit</Link>
 				</>
 			) : (
-				<a href={`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/github`}>
-					깃허브로 로그인
-				</a>
+				<Link href={ROUTE_LOGIN}>로그인페이지로 이동</Link>
 			)}
 		</div>
 	)

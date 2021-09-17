@@ -12,12 +12,13 @@ import { baseConfig } from './config/base.config'
 import { FileModule } from './modules/file/file.module'
 import { awsConfig } from './config/aws.config'
 import { SchoolModule } from './modules/school/school.module'
+import { facebookConfig } from './config/facebook.config'
 
 @Module({
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
-			load: [githubConfig, jwtConfig, baseConfig, awsConfig],
+			load: [githubConfig, facebookConfig, jwtConfig, baseConfig, awsConfig],
 		}),
 		TypeOrmModule.forRoot(ormconifg),
 		GraphQLModule.forRootAsync({

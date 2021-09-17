@@ -38,6 +38,7 @@ type User {
 
 enum ProviderType {
   GITHUB
+  FACEBOOK
 }
 
 type File {
