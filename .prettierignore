@@ -1,4 +1,5 @@
+node_modules
 .serverless
 .next
 .serverless_nextjs
-public
+client/public
