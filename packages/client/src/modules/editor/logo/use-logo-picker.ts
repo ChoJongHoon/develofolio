@@ -52,8 +52,7 @@ export const useLogoPicker = (editor: Editor) => {
 			setResults(logos)
 			return
 		}
-
-		logoIndex.search(keyword, {}, (res) => {
+		logoIndex.search(keyword).then((res) => {
 			setResults(res.map((item) => logos[item.index]))
 		})
 	}, [keyword, setResults])

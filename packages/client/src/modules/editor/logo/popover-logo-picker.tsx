@@ -32,7 +32,7 @@ export const PopoverLogoPicker = ({
 			setResults(logos)
 			return
 		}
-		logoIndex.search(value, {}, (res) => {
+		logoIndex.search(value).then((res) => {
 			setResults(res.map((item) => logos[item.index]))
 		})
 	}, [value])
