@@ -19,6 +19,9 @@ declare namespace NodeJS {
 		readonly FACEBOOK_CLIENT_ID: string
 		readonly FACEBOOK_CLIENT_SECRET: string
 
+		readonly GOOGLE_CLIENT_ID: string
+		readonly GOOGLE_CLIENT_SECRET: string
+
 		readonly JWT_ACCESS_TOKEN_SECRET: string
 		readonly JWT_ACCESS_TOKEN_EXPIRES_IN: string
 		readonly JWT_REFRESH_TOKEN_SECRET: string

@@ -21,6 +21,8 @@ const nextConfig = {
 		domains: [
 			process.env.NEXT_PUBLIC_IMAGES_HOST.replace(/(^\w+:|^)\/\//, ''),
 			'avatars.githubusercontent.com',
+			'scontent-gmp1-1.xx.fbcdn.net',
+			'lh3.googleusercontent.com',
 		],
 	},
 	reactStrictMode: true,

@@ -39,6 +39,7 @@ type User {
 enum ProviderType {
   GITHUB
   FACEBOOK
+  GOOGLE
 }
 
 type File {
