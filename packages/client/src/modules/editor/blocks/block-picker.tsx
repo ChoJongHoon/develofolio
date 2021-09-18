@@ -4,11 +4,10 @@ import { useSlate } from 'slate-react'
 import { Portal } from '~/components/portal'
 import { getScrollbarWidth } from '~/styles/get-scrollbar-width'
 import { zIndexes } from '~/styles/z-indexes'
-import AboutMeThumbnail from 'public/images/block-thumbnails/about-me.svg'
 import FocusLock from 'react-focus-lock'
 import { Descendant, Transforms } from 'slate'
 import { useStyletron } from 'styletron-react'
-import { transitions } from 'polished'
+import { borderRadius, transitions } from 'polished'
 import { generateProjectListElement } from '../project-list/project-list'
 import { generateSkillListElement } from '../skill-list/skill-list'
 import { generateSchoolListElement } from '../school-list/school-list'
@@ -18,31 +17,42 @@ import {
 	blockPickerShowState,
 } from '../editor.atoms'
 import { generateCareerListElement } from '../career-list/career-list'
+import Image from 'next/image'
+import SkillListThumbnail from 'public/images/block-thumbnails/skill-list.png'
+import ProjectListThumbnail from 'public/images/block-thumbnails/project-list.png'
+import SchoolListThumbnail from 'public/images/block-thumbnails/school-list.png'
+import CareerListThumbnail from 'public/images/block-thumbnails/career-list.png'
+import { LabelLarge, LabelSmall, LabelXSmall } from 'baseui/typography'
 
 const BLOCKS: Array<{
 	name: string
 	description: string
 	generateNode: () => Descendant
+	thumbnail: StaticImageData
 }> = [
 	{
 		name: '스킬 리스트',
 		description: '사용할 수 있는 기술을 나열하는 그리드 형태의 블럭입니다.',
 		generateNode: generateSkillListElement,
+		thumbnail: SkillListThumbnail,
 	},
 	{
 		name: '프로젝트 리스트',
 		description: '주요 프로젝트를 소개합니다.',
 		generateNode: generateProjectListElement,
+		thumbnail: ProjectListThumbnail,
 	},
 	{
 		name: '학력 리스트',
 		description: '본인의 학력을 작성해주세요.',
 		generateNode: generateSchoolListElement,
+		thumbnail: SchoolListThumbnail,
 	},
 	{
 		name: '경력 리스트',
 		description: '본인의 경력을 작성해주세요.',
 		generateNode: generateCareerListElement,
+		thumbnail: CareerListThumbnail,
 	},
 ]
 
@@ -203,23 +213,32 @@ export const BlockPicker = () => {
 									}}
 								>
 									<div className={css({ marginBottom: '4px' })}>
-										<AboutMeThumbnail />
+										<Image
+											src={block.thumbnail}
+											alt="Thumbnail"
+											width={496}
+											height={
+												block.thumbnail.height / (block.thumbnail.width / 496)
+											}
+											className={css({
+												backgroundColor: OpenColor.gray[0],
+												...borderRadius('top', '8px'),
+												...borderRadius('bottom', '8px'),
+											})}
+										/>
 									</div>
-									<h4
-										className={css({
+									<LabelLarge
+										$style={{
 											marginBottom: '8px',
-											color: OpenColor.white,
-										})}
+											fontWeight: 'bold',
+										}}
+										color={OpenColor.gray[0]}
 									>
 										{block.name}
-									</h4>
-									<span
-										className={css({
-											color: OpenColor.gray[0],
-										})}
-									>
+									</LabelLarge>
+									<LabelSmall color={OpenColor.gray[3]}>
 										{block.description}
-									</span>
+									</LabelSmall>
 								</button>
 							))}
 						</div>
