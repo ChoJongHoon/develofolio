@@ -87,6 +87,10 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 				event.preventDefault()
 				Transforms.move(editor, { distance: 1, unit: 'line' })
 			}
+			if (event.key === 'Enter' && event.shiftKey) {
+				event.preventDefault()
+				Transforms.insertText(editor, '\n')
+			}
 		},
 		[editor, onLogoPickerKeyDown, onSchoolPickerKeyDown]
 	)

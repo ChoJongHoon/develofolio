@@ -5,7 +5,7 @@ import { generateParagraphElement } from './elements/paragraph'
 import { someNode } from './utils/some-node'
 
 export const withEditor = (editor: Editor) => {
-	const { normalizeNode, apply } = editor
+	const { normalizeNode, apply, insertBreak } = editor
 
 	editor.normalizeNode = (entry) => {
 		const lastBlock = editor.children[editor.children.length - 1]
@@ -34,7 +34,7 @@ export const withEditor = (editor: Editor) => {
 
 		if (operation.type === 'split_node') {
 			const node = operation.properties
-			console.log(`node`, node)
+
 			let id = 'id' in node ? node.id : undefined
 
 			/**
