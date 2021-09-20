@@ -426,6 +426,7 @@ export const Serialize = ({ value }: SerializeProps) => {
 												<Image
 													src={generateFileUrl(element.thumbnail)}
 													layout="fill"
+													objectFit="cover"
 													alt="Project Image"
 													className={css({
 														...borderRadius('top', '8px'),
