@@ -387,7 +387,12 @@ export const Serialize = ({ value }: SerializeProps) => {
 						)
 					case 'skill-list-item-description':
 						return (
-							<ParagraphSmall key={generateKey(element.type, index)}>
+							<ParagraphSmall
+								key={generateKey(element.type, index)}
+								$style={{
+									whiteSpace: 'break-spaces',
+								}}
+							>
 								{children}
 							</ParagraphSmall>
 						)
@@ -558,9 +563,9 @@ export const Serialize = ({ value }: SerializeProps) => {
 							<ParagraphSmall
 								key={generateKey(element.type, index)}
 								color={OpenColor.gray[7]}
-								className={css({
+								$style={{
 									whiteSpace: 'break-spaces',
-								})}
+								}}
 							>
 								{children}
 							</ParagraphSmall>
