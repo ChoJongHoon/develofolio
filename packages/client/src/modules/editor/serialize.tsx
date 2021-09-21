@@ -452,6 +452,7 @@ export const Serialize = ({ value }: SerializeProps) => {
 													listStyle: 'none',
 													display: 'flex',
 													marginBottom: '8px',
+													flexWrap: 'wrap',
 												})}
 											>
 												{element.logos.map((logo) => (

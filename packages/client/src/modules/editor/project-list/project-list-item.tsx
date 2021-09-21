@@ -204,6 +204,7 @@ export const ProjectListItem = ({
 							display: 'flex',
 							gap: '8px',
 							userSelect: 'none',
+							flexWrap: 'wrap',
 						})}
 					>
 						{element.logos.map((logo, index) => (
