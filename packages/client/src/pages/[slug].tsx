@@ -12,6 +12,12 @@ import {
 import { Serialize } from '~/modules/editor/serialize'
 import { deepFilter } from '~/utils/deep-filter'
 import Head from 'next/head'
+import { useStyletron } from 'baseui'
+import OpenColor from 'open-color'
+import { LabelXSmall } from 'baseui/typography'
+import LogoSvg from 'public/images/logo.svg'
+import Link from 'next/link'
+import { ROUTE_HOME } from '~/routes'
 
 interface PortfolioPageParams extends ParsedUrlQuery {
 	slug: string
@@ -96,6 +102,7 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 	profile,
 	description,
 }) => {
+	const [css] = useStyletron()
 	return (
 		<>
 			<Head>
@@ -123,6 +130,27 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 			<main>
 				<Serialize value={page.content} />
 			</main>
+			<footer
+				className={css({
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					paddingTop: '16px',
+					paddingBottom: '16px',
+				})}
+			>
+				<LabelXSmall
+					$style={{
+						marginRight: '4px',
+					}}
+					color={OpenColor.gray[5]}
+				>{`Powered by`}</LabelXSmall>
+				<Link href={ROUTE_HOME}>
+					<a>
+						<LogoSvg height="12px" />
+					</a>
+				</Link>
+			</footer>
 		</>
 	)
 }
