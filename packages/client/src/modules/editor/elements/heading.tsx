@@ -49,13 +49,14 @@ export const Heading = ({
 			<Cell span={[4, 8, 12]}>
 				<CustomTag
 					{...attributes}
-					className={css(
-						element.level === 1
+					className={css({
+						position: 'relative',
+						...(element.level === 1
 							? h1Styles
 							: element.level === 2
 							? h2Styles
-							: h3Styles
-					)}
+							: h3Styles),
+					})}
 				>
 					{element.level === 1 && (
 						<span className={css(beforeStyles)} contentEditable={false} />
