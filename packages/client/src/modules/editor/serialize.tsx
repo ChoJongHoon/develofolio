@@ -25,6 +25,7 @@ import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 import Image from 'next/image'
 import { generateFileUrl } from '~/utils/generate-file-url'
 import { LINKS as PROJECT_LINKS } from './project-list/project-list-item'
+import React from 'react'
 
 const generateKey = (type: CustomElement['type'], index: number) =>
 	`${type}-${index}`
@@ -40,7 +41,47 @@ export const Serialize = ({ value }: SerializeProps) => {
 		<>
 			{value.map((element, index, array) => {
 				if (Text.isText(element)) {
-					return element.text
+					let children: React.ReactNode = element.text
+					if (element.bold) children = <strong>{children}</strong>
+					if (element.italic) children = <em>{children}</em>
+					if (element.code) children = <code>{children}</code>
+					if (element.link) {
+						children = (
+							<a
+								href={element.link}
+								target="_blank"
+								rel="noreferrer"
+								className={css({
+									cursor: 'pointer',
+									color: OpenColor.gray[7],
+								})}
+							>
+								{children}
+							</a>
+						)
+					}
+					if (element.color)
+						children = (
+							<span
+								className={css({
+									color: OpenColor[element.color][6],
+								})}
+							>
+								{children}
+							</span>
+						)
+					if (element.highlight) {
+						children = (
+							<span
+								className={css({
+									backgroundColor: OpenColor[element.highlight][6],
+								})}
+							>
+								{children}
+							</span>
+						)
+					}
+					return children
 				}
 				const children = element.children ? (
 					<Serialize value={element.children} />
