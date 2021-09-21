@@ -10,6 +10,7 @@ import { NextPage } from 'next'
 import { RecoilRoot } from 'recoil'
 import '~/styles/global-styles.css'
 import { SnackbarProvider } from 'baseui/snackbar'
+import Script from 'next/script'
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>
@@ -25,17 +26,33 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 	const getLayout = Component.getLayout || ((page) => page)
 
 	return (
-		<ApolloProvider client={client}>
-			<RecoilRoot>
-				<StyletronProvider value={styletron}>
-					<BaseProvider theme={LightTheme}>
-						<SnackbarProvider>
-							{getLayout(<Component {...pageProps} />)}
-						</SnackbarProvider>
-					</BaseProvider>
-				</StyletronProvider>
-			</RecoilRoot>
-		</ApolloProvider>
+		<>
+			{process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
+				<>
+					<Script
+						strategy="afterInteractive"
+						src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_TRACKING_ID}`}
+					/>
+					<Script strategy="afterInteractive">
+						{`window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', '${process.env.NEXT_PUBLIC_GA_TRACKING_ID}');`}
+					</Script>
+				</>
+			)}
+			<ApolloProvider client={client}>
+				<RecoilRoot>
+					<StyletronProvider value={styletron}>
+						<BaseProvider theme={LightTheme}>
+							<SnackbarProvider>
+								{getLayout(<Component {...pageProps} />)}
+							</SnackbarProvider>
+						</BaseProvider>
+					</StyletronProvider>
+				</RecoilRoot>
+			</ApolloProvider>
+		</>
 	)
 }
 

@@ -37,6 +37,7 @@ jobs:
           echo "NEXT_PUBLIC_SERVER_HOST=https://api.develofolio.com" >> .env
           echo "NEXT_PUBLIC_IMAGES_HOST=https://images.develofolio.com" >> .env
           echo "NEXT_PUBLIC_OG_IMAGE_HOST=https://og-image.develofolio.com" >> .env
+          echo "NEXT_PUBLIC_GA_TRACKING_ID=G-C4H566WCEC" >> .env
         working-directory: ./packages/client
 
       - name: Build package
