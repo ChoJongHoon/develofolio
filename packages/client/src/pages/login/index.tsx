@@ -11,9 +11,16 @@ interface LoginCardProps {
 	color: string
 	icon: IconType
 	textColor: string
+	text: string
 }
 
-const LoginCard: FC<LoginCardProps> = ({ name, color, icon, textColor }) => {
+const LoginCard: FC<LoginCardProps> = ({
+	name,
+	color,
+	icon,
+	textColor,
+	text,
+}) => {
 	const [css] = useStyletron()
 
 	return (
@@ -36,19 +43,32 @@ const LoginCard: FC<LoginCardProps> = ({ name, color, icon, textColor }) => {
 			href={`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/${name}`}
 		>
 			<Icon type={icon} color={textColor} size={18} />
-			{icon}으로 시작하기
+			{text} 시작하기
 		</a>
 	)
 }
 
 const PROVIDERS: Array<LoginCardProps> = [
-	{ name: 'github', color: '#24292D', icon: 'Github', textColor: '#FFFFFF' },
-	{ name: 'google', color: '#FFFFFF', icon: 'Google', textColor: '#444444' },
+	{
+		name: 'github',
+		color: '#24292D',
+		icon: 'Github',
+		textColor: '#FFFFFF',
+		text: 'GitHub로',
+	},
+	{
+		name: 'google',
+		color: '#FFFFFF',
+		icon: 'Google',
+		textColor: '#444444',
+		text: 'Google로',
+	},
 	{
 		name: 'facebook',
 		color: '#1A77F2',
 		icon: 'Facebook',
 		textColor: '#FFFFFF',
+		text: 'Facebook으로',
 	},
 ]
 
@@ -92,6 +112,7 @@ const LoginPage: NextPage = () => {
 						color={provider.color}
 						icon={provider.icon}
 						textColor={provider.textColor}
+						text={provider.text}
 					/>
 				))}
 			</div>
