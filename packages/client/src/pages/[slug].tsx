@@ -129,7 +129,11 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 						.join('&')}`}
 				/>
 			</Head>
-			<main>
+			<main
+				className={css({
+					paddingBottom: '32px',
+				})}
+			>
 				<Serialize value={page.content} />
 			</main>
 			<footer
@@ -144,9 +148,12 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 				<LabelXSmall
 					$style={{
 						marginRight: '4px',
+						fontWeight: 300,
 					}}
 					color={OpenColor.gray[5]}
-				>{`Powered by`}</LabelXSmall>
+				>
+					Powered by
+				</LabelXSmall>
 				<Link href={ROUTE_HOME}>
 					<a>
 						<LogoSvg height="12px" />
