@@ -122,9 +122,11 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 					property="og:image"
 					content={`${
 						process.env.NEXT_PUBLIC_OG_IMAGE_HOST
-					}/?name=${name}&tagline=${tagline}${
-						profile ? `&image=${profile}` : ''
-					}&${logos.map((logo) => `logos=${logo}`).join('&')}`}
+					}/?name=${encodeURIComponent(name)}&tagline=${encodeURIComponent(
+						tagline
+					)}${profile ? `&image=${encodeURIComponent(profile)}` : ''}&${logos
+						.map((logo) => `logos=${encodeURIComponent(logo)}`)
+						.join('&')}`}
 				/>
 			</Head>
 			<main>
