@@ -14,6 +14,7 @@ import { awsConfig } from './config/aws.config'
 import { SchoolModule } from './modules/school/school.module'
 import { facebookConfig } from './config/facebook.config'
 import { googleConfig } from './config/google.config'
+import { HealthModule } from './modules/health/health.module'
 
 @Module({
 	imports: [
@@ -54,6 +55,7 @@ import { googleConfig } from './config/google.config'
 		PageModule,
 		FileModule,
 		SchoolModule,
+		HealthModule,
 	],
 	controllers: [],
 	providers: [],

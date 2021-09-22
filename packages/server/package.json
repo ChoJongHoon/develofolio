@@ -34,6 +34,7 @@
 		"@nestjs/jwt": "^7.2.0",
 		"@nestjs/passport": "^7.1.5",
 		"@nestjs/platform-express": "^7.6.15",
+		"@nestjs/terminus": "^8.0.1",
 		"@nestjs/typeorm": "^7.1.5",
 		"@vendia/serverless-express": "^4.3.9",
 		"apollo-server-express": "^2.25.1",

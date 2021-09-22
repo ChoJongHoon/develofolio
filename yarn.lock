@@ -3402,6 +3402,13 @@
     jsonc-parser "3.0.0"
     pluralize "8.0.0"
 
+"@nestjs/terminus@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/terminus/-/terminus-8.0.1.tgz#96403795cbb6f14621c7504ee534fba336066643"
+  integrity sha512-UUSKK3/kO2gMUdXGJaOsj89pYA6OJMoKQPDx+zoEKQhA3+TPp0Js4ndWrtms5g6ydf3BfQqGQgEBEBjiq+0LWQ==
+  dependencies:
+    check-disk-space "3.0.1"
+
 "@nestjs/testing@^7.6.15":
   version "7.6.18"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.6.18.tgz#b4c137b5b6c2fb18c51602d33a083cd97c648283"
@@ -7533,6 +7540,11 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
+
+check-disk-space@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/check-disk-space/-/check-disk-space-3.0.1.tgz#c3798f3e4ec56dcc4d4b98dac0b770e2634efad7"
+  integrity sha512-wRG5ZihEZUXAKVCio5YkLgrHsHDrD+GjRBjxJvoJvN9wrze7EdvYGnOYJSsCyZ4b40jBa3lDmWDmESY9QDQGcg==
 
 child-process-ext@^2.1.1:
   version "2.1.1"
