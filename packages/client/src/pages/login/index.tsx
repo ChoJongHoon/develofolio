@@ -2,9 +2,10 @@ import { NextPage } from 'next'
 import { useStyletron } from 'baseui'
 import { HeadingXXLarge, LabelXSmall } from 'baseui/typography'
 import OpenColor from 'open-color'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Icon, IconType } from '~/components/icon'
-import { padding } from 'polished'
+import { margin, padding } from 'polished'
+import { storage } from '~/utils/storage'
 
 interface LoginCardProps {
 	name: string
@@ -12,6 +13,7 @@ interface LoginCardProps {
 	icon: IconType
 	textColor: string
 	text: string
+	isRecent?: boolean
 }
 
 const LoginCard: FC<LoginCardProps> = ({
@@ -20,31 +22,45 @@ const LoginCard: FC<LoginCardProps> = ({
 	icon,
 	textColor,
 	text,
+	isRecent,
 }) => {
 	const [css] = useStyletron()
 
 	return (
-		<a
-			className={css({
-				...padding('8px'),
-				textAlign: 'center',
-				textDecoration: 'none',
-				fontWeight: 'bold',
-				color: textColor,
-				backgroundColor: color,
-				borderRadius: '4px',
-				width: '320px',
-				boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-				display: 'flex',
-				gap: '8px',
-				justifyContent: 'center',
-				alignItems: 'center',
-			})}
-			href={`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/${name}`}
-		>
-			<Icon type={icon} color={textColor} size={18} />
-			{text} 시작하기
-		</a>
+		<div>
+			<a
+				className={css({
+					...padding('8px'),
+					textAlign: 'center',
+					textDecoration: 'none',
+					fontWeight: 'bold',
+					color: textColor,
+					backgroundColor: color,
+					borderRadius: '4px',
+					width: '320px',
+					boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+					display: 'flex',
+					gap: '8px',
+					justifyContent: 'center',
+					alignItems: 'center',
+				})}
+				href={`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/${name}`}
+				onClick={() => {
+					storage.setItem('recentProvider', name)
+				}}
+			>
+				<Icon type={icon} color={textColor} size={18} />
+				{text} 시작하기
+			</a>
+			{isRecent && (
+				<LabelXSmall
+					$style={{ ...margin('4px', '', '') }}
+					color={OpenColor.gray[6]}
+				>
+					최근 로그인 했어요!
+				</LabelXSmall>
+			)}
+		</div>
 	)
 }
 
@@ -74,6 +90,13 @@ const PROVIDERS: Array<LoginCardProps> = [
 
 const LoginPage: NextPage = () => {
 	const [css] = useStyletron()
+
+	const [recentProvider, setRecentProvider] = useState<string | null>(null)
+
+	useEffect(() => {
+		setRecentProvider(storage.getItem('recentProvider'))
+	}, [])
+
 	return (
 		<div
 			className={css({
@@ -113,6 +136,7 @@ const LoginPage: NextPage = () => {
 						icon={provider.icon}
 						textColor={provider.textColor}
 						text={provider.text}
+						isRecent={recentProvider === provider.name}
 					/>
 				))}
 			</div>
