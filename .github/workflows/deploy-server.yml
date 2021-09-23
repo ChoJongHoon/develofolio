@@ -68,5 +68,5 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Deploy Nest.js app
-        run: yarn deploy
+        run: yarn deploy --stage prod
         working-directory: ./packages/server

@@ -1,5 +1,4 @@
-service:
-  name: develofolio-server
+service: develofolio-server
 
 provider:
   name: aws
@@ -18,7 +17,7 @@ plugins:
 
 custom:
   warmup:
-    enabled: true
+    - prod
 
 package:
   individually: true
