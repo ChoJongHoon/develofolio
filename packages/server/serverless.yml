@@ -12,7 +12,6 @@ provider:
       - subnet-047203ac3a392eedf
 
 plugins:
-  - serverless-plugin-optimize
   - serverless-plugin-warmup
 
 custom:
