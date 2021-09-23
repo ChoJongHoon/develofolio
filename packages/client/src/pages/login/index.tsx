@@ -6,6 +6,7 @@ import { FC, useEffect, useState } from 'react'
 import { Icon, IconType } from '~/components/icon'
 import { margin, padding } from 'polished'
 import { storage } from '~/utils/storage'
+import { Cell, Grid } from 'baseui/layout-grid'
 
 interface LoginCardProps {
 	name: string
@@ -37,7 +38,6 @@ const LoginCard: FC<LoginCardProps> = ({
 					color: textColor,
 					backgroundColor: color,
 					borderRadius: '4px',
-					width: '320px',
 					boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
 					display: 'flex',
 					gap: '8px',
@@ -100,74 +100,103 @@ const LoginPage: NextPage = () => {
 	return (
 		<div
 			className={css({
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
 				height: '100vh',
 				backgroundColor: OpenColor.gray[0],
 			})}
 		>
-			<HeadingXXLarge
+			<Grid
 				overrides={{
-					Block: {
+					Grid: {
 						style: {
-							fontWeight: 'bold',
+							height: '100%',
 						},
 					},
 				}}
-				color={OpenColor.gray[8]}
 			>
-				시작하기
-			</HeadingXXLarge>
-			<div
-				className={css({
-					...padding('32px', ''),
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '16px',
-				})}
-			>
-				{PROVIDERS.map((provider) => (
-					<LoginCard
-						key={provider.name}
-						name={provider.name}
-						color={provider.color}
-						icon={provider.icon}
-						textColor={provider.textColor}
-						text={provider.text}
-						isRecent={recentProvider === provider.name}
-					/>
-				))}
-			</div>
-			<LabelXSmall
-				overrides={{
-					Block: {
-						style: {
-							fontWeight: 'bold',
+				<Cell
+					span={[4, 8, 12]}
+					overrides={{
+						Cell: {
+							style: {
+								height: '100%',
+							},
 						},
-					},
-				}}
-				color={OpenColor.gray[5]}
-			>
-				<span
-					className={css({
-						color: OpenColor.blue[7],
-					})}
+					}}
 				>
-					이용약관
-				</span>
-				,
-				<span
-					className={css({
-						color: OpenColor.blue[7],
-					})}
-				>
-					{' '}
-					개인정보 수집 및 이용
-				</span>{' '}
-				내용을 확인하였고 동의합니다.
-			</LabelXSmall>
+					<div
+						className={css({
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+							alignItems: 'center',
+							height: '100%',
+						})}
+					>
+						<HeadingXXLarge
+							overrides={{
+								Block: {
+									style: {
+										fontWeight: 'bold',
+									},
+								},
+							}}
+							color={OpenColor.gray[8]}
+						>
+							시작하기
+						</HeadingXXLarge>
+						<div
+							className={css({
+								...padding('32px', ''),
+								display: 'flex',
+								flexDirection: 'column',
+								gap: '16px',
+								width: '100%',
+								maxWidth: '320px',
+							})}
+						>
+							{PROVIDERS.map((provider) => (
+								<LoginCard
+									key={provider.name}
+									name={provider.name}
+									color={provider.color}
+									icon={provider.icon}
+									textColor={provider.textColor}
+									text={provider.text}
+									isRecent={recentProvider === provider.name}
+								/>
+							))}
+						</div>
+						<LabelXSmall
+							overrides={{
+								Block: {
+									style: {
+										fontWeight: 'bold',
+									},
+								},
+							}}
+							color={OpenColor.gray[5]}
+						>
+							<span
+								className={css({
+									color: OpenColor.blue[7],
+								})}
+							>
+								이용약관
+							</span>
+							,
+							<span
+								className={css({
+									color: OpenColor.blue[7],
+								})}
+							>
+								{' '}
+								개인정보 수집 및 이용
+							</span>{' '}
+							내용을 확인하였고 동의합니다.
+						</LabelXSmall>
+					</div>
+				</Cell>
+			</Grid>
 		</div>
 	)
 }
