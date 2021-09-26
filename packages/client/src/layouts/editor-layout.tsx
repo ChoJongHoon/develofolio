@@ -2,11 +2,11 @@ import React from 'react'
 import { useStyletron } from 'styletron-react'
 import { EditorSidebar } from '~/modules/editor/editor-sidebar'
 
-interface EditorLayout {
+interface EditorLayoutProps {
 	children?: React.ReactNode
 }
 
-export const EditorLayout = ({ children }: EditorLayout) => {
+export const EditorLayout = ({ children }: EditorLayoutProps) => {
 	const [css] = useStyletron()
 
 	return (

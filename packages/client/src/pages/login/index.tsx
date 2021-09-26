@@ -7,6 +7,7 @@ import { Icon, IconType } from '~/components/icon'
 import { margin, padding } from 'polished'
 import { storage } from '~/utils/storage'
 import { Cell, Grid } from 'baseui/layout-grid'
+import { BasicLayout } from '~/layouts/basic-layout'
 
 interface LoginCardProps {
 	name: string
@@ -98,107 +99,106 @@ const LoginPage: NextPage = () => {
 	}, [])
 
 	return (
-		<div
-			className={css({
-				height: '100vh',
-				backgroundColor: OpenColor.gray[0],
-			})}
-		>
-			<Grid
-				overrides={{
-					Grid: {
-						style: {
-							height: '100%',
-						},
+		<Grid
+			overrides={{
+				Grid: {
+					style: {
+						width: '100%',
 					},
-				}}
-			>
-				<Cell
-					span={[4, 8, 12]}
-					overrides={{
-						Cell: {
-							style: {
-								height: '100%',
-							},
-						},
-					}}
+				},
+			}}
+		>
+			<Cell span={[4, 8, 12]}>
+				<div
+					className={css({
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center',
+					})}
 				>
+					<HeadingXXLarge
+						overrides={{
+							Block: {
+								style: {
+									fontWeight: 'bold',
+								},
+							},
+						}}
+						color={OpenColor.gray[8]}
+					>
+						시작하기
+					</HeadingXXLarge>
 					<div
 						className={css({
+							...padding('32px', ''),
 							display: 'flex',
 							flexDirection: 'column',
-							justifyContent: 'center',
-							alignItems: 'center',
-							height: '100%',
+							gap: '16px',
+							width: '100%',
+							maxWidth: '320px',
 						})}
 					>
-						<HeadingXXLarge
-							overrides={{
-								Block: {
-									style: {
-										fontWeight: 'bold',
-									},
+						{PROVIDERS.map((provider) => (
+							<LoginCard
+								key={provider.name}
+								name={provider.name}
+								color={provider.color}
+								icon={provider.icon}
+								textColor={provider.textColor}
+								text={provider.text}
+								isRecent={recentProvider === provider.name}
+							/>
+						))}
+					</div>
+					<LabelXSmall
+						overrides={{
+							Block: {
+								style: {
+									fontWeight: 'bold',
 								},
-							}}
-							color={OpenColor.gray[8]}
-						>
-							시작하기
-						</HeadingXXLarge>
-						<div
+							},
+						}}
+						color={OpenColor.gray[5]}
+					>
+						<span
 							className={css({
-								...padding('32px', ''),
-								display: 'flex',
-								flexDirection: 'column',
-								gap: '16px',
-								width: '100%',
-								maxWidth: '320px',
+								color: OpenColor.blue[7],
 							})}
 						>
-							{PROVIDERS.map((provider) => (
-								<LoginCard
-									key={provider.name}
-									name={provider.name}
-									color={provider.color}
-									icon={provider.icon}
-									textColor={provider.textColor}
-									text={provider.text}
-									isRecent={recentProvider === provider.name}
-								/>
-							))}
-						</div>
-						<LabelXSmall
-							overrides={{
-								Block: {
-									style: {
-										fontWeight: 'bold',
-									},
-								},
-							}}
-							color={OpenColor.gray[5]}
+							이용약관
+						</span>
+						,
+						<span
+							className={css({
+								color: OpenColor.blue[7],
+							})}
 						>
-							<span
-								className={css({
-									color: OpenColor.blue[7],
-								})}
-							>
-								이용약관
-							</span>
-							,
-							<span
-								className={css({
-									color: OpenColor.blue[7],
-								})}
-							>
-								{' '}
-								개인정보 수집 및 이용
-							</span>{' '}
-							내용을 확인하였고 동의합니다.
-						</LabelXSmall>
-					</div>
-				</Cell>
-			</Grid>
-		</div>
+							{' '}
+							개인정보 수집 및 이용
+						</span>{' '}
+						내용을 확인하였고 동의합니다.
+					</LabelXSmall>
+				</div>
+			</Cell>
+		</Grid>
 	)
 }
+
+LoginPage.getLayout = (page) => (
+	<BasicLayout
+		overrides={{
+			main: {
+				style: {
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+				},
+			},
+		}}
+	>
+		{page}
+	</BasicLayout>
+)
 
 export default LoginPage

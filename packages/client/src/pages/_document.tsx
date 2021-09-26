@@ -9,7 +9,6 @@ import Document, {
 import { Provider as StyletronProvider } from 'styletron-react'
 import { Server, Sheet } from 'styletron-engine-atomic'
 import { styletron } from '~/styles/styletron'
-
 interface MyDocumentProps extends DocumentProps {
 	stylesheets: Sheet[]
 }
@@ -38,8 +37,10 @@ export default class MyDocument extends Document<MyDocumentProps> {
 	}
 
 	render() {
+		const pageProps = this.props?.__NEXT_DATA__?.props?.pageProps
+
 		return (
-			<Html>
+			<Html lang="ko">
 				<Head>
 					{this.props.stylesheets.map((sheet, i) => (
 						<style
@@ -51,7 +52,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
 						/>
 					))}
 				</Head>
-				<body>
+				<body className={pageProps.bodyClassName}>
 					<Main />
 					<div id="portal" />
 					<NextScript />
