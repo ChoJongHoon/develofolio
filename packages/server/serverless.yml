@@ -16,7 +16,8 @@ plugins:
 
 custom:
   warmup:
-    - prod
+    main:
+      enabled: true
 
 package:
   individually: true
@@ -35,3 +36,4 @@ functions:
           method: ANY
           path: '{proxy+}'
     timeout: 60
+    warmup: true
