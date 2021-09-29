@@ -29,6 +29,6 @@ export class GithubOauthController {
 		this.jwtAuthService.setAccessToken(res, accessToken)
 		this.jwtAuthService.setRefreshToken(res, refreshToken)
 
-		return res.redirect(this.baseConfigService.clientHost)
+		return res.redirect(`${this.baseConfigService.clientHost}/edit`)
 	}
 }

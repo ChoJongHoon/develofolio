@@ -8,6 +8,22 @@ import { margin, padding } from 'polished'
 import { storage } from '~/utils/storage'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { BasicLayout } from '~/layouts/basic-layout'
+import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
+import { ROUTE_EDIT } from '~/routes'
+
+export const getServerSideProps = withAuthSsr((_, user) => async () => {
+	if (user) {
+		return {
+			redirect: {
+				destination: ROUTE_EDIT,
+				permanent: false,
+			},
+		}
+	}
+	return {
+		props: {},
+	}
+})
 
 interface LoginCardProps {
 	name: string
