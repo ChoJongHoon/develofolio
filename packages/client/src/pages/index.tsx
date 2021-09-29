@@ -18,6 +18,7 @@ import { useStyletron } from 'baseui'
 import { PrimaryButton } from '~/components/pimary-button'
 import { borderStyle, padding } from 'polished'
 import Link from 'next/link'
+import LogoPickerGif from 'public/images/logo-picker.gif'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const bodyClassName = styletron.renderStyle({
@@ -108,13 +109,7 @@ const Home: NextPage = () => {
 						},
 					}}
 				>
-					<AspectRatioBox>
-						<AspectRatioBoxBody
-							$style={{
-								backgroundColor: OpenColor.white,
-							}}
-						></AspectRatioBoxBody>
-					</AspectRatioBox>
+					<Image src={LogoPickerGif} alt="로고 작성" />
 				</Cell>
 				<Cell span={[4, 4, 5]} skip={[0, 0, 2]}>
 					<HeadingLarge
@@ -127,7 +122,11 @@ const Home: NextPage = () => {
 						개발자 포트폴리오에 최적화된 에디터
 					</HeadingLarge>
 					<LabelMedium color={OpenColor.gray[7]}>
-						아이콘을 이용해 직관적인 포트폴리오를 만드세요.
+						<strong>{`Colon (:)`}</strong>
+						{` 을 이용하여 포트롤리오 어디에서든 아이콘을 삽입할 수 있습니다.`}
+					</LabelMedium>
+					<LabelMedium color={OpenColor.gray[7]}>
+						아이콘을 이용해 직관적인 포트폴리오를 만들어보세요.
 					</LabelMedium>
 				</Cell>
 			</Grid>
