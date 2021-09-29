@@ -12,6 +12,12 @@ import '~/styles/global-styles.css'
 import { SnackbarProvider } from 'baseui/snackbar'
 import Script from 'next/script'
 import Head from 'next/head'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+	gsap.registerPlugin(ScrollTrigger)
+}
 
 type MyAppProps = AppProps & {
 	apolloClient: ApolloClient<NormalizedCache>

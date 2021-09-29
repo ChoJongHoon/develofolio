@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyleObject, useStyletron } from 'styletron-react'
 import Logo from 'public/images/logo.svg'
 import { borderRadius, padding } from 'polished'
@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { ROUTE_HOME, ROUTE_LOGIN } from '~/routes'
 import { merge } from 'lodash'
 import { PrimaryButton } from '~/components/pimary-button'
+import { gsap } from 'gsap'
 
 interface BasicLayoutOverrides {
 	main?: {
@@ -25,6 +26,39 @@ interface BasicLayoutProps {
 
 export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 	const [css] = useStyletron()
+	const headerRef = useRef<HTMLDivElement>(null)
+	const logoRef = useRef<SVGSVGElement>(null)
+
+	useEffect(() => {
+		if (!headerRef.current || !logoRef.current) return
+
+		const tl = gsap
+			.timeline({
+				scrollTrigger: {
+					start: 'top top',
+					end: `+=120px`,
+					scrub: true,
+				},
+			})
+			.to(headerRef.current, {
+				backgroundColor: 'rgba(255,255,255,1)',
+				paddingTop: '8px',
+				paddingBottom: '8px',
+				ease: 'none',
+				boxShadow: '0px 20px 40px 0px rgba(0,0,0,0.08)',
+			})
+			.to(
+				logoRef.current,
+				{
+					scale: 1,
+				},
+				'<'
+			)
+
+		return () => {
+			tl.kill()
+		}
+	}, [])
 
 	return (
 		<div
@@ -35,6 +69,7 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 			})}
 		>
 			<header
+				ref={headerRef}
 				className={css(
 					merge<StyleObject, StyleObject>(
 						{
@@ -42,6 +77,11 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 							display: 'flex',
 							justifyContent: 'space-between',
 							alignItems: 'center',
+							position: 'sticky',
+							top: '0px',
+							zIndex: 100,
+							backgroundColor: 'rgba(255,255,255,0)',
+							boxShadow: '0px 20px 40px 0px rgba(0,0,0,0)',
 						},
 						overrides?.header?.style || {}
 					)
@@ -49,7 +89,14 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 			>
 				<Link href={ROUTE_HOME}>
 					<a>
-						<Logo height="20px" />
+						<Logo
+							ref={logoRef}
+							className={css({
+								height: '16px',
+								transform: 'scale(1.25)',
+								transformOrigin: 'left center',
+							})}
+						/>
 					</a>
 				</Link>
 				<Link href={ROUTE_LOGIN} passHref>

@@ -31,6 +31,7 @@
 		"cookie": "^0.4.1",
 		"flexsearch": "^0.6.32",
 		"graphql": "^15.5.0",
+		"gsap": "^3.7.1",
 		"jwt-decode": "^3.1.2",
 		"lodash": "^4.17.21",
 		"nanoid": "^3.1.23",
@@ -86,6 +87,7 @@
 		"eslint-plugin-prettier": "^3.4.0",
 		"eslint-plugin-react": "^7.23.2",
 		"eslint-plugin-react-hooks": "^4.2.0",
+		"next-transpile-modules": "^8.0.0",
 		"serverless": "^2.52.1",
 		"typescript": "4.3.4"
 	}

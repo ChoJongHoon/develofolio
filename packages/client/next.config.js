@@ -1,3 +1,5 @@
+const withTM = require('next-transpile-modules')(['gsap'])
+
 /**
  * @type {import('next').NextConfig}
  **/
@@ -10,6 +12,7 @@ const nextConfig = {
 					loader: '@svgr/webpack',
 					options: {
 						removeViewBox: false,
+						ref: true,
 					},
 				},
 			],
@@ -31,4 +34,4 @@ const nextConfig = {
 	},
 }
 
-module.exports = nextConfig
+module.exports = withTM(nextConfig)
