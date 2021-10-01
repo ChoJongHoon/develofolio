@@ -4,6 +4,9 @@ develofolioClientNextApplication:
     bucketName: 'develofolio-client'
     cloudfront:
       distributionId: E2HS7N1G1PHSRK
+      _next/image*:
+        forward:
+          cookies: 'none'
     name:
       defaultLambda: 'develofolio-client-default-lambda'
       apiLambda: 'develofolio-client-api-lambda'
