@@ -1,4 +1,4 @@
-import { Editor, Point, Range, Transforms } from 'slate'
+import { Editor, Node, Point, Range, Text, Transforms } from 'slate'
 import { CustomElement } from '../custom-types'
 
 export const withCareerList = (editor: Editor) => {
@@ -7,6 +7,7 @@ export const withCareerList = (editor: Editor) => {
 	editor.normalizeNode = ([node, path]) => {
 		if (Editor.isBlock(editor, node)) {
 			if (node.type === 'career-list') {
+				// 경력 사항이 하나도 없으면 리스트 삭제
 				if (
 					node.children.length === 0 ||
 					node.children.findIndex(
@@ -14,6 +15,7 @@ export const withCareerList = (editor: Editor) => {
 					) !== -1
 				) {
 					Transforms.removeNodes(editor, { at: path })
+					return
 				}
 			}
 			if (node.type === 'career-list-item') {
@@ -25,6 +27,22 @@ export const withCareerList = (editor: Editor) => {
 					node.children[3].type !== 'career-list-item-description'
 				) {
 					Transforms.removeNodes(editor, { at: path })
+					return
+				}
+			}
+
+			// children 에는 텍스트만 허용
+			if (
+				node.type === 'career-list-item-name' ||
+				node.type === 'career-list-item-position' ||
+				node.type === 'career-list-item-period' ||
+				node.type === 'career-list-item-description'
+			) {
+				for (const [child, childPath] of Node.children(editor, path)) {
+					if (!Text.isText(child)) {
+						Transforms.unwrapNodes(editor, { at: childPath })
+						return
+					}
 				}
 			}
 		}

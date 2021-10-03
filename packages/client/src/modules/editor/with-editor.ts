@@ -5,15 +5,17 @@ import { generateParagraphElement } from './elements/paragraph'
 import { someNode } from './utils/some-node'
 
 export const withEditor = (editor: Editor) => {
-	const { normalizeNode, apply, insertBreak } = editor
+	const { normalizeNode, apply } = editor
 
 	editor.normalizeNode = (entry) => {
 		const lastBlock = editor.children[editor.children.length - 1]
 
+		// 마지막 블럭은 항상 paragraph 로 설정
 		if (Editor.isBlock(editor, lastBlock) && lastBlock.type !== 'paragraph') {
 			Transforms.insertNodes(editor, generateParagraphElement(), {
 				at: [editor.children.length],
 			})
+			return
 		}
 
 		normalizeNode(entry)

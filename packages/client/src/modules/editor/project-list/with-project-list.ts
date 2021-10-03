@@ -1,4 +1,4 @@
-import { Editor, Element, Point, Range, Transforms } from 'slate'
+import { Editor, Element, Node, Point, Range, Text, Transforms } from 'slate'
 import { CustomElement } from '../custom-types'
 import { generateProjectListItemDescriptionElement } from './project-list-item-description'
 import { generateProjectListItemNameElement } from './project-list-item-name'
@@ -12,21 +12,28 @@ export const withProjectList = (editor: Editor) => {
 	const { deleteBackward, insertBreak, normalizeNode } = editor
 
 	editor.normalizeNode = (entry) => {
-		const [block, path] = entry
-		if (Editor.isBlock(editor, block)) {
-			if (block.type === 'project-list-item') {
-				if (block.children.length < 1) {
+		const [node, path] = entry
+		if (Editor.isBlock(editor, node)) {
+			if (node.type === 'project-list-item') {
+				// name 이 없으면 추가
+				if (node.children.length < 1) {
 					Transforms.insertNodes(editor, generateProjectListItemNameElement(), {
 						at: [...path, 0],
 					})
-				} else if (block.children[0].type !== 'project-list-item-name') {
+					return
+				}
+				// name 이 아니면 name 으로 수정
+				if (node.children[0].type !== 'project-list-item-name') {
 					Transforms.setNodes(
 						editor,
 						{ type: 'project-list-item-name' },
 						{ at: [...path, 0] }
 					)
+					return
 				}
-				if (block.children.length < 2) {
+
+				// description 이 없으면 추가
+				if (node.children.length < 2) {
 					Transforms.insertNodes(
 						editor,
 						generateProjectListItemDescriptionElement(),
@@ -34,23 +41,36 @@ export const withProjectList = (editor: Editor) => {
 							at: [...path, 1],
 						}
 					)
-				} else if (block.children[1].type !== 'project-list-item-description') {
+					return
+				}
+				// description 이 아니면 description 으로 수정
+				if (node.children[1].type !== 'project-list-item-description') {
 					Transforms.setNodes(
 						editor,
 						{ type: 'project-list-item-name' },
 						{ at: [...path, 1] }
 					)
+					return
+				}
+				// children 이 2개 초과로 생기지 않도록 방지
+				if (node.children.length > 2) {
+					Transforms.mergeNodes(editor, {
+						at: [...path, 2],
+					})
+					return
 				}
 			}
-			if (PROJECT_LIST_CHILD_TYPES.includes(block.type)) {
-				if (path.length !== 3) {
-					Transforms.setNodes(
-						editor,
-						{ type: 'paragraph' },
-						{
-							match: (n) => Editor.isBlock(editor, n),
-						}
-					)
+
+			// children 에는 텍스트만 허용
+			if (
+				node.type === 'project-list-item-name' ||
+				node.type === 'project-list-item-description'
+			) {
+				for (const [child, childPath] of Node.children(editor, path)) {
+					if (!Text.isText(child)) {
+						Transforms.unwrapNodes(editor, { at: childPath })
+						return
+					}
 				}
 			}
 		}

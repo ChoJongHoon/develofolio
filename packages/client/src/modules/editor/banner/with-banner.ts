@@ -1,4 +1,4 @@
-import { Editor, Element, Point, Range, Transforms } from 'slate'
+import { Editor, Element, Node, Point, Range, Text, Transforms } from 'slate'
 import { BannerElement, CustomElement, ParagraphElement } from '../custom-types'
 import { generateParagraphElement } from '../elements/paragraph'
 import { generateBannerElement } from './banner'
@@ -15,79 +15,97 @@ const BANNER_CHILD_TYPES: CustomElement['type'][] = [
 export const withBanner = (editor: Editor) => {
 	const { normalizeNode, deleteBackward, insertBreak } = editor
 
-	/**
-	 * 첫 번째 노드가 없으면 banner 삽입
-	 * 두 번째 노드가 없으면 paragraph 삽입
-	 *
-	 * 배너의 첫 번째 노드가 없으면 name 삽입
-	 * 배너의 첫 번째 노드가 name이 아니면 name으로 변경
-	 * 배너의 두 번째 노드가 없으면 tagline 삽입
-	 * 배너의 두 번째 노드가 tagline이 아니면 tagline으로 변경
-	 * 배너의 세 번째 노드가 없으면 bio 삽입
-	 * 배너의 세 번째 노드가 bio가 아니면 bio로 변경
-	 * 배너의 네 번째 노드가 존재하면 배너 밖으로 옮김
-	 *
-	 * 배너안에 있어야 할 child가 밖에 있으면 paragraph로 타입 변환
-	 */
 	editor.normalizeNode = ([node, path]) => {
 		if (Editor.isEditor(node)) {
 			const firstChild = node.children[0]
+			// 페이지 첫 번째 블럭에 banner 추가
 			if (
 				!firstChild ||
 				!Editor.isBlock(editor, firstChild) ||
 				firstChild.type !== 'banner'
 			) {
 				Transforms.insertNodes<BannerElement>(editor, generateBannerElement(), {
-					at: path.concat(0),
+					at: [...path, 0],
 				})
+				return
 			}
 
+			// 배너 다음 블럭이 없으면 paragraph 추가
 			if (node.children.length < 2) {
 				Transforms.insertNodes<ParagraphElement>(
 					editor,
 					generateParagraphElement(),
 					{
-						at: path.concat(1),
+						at: [...path, 1],
 					}
 				)
+				return
 			}
 		}
 
 		if (Editor.isBlock(editor, node)) {
 			if (node.type === 'banner') {
-				if (node.children.length < 1) {
-					Transforms.insertNodes(editor, generateBannerNameElement(), {
-						at: path.concat(0),
-					})
-				} else if (node.children[0].type !== 'banner-name') {
-					Transforms.setNodes(editor, generateBannerNameElement(), {
-						at: path.concat(0),
-					})
-				}
-				if (node.children.length < 2) {
-					Transforms.insertNodes(editor, generateBannerTaglineElement(), {
-						at: path.concat(1),
-					})
-				} else if (node.children[1].type !== 'banner-tagline') {
-					Transforms.setNodes(editor, generateBannerTaglineElement(), {
-						at: path.concat(1),
-					})
-				}
-				if (node.children.length < 3) {
-					Transforms.insertNodes(editor, generateBannerBioElement(), {
-						at: path.concat(1),
-					})
-				} else if (node.children[2].type !== 'banner-bio') {
-					Transforms.setNodes(editor, generateBannerBioElement(), {
-						at: path.concat(2),
-					})
+				// 배너의 위치는 최상단이어야함
+				if (path.length !== 1 || path[0] !== 0) {
+					Transforms.unwrapNodes(editor, { at: path })
+					return
 				}
 
+				// name 이 없으면 추가
+				if (node.children.length < 1) {
+					Transforms.insertNodes(editor, generateBannerNameElement(), {
+						at: [...path, 0],
+					})
+					return
+				}
+				// name 이 아니면 name 으로 수정
+				if (node.children[0].type !== 'banner-name') {
+					Transforms.setNodes(editor, generateBannerNameElement(), {
+						at: [...path, 0],
+					})
+					return
+				}
+
+				// tagline 이 없으면 추가
+				if (node.children.length < 2) {
+					Transforms.insertNodes(editor, generateBannerTaglineElement(), {
+						at: [...path, 1],
+					})
+					return
+				}
+				// tagline 이 아니면 tagline 으로 수정
+				if (node.children[1].type !== 'banner-tagline') {
+					Transforms.setNodes(editor, generateBannerTaglineElement(), {
+						at: [...path, 1],
+					})
+					return
+				}
+
+				// bio 가 없으면 추가
+				if (node.children.length < 3) {
+					Transforms.insertNodes(editor, generateBannerBioElement(), {
+						at: [...path, 1],
+					})
+					return
+				}
+				// bio 가 아니면 bio 로 수정
+				if (node.children[2].type !== 'banner-bio') {
+					Transforms.setNodes(editor, generateBannerBioElement(), {
+						at: [...path, 2],
+					})
+					return
+				}
+
+				// children 이 3개 초과로 생기지 않도록 방지
 				if (node.children.length > 3) {
-					Transforms.moveNodes(editor, { at: path.concat(3), to: [1] })
+					Transforms.mergeNodes(editor, {
+						at: [...path, 3],
+					})
+					return
 				}
 			}
 
+			// children 들의 부모가 배너가 아니면 paragraph로 타입 변경
 			if (BANNER_CHILD_TYPES.includes(node.type)) {
 				if (path.length > 0) {
 					const [parent] = Editor.node(editor, path.slice(0, -1))
@@ -96,12 +114,27 @@ export const withBanner = (editor: Editor) => {
 						(Editor.isBlock(editor, parent) && parent.type !== 'banner')
 					) {
 						Transforms.setNodes(editor, { type: 'paragraph' }, { at: path })
+						return
+					}
+				}
+			}
+
+			// children 에는 텍스트만 허용
+			if (
+				node.type === 'banner-name' ||
+				node.type === 'banner-tagline' ||
+				node.type === 'banner-bio'
+			) {
+				for (const [child, childPath] of Node.children(editor, path)) {
+					if (!Text.isText(child)) {
+						Transforms.unwrapNodes(editor, { at: childPath })
+						return
 					}
 				}
 			}
 		}
 
-		return normalizeNode([node, path])
+		normalizeNode([node, path])
 	}
 
 	editor.deleteBackward = (...args) => {
@@ -144,11 +177,12 @@ export const withBanner = (editor: Editor) => {
 			if (match) {
 				const [block] = match
 				if (Editor.isBlock(editor, block)) {
-					if (block.type === 'banner-name' || block.type === 'banner-tagline') {
+					if (
+						block.type === 'banner-name' ||
+						block.type === 'banner-tagline' ||
+						block.type === 'banner-bio'
+					) {
 						Transforms.move(editor, { distance: 1, unit: 'line' })
-						return
-					} else if (block.type === 'banner-bio') {
-						Transforms.insertText(editor, '\n')
 						return
 					}
 				}
