@@ -8,9 +8,10 @@ import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 import { ROUTE_LOGIN } from '~/routes'
 import { EditorLayout } from '~/layouts/editor-layout'
 import { generateInitialContent } from '~/modules/editor/utils/generate-initial-content'
+import { Descendant } from 'slate'
 
 interface EditProps {
-	page: PagePartsFragment
+	initialContent: Descendant[]
 }
 
 export const getServerSideProps = withAuthSsr<EditProps>(
@@ -23,28 +24,29 @@ export const getServerSideProps = withAuthSsr<EditProps>(
 				},
 			}
 		}
-
-		if (!user.page.content) {
-			await client.mutate({
+		let initialContent = user.page.content
+		if (!initialContent) {
+			const { data } = await client.mutate({
 				mutation: UpdateContentDocument,
 				variables: {
 					content: generateInitialContent(),
 				},
 			})
+			initialContent = data?.page.content
 		}
 
 		return {
 			props: {
-				page: user.page,
+				initialContent,
 			},
 		}
 	}
 )
 
-const Edit: NextPage<EditProps> = ({ page }) => {
-	return <PageEditor initialContent={page.content} />
+const EditPage: NextPage<EditProps> = ({ initialContent }) => {
+	return <PageEditor initialContent={initialContent} />
 }
 
-Edit.getLayout = (page) => <EditorLayout>{page}</EditorLayout>
+EditPage.getLayout = (page) => <EditorLayout>{page}</EditorLayout>
 
-export default Edit
+export default EditPage
