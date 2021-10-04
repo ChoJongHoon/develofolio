@@ -1,6 +1,6 @@
 import OpenColor from 'open-color'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useSlate } from 'slate-react'
+import { useSlate, ReactEditor } from 'slate-react'
 import { Portal } from '~/components/portal'
 import { getScrollbarWidth } from '~/styles/get-scrollbar-width'
 import { zIndexes } from '~/styles/z-indexes'
@@ -208,7 +208,10 @@ export const BlockPicker = () => {
 										setSelectedIndex(index)
 									}}
 									onClick={() => {
-										Transforms.insertNodes(editor, block.generateNode())
+										Transforms.insertNodes(editor, block.generateNode(), {
+											match: (n) =>
+												ReactEditor.findPath(editor, n).length === 1,
+										})
 										onClose(index)
 									}}
 								>
