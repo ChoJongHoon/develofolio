@@ -25,6 +25,9 @@ import { Controller, useForm } from 'react-hook-form'
 import debouncePromise from 'awesome-debounce-promise'
 import { useMutation } from '@apollo/client'
 import { CheckDuplicatedSlugDocument } from '~/graphql/document.generated'
+import { storage } from '~/utils/storage'
+import { useRouter } from 'next/dist/client/router'
+import { ROUTE_LOGIN } from '~/routes'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const bodyClassName = styletron.renderStyle({
@@ -38,6 +41,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 const Home: NextPage = () => {
 	const [css, theme] = useStyletron()
+	const router = useRouter()
 
 	const { control: slugControl, handleSubmit: handleSlugSubmit } = useForm<{
 		slug: string
@@ -269,9 +273,13 @@ const Home: NextPage = () => {
 				}}
 			>
 				<Cell span={[4, 8, 8]} skip={[0, 0, 2]}>
-					<div
+					<form
 						className={css({
 							display: 'flex',
+						})}
+						onSubmit={handleSlugSubmit(async ({ slug }) => {
+							storage.setItem('reservedSlug', slug)
+							router.push(ROUTE_LOGIN)
 						})}
 					>
 						<Controller
@@ -380,7 +388,7 @@ const Home: NextPage = () => {
 								</FormControl>
 							)}
 						/>
-					</div>
+					</form>
 				</Cell>
 			</Grid>
 		</div>
