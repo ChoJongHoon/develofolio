@@ -1,6 +1,5 @@
 import { Button, ButtonOverrides, ButtonProps } from 'baseui/button'
 import OpenColor from 'open-color'
-import { borderRadius } from 'polished'
 import { forwardRef } from 'react'
 import { useOverrides } from '../hooks/use-overrides'
 
@@ -18,6 +17,15 @@ export const PrimaryButton = forwardRef<HTMLButtonElement, ButtonProps>(
 								},
 								':active': {
 									backgroundColor: OpenColor.blue[8],
+								},
+								':disabled': {
+									backgroundColor: OpenColor.gray[2],
+									':hover': {
+										backgroundColor: OpenColor.gray[2],
+									},
+									':active': {
+										backgroundColor: OpenColor.gray[2],
+									},
 								},
 							},
 						},

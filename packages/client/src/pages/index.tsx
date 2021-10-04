@@ -20,6 +20,14 @@ import Link from 'next/link'
 import LogoPickerGif from 'public/images/logo-picker.gif'
 import UrlImage from 'public/images/url.png'
 import ChatImage from 'public/images/chat.png'
+import { FormControl } from 'baseui/form-control'
+import { Controller, useForm } from 'react-hook-form'
+import debouncePromise from 'awesome-debounce-promise'
+import { useMutation } from '@apollo/client'
+import { CheckDuplicatedSlugDocument } from '~/graphql/document.generated'
+import { storage } from '~/utils/storage'
+import { useRouter } from 'next/dist/client/router'
+import { ROUTE_LOGIN } from '~/routes'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const bodyClassName = styletron.renderStyle({
@@ -33,6 +41,17 @@ export const getStaticProps: GetStaticProps = async () => {
 
 const Home: NextPage = () => {
 	const [css, theme] = useStyletron()
+	const router = useRouter()
+
+	const { control: slugControl, handleSubmit: handleSlugSubmit } = useForm<{
+		slug: string
+	}>({
+		mode: 'onChange',
+		defaultValues: {
+			slug: '',
+		},
+	})
+	const [checkDuplicatedSlug] = useMutation(CheckDuplicatedSlugDocument)
 
 	return (
 		<div>
@@ -254,75 +273,122 @@ const Home: NextPage = () => {
 				}}
 			>
 				<Cell span={[4, 8, 8]} skip={[0, 0, 2]}>
-					<div
+					<form
 						className={css({
 							display: 'flex',
 						})}
+						onSubmit={handleSlugSubmit(async ({ slug }) => {
+							storage.setItem('reservedSlug', slug)
+							router.push(ROUTE_LOGIN)
+						})}
 					>
-						<Input
-							startEnhancer={() => <>https://develofolio.com/</>}
-							endEnhancer={() => (
-								<PrimaryButton
+						<Controller
+							control={slugControl}
+							name="slug"
+							rules={{
+								pattern: {
+									value: /^[A-Za-z0-9\.\-\_]*$/,
+									message: `링크는 문자, 숫자 및 몇가지 특수문자(".-_")만 포함할 수 있습니다.`,
+								},
+								validate: debouncePromise(async (value) => {
+									const { data } = await checkDuplicatedSlug({
+										variables: {
+											slug: value,
+										},
+									})
+
+									if (data?.checkDuplicatedSlug) {
+										return '이미 누군가 사용중입니다.'
+									}
+									return true
+								}, 300),
+							}}
+							render={({
+								field: { onChange, onBlur, ref, value },
+								fieldState: { error },
+							}) => (
+								<FormControl
+									caption={error?.message}
 									overrides={{
-										BaseButton: {
+										Caption: {
 											style: {
-												whiteSpace: 'nowrap',
+												color: OpenColor.red[7],
 											},
 										},
 									}}
 								>
-									시작하기
-								</PrimaryButton>
+									<Input
+										inputRef={ref}
+										value={value}
+										onChange={onChange}
+										onBlur={onBlur}
+										startEnhancer={() => <>https://develofolio.com/</>}
+										endEnhancer={() => (
+											<PrimaryButton
+												disabled={Boolean(error)}
+												overrides={{
+													BaseButton: {
+														style: {
+															whiteSpace: 'nowrap',
+														},
+													},
+												}}
+											>
+												시작하기
+											</PrimaryButton>
+										)}
+										overrides={{
+											Root: {
+												style: ({ $isFocused }) => ({
+													paddingRight: '0px',
+													...borderStyle('none'),
+													transitionProperty: 'box-shadow',
+													transitionDuration: '0.2s',
+													...($isFocused
+														? {
+																boxShadow: `0px 0px 0px 2px ${OpenColor.blue[7]}`,
+																backgroundColor: OpenColor.gray[0],
+														  }
+														: {
+																backgroundColor: OpenColor.gray[2],
+														  }),
+												}),
+											},
+											StartEnhancer: {
+												style: {
+													color: OpenColor.gray[6],
+													paddingRight: '0px',
+													backgroundColor: 'transparent',
+												},
+											},
+											EndEnhancer: {
+												style: {
+													...padding('0px'),
+													alignItems: 'stretch',
+												},
+											},
+											InputContainer: {
+												style: {
+													backgroundColor: 'transparent',
+												},
+											},
+											Input: {
+												style: {
+													paddingLeft: '2px',
+													backgroundColor: 'transparent',
+													'::placeholder': {
+														color: OpenColor.gray[6],
+													},
+												},
+											},
+										}}
+										placeholder="your-name"
+										size="large"
+									/>
+								</FormControl>
 							)}
-							overrides={{
-								Root: {
-									style: ({ $isFocused }) => ({
-										paddingRight: '0px',
-										...borderStyle('none'),
-										...($isFocused
-											? {
-													outlineStyle: 'solid',
-													outlineWidth: '2px',
-													outlineColor: OpenColor.blue[7],
-													backgroundColor: OpenColor.gray[0],
-											  }
-											: {
-													backgroundColor: OpenColor.gray[2],
-											  }),
-									}),
-								},
-								StartEnhancer: {
-									style: {
-										color: OpenColor.gray[6],
-										paddingRight: '0px',
-										backgroundColor: 'transparent',
-									},
-								},
-								EndEnhancer: {
-									style: {
-										...padding('0px'),
-										alignItems: 'stretch',
-									},
-								},
-								InputContainer: {
-									style: {
-										backgroundColor: 'transparent',
-									},
-								},
-								Input: {
-									style: {
-										paddingLeft: '2px',
-										backgroundColor: 'transparent',
-										'::placeholder': {
-											color: OpenColor.gray[6],
-										},
-									},
-								},
-							}}
-							placeholder="your-name"
-							size="large"
 						/>
-					</div>
+					</form>
 				</Cell>
 			</Grid>
 		</div>

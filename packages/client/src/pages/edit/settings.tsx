@@ -156,8 +156,8 @@ const Settings: NextPage<SettingsProps> = ({ page }) => {
 								name="slug"
 								rules={{
 									pattern: {
-										value: /^[A-Za-z0-9\.]*$/,
-										message: `링크는 문자, 숫자 및 마침표(".")만 포함할 수 있습니다.`,
+										value: /^[A-Za-z0-9\.\-\_]*$/,
+										message: `링크는 문자, 숫자 및 몇가지 특수문자(".-_")만 포함할 수 있습니다.`,
 									},
 									validate: debouncePromise(async (value) => {
 										if (value === user?.page.slug) {
