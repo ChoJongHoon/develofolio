@@ -1,3 +1,37 @@
+diff --git a/node_modules/baseui/button/index.d.ts b/node_modules/baseui/button/index.d.ts
+index ec18692..f6d7cca 100644
+--- a/node_modules/baseui/button/index.d.ts
++++ b/node_modules/baseui/button/index.d.ts
+@@ -28,13 +28,23 @@ export interface SHAPE {
+   square: 'square';
+ }
+ 
++export type SharedProps = {
++  $disabled: boolean
++  $isFocusVisible: boolean
++  $isLoading: boolean
++  $isSelected: boolean
++  $kind: KIND[keyof KIND]
++  $shape: SHAPE[keyof SHAPE]
++  $size: SIZE[keyof SIZE]
++};
++
+ export interface ButtonOverrides {
+-  Root?: Override<any>;
+-  BaseButton?: Override<any>;
+-  StartEnhancer?: Override<any>;
+-  EndEnhancer?: Override<any>;
+-  LoadingSpinnerContainer?: Override<any>;
+-  LoadingSpinner?: Override<any>;
++  Root?: Override<SharedProps>;
++  BaseButton?: Override<SharedProps>;
++  StartEnhancer?: Override<SharedProps>;
++  EndEnhancer?: Override<SharedProps>;
++  LoadingSpinnerContainer?: Override<SharedProps>;
++  LoadingSpinner?: Override<SharedProps>;
+ }
+ 
+ export interface ButtonProps
 diff --git a/node_modules/baseui/layer/index.d.ts b/node_modules/baseui/layer/index.d.ts
 index ff3e368..fe939a0 100644
 --- a/node_modules/baseui/layer/index.d.ts
