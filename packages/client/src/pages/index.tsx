@@ -12,13 +12,14 @@ import {
 } from 'baseui/typography'
 import { ALIGNMENT, Cell, Grid } from 'baseui/layout-grid'
 import ExampleImage from 'public/images/example.png'
-import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 import { Input } from 'baseui/input'
 import { useStyletron } from 'baseui'
 import { PrimaryButton } from '~/components/pimary-button'
 import { borderStyle, padding } from 'polished'
 import Link from 'next/link'
 import LogoPickerGif from 'public/images/logo-picker.gif'
+import UrlImage from 'public/images/url.png'
+import ChatImage from 'public/images/chat.png'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const bodyClassName = styletron.renderStyle({
@@ -79,7 +80,7 @@ const Home: NextPage = () => {
 									color={OpenColor.gray[5]}
 									$style={{ textAlign: 'center' }}
 								>
-									예제 페이지
+									예시 페이지
 								</LabelXSmall>
 							</figure>
 						</a>
@@ -91,7 +92,7 @@ const Home: NextPage = () => {
 				overrides={{
 					Grid: {
 						style: {
-							marginBottom: '32px',
+							marginBottom: '64px',
 						},
 					},
 				}}
@@ -135,7 +136,7 @@ const Home: NextPage = () => {
 				overrides={{
 					Grid: {
 						style: {
-							marginBottom: '32px',
+							marginBottom: '64px',
 							[theme.mediaQuery.medium]: {
 								flexDirection: 'row-reverse',
 							},
@@ -157,13 +158,7 @@ const Home: NextPage = () => {
 						},
 					}}
 				>
-					<AspectRatioBox>
-						<AspectRatioBoxBody
-							$style={{
-								backgroundColor: OpenColor.white,
-							}}
-						></AspectRatioBoxBody>
-					</AspectRatioBox>
+					<Image src={UrlImage} alt="나를 표현하는 링크" />
 				</Cell>
 				<Cell span={[4, 4, 5]}>
 					<HeadingLarge
@@ -204,13 +199,7 @@ const Home: NextPage = () => {
 						},
 					}}
 				>
-					<AspectRatioBox>
-						<AspectRatioBoxBody
-							$style={{
-								backgroundColor: OpenColor.white,
-							}}
-						></AspectRatioBoxBody>
-					</AspectRatioBox>
+					<Image src={ChatImage} alt="나를 표현하는 링크" />
 				</Cell>
 				<Cell span={[4, 4, 5]} skip={[0, 0, 2]}>
 					<HeadingLarge
@@ -220,10 +209,20 @@ const Home: NextPage = () => {
 							marginBottom: '16px',
 						}}
 					>
-						개발자 포트폴리오에 최적화된 에디터
+						당신을 공유하세요!
 					</HeadingLarge>
 					<LabelMedium color={OpenColor.gray[7]}>
-						아이콘을 이용해 직관적인 포트폴리오를 만드세요!
+						디벨로폴리오는 당신의 포트폴리오를 기반으로 멋진 미리보기 카드를
+						제공합니다.{' '}
+						<a
+							href="https://ogp.me/"
+							target="_blank"
+							rel="noreferrer"
+							className={css({
+								color: OpenColor.blue[7],
+								textDecoration: 'none',
+							})}
+						>{`(Open Graph)`}</a>
 					</LabelMedium>
 				</Cell>
 			</Grid>
