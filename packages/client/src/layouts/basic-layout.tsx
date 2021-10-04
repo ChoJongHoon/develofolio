@@ -37,7 +37,7 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 				scrollTrigger: {
 					start: 'top top',
 					end: `+=120px`,
-					scrub: true,
+					scrub: 0.2,
 				},
 			})
 			.to(headerRef.current, {
