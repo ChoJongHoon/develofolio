@@ -9,7 +9,8 @@ import { storage } from '~/utils/storage'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { BasicLayout } from '~/layouts/basic-layout'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
-import { ROUTE_EDIT } from '~/routes'
+import { ROUTE_EDIT, ROUTE_PRIVACY, ROUTE_TERMS } from '~/routes'
+import Link from 'next/link'
 
 export const getServerSideProps = withAuthSsr((_, user) => async () => {
 	if (user) {
@@ -177,22 +178,28 @@ const LoginPage: NextPage = () => {
 						}}
 						color={OpenColor.gray[5]}
 					>
-						<span
-							className={css({
-								color: OpenColor.blue[7],
-							})}
-						>
-							이용약관
-						</span>
+						<Link href={ROUTE_TERMS}>
+							<a
+								className={css({
+									color: OpenColor.blue[7],
+									textDecoration: 'none',
+								})}
+							>
+								이용약관
+							</a>
+						</Link>
 						,
-						<span
-							className={css({
-								color: OpenColor.blue[7],
-							})}
-						>
-							{' '}
-							개인정보 수집 및 이용
-						</span>{' '}
+						<Link href={ROUTE_PRIVACY}>
+							<a
+								className={css({
+									color: OpenColor.blue[7],
+									textDecoration: 'none',
+								})}
+							>
+								{' '}
+								개인정보 수집 및 이용
+							</a>
+						</Link>{' '}
 						내용을 확인하였고 동의합니다.
 					</LabelXSmall>
 				</div>
