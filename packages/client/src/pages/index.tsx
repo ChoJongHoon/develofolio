@@ -5,8 +5,9 @@ import OpenColor from 'open-color'
 import { GetStaticProps, NextPage } from 'next'
 import { BasicLayout } from '~/layouts/basic-layout'
 import {
-	DisplayMedium,
+	DisplayXSmall,
 	HeadingLarge,
+	HeadingMedium,
 	LabelMedium,
 	LabelXSmall,
 } from 'baseui/typography'
@@ -67,14 +68,14 @@ const Home: NextPage = () => {
 				}}
 			>
 				<Cell span={[4, 8, 8]} skip={[0, 0, 2]}>
-					<DisplayMedium
+					<DisplayXSmall
 						$style={{ textAlign: 'center', fontWeight: 'bold' }}
-						color={OpenColor.gray[8]}
+						color={OpenColor.gray[9]}
 					>
 						개발자 포트폴리오
 						<br />
 						간편히 만들고 간단히 공유하세요.
-					</DisplayMedium>
+					</DisplayXSmall>
 				</Cell>
 			</Grid>
 			<Grid
@@ -86,7 +87,7 @@ const Home: NextPage = () => {
 					},
 				}}
 			>
-				<Cell span={[4, 8, 8]} skip={[0, 0, 2]}>
+				<Cell span={[4, 6, 8]} skip={[0, 1, 2]}>
 					<Link href="/example">
 						<a
 							className={css({
@@ -133,7 +134,8 @@ const Home: NextPage = () => {
 					<Image src={LogoPickerGif} alt="로고 작성" />
 				</Cell>
 				<Cell span={[4, 4, 5]} skip={[0, 0, 2]}>
-					<HeadingLarge
+					<HeadingMedium
+						color={OpenColor.gray[9]}
 						$style={{
 							fontWeight: 'bold',
 							wordBreak: 'keep-all',
@@ -141,7 +143,7 @@ const Home: NextPage = () => {
 						}}
 					>
 						개발자 포트폴리오에 최적화된 에디터
-					</HeadingLarge>
+					</HeadingMedium>
 					<LabelMedium color={OpenColor.gray[7]}>
 						<strong>{`Colon (:)`}</strong>
 						{` 을 이용하여 포트롤리오 어디에서든 아이콘을 삽입할 수 있습니다.`}
@@ -181,7 +183,8 @@ const Home: NextPage = () => {
 					<Image src={UrlImage} alt="나를 표현하는 링크" />
 				</Cell>
 				<Cell span={[4, 4, 5]}>
-					<HeadingLarge
+					<HeadingMedium
+						color={OpenColor.gray[9]}
 						$style={{
 							fontWeight: 'bold',
 							wordBreak: 'keep-all',
@@ -189,7 +192,7 @@ const Home: NextPage = () => {
 						}}
 					>
 						나를 표현하는 링크
-					</HeadingLarge>
+					</HeadingMedium>
 					<LabelMedium color={OpenColor.gray[7]}>
 						클릭하기 싫어지는 복잡한 주소는 이제 그만! 나만의 주소를 미리
 						선점하세요.
@@ -222,7 +225,8 @@ const Home: NextPage = () => {
 					<Image src={ChatImage} alt="나를 표현하는 링크" />
 				</Cell>
 				<Cell span={[4, 4, 5]} skip={[0, 0, 2]}>
-					<HeadingLarge
+					<HeadingMedium
+						color={OpenColor.gray[9]}
 						$style={{
 							fontWeight: 'bold',
 							wordBreak: 'keep-all',
@@ -230,7 +234,7 @@ const Home: NextPage = () => {
 						}}
 					>
 						당신을 공유하세요!
-					</HeadingLarge>
+					</HeadingMedium>
 					<LabelMedium color={OpenColor.gray[7]}>
 						디벨로폴리오는 당신의 포트폴리오를 기반으로 멋진 미리보기 카드를
 						제공합니다.{' '}
