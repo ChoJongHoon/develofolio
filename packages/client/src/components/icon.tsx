@@ -12,6 +12,7 @@ import Link from 'public/icons/link.svg'
 import DragHandle from 'public/icons/drag-handle.svg'
 import Facebook from 'public/icons/facebook.svg'
 import Github from 'public/icons/github.svg'
+import Github2 from 'public/icons/github2.svg'
 import StackOverflow from 'public/icons/stack-overflow.svg'
 import Twitter from 'public/icons/twitter.svg'
 import X from 'public/icons/x.svg'
@@ -38,6 +39,7 @@ const icons = {
 	DragHandle,
 	Facebook,
 	Github,
+	Github2,
 	Google,
 	StackOverflow,
 	Twitter,

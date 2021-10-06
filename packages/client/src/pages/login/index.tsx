@@ -11,6 +11,7 @@ import { BasicLayout } from '~/layouts/basic-layout'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 import { ROUTE_EDIT, ROUTE_PRIVACY, ROUTE_TERMS } from '~/routes'
 import Link from 'next/link'
+import { linkStyles } from '~/styles/styles'
 
 export const getServerSideProps = withAuthSsr((_, user) => async () => {
 	if (user) {
@@ -182,21 +183,20 @@ const LoginPage: NextPage = () => {
 							<a
 								className={css({
 									color: OpenColor.blue[7],
-									textDecoration: 'none',
+									...linkStyles,
 								})}
 							>
 								이용약관
 							</a>
 						</Link>
-						,
+						,{' '}
 						<Link href={ROUTE_PRIVACY}>
 							<a
 								className={css({
 									color: OpenColor.blue[7],
-									textDecoration: 'none',
+									...linkStyles,
 								})}
 							>
-								{' '}
 								개인정보 수집 및 이용
 							</a>
 						</Link>{' '}

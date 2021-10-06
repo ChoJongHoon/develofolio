@@ -3,12 +3,14 @@ import { StyleObject, useStyletron } from 'styletron-react'
 import Logo from 'public/images/logo.svg'
 import { borderRadius, padding } from 'polished'
 import OpenColor from 'open-color'
-import { ParagraphXSmall } from 'baseui/typography'
+import { LabelXSmall, ParagraphXSmall } from 'baseui/typography'
 import Link from 'next/link'
-import { ROUTE_HOME, ROUTE_LOGIN } from '~/routes'
+import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_TERMS } from '~/routes'
 import { merge } from 'lodash'
 import { PrimaryButton } from '~/components/pimary-button'
 import { gsap } from 'gsap'
+import { linkStyles } from '~/styles/styles'
+import { Icon } from '~/components/icon'
 
 interface BasicLayoutOverrides {
 	main?: {
@@ -132,12 +134,72 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 			</main>
 			<footer
 				className={css({
-					...padding('4px', '16px'),
+					...padding('16px', '32px'),
 					display: 'flex',
-					justifyContent: 'center',
+					justifyContent: 'space-between',
+					backgroundColor: OpenColor.gray[1],
 				})}
 			>
-				<ParagraphXSmall color={OpenColor.gray[6]}>footer</ParagraphXSmall>
+				<div className={css({ display: 'flex', alignItems: 'center' })}>
+					<LabelXSmall
+						color={OpenColor.gray[6]}
+						className={css({
+							marginRight: '16px',
+						})}
+					>
+						©DeveloFolio
+					</LabelXSmall>
+					<Link href={ROUTE_TERMS} passHref>
+						<LabelXSmall
+							as="a"
+							className={css({
+								...linkStyles,
+							})}
+							color={OpenColor.gray[6]}
+						>
+							이용약관
+						</LabelXSmall>
+					</Link>
+					<span
+						className={css({
+							display: 'block',
+							width: '24px',
+							textAlign: 'center',
+							color: OpenColor.gray[6],
+						})}
+					>
+						･
+					</span>
+					<Link href={ROUTE_TERMS} passHref>
+						<LabelXSmall
+							as="a"
+							className={css({
+								...linkStyles,
+							})}
+							color={OpenColor.gray[6]}
+						>
+							개인정보 처리방침
+						</LabelXSmall>
+					</Link>
+				</div>
+				<div>
+					<a
+						href="https://github.com/ChoJongHoon/develofolio"
+						target="_blank"
+						rel="noreferrer"
+						className={css({
+							cursor: 'pointer',
+							opacity: 0.6,
+							transitionProperty: 'opacity',
+							transitionDuration: '0.2s',
+							':hover': {
+								opacity: 1,
+							},
+						})}
+					>
+						<Icon type="Github2" size={24} color={OpenColor.gray[8]} />
+					</a>
+				</div>
 			</footer>
 		</div>
 	)

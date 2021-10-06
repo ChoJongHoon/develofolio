@@ -28,6 +28,7 @@ import { CheckDuplicatedSlugDocument } from '~/graphql/document.generated'
 import { storage } from '~/utils/storage'
 import { useRouter } from 'next/dist/client/router'
 import { ROUTE_LOGIN } from '~/routes'
+import { linkStyles } from '~/styles/styles'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const bodyClassName = styletron.renderStyle({
@@ -239,7 +240,7 @@ const Home: NextPage = () => {
 							rel="noreferrer"
 							className={css({
 								color: OpenColor.blue[7],
-								textDecoration: 'none',
+								...linkStyles,
 							})}
 						>{`(Open Graph)`}</a>
 					</LabelMedium>
