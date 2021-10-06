@@ -13,7 +13,7 @@ const TermsPage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>개인정보처리방침</title>
+				<title>서비스 이용약관</title>
 			</Head>
 			<Grid>
 				<Cell span={[4, 6, 10]} skip={[0, 1, 1]}>
