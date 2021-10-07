@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps = async () => {
 	}
 }
 
-const Home: NextPage = () => {
+const IndexPage: NextPage = () => {
 	const [css, theme] = useStyletron()
 	const router = useRouter()
 
@@ -400,6 +400,6 @@ const Home: NextPage = () => {
 	)
 }
 
-Home.getLayout = (page) => <BasicLayout>{page}</BasicLayout>
+IndexPage.getLayout = (page) => <BasicLayout>{page}</BasicLayout>
 
-export default Home
+export default IndexPage

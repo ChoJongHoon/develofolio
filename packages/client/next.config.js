@@ -1,7 +1,7 @@
 const withTM = require('next-transpile-modules')(['gsap'])
 
 /**
- * @type {import('next').NextConfig}
+ * @type {import('next/dist/next-server/server/config').NextConfig}
  **/
 const nextConfig = {
 	webpack: (config) => {
@@ -31,6 +31,50 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		nftTracing: true,
+	},
+	rewrites: async () => {
+		return [
+			{
+				has: [
+					{
+						type: 'host',
+						value: '(^|s)localhost',
+					},
+				],
+				source: '/',
+				destination: '/actual-index',
+			},
+			{
+				has: [
+					{
+						type: 'host',
+						value: '(^|s)develofolio.com',
+					},
+				],
+				source: '/',
+				destination: '/actual-index',
+			},
+			{
+				has: [
+					{
+						type: 'host',
+						value: '(?<slug>.+).localhost',
+					},
+				],
+				source: '/',
+				destination: '/:slug',
+			},
+			{
+				has: [
+					{
+						type: 'host',
+						value: '(?<slug>.+).develofolio.com',
+					},
+				],
+				source: '/',
+				destination: '/:slug',
+			},
+		]
 	},
 }
 

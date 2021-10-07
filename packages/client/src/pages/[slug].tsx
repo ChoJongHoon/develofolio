@@ -115,7 +115,7 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 				<meta property="og:description" content={description} />
 				<meta
 					property="og:url"
-					content={`${process.env.NEXT_PUBLIC_CLIENT_HOST}/${page.slug}`}
+					content={`https://${page.slug}.develofolio.com`}
 				/>
 				<meta property="og:description" content={description} />
 				<meta
