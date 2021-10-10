@@ -1,8 +1,7 @@
-import { chain, flatten } from 'lodash'
+import { flatten } from 'lodash'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
-import { Helmet } from 'react-helmet'
-import { Descendant, Node } from 'slate'
+import { Node } from 'slate'
 import { initApolloClient } from '~/apollo/client'
 import {
 	GetPageBySlugDocument,
