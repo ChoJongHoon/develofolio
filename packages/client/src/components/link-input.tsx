@@ -1,0 +1,163 @@
+import OpenColor from 'open-color'
+import { borderStyle, borderWidth, padding } from 'polished'
+import { useStyletron } from 'styletron-react'
+import { PrimaryButton } from './pimary-button'
+import { useMutation } from '@apollo/client'
+import { CheckDuplicatedSlugDocument } from '~/graphql/document.generated'
+import { useEffect, useRef, useState } from 'react'
+import { LabelSmall } from 'baseui/typography'
+import { useAsync } from 'react-use'
+import { useConstant } from '~/hooks/use-constant'
+import AwesomeDebouncePromise from 'awesome-debounce-promise'
+
+interface LinkInputProps {
+	onSubmit: (slug: string) => void | Promise<void>
+}
+
+export const LinkInput = ({ onSubmit }: LinkInputProps) => {
+	const [css] = useStyletron()
+
+	const [value, setValue] = useState('')
+	const [isFocused, setIsFocused] = useState(false)
+	const [isInvalidFormat, setIsInvalidFormat] = useState(false)
+	const [isTaken, setIsTaken] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+
+	const sizeRef = useRef<HTMLInputElement>(null)
+	const inputRef = useRef<HTMLInputElement>(null)
+
+	const [checkTaken] = useMutation(CheckDuplicatedSlugDocument)
+
+	useEffect(() => {
+		if (!sizeRef.current || !inputRef.current) return
+		sizeRef.current.textContent = value || 'my-name'
+		inputRef.current.style.width = `${
+			sizeRef.current.getBoundingClientRect().width
+		}px`
+	}, [value])
+
+	useEffect(() => {
+		if (value) {
+			setIsInvalidFormat(!/^[A-Za-z0-9\.\-\_]*$/.test(value))
+		} else {
+			setIsInvalidFormat(false)
+		}
+	}, [value])
+
+	const debouncedCheckTaken = useConstant(() =>
+		AwesomeDebouncePromise(async (slug: string) => {
+			if (slug) {
+				const { data } = await checkTaken({
+					variables: {
+						slug,
+					},
+				})
+				return Boolean(data?.checkDuplicatedSlug)
+			}
+			return false
+		}, 300)
+	)
+	useAsync(async () => {
+		const isTaken = await debouncedCheckTaken(value)
+		setIsTaken(isTaken)
+	}, [value])
+
+	return (
+		<div>
+			<div
+				className={css({
+					display: 'flex',
+					transitionProperty: 'box-shadow',
+					transitionDuration: '0.2s',
+					...(isFocused
+						? {
+								boxShadow: `0px 0px 0px 2px ${OpenColor.blue[7]}`,
+								backgroundColor: OpenColor.gray[0],
+						  }
+						: {
+								backgroundColor: OpenColor.gray[2],
+						  }),
+				})}
+			>
+				<label
+					className={css({
+						display: 'flex',
+						fontSize: '18px',
+						color: OpenColor.gray[5],
+						flexGrow: 1,
+						flexShrink: 1,
+						height: '100%',
+						...padding('14px'),
+						cursor: 'text',
+					})}
+				>
+					<div
+						ref={sizeRef}
+						className={css({
+							...padding('0px'),
+							position: 'absolute',
+							height: '0px',
+							overflow: 'hidden',
+							whiteSpace: 'pre',
+						})}
+					/>
+					<span>https://</span>
+					<input
+						className={css({
+							...padding('0px'),
+							...borderStyle('none'),
+							...borderWidth('0px'),
+							backgroundColor: 'transparent',
+							color: OpenColor.gray[8],
+							'::placeholder': {
+								color: OpenColor.gray[5],
+							},
+							':focus': {
+								outline: 'none',
+							},
+						})}
+						ref={inputRef}
+						value={value}
+						spellCheck={false}
+						placeholder="my-name"
+						onChange={(event) => {
+							setValue(event.currentTarget.value)
+						}}
+						onFocus={() => {
+							setIsFocused(true)
+						}}
+						onBlur={() => {
+							setIsFocused(false)
+						}}
+					/>
+					<span>.develofolio.com</span>
+				</label>
+				<PrimaryButton
+					disabled={isTaken || isInvalidFormat || !value}
+					overrides={{
+						BaseButton: {
+							style: {
+								whiteSpace: 'nowrap',
+							},
+						},
+					}}
+					onClick={async () => {
+						setIsLoading(true)
+						onSubmit(value)
+						setIsLoading(false)
+					}}
+					isLoading={isLoading}
+				>
+					시작하기
+				</PrimaryButton>
+			</div>
+			<LabelSmall $style={{ marginTop: '4px' }} color={OpenColor.red[7]}>
+				{isInvalidFormat
+					? '링크는 문자, 숫자 및 몇가지 특수문자(".-_")만 포함할 수 있습니다.'
+					: isTaken
+					? '이미 누군가 사용중입니다.'
+					: ''}
+			</LabelSmall>
+		</div>
+	)
+}
