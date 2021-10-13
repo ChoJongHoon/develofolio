@@ -23,8 +23,6 @@ import { styled, useStyletron } from 'styletron-react'
 import { useUser } from '~/modules/user/hooks/use-user'
 import { Button } from 'baseui/button'
 import {
-	CheckDuplicatedSlugDocument,
-	PagePartsFragment,
 	UpdateGtagDocument,
 	UpdateSlugDocument,
 	UpdateTitleDocument,
@@ -32,41 +30,20 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { Icon } from '~/components/icon'
 import { useMutation } from '@apollo/client'
-import debouncePromise from 'awesome-debounce-promise'
 import { useSnackbar } from 'baseui/snackbar'
+import { LinkInput } from '~/components/link-input'
 
-interface SettingsProps {
-	page: PagePartsFragment
-}
+interface SettingsProps {}
 
-export const getServerSideProps = withAuthSsr<SettingsProps>(
-	(_, user) => async () => {
-		if (!user) {
-			return {
-				notFound: true,
-			}
-		}
-		return {
-			props: {
-				page: user.page,
-			},
-		}
-	}
-)
+export const getServerSideProps = withAuthSsr<SettingsProps>(undefined, {
+	required: true,
+})
 
-const Settings: NextPage<SettingsProps> = ({ page }) => {
+const Settings: NextPage<SettingsProps> = () => {
 	const [css] = useStyletron()
 	const { enqueue } = useSnackbar()
 	const user = useUser()
 
-	const { control: slugControl, handleSubmit: handleSlugSubmit } = useForm<{
-		slug: string
-	}>({
-		mode: 'onChange',
-		defaultValues: {
-			slug: user?.page.slug ?? '',
-		},
-	})
 	const [updateSlug, { loading: slugLoading }] = useMutation(
 		UpdateSlugDocument,
 		{
@@ -80,7 +57,6 @@ const Settings: NextPage<SettingsProps> = ({ page }) => {
 			},
 		}
 	)
-	const [checkDuplicatedSlug] = useMutation(CheckDuplicatedSlugDocument)
 
 	const { control: titleControl, handleSubmit: handleTitleSubmit } = useForm<{
 		title: string
@@ -139,94 +115,17 @@ const Settings: NextPage<SettingsProps> = ({ page }) => {
 						Settings
 					</HeadingXXLarge>
 					<Section title="My page link">
-						<form
-							onSubmit={handleSlugSubmit(async ({ slug }) => {
-								if (user?.page.slug === slug) {
-									return
-								}
+						<LinkInput
+							onSubmit={async (slug) => {
 								await updateSlug({
 									variables: {
 										slug,
 									},
 								})
-							})}
-						>
-							<Controller
-								control={slugControl}
-								name="slug"
-								rules={{
-									pattern: {
-										value: /^[A-Za-z0-9\.\-\_]*$/,
-										message: `링크는 문자, 숫자 및 몇가지 특수문자(".-_")만 포함할 수 있습니다.`,
-									},
-									validate: debouncePromise(async (value) => {
-										if (value === user?.page.slug) {
-											return true
-										}
-										const { data } = await checkDuplicatedSlug({
-											variables: {
-												slug: value,
-											},
-										})
-
-										if (data?.checkDuplicatedSlug) {
-											return '이미 누군가 사용중입니다.'
-										}
-										return true
-									}, 300),
-								}}
-								render={({
-									field: { onChange, onBlur, ref, value },
-									fieldState: { error },
-								}) => (
-									<FormControl error={error?.message}>
-										<Input
-											onChange={onChange}
-											onBlur={onBlur}
-											inputRef={ref}
-											value={value}
-											error={Boolean(error)}
-											placeholder="yourname"
-											startEnhancer={() => (
-												<LabelMedium color={OpenColor.gray[7]}>
-													develofolio.com/
-												</LabelMedium>
-											)}
-											endEnhancer={() => (
-												<div>
-													{value && user?.page.slug !== value && !error && (
-														<Button
-															type="submit"
-															kind="primary"
-															size="mini"
-															isLoading={slugLoading}
-														>
-															Save
-														</Button>
-													)}
-												</div>
-											)}
-											overrides={{
-												StartEnhancer: {
-													style: {
-														...padding('0px'),
-													},
-												},
-												Input: {
-													style: {
-														paddingLeft: '0px',
-														color: OpenColor.gray[7],
-														'::placeholder': {
-															color: OpenColor.gray[5],
-														},
-													},
-												},
-											}}
-										/>
-									</FormControl>
-								)}
-							/>
-						</form>
+							}}
+							overrides={{ submit: { text: '적용', isLoading: slugLoading } }}
+							defaultValue={user?.page.slug ?? ''}
+						/>
 					</Section>
 					<Hr />
 					<Section title="Title" description="">
