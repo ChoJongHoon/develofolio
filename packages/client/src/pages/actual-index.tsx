@@ -71,24 +71,25 @@ const IndexPage: NextPage = () => {
 				}}
 			>
 				<Cell span={[4, 6, 8]} skip={[0, 1, 2]}>
-					<Link href="/example">
-						<a
-							className={css({
-								textDecoration: 'none',
-							})}
-						>
-							<figure>
-								<Image src={ExampleImage} alt="Example" placeholder="blur" />
-								<LabelXSmall
-									as="figcaption"
-									color={OpenColor.gray[5]}
-									$style={{ textAlign: 'center' }}
-								>
-									예시 페이지
-								</LabelXSmall>
-							</figure>
-						</a>
-					</Link>
+					<a
+						href="https://example.develofolio.com"
+						target="_blank"
+						rel="noreferrer"
+						className={css({
+							textDecoration: 'none',
+						})}
+					>
+						<figure>
+							<Image src={ExampleImage} alt="Example" placeholder="blur" />
+							<LabelXSmall
+								as="figcaption"
+								color={OpenColor.gray[5]}
+								$style={{ textAlign: 'center' }}
+							>
+								예시 페이지
+							</LabelXSmall>
+						</figure>
+					</a>
 				</Cell>
 			</Grid>
 			<Grid
