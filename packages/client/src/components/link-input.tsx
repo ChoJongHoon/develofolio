@@ -4,20 +4,32 @@ import { useStyletron } from 'styletron-react'
 import { PrimaryButton } from './pimary-button'
 import { useMutation } from '@apollo/client'
 import { CheckDuplicatedSlugDocument } from '~/graphql/document.generated'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { LabelSmall } from 'baseui/typography'
 import { useAsync } from 'react-use'
-import { useConstant } from '~/hooks/use-constant'
 import AwesomeDebouncePromise from 'awesome-debounce-promise'
+
+interface LinkInputOverrides {
+	submit?: {
+		isLoading?: boolean
+		text?: string
+	}
+}
 
 interface LinkInputProps {
 	onSubmit: (slug: string) => void | Promise<void>
+	overrides?: LinkInputOverrides
+	defaultValue?: string
 }
 
-export const LinkInput = ({ onSubmit }: LinkInputProps) => {
+export const LinkInput = ({
+	onSubmit,
+	overrides = {},
+	defaultValue = '',
+}: LinkInputProps) => {
 	const [css] = useStyletron()
 
-	const [value, setValue] = useState('')
+	const [value, setValue] = useState(defaultValue)
 	const [isFocused, setIsFocused] = useState(false)
 	const [isInvalidFormat, setIsInvalidFormat] = useState(false)
 	const [isTaken, setIsTaken] = useState(false)
@@ -44,18 +56,21 @@ export const LinkInput = ({ onSubmit }: LinkInputProps) => {
 		}
 	}, [value])
 
-	const debouncedCheckTaken = useConstant(() =>
-		AwesomeDebouncePromise(async (slug: string) => {
-			if (slug) {
-				const { data } = await checkTaken({
-					variables: {
-						slug,
-					},
-				})
-				return Boolean(data?.checkDuplicatedSlug)
-			}
-			return false
-		}, 300)
+	const debouncedCheckTaken = useMemo(
+		() =>
+			AwesomeDebouncePromise(async (slug: string) => {
+				if (slug !== defaultValue) {
+					const { data } = await checkTaken({
+						variables: {
+							slug,
+						},
+					})
+					return Boolean(data?.checkDuplicatedSlug)
+				}
+				return false
+			}, 300),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[defaultValue]
 	)
 	useAsync(async () => {
 		const isTaken = await debouncedCheckTaken(value)
@@ -64,7 +79,7 @@ export const LinkInput = ({ onSubmit }: LinkInputProps) => {
 
 	return (
 		<div>
-			<div
+			<form
 				className={css({
 					display: 'flex',
 					transitionProperty: 'box-shadow',
@@ -78,6 +93,12 @@ export const LinkInput = ({ onSubmit }: LinkInputProps) => {
 								backgroundColor: OpenColor.gray[2],
 						  }),
 				})}
+				onSubmit={async (event) => {
+					event.preventDefault()
+					setIsLoading(true)
+					await onSubmit(value)
+					setIsLoading(false)
+				}}
 			>
 				<label
 					className={css({
@@ -133,7 +154,7 @@ export const LinkInput = ({ onSubmit }: LinkInputProps) => {
 					<span>.develofolio.com</span>
 				</label>
 				<PrimaryButton
-					disabled={isTaken || isInvalidFormat || !value}
+					disabled={isTaken || isInvalidFormat || value === defaultValue}
 					overrides={{
 						BaseButton: {
 							style: {
@@ -141,16 +162,12 @@ export const LinkInput = ({ onSubmit }: LinkInputProps) => {
 							},
 						},
 					}}
-					onClick={async () => {
-						setIsLoading(true)
-						onSubmit(value)
-						setIsLoading(false)
-					}}
 					isLoading={isLoading}
+					type="submit"
 				>
-					시작하기
+					{overrides.submit?.text ?? '시작하기'}
 				</PrimaryButton>
-			</div>
+			</form>
 			<LabelSmall $style={{ marginTop: '4px' }} color={OpenColor.red[7]}>
 				{isInvalidFormat
 					? '링크는 문자, 숫자 및 몇가지 특수문자(".-_")만 포함할 수 있습니다.'
