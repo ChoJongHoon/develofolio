@@ -5,7 +5,7 @@ import { borderRadius, padding } from 'polished'
 import OpenColor from 'open-color'
 import { LabelXSmall, ParagraphXSmall } from 'baseui/typography'
 import Link from 'next/link'
-import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_TERMS } from '~/routes'
+import { ROUTE_HOME, ROUTE_LOGIN, ROUTE_PRIVACY, ROUTE_TERMS } from '~/routes'
 import { merge } from 'lodash'
 import { PrimaryButton } from '~/components/pimary-button'
 import { gsap } from 'gsap'
@@ -170,7 +170,7 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 					>
 						･
 					</span>
-					<Link href={ROUTE_TERMS} passHref>
+					<Link href={ROUTE_PRIVACY} passHref>
 						<LabelXSmall
 							as="a"
 							className={css({
