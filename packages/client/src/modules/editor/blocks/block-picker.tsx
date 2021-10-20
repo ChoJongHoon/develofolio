@@ -5,7 +5,7 @@ import { Portal } from '~/components/portal'
 import { getScrollbarWidth } from '~/styles/get-scrollbar-width'
 import { zIndexes } from '~/styles/z-indexes'
 import FocusLock from 'react-focus-lock'
-import { Descendant, Transforms } from 'slate'
+import { Descendant, Node, Transforms } from 'slate'
 import { useStyletron } from 'styletron-react'
 import { borderRadius, transitions } from 'polished'
 import { generateProjectListElement } from '../project-list/project-list'
@@ -209,8 +209,7 @@ export const BlockPicker = () => {
 									}}
 									onClick={() => {
 										Transforms.insertNodes(editor, block.generateNode(), {
-											match: (n) =>
-												ReactEditor.findPath(editor, n).length === 1,
+											at: [editor.children.length],
 										})
 										onClose(index)
 									}}
