@@ -5,15 +5,19 @@ import { useStyletron } from 'styletron-react'
 import { useUser } from '../user/hooks/use-user'
 import { Icon, IconType } from '~/components/icon'
 import Link from 'next/link'
-import { ROUTE_EDIT, ROUTE_EDIT_SETTINGS } from '~/routes'
+import { ROUTE_EDIT, ROUTE_EDIT_SETTINGS, ROUTE_HOME } from '~/routes'
 import { LabelSmall } from 'baseui/typography'
 import { useHover } from '~/hooks/use-hover'
-import { padding, transitions } from 'polished'
+import { borderRadius, borderStyle, padding, transitions } from 'polished'
 import { useRouter } from 'next/dist/client/router'
 import { useRecoilValue } from 'recoil'
 import { saveState } from './editor.atoms'
+import { StatefulPopover } from 'baseui/popover'
+import { StatefulMenu } from 'baseui/menu'
+import axios from 'axios'
 
 export const EditorSidebar = () => {
+	const router = useRouter()
 	const [css] = useStyletron()
 	const user = useUser()
 	const save = useRecoilValue(saveState)
@@ -31,20 +35,66 @@ export const EditorSidebar = () => {
 				paddingBottom: '16px',
 			})}
 		>
-			{user &&
-				(user.avatar ? (
-					<Image
-						src={user.avatar}
-						width="40px"
-						height="40px"
-						className={css({
-							borderRadius: '50%',
-						})}
-						alt={user.name}
+			<StatefulPopover
+				content={() => (
+					<StatefulMenu
+						items={[{ label: '로그아웃' }]}
+						onItemSelect={async () => {
+							await axios.get('/jwt/logout', {
+								baseURL: process.env.NEXT_PUBLIC_SERVER_HOST,
+								withCredentials: true,
+							})
+							router.push(ROUTE_HOME)
+						}}
+						overrides={{
+							List: {
+								style: {
+									...borderRadius('top', '8px'),
+									...borderRadius('bottom', '8px'),
+									boxShadow: 'none',
+								},
+							},
+						}}
 					/>
-				) : (
-					<LabelSmall color={OpenColor.gray[3]}>{user?.name}</LabelSmall>
-				))}
+				)}
+				overrides={{
+					Body: {
+						style: {
+							...borderRadius('top', '8px'),
+							...borderRadius('bottom', '8px'),
+						},
+					},
+					Inner: {
+						style: {
+							backgroundColor: 'transparent',
+						},
+					},
+				}}
+				placement="bottomLeft"
+			>
+				<button
+					className={css({
+						backgroundColor: 'transparent',
+						...borderStyle('none'),
+						cursor: 'pointer',
+					})}
+				>
+					{user &&
+						(user.avatar ? (
+							<Image
+								src={user.avatar}
+								width="40px"
+								height="40px"
+								className={css({
+									borderRadius: '50%',
+								})}
+								alt={user.name}
+							/>
+						) : (
+							<LabelSmall color={OpenColor.gray[3]}>{user?.name}</LabelSmall>
+						))}
+				</button>
+			</StatefulPopover>
 			<nav
 				className={css({
 					flex: '1 1 0',
