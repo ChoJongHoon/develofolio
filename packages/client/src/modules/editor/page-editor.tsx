@@ -18,7 +18,7 @@ import { useBlocks } from './blocks/use-blocks'
 import OpenColor from 'open-color'
 import { withSkillList } from './skill-list/with-skill-list'
 import { useStyletron } from 'baseui'
-import { border, padding, transitions } from 'polished'
+import { borderColor, borderStyle, borderWidth, padding } from 'polished'
 import classNames from 'classnames'
 import { withEditor } from './with-editor'
 import { withProjectList } from './project-list/with-project-list'
@@ -182,16 +182,21 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 						className={css({
 							width: '100%',
 							boxSizing: 'border-box',
-							...padding('32px'),
+							...padding('48px', '16px'),
 							background: 'none',
 							cursor: 'pointer',
 							borderRadius: '8px',
-							color: OpenColor.gray[4],
-							...border('1px', 'dotted', OpenColor.gray[4]),
-							...transitions(['color', 'border-color'], '0.2s'),
+							color: OpenColor.gray[5],
+							fontSize: '18px',
+							...borderStyle('dashed'),
+							...borderWidth('2px'),
+							...borderColor(OpenColor.gray[5]),
+							transitionDuration: '0.2s',
+							transitionProperty: 'color, border-color, background-color',
 							':hover': {
-								borderColor: OpenColor.gray[6],
+								...borderColor(OpenColor.gray[6]),
 								color: OpenColor.gray[6],
+								backgroundColor: OpenColor.gray[0],
 							},
 						})}
 						onMouseDown={onAddBlockButtonClick}

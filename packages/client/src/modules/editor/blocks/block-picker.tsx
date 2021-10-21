@@ -5,7 +5,7 @@ import { Portal } from '~/components/portal'
 import { getScrollbarWidth } from '~/styles/get-scrollbar-width'
 import { zIndexes } from '~/styles/z-indexes'
 import FocusLock from 'react-focus-lock'
-import { Descendant, Node, Transforms } from 'slate'
+import { Descendant, Transforms } from 'slate'
 import { useStyletron } from 'styletron-react'
 import { borderRadius, transitions } from 'polished'
 import { generateProjectListElement } from '../project-list/project-list'
@@ -22,7 +22,8 @@ import SkillListThumbnail from 'public/images/block-thumbnails/skill-list.png'
 import ProjectListThumbnail from 'public/images/block-thumbnails/project-list.png'
 import SchoolListThumbnail from 'public/images/block-thumbnails/school-list.png'
 import CareerListThumbnail from 'public/images/block-thumbnails/career-list.png'
-import { LabelLarge, LabelSmall, LabelXSmall } from 'baseui/typography'
+import { LabelLarge, LabelSmall } from 'baseui/typography'
+import { gsap } from 'gsap'
 
 const BLOCKS: Array<{
 	name: string
@@ -85,7 +86,7 @@ export const BlockPicker = () => {
 		} else {
 			animateOutTimer.current = setTimeout(() => {
 				document.body.style.overflow = ''
-				document.body.style.paddingRight = ``
+				document.body.style.paddingRight = ''
 				setIsVidible(false)
 			}, 300)
 		}
@@ -94,13 +95,6 @@ export const BlockPicker = () => {
 	const onClose = useCallback(
 		(selectedIndex?: number) => {
 			setShow(false)
-			drawerRef.current?.childNodes.forEach((child, index) => {
-				if (child instanceof HTMLElement) {
-					child.style.transform = `translateX(${
-						index === selectedIndex ? '-40px' : '600px'
-					})`
-				}
-			})
 		},
 		[setShow]
 	)
@@ -161,8 +155,10 @@ export const BlockPicker = () => {
 							minHeight: '100%',
 							userSelect: 'none',
 							pointerEvents: 'auto',
-							backgroundColor: 'rgba(0, 0, 0, 0.5)',
 							WebkitTapHighlightColor: 'transparent',
+							backgroundColor: show ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0)',
+							transitionDuration: '0.2s',
+							transitionProperty: 'background-color',
 						})}
 					>
 						<div
@@ -172,7 +168,6 @@ export const BlockPicker = () => {
 								height: 'fit-content',
 								...transitions(['opacity', 'transform'], '0.3s'),
 								opacity: isVisible && show ? 1 : 0,
-								transform: `translateX(${isVisible ? '0' : '512px'})`,
 								color: OpenColor.white,
 								paddingTop: '32px',
 								paddingRight: '16px',
@@ -196,11 +191,11 @@ export const BlockPicker = () => {
 										padding: '8px',
 										display: 'flex',
 										flexDirection: 'column',
-										...transitions('transform', '0.2s'),
-										transformOrigin: 'center right',
+										transitionDuration: '0.2s',
+										transitionProperty: 'box-shadow',
 										':focus': {
-											transform: 'scale(1.05)',
 											outlineStyle: 'none',
+											boxShadow: `0px 0px 8px 4px ${OpenColor.gray[4]}`,
 										},
 									})}
 									onMouseEnter={onBlockMouseEnter}
