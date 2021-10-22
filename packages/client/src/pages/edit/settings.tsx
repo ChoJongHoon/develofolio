@@ -32,6 +32,8 @@ import { Icon } from '~/components/icon'
 import { useMutation } from '@apollo/client'
 import { useSnackbar } from 'baseui/snackbar'
 import { LinkInput } from '~/components/link-input'
+import { DeleteAccountModal } from '~/modules/user/components/delete-account-modal'
+import { useModal } from '~/hooks/use-modal'
 
 interface SettingsProps {}
 
@@ -101,6 +103,9 @@ const Settings: NextPage<SettingsProps> = () => {
 			},
 		}
 	)
+
+	const [isOpenDeleteAccount, onOpenDeleteAccount, onCloseDeleteAccount] =
+		useModal()
 
 	return (
 		<>
@@ -302,12 +307,17 @@ const Settings: NextPage<SettingsProps> = () => {
 									},
 								},
 							}}
+							onClick={onOpenDeleteAccount}
 						>
 							Delete your account
 						</Button>
 					</div>
 				</Cell>
 			</Grid>
+			<DeleteAccountModal
+				isOpen={isOpenDeleteAccount}
+				onClose={onCloseDeleteAccount}
+			/>
 		</>
 	)
 }

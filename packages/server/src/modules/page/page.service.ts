@@ -54,4 +54,8 @@ export class PageService {
 
 		return count > 0
 	}
+
+	async remove(id: string) {
+		return await this.pageRepository.delete(id)
+	}
 }

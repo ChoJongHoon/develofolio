@@ -37,4 +37,8 @@ export class UserService {
 	async update(id: string, fields: UpdateUserInput) {
 		return await this.userRepository.update(id, { ...fields })
 	}
+
+	async remove(id: string) {
+		return await this.userRepository.delete(id)
+	}
 }

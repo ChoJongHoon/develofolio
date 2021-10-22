@@ -14,13 +14,13 @@ import { useRecoilValue } from 'recoil'
 import { saveState } from './editor.atoms'
 import { StatefulPopover } from 'baseui/popover'
 import { StatefulMenu } from 'baseui/menu'
-import axios from 'axios'
+import { useLogout } from '../user/hooks/use-logout'
 
 export const EditorSidebar = () => {
-	const router = useRouter()
 	const [css] = useStyletron()
 	const user = useUser()
 	const save = useRecoilValue(saveState)
+	const [logout] = useLogout()
 
 	return (
 		<div
@@ -39,13 +39,7 @@ export const EditorSidebar = () => {
 				content={() => (
 					<StatefulMenu
 						items={[{ label: '로그아웃' }]}
-						onItemSelect={async () => {
-							await axios.get('/jwt/logout', {
-								baseURL: process.env.NEXT_PUBLIC_SERVER_HOST,
-								withCredentials: true,
-							})
-							router.push(ROUTE_HOME)
-						}}
+						onItemSelect={logout}
 						overrides={{
 							List: {
 								style: {
