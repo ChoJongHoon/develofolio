@@ -14,6 +14,13 @@ import Script from 'next/script'
 import Head from 'next/head'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import dynamic from 'next/dynamic'
+import 'nprogress/nprogress.css'
+
+const TopProgressBar = dynamic(
+	async () => (await import('~/components/top-progress-bar')).TopProgressBar,
+	{ ssr: false }
+)
 
 if (typeof window !== 'undefined') {
 	gsap.registerPlugin(ScrollTrigger)
@@ -104,6 +111,7 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 					}}
 				/>
 			)}
+			<TopProgressBar />
 			<ApolloProvider client={client}>
 				<RecoilRoot>
 					<StyletronProvider value={styletron}>
