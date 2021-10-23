@@ -162,7 +162,7 @@ export const LinkInput = ({
 							},
 						},
 					}}
-					isLoading={isLoading}
+					isLoading={overrides.submit?.isLoading ?? isLoading}
 					type="submit"
 				>
 					{overrides.submit?.text ?? '시작하기'}

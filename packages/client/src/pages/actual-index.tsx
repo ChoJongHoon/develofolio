@@ -23,6 +23,7 @@ import { useRouter } from 'next/dist/client/router'
 import { ROUTE_LOGIN } from '~/routes'
 import { linkStyles } from '~/styles/styles'
 import { LinkInput } from '~/components/link-input'
+import { useRouterLoading } from '~/hooks/use-router-loading'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const bodyClassName = styletron.renderStyle({
@@ -37,6 +38,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const IndexPage: NextPage = () => {
 	const [css, theme] = useStyletron()
 	const router = useRouter()
+	const [loading] = useRouterLoading()
 
 	return (
 		<div>
@@ -266,6 +268,11 @@ const IndexPage: NextPage = () => {
 						onSubmit={(slug) => {
 							storage.setItem('reservedSlug', slug)
 							router.push(ROUTE_LOGIN)
+						}}
+						overrides={{
+							submit: {
+								isLoading: loading,
+							},
 						}}
 					/>
 				</Cell>

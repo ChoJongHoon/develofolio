@@ -11,6 +11,7 @@ import { PrimaryButton } from '~/components/pimary-button'
 import { gsap } from 'gsap'
 import { linkStyles } from '~/styles/styles'
 import { Icon } from '~/components/icon'
+import { useRouterLoading } from '~/hooks/use-router-loading'
 
 interface BasicLayoutOverrides {
 	main?: {
@@ -28,6 +29,9 @@ interface BasicLayoutProps {
 
 export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 	const [css] = useStyletron()
+
+	const [loading] = useRouterLoading()
+
 	const headerRef = useRef<HTMLDivElement>(null)
 	const logoRef = useRef<SVGSVGElement>(null)
 
@@ -105,6 +109,7 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 					<PrimaryButton
 						$as="a"
 						size="compact"
+						isLoading={loading}
 						overrides={{
 							BaseButton: {
 								style: {
