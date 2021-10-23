@@ -153,11 +153,9 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 				>
 					Powered by
 				</LabelXSmall>
-				<Link href={ROUTE_HOME}>
-					<a>
-						<LogoSvg height="12px" />
-					</a>
-				</Link>
+				<a href="https://develofolio.com" target="_blank" rel="noreferrer">
+					<LogoSvg height="12px" />
+				</a>
 			</footer>
 		</>
 	)
