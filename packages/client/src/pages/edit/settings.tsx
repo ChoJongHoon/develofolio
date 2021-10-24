@@ -3,8 +3,6 @@ import { NextPage } from 'next'
 import { EditorLayout } from '~/layouts/editor-layout'
 import { withAuthSsr } from '~/apollo/utils/with-auth-ssr'
 import { Cell, Grid } from 'baseui/layout-grid'
-import { FormControl } from 'baseui/form-control'
-import { Input } from 'baseui/input'
 import {
 	HeadingSmall,
 	LabelMedium,
@@ -27,13 +25,14 @@ import {
 	UpdateSlugDocument,
 	UpdateTitleDocument,
 } from '~/graphql/document.generated'
-import { Controller, useForm } from 'react-hook-form'
 import { Icon } from '~/components/icon'
 import { useMutation } from '@apollo/client'
 import { useSnackbar } from 'baseui/snackbar'
 import { LinkInput } from '~/components/link-input'
 import { DeleteAccountModal } from '~/modules/user/components/delete-account-modal'
 import { useModal } from '~/hooks/use-modal'
+import { TitleInput } from '~/components/title-input'
+import { GaInput } from '~/components/ga-input'
 
 interface SettingsProps {}
 
@@ -60,49 +59,27 @@ const Settings: NextPage<SettingsProps> = () => {
 		}
 	)
 
-	const { control: titleControl, handleSubmit: handleTitleSubmit } = useForm<{
-		title: string
-	}>({
-		mode: 'onChange',
-		defaultValues: {
-			title: user?.page.title ?? '',
+	const [updateTitle] = useMutation(UpdateTitleDocument, {
+		onCompleted: () => {
+			enqueue({
+				message: 'Saved!',
+				startEnhancer: () => (
+					<Icon type="Verified" color={OpenColor.green[6]} size={24} />
+				),
+			})
 		},
 	})
-	const [updateTitle, { loading: titleLoading }] = useMutation(
-		UpdateTitleDocument,
-		{
-			onCompleted: () => {
-				enqueue({
-					message: 'Saved!',
-					startEnhancer: () => (
-						<Icon type="Verified" color={OpenColor.green[6]} size={24} />
-					),
-				})
-			},
-		}
-	)
 
-	const { control: gtagControl, handleSubmit: handleGtagSubmit } = useForm<{
-		gtag: string
-	}>({
-		mode: 'onChange',
-		defaultValues: {
-			gtag: user?.page.gtag ?? '',
+	const [updateGtag] = useMutation(UpdateGtagDocument, {
+		onCompleted: () => {
+			enqueue({
+				message: 'Saved!',
+				startEnhancer: () => (
+					<Icon type="Verified" color={OpenColor.green[6]} size={24} />
+				),
+			})
 		},
 	})
-	const [updateGtag, { loading: gtagLoading }] = useMutation(
-		UpdateGtagDocument,
-		{
-			onCompleted: () => {
-				enqueue({
-					message: 'Saved!',
-					startEnhancer: () => (
-						<Icon type="Verified" color={OpenColor.green[6]} size={24} />
-					),
-				})
-			},
-		}
-	)
 
 	const [isOpenDeleteAccount, onOpenDeleteAccount, onCloseDeleteAccount] =
 		useModal()
@@ -134,132 +111,32 @@ const Settings: NextPage<SettingsProps> = () => {
 					</Section>
 					<Hr />
 					<Section title="Title" description="">
-						<form
-							onSubmit={handleTitleSubmit(async ({ title }) => {
-								if (user?.page.title === title) {
-									return
-								}
+						<TitleInput
+							defaultValue={user?.page.title ?? ''}
+							onSubmit={async (value) => {
 								await updateTitle({
 									variables: {
-										title,
+										title: value,
 									},
 								})
-							})}
-						>
-							<Controller
-								control={titleControl}
-								name="title"
-								render={({
-									field: { onChange, onBlur, ref, value },
-									fieldState: { error },
-								}) => (
-									<FormControl error={error}>
-										<Input
-											onChange={onChange}
-											onBlur={onBlur}
-											inputRef={ref}
-											value={value}
-											error={Boolean(error)}
-											placeholder={`${user?.name} | DeveloFolio`}
-											endEnhancer={() => (
-												<div>
-													{value && user?.page.title !== value && !error && (
-														<Button
-															type="submit"
-															kind="primary"
-															size="mini"
-															isLoading={titleLoading}
-														>
-															Save
-														</Button>
-													)}
-												</div>
-											)}
-											overrides={{
-												Input: {
-													style: {
-														color: OpenColor.gray[7],
-														'::placeholder': {
-															color: OpenColor.gray[5],
-														},
-													},
-												},
-											}}
-										/>
-									</FormControl>
-								)}
-							/>
-						</form>
+							}}
+						/>
 					</Section>
 					<Hr />
 					<Section
 						title="Google Analytics"
 						description="Google Analytics 추적 코드를 추가하여 페이지 방문자 데이터를 Google Analytics 계정으로 보냅니다."
 					>
-						<form
-							onSubmit={handleGtagSubmit(async ({ gtag }) => {
-								if (user?.page.gtag === gtag) {
-									return
-								}
+						<GaInput
+							onSubmit={async (gtag) => {
 								await updateGtag({
 									variables: {
 										gtag,
 									},
 								})
-							})}
-						>
-							<Controller
-								control={gtagControl}
-								name="gtag"
-								rules={{
-									pattern: {
-										value: /^[A-Z][A-Z0-9]?-[A-Z0-9]{4,10}(?:\-[1-9]\d{0,3})?$/,
-										message: '올바른 측정 ID 를 입력해주세요.',
-									},
-								}}
-								render={({
-									field: { onChange, onBlur, ref, value },
-									fieldState: { error },
-								}) => (
-									<FormControl error={error?.message}>
-										<Input
-											onChange={onChange}
-											onBlur={onBlur}
-											inputRef={ref}
-											value={value}
-											error={Boolean(error)}
-											endEnhancer={() => (
-												<div>
-													{value && user?.page.gtag !== value && !error && (
-														<Button
-															type="submit"
-															kind="primary"
-															size="mini"
-															isLoading={gtagLoading}
-														>
-															Save
-														</Button>
-													)}
-												</div>
-											)}
-											placeholder="UA-XXXXXXXX-X or G-XXXXXXXXXX"
-											overrides={{
-												Input: {
-													style: {
-														color: OpenColor.gray[7],
-														'::placeholder': {
-															color: OpenColor.gray[5],
-														},
-													},
-												},
-											}}
-										/>
-									</FormControl>
-								)}
-							/>
-						</form>
+							}}
+						/>
 					</Section>
-
 					<div
 						className={css({
 							...borderStyle('solid'),
