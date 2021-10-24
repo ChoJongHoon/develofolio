@@ -33,7 +33,7 @@ export const GaInput = ({ defaultValue = '', onSubmit }: GaInputProps) => {
 			return value !== defaultValue
 		},
 		pattern: {
-			value: /^[A-Z][A-Z0-9]?-[A-Z0-9]{4,10}(?:\-[1-9]\d{0,3})?$/,
+			value: /^G-[a-zA-Z0-9-]+$/,
 			message: '올바른 측정 ID 를 입력해주세요.',
 		},
 	})
@@ -55,7 +55,7 @@ export const GaInput = ({ defaultValue = '', onSubmit }: GaInputProps) => {
 				<PrimaryInput
 					inputRef={ref}
 					{...rest}
-					placeholder="UA-XXXXXXXX-X or G-XXXXXXXXXX"
+					placeholder="G-XXXXXXXXXX"
 					endEnhancer={() => (
 						<PrimaryButton
 							disabled={!isValid}

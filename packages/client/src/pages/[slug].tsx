@@ -15,8 +15,7 @@ import { useStyletron } from 'baseui'
 import OpenColor from 'open-color'
 import { LabelXSmall } from 'baseui/typography'
 import LogoSvg from 'public/images/logo.svg'
-import Link from 'next/link'
-import { ROUTE_HOME } from '~/routes'
+import Script from 'next/script'
 
 interface PortfolioPageParams extends ParsedUrlQuery {
 	slug: string
@@ -128,6 +127,20 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 						.join('&')}`}
 				/>
 			</Head>
+			{page.gtag && (
+				<>
+					<Script
+						strategy="afterInteractive"
+						src={`https://www.googletagmanager.com/gtag/js?id=${page.gtag}`}
+					/>
+					<Script strategy="afterInteractive">
+						{`window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', '${page.gtag}');`}
+					</Script>
+				</>
+			)}
 			<main
 				className={css({
 					paddingBottom: '32px',
