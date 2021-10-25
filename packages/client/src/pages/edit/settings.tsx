@@ -128,6 +128,7 @@ const Settings: NextPage<SettingsProps> = () => {
 						description="Google Analytics 추적 코드를 추가하여 페이지 방문자 데이터를 Google Analytics 계정으로 보냅니다."
 					>
 						<GaInput
+							defaultValue={user?.page.gtag ?? ''}
 							onSubmit={async (gtag) => {
 								await updateGtag({
 									variables: {
