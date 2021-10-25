@@ -42,6 +42,19 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 	return (
 		<>
 			<Head>
+				<title>DeveloFolio - 개발자들의 포트폴리오 에디터</title>
+				<meta property="og:url" content="https://develofolio.com" />
+				<meta property="og:type" content="website" />
+				<meta property="og:title" content="DeveloFolio" />
+				<meta
+					property="og:description"
+					content="디벨로폴리오 - 개발자들의 포트폴리오 에디터"
+				/>
+				<meta
+					property="og:image"
+					content="https://images.develofolio.com/og-image.png"
+				/>
+				<meta property="fb:app_id" content="1005620286882831" />
 				<link
 					rel="apple-touch-icon"
 					sizes="180x180"
