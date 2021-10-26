@@ -17,8 +17,8 @@ export type HeadingElement = WithId<{
 	level: 1 | 2 | 3
 	children: Descendant[]
 }>
-export type BlockQuoteElement = WithId<{
-	type: 'block-quote'
+export type BlockquoteElement = WithId<{
+	type: 'blockquote'
 	children: Descendant[]
 }>
 export type BulletedListElement = WithId<{
@@ -190,7 +190,7 @@ export type CareerListItemDescriptionElement = WithId<{
 export type CustomElement =
 	| ParagraphElement
 	| HeadingElement
-	| BlockQuoteElement
+	| BlockquoteElement
 	| BulletedListElement
 	| ListItemElement
 	| LogoElement

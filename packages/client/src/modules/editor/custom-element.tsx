@@ -28,6 +28,7 @@ import { CareerListItemName } from './career-list/career-list-item-name'
 import { CareerListItemPosition } from './career-list/career-list-item-position'
 import { CareerListItemPeriod } from './career-list/career-list-item-period'
 import { CareerListItemDescription } from './career-list/career-list-item-description'
+import { Blockquote } from './elements/blockquote'
 
 export const CustomElement = (props: RenderElementProps) => {
 	const { element, attributes, children } = props
@@ -45,8 +46,12 @@ export const CustomElement = (props: RenderElementProps) => {
 					{children}
 				</Heading>
 			)
-		case 'block-quote':
-			return <blockquote {...attributes}>{children}</blockquote>
+		case 'blockquote':
+			return (
+				<Blockquote attributes={attributes} element={element}>
+					{children}
+				</Blockquote>
+			)
 		case 'bulleted-list':
 			return (
 				<BulletedList attributes={attributes} element={element}>
