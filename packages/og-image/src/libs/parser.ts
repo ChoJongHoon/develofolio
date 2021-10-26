@@ -4,7 +4,7 @@ import { ParsedRequest } from './types'
 export function parseRequest(
 	qs: APIGatewayProxyEventMultiValueQueryStringParameters
 ) {
-	const { name, tagline, image, logos } = qs ?? {}
+	const { name, tagline, image, logos = [] } = qs ?? {}
 
 	const parsedRequest: ParsedRequest = {
 		name: decodeURIComponent(name[0] || ''),
