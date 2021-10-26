@@ -55,6 +55,7 @@ export const ImageUploader = ({
 }: ImageUploaderProps) => {
 	const [css] = useStyletron()
 	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
+	console.log(`isHovered`, isHovered)
 	const [loading, setLoading] = useState(false)
 	const [preview, setPreview] = useState<string | null>(null)
 	const onDrop = useCallback(
@@ -94,25 +95,6 @@ export const ImageUploader = ({
 			multiple: false,
 			accept: 'image/*',
 		})
-
-	const Mask = styled(
-		'div',
-		merge<StyleObject, StyleObject>(
-			{
-				position: 'absolute',
-				top: '0px',
-				left: '0px',
-				width: '100%',
-				height: '100%',
-				backgroundColor: hexToRGB(OpenColor.gray[8], 0.7),
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-			},
-			overrides?.Mask?.style ?? {}
-		)
-	)
 
 	return (
 		<div
@@ -196,7 +178,7 @@ export const ImageUploader = ({
 							alt="Preview"
 						/>
 					)}
-					<Mask>
+					<Mask $style={overrides?.Mask?.style}>
 						{progressAmount != null && (
 							<ProgressBar
 								value={progressAmount}
@@ -213,7 +195,7 @@ export const ImageUploader = ({
 				</>
 			)}
 			{isDragActive && (
-				<Mask>
+				<Mask $style={overrides?.Mask?.style}>
 					<ImagesIllust
 						width="156px"
 						className={css({ marginBottom: '16px' })}
@@ -267,6 +249,19 @@ export const ImageUploader = ({
 		</div>
 	)
 }
+
+const Mask = styled('div', {
+	position: 'absolute',
+	top: '0px',
+	left: '0px',
+	width: '100%',
+	height: '100%',
+	backgroundColor: hexToRGB(OpenColor.gray[8], 0.7),
+	display: 'flex',
+	flexDirection: 'column',
+	justifyContent: 'center',
+	alignItems: 'center',
+})
 
 const Message = styled('span', { color: OpenColor.gray[5] })
 
