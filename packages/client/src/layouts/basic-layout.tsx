@@ -70,6 +70,10 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 	return (
 		<>
 			<Head>
+				<meta
+					name="description"
+					content="개발자 포트폴리오 간편히 만들고 간단히 공유하세요."
+				/>
 				<meta property="og:url" content="https://develofolio.com" />
 				<meta property="og:type" content="website" />
 				<meta property="og:title" content="DeveloFolio" />

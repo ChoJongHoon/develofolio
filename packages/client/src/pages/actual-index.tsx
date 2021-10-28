@@ -14,7 +14,6 @@ import {
 import { ALIGNMENT, Cell, Grid } from 'baseui/layout-grid'
 import ExampleImage from 'public/images/example.png'
 import { useStyletron } from 'baseui'
-import Link from 'next/link'
 import LogoPickerGif from 'public/images/logo-picker.gif'
 import UrlImage from 'public/images/url.png'
 import ChatImage from 'public/images/chat.png'

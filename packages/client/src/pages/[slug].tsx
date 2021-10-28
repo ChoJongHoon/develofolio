@@ -105,6 +105,7 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 		<>
 			<Head>
 				<title>{page.title ?? `${page.slug} | DeveloFolio`}</title>
+				<meta name="description" content={description} />
 				<meta
 					property="og:title"
 					content={page.title ?? `${page.slug} | DeveloFolio`}
