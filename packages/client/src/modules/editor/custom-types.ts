@@ -47,10 +47,12 @@ export type BannerElement = WithId<{
 	profile?: string | null
 	links: {
 		github?: string | null
+		linkedIn?: string | null
+		velog?: string | null
 		stackOverflow?: string | null
 		facebook?: string | null
 		twitter?: string | null
-		linkedIn?: string | null
+		youtube?: string | null
 	}
 	children: [BannerNameElement, BannerTaglineElement, BannerBioElement]
 }>

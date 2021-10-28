@@ -244,40 +244,27 @@ export const Serialize = ({ value }: SerializeProps) => {
 																},
 															})}
 														>
-															<Link
+															<a
 																href={
 																	element.links[
 																		key as keyof typeof element.links
 																	] as string
 																}
-																passHref
+																target="_blank"
+																rel="noreferrer"
+																className={css({
+																	display: 'flex',
+																})}
 															>
-																<Button
-																	$as="a"
-																	target="_blank"
-																	kind="secondary"
-																	shape="round"
-																	size="mini"
-																	overrides={{
-																		BaseButton: {
-																			style: {
-																				backgroundColor: OpenColor.white,
-																				...padding('4px'),
-																			},
-																		},
-																	}}
-																>
-																	<Icon
-																		type={
-																			BANNER_LINKS.find(
-																				(LINK) => LINK.name === key
-																			)?.icon as IconType
-																		}
-																		size={20}
-																		color={OpenColor.teal[6]}
-																	/>
-																</Button>
-															</Link>
+																<Icon
+																	type={
+																		BANNER_LINKS.find(
+																			(LINK) => LINK.name === key
+																		)?.icon as IconType
+																	}
+																	size={24}
+																/>
+															</a>
 														</li>
 													))}
 											</ul>
@@ -542,40 +529,30 @@ export const Serialize = ({ value }: SerializeProps) => {
 															},
 														})}
 													>
-														<Link
+														<a
 															href={
 																element.links[
 																	key as keyof typeof element.links
 																] as string
 															}
-															passHref
+															rel="noreferrer"
+															target="_blank"
+															className={css({
+																display: 'flex',
+																backgroundColor: 'transparent',
+																...padding('0px'),
+															})}
 														>
-															<Button
-																$as="a"
-																target="_blank"
-																kind="secondary"
-																shape="round"
-																size="mini"
-																overrides={{
-																	BaseButton: {
-																		style: {
-																			backgroundColor: OpenColor.white,
-																			...padding('2px'),
-																		},
-																	},
-																}}
-															>
-																<Icon
-																	type={
-																		PROJECT_LINKS.find(
-																			(LINK) => LINK.name === key
-																		)?.icon as IconType
-																	}
-																	size={18}
-																	color={OpenColor.teal[6]}
-																/>
-															</Button>
-														</Link>
+															<Icon
+																type={
+																	PROJECT_LINKS.find(
+																		(LINK) => LINK.name === key
+																	)?.icon as IconType
+																}
+																size={20}
+																color={OpenColor.teal[6]}
+															/>
+														</a>
 													</li>
 												))}
 										</ul>

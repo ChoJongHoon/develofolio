@@ -36,11 +36,13 @@ export const LINKS: Array<{
 	name: keyof BannerElement['links']
 	icon: IconType
 }> = [
-	{ name: 'github', icon: 'Github' },
-	// { name: 'linkedIn', con: 'LinkedIn' },
-	{ name: 'stackOverflow', icon: 'StackOverflow' },
-	{ name: 'facebook', icon: 'Facebook' },
-	{ name: 'twitter', icon: 'Twitter' },
+	{ name: 'github', icon: 'GithubCircle' },
+	{ name: 'velog', icon: 'VelogCircle' },
+	{ name: 'linkedIn', icon: 'LinkedinCircle' },
+	{ name: 'stackOverflow', icon: 'StackoverflowCircle' },
+	{ name: 'facebook', icon: 'FacebookCircle' },
+	{ name: 'twitter', icon: 'TwitterCircle' },
+	{ name: 'youtube', icon: 'YoutubeCircle' },
 ]
 
 export const Banner = ({
@@ -146,31 +148,23 @@ export const Banner = ({
 								>
 									<button
 										className={css({
-											backgroundColor: OpenColor.white,
+											backgroundColor: 'transparent',
 											border: 'none',
-											width: '28px',
-											height: '28px',
-											borderRadius: '50%',
 											cursor: 'pointer',
 											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-											opacity: element.links[link.name] ? 1 : 0.5,
+											opacity: element.links[link.name] ? 1 : 0.4,
 											...padding('0px'),
-											...transitions(['opacity'], '0.2s'),
+											transitionProperty: 'opacity',
+											transitionDuration: '0.2s',
 											':hover': {
-												opacity: element.links[link.name] ? 1 : 0.8,
+												opacity: 1,
 											},
 											':not(:last-child)': {
 												marginRight: '8px',
 											},
 										})}
 									>
-										<Icon
-											type={link.icon}
-											color={OpenColor.teal[7]}
-											size={20}
-										/>
+										<Icon type={link.icon} size={24} />
 									</button>
 								</StatefulPopover>
 							))}

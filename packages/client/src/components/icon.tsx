@@ -28,6 +28,15 @@ import Image from 'public/icons/image.svg'
 import Check from 'public/icons/check.svg'
 import Verified from 'public/icons/verified.svg'
 import Google from 'public/icons/google.svg'
+import GithubCircle from 'public/icons/github-circle.svg'
+import VelogCircle from 'public/icons/velog-circle.svg'
+import LinkedinCircle from 'public/icons/linkedin-circle.svg'
+import StackoverflowCircle from 'public/icons/stackoverflow-circle.svg'
+import FacebookCircle from 'public/icons/facebook-circle.svg'
+import TwitterCircle from 'public/icons/twitter-circle.svg'
+import YoutubeCircle from 'public/icons/youtube-circle.svg'
+import Apple from 'public/icons/apple.svg'
+import Android from 'public/icons/android.svg'
 
 const icons = {
 	Bold,
@@ -55,6 +64,15 @@ const icons = {
 	Image,
 	Check,
 	Verified,
+	GithubCircle,
+	VelogCircle,
+	LinkedinCircle,
+	StackoverflowCircle,
+	FacebookCircle,
+	TwitterCircle,
+	YoutubeCircle,
+	Apple,
+	Android,
 }
 
 export type IconType = keyof typeof icons

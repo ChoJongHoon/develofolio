@@ -45,13 +45,12 @@ export const generateProjectListItemElement = (): ProjectListItemElement => ({
 
 export const LINKS: Array<{
 	name: keyof ProjectListItemElement['links']
-	label: string
 	icon: IconType
 }> = [
-	{ name: 'web', label: '웹사이트', icon: 'Web' },
-	{ name: 'playstore', label: '플레이스토어', icon: 'Playstore' },
-	{ name: 'appstore', label: '앱스토어', icon: 'Appstore' },
-	{ name: 'github', label: '깃허브', icon: 'Github' },
+	{ name: 'web', icon: 'Web' },
+	{ name: 'playstore', icon: 'Android' },
+	{ name: 'appstore', icon: 'Apple' },
+	{ name: 'github', icon: 'GithubCircle' },
 ]
 
 export const ProjectListItem = ({
@@ -280,10 +279,8 @@ export const ProjectListItem = ({
 							>
 								<button
 									className={css({
-										backgroundColor: OpenColor.white,
+										backgroundColor: 'transparent',
 										border: 'none',
-										width: '28px',
-										height: '28px',
 										borderRadius: '50%',
 										cursor: 'pointer',
 										display: 'flex',
