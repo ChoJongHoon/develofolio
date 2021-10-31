@@ -37,7 +37,7 @@ export class JwtAuthController {
 			this.jwtEnv.removeToken(res)
 
 			if (redirect) {
-				return res.redirect(`${this.baseEnv.clientHost}/auth/login`)
+				return res.redirect(`${this.baseEnv.clientHost}/login`)
 			}
 
 			return res.json({ accessToken: null })
