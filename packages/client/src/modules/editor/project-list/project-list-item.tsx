@@ -26,6 +26,8 @@ import { Cell } from 'baseui/layout-grid'
 import { nanoid } from 'nanoid'
 import mergeRefs from 'react-merge-refs'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
+import { generateProjectListItemNameElement } from './project-list-item-name'
+import { generateProjectListItemDescriptionElement } from './project-list-item-description'
 
 export const generateProjectListItemElement = (): ProjectListItemElement => ({
 	id: nanoid(),
@@ -34,12 +36,8 @@ export const generateProjectListItemElement = (): ProjectListItemElement => ({
 	links: { appstore: null, github: null, playstore: null, web: null },
 	thumbnail: null,
 	children: [
-		{ id: nanoid(), type: 'project-list-item-name', children: [{ text: '' }] },
-		{
-			id: nanoid(),
-			type: 'project-list-item-description',
-			children: [{ text: '' }],
-		},
+		generateProjectListItemNameElement(),
+		generateProjectListItemDescriptionElement(),
 	],
 })
 

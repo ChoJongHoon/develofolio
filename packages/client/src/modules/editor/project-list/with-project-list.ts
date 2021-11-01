@@ -14,6 +14,17 @@ export const withProjectList = (editor: Editor) => {
 	editor.normalizeNode = (entry) => {
 		const [node, path] = entry
 		if (Editor.isBlock(editor, node)) {
+			if (node.type === 'project-list') {
+				if (
+					node.children.length === 0 ||
+					node.children.findIndex(
+						(child) => child.type !== 'project-list-item'
+					) !== -1
+				) {
+					Transforms.removeNodes(editor, { at: path })
+					return
+				}
+			}
 			if (node.type === 'project-list-item') {
 				// name 이 없으면 추가
 				if (node.children.length < 1) {
@@ -24,11 +35,9 @@ export const withProjectList = (editor: Editor) => {
 				}
 				// name 이 아니면 name 으로 수정
 				if (node.children[0].type !== 'project-list-item-name') {
-					Transforms.setNodes(
-						editor,
-						{ type: 'project-list-item-name' },
-						{ at: [...path, 0] }
-					)
+					Transforms.setNodes(editor, generateProjectListItemNameElement(), {
+						at: [...path, 0],
+					})
 					return
 				}
 
@@ -45,9 +54,10 @@ export const withProjectList = (editor: Editor) => {
 				}
 				// description 이 아니면 description 으로 수정
 				if (node.children[1].type !== 'project-list-item-description') {
+					console.log('TEST')
 					Transforms.setNodes(
 						editor,
-						{ type: 'project-list-item-name' },
+						generateProjectListItemDescriptionElement(),
 						{ at: [...path, 1] }
 					)
 					return

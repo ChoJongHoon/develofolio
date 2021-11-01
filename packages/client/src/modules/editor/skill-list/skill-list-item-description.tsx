@@ -1,9 +1,17 @@
 import { ParagraphSmall } from 'baseui/typography'
+import { nanoid } from 'nanoid'
 import {
 	CustomRenderElementProps,
 	SkillListItemDescriptionElement,
 } from '../custom-types'
 import { Placeholder } from '../placeholder/placeholder'
+
+export const generateSkillListItemDescriptionElement =
+	(): SkillListItemDescriptionElement => ({
+		id: nanoid(),
+		type: 'skill-list-item-description',
+		children: [{ text: '' }],
+	})
 
 export const SkillListItemDescription = ({
 	attributes,

@@ -1,9 +1,17 @@
 import { LabelMedium } from 'baseui/typography'
+import { nanoid } from 'nanoid'
 import {
 	CustomRenderElementProps,
 	SkillListItemNameElement,
 } from '../custom-types'
 import { Placeholder } from '../placeholder/placeholder'
+
+export const generateSkillListItemNameElement =
+	(): SkillListItemNameElement => ({
+		id: nanoid(),
+		type: 'skill-list-item-name',
+		children: [{ text: '' }],
+	})
 
 export const SkillListItemName = ({
 	attributes,

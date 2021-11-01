@@ -55,7 +55,6 @@ export const ImageUploader = ({
 }: ImageUploaderProps) => {
 	const [css] = useStyletron()
 	const [hoverRef, isHovered] = useHover<HTMLDivElement>()
-	console.log(`isHovered`, isHovered)
 	const [loading, setLoading] = useState(false)
 	const [preview, setPreview] = useState<string | null>(null)
 	const onDrop = useCallback(

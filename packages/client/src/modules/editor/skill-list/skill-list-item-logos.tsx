@@ -16,6 +16,14 @@ import { useHover } from '~/hooks/use-hover'
 import { PopoverLogoPicker } from '../logo/popover-logo-picker'
 import { nanoid } from 'nanoid'
 
+export const generateSkillListItemLogosElement =
+	(): SkillListItemLogosElement => ({
+		id: nanoid(),
+		type: 'skill-list-item-logos',
+		children: [{ text: '' }],
+		logos: [],
+	})
+
 export const SkillListItemLogos = ({
 	attributes,
 	children,

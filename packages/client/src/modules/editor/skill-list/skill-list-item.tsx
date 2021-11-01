@@ -9,27 +9,17 @@ import { useStyletron } from 'styletron-react'
 import { Icon } from '~/components/icon'
 import { useHover } from '~/hooks/use-hover'
 import { CustomRenderElementProps, SkillListItemElement } from '../custom-types'
+import { generateSkillListItemDescriptionElement } from './skill-list-item-description'
+import { generateSkillListItemLogosElement } from './skill-list-item-logos'
+import { generateSkillListItemNameElement } from './skill-list-item-name'
 
 export const generateSkillListItemElement = (): SkillListItemElement => ({
 	id: nanoid(),
 	type: 'skill-list-item',
 	children: [
-		{
-			id: nanoid(),
-			type: 'skill-list-item-logos',
-			logos: [],
-			children: [{ text: '' }],
-		},
-		{
-			id: nanoid(),
-			type: 'skill-list-item-name',
-			children: [{ text: '' }],
-		},
-		{
-			id: nanoid(),
-			type: 'skill-list-item-description',
-			children: [{ text: '' }],
-		},
+		generateSkillListItemLogosElement(),
+		generateSkillListItemNameElement(),
+		generateSkillListItemDescriptionElement(),
 	],
 })
 
