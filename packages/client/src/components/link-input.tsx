@@ -50,7 +50,7 @@ export const LinkInput = ({
 
 	useEffect(() => {
 		if (value) {
-			setIsInvalidFormat(!/^[A-Za-z0-9\.\-\_]*$/.test(value))
+			setIsInvalidFormat(!/^[A-Za-z0-9\-\_]*$/.test(value))
 		} else {
 			setIsInvalidFormat(false)
 		}
@@ -170,7 +170,7 @@ export const LinkInput = ({
 			</form>
 			<LabelSmall $style={{ marginTop: '4px' }} color={OpenColor.red[7]}>
 				{isInvalidFormat
-					? '링크는 문자, 숫자 및 몇가지 특수문자(".-_")만 포함할 수 있습니다.'
+					? '링크는 문자, 숫자 및 몇가지 특수문자("-_")만 포함할 수 있습니다.'
 					: isTaken
 					? '이미 누군가 사용중입니다.'
 					: ''}
