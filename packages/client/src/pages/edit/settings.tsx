@@ -96,7 +96,10 @@ const Settings: NextPage<SettingsProps> = () => {
 					>
 						Settings
 					</HeadingXXLarge>
-					<Section title="My page link">
+					<Section
+						title="My page link"
+						description="포트폴리오 페이지의 도메인을 설정하여 공유합니다."
+					>
 						<LinkInput
 							onSubmit={async (slug) => {
 								await updateSlug({
@@ -110,7 +113,10 @@ const Settings: NextPage<SettingsProps> = () => {
 						/>
 					</Section>
 					<Hr />
-					<Section title="Title" description="">
+					<Section
+						title="Title"
+						description="포트폴리오 페이지의 제목을 설정합니다."
+					>
 						<TitleInput
 							defaultValue={user?.page.title ?? ''}
 							onSubmit={async (value) => {
