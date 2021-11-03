@@ -1,13 +1,16 @@
 import OpenColor from 'open-color'
-import { borderStyle, borderWidth, padding } from 'polished'
+import { borderRadius, borderStyle, borderWidth, padding } from 'polished'
 import { useStyletron } from 'styletron-react'
 import { PrimaryButton } from './pimary-button'
 import { useMutation } from '@apollo/client'
 import { CheckDuplicatedSlugDocument } from '~/graphql/document.generated'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { LabelSmall } from 'baseui/typography'
 import { useAsync } from 'react-use'
 import AwesomeDebouncePromise from 'awesome-debounce-promise'
+import { Tooltip } from 'baseui/tooltip'
+import { Icon } from './icon'
+import * as clipboard from 'clipboard-polyfill/text'
 
 interface LinkInputOverrides {
 	submit?: {
@@ -82,6 +85,7 @@ export const LinkInput = ({
 			<form
 				className={css({
 					display: 'flex',
+					alignItems: 'center',
 					transitionProperty: 'box-shadow',
 					transitionDuration: '0.2s',
 					...(isFocused
@@ -153,6 +157,7 @@ export const LinkInput = ({
 					/>
 					<span>.develofolio.com</span>
 				</label>
+				{value && value === defaultValue && <CopyButton slug={value} />}
 				<PrimaryButton
 					disabled={isTaken || isInvalidFormat || value === defaultValue}
 					overrides={{
@@ -176,5 +181,91 @@ export const LinkInput = ({
 					: ''}
 			</LabelSmall>
 		</div>
+	)
+}
+
+interface CopyButtonProps {
+	slug: string
+}
+
+const CopyButton = ({ slug }: CopyButtonProps) => {
+	const [css] = useStyletron()
+	const [isCopied, setIsCopied] = useState(false)
+
+	const timeout = useRef<NodeJS.Timeout | null>(null)
+
+	const onCopy = useCallback(async () => {
+		await clipboard.writeText(`https://${slug}.develofolio.com`)
+
+		if (timeout.current) {
+			clearTimeout(timeout.current)
+		}
+		setIsCopied(true)
+		timeout.current = setTimeout(() => {
+			timeout.current = null
+			setIsCopied(false)
+		}, 2000)
+	}, [slug])
+
+	return (
+		<Tooltip
+			content={() => (
+				<div
+					className={css({
+						display: 'flex',
+						alignItems: 'center',
+					})}
+				>
+					<Icon
+						type="Verified"
+						size={20}
+						color={OpenColor.green[6]}
+						className={css({ marginRight: '8px' })}
+					/>
+					<LabelSmall color={OpenColor.gray[0]}>Copied!</LabelSmall>
+				</div>
+			)}
+			isOpen={isCopied}
+			placement="bottom"
+			showArrow
+			accessibilityType={'tooltip'}
+			overrides={{
+				Body: {
+					style: {
+						...borderRadius('left', '4px'),
+						...borderRadius('right', '4px'),
+					},
+				},
+				Inner: {
+					style: {
+						...borderRadius('left', '4px'),
+						...borderRadius('right', '4px'),
+						...padding('6px', '8px'),
+					},
+				},
+			}}
+		>
+			<button
+				className={css({
+					display: 'flex',
+					...borderStyle('none'),
+					backgroundColor: 'transparent',
+					...padding('6px'),
+					cursor: 'pointer',
+					...borderRadius('left', '50%'),
+					...borderRadius('right', '50%'),
+					transitionProperty: 'background-color',
+					transitionDuration: '0.2s',
+					marginRight: '8px',
+					':hover': {
+						backgroundColor: OpenColor.gray[3],
+					},
+				})}
+				onClick={onCopy}
+				type="button"
+			>
+				<Icon type="Copy" size={20} color={OpenColor.gray[7]} />
+			</button>
+		</Tooltip>
 	)
 }

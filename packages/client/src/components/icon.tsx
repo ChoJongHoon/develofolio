@@ -37,6 +37,7 @@ import TwitterCircle from 'public/icons/twitter-circle.svg'
 import YoutubeCircle from 'public/icons/youtube-circle.svg'
 import Apple from 'public/icons/apple.svg'
 import Android from 'public/icons/android.svg'
+import Copy from 'public/icons/copy.svg'
 
 const icons = {
 	Bold,
@@ -73,6 +74,7 @@ const icons = {
 	YoutubeCircle,
 	Apple,
 	Android,
+	Copy,
 }
 
 export type IconType = keyof typeof icons

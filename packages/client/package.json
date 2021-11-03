@@ -28,6 +28,7 @@
 		"axios": "^0.21.1",
 		"baseui": "^9.116.2",
 		"classnames": "^2.3.1",
+		"clipboard-polyfill": "^3.0.3",
 		"cookie": "^0.4.1",
 		"flexsearch": "^0.6.32",
 		"graphql": "^15.5.0",
