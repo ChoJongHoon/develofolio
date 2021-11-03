@@ -181,6 +181,26 @@ export const Serialize = ({ value }: SerializeProps) => {
 								</Cell>
 							</Grid>
 						)
+					case 'blockquote':
+						return (
+							<Grid>
+								<Cell span={[4, 8, 12]}>
+									<blockquote
+										className={css({
+											borderLeftStyle: 'solid',
+											borderLeftWidth: '3px',
+											borderLeftColor: OpenColor.gray[7],
+											paddingLeft: '14px',
+											paddingTop: '2px',
+											paddingBottom: '2px',
+											position: 'relative',
+										})}
+									>
+										{children}
+									</blockquote>
+								</Cell>
+							</Grid>
+						)
 					case 'banner':
 						return (
 							<div
