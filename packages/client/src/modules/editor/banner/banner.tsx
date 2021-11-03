@@ -20,6 +20,7 @@ import { Cell, Grid } from 'baseui/layout-grid'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 import { mediaQuery } from '~/styles/responsive'
 import { nanoid } from 'nanoid'
+import { LabelMedium } from 'baseui/typography'
 
 export const generateBannerElement = (): BannerElement => ({
 	id: nanoid(),
@@ -199,6 +200,18 @@ export const Banner = ({
 									onDelete={onRemoveProfile}
 									image={element.profile}
 									progressAmount={progress}
+									placeholder={
+										<div>
+											<LabelMedium
+												color={OpenColor.gray[5]}
+												$style={{ textAlign: 'center' }}
+											>
+												프로필 이미지를 업로드해주세요.
+												<br />
+												512px x 384px (4:3)
+											</LabelMedium>
+										</div>
+									}
 								/>
 							</div>
 						</AspectRatioBoxBody>

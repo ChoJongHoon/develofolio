@@ -28,6 +28,7 @@ import mergeRefs from 'react-merge-refs'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 import { generateProjectListItemNameElement } from './project-list-item-name'
 import { generateProjectListItemDescriptionElement } from './project-list-item-description'
+import { LabelMedium } from 'baseui/typography'
 
 export const generateProjectListItemElement = (): ProjectListItemElement => ({
 	id: nanoid(),
@@ -184,6 +185,18 @@ export const ProjectListItem = ({
 								},
 							}}
 							progressAmount={progress}
+							placeholder={
+								<div>
+									<LabelMedium
+										color={OpenColor.gray[5]}
+										$style={{ textAlign: 'center' }}
+									>
+										프로젝트 이미지를 업로드해주세요.
+										<br />
+										512px x 288px (16:9)
+									</LabelMedium>
+								</div>
+							}
 						/>
 					</AspectRatioBoxBody>
 				</AspectRatioBox>
