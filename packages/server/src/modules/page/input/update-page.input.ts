@@ -1,9 +1,8 @@
-import { InputType, PickType } from '@nestjs/graphql'
+import { InputType, PickType, PartialType } from '@nestjs/graphql'
 import { Page } from '../page.entity'
 
 @InputType()
-export class UpdatePageInput extends PickType(
-	Page,
-	['content', 'slug', 'title', 'gtag'] as const,
+export class UpdatePageInput extends PartialType(
+	PickType(Page, ['content', 'slug', 'title', 'gtag', 'language'] as const),
 	InputType
 ) {}

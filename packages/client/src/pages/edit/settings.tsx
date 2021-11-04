@@ -22,6 +22,7 @@ import { useUser } from '~/modules/user/hooks/use-user'
 import { Button } from 'baseui/button'
 import {
 	UpdateGtagDocument,
+	UpdateLanguageDocument,
 	UpdateSlugDocument,
 	UpdateTitleDocument,
 } from '~/graphql/document.generated'
@@ -33,6 +34,7 @@ import { DeleteAccountModal } from '~/modules/user/components/delete-account-mod
 import { useModal } from '~/hooks/use-modal'
 import { TitleInput } from '~/components/title-input'
 import { GaInput } from '~/components/ga-input'
+import { LanguageSelect } from '~/components/language-combobox'
 
 interface SettingsProps {}
 
@@ -71,6 +73,17 @@ const Settings: NextPage<SettingsProps> = () => {
 	})
 
 	const [updateGtag] = useMutation(UpdateGtagDocument, {
+		onCompleted: () => {
+			enqueue({
+				message: 'Saved!',
+				startEnhancer: () => (
+					<Icon type="Verified" color={OpenColor.green[6]} size={24} />
+				),
+			})
+		},
+	})
+
+	const [updateLanguage] = useMutation(UpdateLanguageDocument, {
 		onCompleted: () => {
 			enqueue({
 				message: 'Saved!',
@@ -123,6 +136,22 @@ const Settings: NextPage<SettingsProps> = () => {
 								await updateTitle({
 									variables: {
 										title: value,
+									},
+								})
+							}}
+						/>
+					</Section>
+					<Hr />
+					<Section
+						title="Language"
+						description="페이지의 언어를 올바르게 설정하면 SEO와 페이지 번역에 유용합니다."
+					>
+						<LanguageSelect
+							value={user?.page.language}
+							onChange={async (value) => {
+								await updateLanguage({
+									variables: {
+										language: value,
 									},
 								})
 							}}

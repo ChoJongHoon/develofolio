@@ -104,6 +104,7 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 	return (
 		<>
 			<Head>
+				<html lang={page.language.toLowerCase()} />
 				<title>{page.title ?? `${page.slug} | DeveloFolio`}</title>
 				<meta name="description" content={description} />
 				<meta

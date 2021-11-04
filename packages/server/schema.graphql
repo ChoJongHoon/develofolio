@@ -140,4 +140,5 @@ input UpdatePageInput {
   slug: String
   title: String
   gtag: String
+  language: LanguageType = KO
 }
