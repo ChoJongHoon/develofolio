@@ -40,7 +40,7 @@ export default class MyDocument extends Document<MyDocumentProps> {
 		const pageProps = this.props?.__NEXT_DATA__?.props?.pageProps
 
 		return (
-			<Html>
+			<Html lang={pageProps.lang}>
 				<Head>
 					{this.props.stylesheets.map((sheet, i) => (
 						<style

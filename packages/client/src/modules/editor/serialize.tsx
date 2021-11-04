@@ -183,7 +183,7 @@ export const Serialize = ({ value }: SerializeProps) => {
 						)
 					case 'blockquote':
 						return (
-							<Grid>
+							<Grid key={generateKey(element.type, index)}>
 								<Cell span={[4, 8, 12]}>
 									<blockquote
 										className={css({
