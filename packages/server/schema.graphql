@@ -33,6 +33,7 @@ type Page {
   slug: String
   title: String
   gtag: String
+  language: LanguageType!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -41,6 +42,32 @@ type Page {
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+enum LanguageType {
+  """한국어"""
+  KO
+
+  """영어"""
+  EN
+
+  """중국어"""
+  ZH
+
+  """일본어"""
+  JA
+
+  """독일"""
+  DE
+
+  """프랑스"""
+  FE
+
+  """스페인"""
+  ES
+
+  """러시아"""
+  RU
+}
 
 type File {
   id: String!
@@ -113,4 +140,5 @@ input UpdatePageInput {
   slug: String
   title: String
   gtag: String
+  language: LanguageType = KO
 }

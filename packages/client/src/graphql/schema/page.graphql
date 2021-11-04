@@ -4,6 +4,7 @@ fragment PageParts on Page {
 	slug
 	title
 	gtag
+	language
 }
 
 query GetPaths {
@@ -41,6 +42,13 @@ mutation UpdateGtag($gtag: String!) {
 	page: updatePage(fields: { gtag: $gtag }) {
 		id
 		gtag
+	}
+}
+
+mutation UpdateLanguage($language: LanguageType!) {
+	page: updatePage(fields: { language: $language }) {
+		id
+		language
 	}
 }
 

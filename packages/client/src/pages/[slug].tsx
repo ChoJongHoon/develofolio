@@ -27,6 +27,7 @@ interface PortfolioPageProps {
 	tagline: string
 	profile: string
 	description: string
+	lang: string
 }
 
 export const getStaticPaths: GetStaticPaths<PortfolioPageParams> = async () => {
@@ -87,6 +88,7 @@ export const getStaticProps: GetStaticProps<
 			tagline,
 			profile: profile ?? '',
 			description,
+			lang: data.page.language.toLowerCase(),
 		},
 		revalidate: 60,
 	}

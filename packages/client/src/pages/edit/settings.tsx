@@ -22,6 +22,7 @@ import { useUser } from '~/modules/user/hooks/use-user'
 import { Button } from 'baseui/button'
 import {
 	UpdateGtagDocument,
+	UpdateLanguageDocument,
 	UpdateSlugDocument,
 	UpdateTitleDocument,
 } from '~/graphql/document.generated'
@@ -33,6 +34,7 @@ import { DeleteAccountModal } from '~/modules/user/components/delete-account-mod
 import { useModal } from '~/hooks/use-modal'
 import { TitleInput } from '~/components/title-input'
 import { GaInput } from '~/components/ga-input'
+import { LanguageSelect } from '~/components/language-combobox'
 
 interface SettingsProps {}
 
@@ -81,6 +83,17 @@ const Settings: NextPage<SettingsProps> = () => {
 		},
 	})
 
+	const [updateLanguage] = useMutation(UpdateLanguageDocument, {
+		onCompleted: () => {
+			enqueue({
+				message: 'Saved!',
+				startEnhancer: () => (
+					<Icon type="Verified" color={OpenColor.green[6]} size={24} />
+				),
+			})
+		},
+	})
+
 	const [isOpenDeleteAccount, onOpenDeleteAccount, onCloseDeleteAccount] =
 		useModal()
 
@@ -96,7 +109,10 @@ const Settings: NextPage<SettingsProps> = () => {
 					>
 						Settings
 					</HeadingXXLarge>
-					<Section title="My page link">
+					<Section
+						title="My page link"
+						description="포트폴리오 페이지의 도메인을 설정하여 공유합니다."
+					>
 						<LinkInput
 							onSubmit={async (slug) => {
 								await updateSlug({
@@ -110,13 +126,32 @@ const Settings: NextPage<SettingsProps> = () => {
 						/>
 					</Section>
 					<Hr />
-					<Section title="Title" description="">
+					<Section
+						title="Title"
+						description="포트폴리오 페이지의 제목을 설정합니다."
+					>
 						<TitleInput
 							defaultValue={user?.page.title ?? ''}
 							onSubmit={async (value) => {
 								await updateTitle({
 									variables: {
 										title: value,
+									},
+								})
+							}}
+						/>
+					</Section>
+					<Hr />
+					<Section
+						title="Language"
+						description="페이지의 언어를 올바르게 설정하면 SEO와 페이지 번역에 유용합니다."
+					>
+						<LanguageSelect
+							value={user?.page.language}
+							onChange={async (value) => {
+								await updateLanguage({
+									variables: {
+										language: value,
 									},
 								})
 							}}
