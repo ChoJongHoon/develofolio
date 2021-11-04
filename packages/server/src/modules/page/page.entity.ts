@@ -9,6 +9,7 @@ import {
 } from 'typeorm'
 import { GraphQLJSON } from 'graphql-type-json'
 import { User } from '../user/user.entity'
+import { LanguageType } from './enum/language-type.enum'
 
 @ObjectType()
 @Entity({ name: 'pages' })
@@ -36,6 +37,10 @@ export class Page {
 	@Field(() => String, { nullable: true })
 	@Column({ type: 'varchar', length: 255, nullable: true })
 	gtag?: string | null
+
+	@Field(() => LanguageType, { defaultValue: LanguageType.KO })
+	@Column({ type: 'enum', enum: LanguageType, default: LanguageType.KO })
+	language: LanguageType
 
 	@Field(() => Date)
 	@CreateDateColumn({
