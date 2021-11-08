@@ -18,8 +18,6 @@ import { borderRadius, padding } from 'polished'
 import { Cell, Grid } from 'baseui/layout-grid'
 import { Icon, IconType } from '~/components/icon'
 import { LINKS as BANNER_LINKS } from './banner/banner'
-import { Button } from 'baseui/button'
-import Link from 'next/link'
 import { mediaQuery } from '~/styles/responsive'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
 import Image from 'next/image'
@@ -180,6 +178,26 @@ export const Serialize = ({ value }: SerializeProps) => {
 									)}
 								</Cell>
 							</Grid>
+						)
+					case 'logo':
+						return (
+							<span
+								key={generateKey(element.type, index)}
+								className={css({
+									display: 'inline-flex',
+								})}
+							>
+								{/* eslint-disable-next-line @next/next/no-img-element */}
+								<img
+									src={`/logos/${element.file}`}
+									className={css({
+										height: '1em',
+										display: 'block',
+									})}
+									alt={element.name}
+								/>
+								{children}
+							</span>
 						)
 					case 'blockquote':
 						return (
