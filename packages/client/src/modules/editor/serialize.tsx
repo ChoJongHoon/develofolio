@@ -179,6 +179,61 @@ export const Serialize = ({ value }: SerializeProps) => {
 								</Cell>
 							</Grid>
 						)
+					case 'bulleted-list':
+						return (
+							<Grid key={generateKey(element.type, index)}>
+								<Cell span={[4, 8, 12]}>
+									<ul
+										className={css({
+											listStyle: 'none',
+										})}
+									>
+										{children}
+									</ul>
+								</Cell>
+							</Grid>
+						)
+					case 'list-item':
+						return (
+							<li
+								key={generateKey(element.type, index)}
+								className={css({
+									display: 'flex',
+									alignItems: 'flex-start',
+									paddingLeft: '2px',
+									fontSize: '16px',
+									lineHeight: 1.5,
+								})}
+							>
+								<div
+									className={css({
+										flexGrow: 0,
+										flexShrink: 0,
+										flexBasis: 'auto',
+										marginRight: '2px',
+										width: '24px',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										fontSize: '24px',
+										lineHeight: 1,
+										marginBottom: '0.1em',
+									})}
+									contentEditable={false}
+								>
+									•
+								</div>
+								<span
+									className={css({
+										flexGrow: 1,
+										flexShrink: 1,
+										flexBasis: '0px',
+									})}
+								>
+									{children}
+								</span>
+							</li>
+						)
 					case 'logo':
 						return (
 							<span
@@ -835,7 +890,6 @@ export const Serialize = ({ value }: SerializeProps) => {
 							</ParagraphMedium>
 						)
 				}
-				return <span key={generateKey(element.type, index)}>{children}</span>
 			})}
 		</>
 	)
