@@ -2,7 +2,7 @@ name: Deploy og-image
 
 on:
   push:
-    branches: [main]
+    branches: [release]
     paths:
       - 'packages/og-image/**'
       - '.github/workflows/deploy-og-image.yml'

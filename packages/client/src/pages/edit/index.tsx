@@ -9,9 +9,11 @@ import { ROUTE_LOGIN } from '~/routes'
 import { EditorLayout } from '~/layouts/editor-layout'
 import { generateInitialContent } from '~/modules/editor/utils/generate-initial-content'
 import { Descendant } from 'slate'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { storage } from '~/utils/storage'
 import { useMutation } from '@apollo/client'
+import { useRecoilValue } from 'recoil'
+import { saveState } from '~/modules/editor/editor.atoms'
 
 interface EditProps {
 	initialContent: Descendant[]
@@ -47,6 +49,9 @@ export const getServerSideProps = withAuthSsr<EditProps>(
 )
 
 const EditPage: NextPage<EditProps> = ({ initialContent }) => {
+	const savedState = useRecoilValue(saveState)
+	const savedRef = useRef<typeof savedState>(savedState)
+
 	const [updateSlug] = useMutation(UpdateSlugDocument, {
 		errorPolicy: 'ignore',
 	})
@@ -61,6 +66,28 @@ const EditPage: NextPage<EditProps> = ({ initialContent }) => {
 		}
 		storage.removeItem('reservedSlug')
 		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
+	useEffect(
+		function storeRef() {
+			savedRef.current = savedState
+		},
+		[savedState]
+	)
+
+	useEffect(function preventEdit() {
+		const handleBeforeunload = (event: BeforeUnloadEvent) => {
+			if (savedRef.current !== 'SAVED') {
+				event.preventDefault()
+				event.returnValue = ''
+
+				return ''
+			}
+			return undefined
+		}
+		window.addEventListener('beforeunload', handleBeforeunload)
+
+		return () => window.removeEventListener('beforeunload', handleBeforeunload)
 	}, [])
 
 	return <PageEditor initialContent={initialContent} />
