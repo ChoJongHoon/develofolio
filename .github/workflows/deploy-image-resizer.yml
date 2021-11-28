@@ -1,8 +1,8 @@
-name: Deploy ImageResizer
+name: Deploy image-resizer
 
 on:
   push:
-    branches: [main]
+    branches: [release]
     paths:
       - 'packages/image-resizer/**'
       - '.github/workflows/deploy-image-resizer.yml'
