@@ -612,15 +612,40 @@ export const Serialize = ({ value }: SerializeProps) => {
 															},
 														})}
 													>
-														{/* eslint-disable-next-line @next/next/no-img-element */}
-														<img
-															src={`/logos/${logo.file}`}
-															className={css({
-																height: '16px',
-																display: 'block',
-															})}
-															alt={logo.name}
-														/>
+														<StatefulTooltip
+															overrides={{
+																Inner: {
+																	style: () => ({
+																		...padding('4px', '8px'),
+																		...borderRadius('top', '4px'),
+																		...borderRadius('bottom', '4px'),
+																	}),
+																},
+																Body: {
+																	style: () => ({
+																		...borderRadius('top', '4px'),
+																		...borderRadius('bottom', '4px'),
+																	}),
+																},
+															}}
+															content={() => (
+																<LabelXSmall color={OpenColor.gray[0]}>
+																	{logo.name}
+																</LabelXSmall>
+															)}
+															placement={PLACEMENT.bottom}
+															showArrow
+														>
+															{/* eslint-disable-next-line @next/next/no-img-element */}
+															<img
+																src={`/logos/${logo.file}`}
+																className={css({
+																	height: '16px',
+																	display: 'block',
+																})}
+																alt={logo.name}
+															/>
+														</StatefulTooltip>
 													</li>
 												))}
 											</ul>
