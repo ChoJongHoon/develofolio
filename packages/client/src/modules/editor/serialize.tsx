@@ -324,11 +324,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 													display: 'flex',
 												})}
 											>
-												{Object.keys(element.links)
-													.filter(
-														(key) =>
-															element.links[key as keyof typeof element.links]
-													)
+												{BANNER_LINKS.map((link) => link.name)
+													.filter((key) => element.links[key])
 													.map((key) => (
 														<li
 															key={key}
@@ -340,11 +337,7 @@ export const Serialize = ({ value }: SerializeProps) => {
 															})}
 														>
 															<a
-																href={
-																	element.links[
-																		key as keyof typeof element.links
-																	] as string
-																}
+																href={element.links[key] as string}
 																target="_blank"
 																rel="noreferrer"
 																className={css({
