@@ -38,9 +38,9 @@ export const LINKS: Array<{
 	icon: IconType
 }> = [
 	{ name: 'github', icon: 'GithubCircle' },
-	{ name: 'velog', icon: 'VelogCircle' },
 	{ name: 'linkedIn', icon: 'LinkedinCircle' },
 	{ name: 'stackOverflow', icon: 'StackoverflowCircle' },
+	{ name: 'velog', icon: 'VelogCircle' },
 	{ name: 'facebook', icon: 'FacebookCircle' },
 	{ name: 'twitter', icon: 'TwitterCircle' },
 	{ name: 'youtube', icon: 'YoutubeCircle' },
