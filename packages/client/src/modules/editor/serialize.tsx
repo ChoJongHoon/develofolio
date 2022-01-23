@@ -461,15 +461,18 @@ export const Serialize = ({ value }: SerializeProps) => {
 									listStyle: 'none',
 									display: 'flex',
 									marginBottom: '8px',
+									flexWrap: 'wrap',
+									gap: '8px',
 								})}
 							>
 								{element.logos.map((logo) => (
 									<li
 										key={logo.id}
 										className={css({
-											[':not(:last-child)']: {
-												marginRight: '8px',
-											},
+											height: '24px',
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
 										})}
 									>
 										<StatefulTooltip
@@ -500,7 +503,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 											<img
 												src={`/logos/${logo.file}`}
 												className={css({
-													height: '24px',
+													maxHeight: '24px',
+													maxWidth: '40px',
 													display: 'block',
 												})}
 												alt={logo.name}
@@ -600,6 +604,10 @@ export const Serialize = ({ value }: SerializeProps) => {
 													<li
 														key={logo.id}
 														className={css({
+															height: '16px',
+															display: 'flex',
+															justifyContent: 'center',
+															alignItems: 'center',
 															[':not(:last-child)']: {
 																marginRight: '8px',
 															},
@@ -633,7 +641,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 															<img
 																src={`/logos/${logo.file}`}
 																className={css({
-																	height: '16px',
+																	maxHeight: '16px',
+																	maxWidth: '32px',
 																	display: 'block',
 																})}
 																alt={logo.name}
