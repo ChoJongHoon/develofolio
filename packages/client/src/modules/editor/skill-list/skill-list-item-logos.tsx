@@ -147,6 +147,9 @@ const Logo = ({ logo, onClick }: LogoProps) => {
 				cursor: 'pointer',
 				padding: '0px',
 				display: 'inline-flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				height: '24px',
 			})}
 			onClick={onClick}
 			ref={hoverRef}
@@ -155,7 +158,8 @@ const Logo = ({ logo, onClick }: LogoProps) => {
 			<img
 				src={`/logos/${logo.file}`}
 				className={css({
-					height: '24px',
+					maxHeight: '24px',
+					maxWidth: '40px',
 					display: 'block',
 				})}
 				alt={logo.name}
