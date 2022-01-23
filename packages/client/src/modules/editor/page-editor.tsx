@@ -66,6 +66,21 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 
 	const [content, setContent] = useState<Descendant[]>(initialContent)
 
+	const [updateContent] = useMutation(UpdateContentDocument, {
+		onCompleted: () => {
+			setSave('SAVED')
+		},
+	})
+
+	const saveContent = useCallback(() => {
+		setSave('SAVING')
+		updateContent({
+			variables: {
+				content,
+			},
+		})
+	}, [content, setSave, updateContent])
+
 	const { onKeyDown: onLogoPickerKeyDown } = useLogoPicker(editor)
 	const {
 		schools,
@@ -91,8 +106,14 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 				event.preventDefault()
 				Transforms.insertText(editor, '\n')
 			}
+			if (event.metaKey) {
+				if (event.key === 's' || event.key === 'S') {
+					event.preventDefault()
+					saveContent()
+				}
+			}
 		},
-		[editor, onLogoPickerKeyDown, onSchoolPickerKeyDown]
+		[editor, onLogoPickerKeyDown, onSchoolPickerKeyDown, saveContent]
 	)
 
 	const onKeyPress = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
@@ -108,24 +129,13 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 		setContent(newContent)
 	}, [])
 
-	const [updateContent] = useMutation(UpdateContentDocument, {
-		onCompleted: () => {
-			setSave('SAVED')
-		},
-	})
-
 	useEffect(() => {
 		setSave(null)
 	}, [content, setSave])
 
 	useDebounceEffect(
 		() => {
-			setSave('SAVING')
-			updateContent({
-				variables: {
-					content,
-				},
-			})
+			saveContent()
 		},
 		1000,
 		[content]
