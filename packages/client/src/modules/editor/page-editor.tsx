@@ -32,6 +32,7 @@ import { useSchoolPicker } from './school-list/use-school-picker'
 import { SchoolPicker } from './school-list/school-picker'
 import { withSchoolList } from './school-list/with-school-list'
 import { withCareerList } from './career-list/with-carrer-list'
+import { isModKey } from './utils/is-mod-key'
 
 const PLUGINS = [
 	withEditor,
@@ -106,7 +107,7 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 				event.preventDefault()
 				Transforms.insertText(editor, '\n')
 			}
-			if (event.metaKey) {
+			if (isModKey(event)) {
 				if (event.key === 's' || event.key === 'S') {
 					event.preventDefault()
 					saveContent()
