@@ -32,6 +32,7 @@ import { useSchoolPicker } from './school-list/use-school-picker'
 import { SchoolPicker } from './school-list/school-picker'
 import { withSchoolList } from './school-list/with-school-list'
 import { withCareerList } from './career-list/with-carrer-list'
+import { isModKey } from './utils/is-mod-key'
 
 const PLUGINS = [
 	withEditor,
@@ -66,6 +67,21 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 
 	const [content, setContent] = useState<Descendant[]>(initialContent)
 
+	const [updateContent] = useMutation(UpdateContentDocument, {
+		onCompleted: () => {
+			setSave('SAVED')
+		},
+	})
+
+	const saveContent = useCallback(() => {
+		setSave('SAVING')
+		updateContent({
+			variables: {
+				content,
+			},
+		})
+	}, [content, setSave, updateContent])
+
 	const { onKeyDown: onLogoPickerKeyDown } = useLogoPicker(editor)
 	const {
 		schools,
@@ -91,8 +107,14 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 				event.preventDefault()
 				Transforms.insertText(editor, '\n')
 			}
+			if (isModKey(event)) {
+				if (event.key === 's' || event.key === 'S') {
+					event.preventDefault()
+					saveContent()
+				}
+			}
 		},
-		[editor, onLogoPickerKeyDown, onSchoolPickerKeyDown]
+		[editor, onLogoPickerKeyDown, onSchoolPickerKeyDown, saveContent]
 	)
 
 	const onKeyPress = useCallback<React.KeyboardEventHandler<HTMLDivElement>>(
@@ -108,24 +130,13 @@ export const PageEditor = ({ className, initialContent }: PageEditorProps) => {
 		setContent(newContent)
 	}, [])
 
-	const [updateContent] = useMutation(UpdateContentDocument, {
-		onCompleted: () => {
-			setSave('SAVED')
-		},
-	})
-
 	useEffect(() => {
 		setSave(null)
 	}, [content, setSave])
 
 	useDebounceEffect(
 		() => {
-			setSave('SAVING')
-			updateContent({
-				variables: {
-					content,
-				},
-			})
+			saveContent()
 		},
 		1000,
 		[content]
