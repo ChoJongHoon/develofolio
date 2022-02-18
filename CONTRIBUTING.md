@@ -10,6 +10,7 @@
 
 ```bash
 # 리포지토리 받기
+# 만약 PR을 작성하고 싶으면 fork를 하고 clone 해주세요.
 $ git clone git@github.com:ChoJongHoon/develofolio.git
 $ cd develofolio
 
