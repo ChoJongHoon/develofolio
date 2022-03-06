@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import { ApolloClient, ApolloProvider, NormalizedCache } from '@apollo/client'
 import { useApollo } from '~/apollo/use-apollo'
 import { INIT_STATE, SERVER_ACCESS_TOKEN } from '~/apollo/constants'
-import { LightTheme, BaseProvider } from 'baseui'
+import { BaseProvider } from 'baseui'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { styletron } from '~/styles/styletron'
 import { NextPage } from 'next'
@@ -16,6 +16,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import dynamic from 'next/dynamic'
 import 'nprogress/nprogress.css'
+import { theme } from '~/styles/theme'
 
 const TopProgressBar = dynamic(
 	async () => (await import('~/components/top-progress-bar')).TopProgressBar,
@@ -93,7 +94,7 @@ const App = ({ Component, pageProps }: MyAppProps) => {
 			<ApolloProvider client={client}>
 				<RecoilRoot>
 					<StyletronProvider value={styletron}>
-						<BaseProvider theme={LightTheme}>
+						<BaseProvider theme={theme}>
 							<SnackbarProvider>
 								{getLayout(<Component {...pageProps} />)}
 							</SnackbarProvider>
