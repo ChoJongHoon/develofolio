@@ -16,6 +16,7 @@ import OpenColor from 'open-color'
 import { LabelXSmall } from 'baseui/typography'
 import LogoSvg from 'public/images/logo.svg'
 import Script from 'next/script'
+import { useMemo } from 'react'
 
 interface PortfolioPageParams extends ParsedUrlQuery {
 	slug: string
@@ -103,11 +104,26 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 	description,
 }) => {
 	const [css] = useStyletron()
+	const ogImageUrl = useMemo(() => {
+		const url = new URL(process.env.NEXT_PUBLIC_OG_IMAGE_HOST)
+
+		url.searchParams.set('name', name)
+		url.searchParams.set('tagline', tagline)
+		if (profile) {
+			url.searchParams.set('image', profile)
+		}
+		logos.forEach((logo) => {
+			url.searchParams.append('logos', logo)
+		})
+		return url.toString()
+	}, [logos, name, profile, tagline])
+
 	return (
 		<>
 			<Head>
 				<title>{page.title ?? `${page.slug} | DeveloFolio`}</title>
 				<meta name="description" content={description} />
+				{/* OG */}
 				<meta
 					property="og:title"
 					content={page.title ?? `${page.slug} | DeveloFolio`}
@@ -119,16 +135,12 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 					content={`https://${page.slug}.develofolio.com`}
 				/>
 				<meta property="og:description" content={description} />
-				<meta
-					property="og:image"
-					content={`${
-						process.env.NEXT_PUBLIC_OG_IMAGE_HOST
-					}/?name=${encodeURIComponent(name)}&tagline=${encodeURIComponent(
-						tagline
-					)}${profile ? `&image=${encodeURIComponent(profile)}` : ''}&${logos
-						.map((logo) => `logos=${encodeURIComponent(logo)}`)
-						.join('&')}`}
-				/>
+				<meta property="og:image" content={ogImageUrl} />
+				{/* TWITTER */}
+				<meta name="twitter:card" content="summary_large_image" />
+				<meta name="twitter:title" content={name} />
+				<meta name="twitter:description" content={description} />
+				<meta name="twitter:image:src" content={ogImageUrl} />
 			</Head>
 			{page.gtag && (
 				<>

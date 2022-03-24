@@ -7,9 +7,9 @@ export function parseRequest(
 	const { name, tagline, image, logos = [] } = qs ?? {}
 
 	const parsedRequest: ParsedRequest = {
-		name: decodeURIComponent(name[0] || ''),
-		tagline: decodeURIComponent(tagline[0] || ''),
-		image: image[0],
+		name: decodeURIComponent(name?.[0] ?? ''),
+		tagline: decodeURIComponent(tagline?.[0] ?? ''),
+		image: image?.[0],
 		logos,
 	}
 
