@@ -2,7 +2,8 @@ name: Deploy Server
 
 on:
   push:
-    branches: [release]
+    branches:
+      - release
     paths:
       - 'packages/server/**'
       - '.github/workflows/deploy-server.yml'
