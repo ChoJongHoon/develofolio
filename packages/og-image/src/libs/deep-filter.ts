@@ -1,6 +1,6 @@
-import { find, isArray, matchesProperty, PropertyPath } from 'lodash'
+import { isArray } from 'lodash'
 
-export const deepFilter = <T extends object, K>(
+export const deepFilter = <T extends object>(
 	value: T | T[],
 	childrenKey: keyof T,
 	predicate: (value: T, index: number) => boolean
