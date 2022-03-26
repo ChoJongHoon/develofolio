@@ -1,16 +1,16 @@
 import { APIGatewayProxyEventMultiValueQueryStringParameters } from 'aws-lambda'
-import { ParsedRequest } from './types'
+
+export interface ParsedRequest {
+	slug: string
+}
 
 export function parseRequest(
 	qs: APIGatewayProxyEventMultiValueQueryStringParameters
 ) {
-	const { name, tagline, image, logos = [] } = qs ?? {}
+	const { slug } = qs ?? {}
 
 	const parsedRequest: ParsedRequest = {
-		name: decodeURIComponent(name?.[0] ?? ''),
-		tagline: decodeURIComponent(tagline?.[0] ?? ''),
-		image: image?.[0],
-		logos,
+		slug: decodeURIComponent(slug[0]),
 	}
 
 	return parsedRequest

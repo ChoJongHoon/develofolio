@@ -1,4 +1,3 @@
-import { ParsedRequest } from './types'
 import OpenColor from 'open-color'
 
 const getCss = () => {
@@ -52,13 +51,13 @@ const getCss = () => {
 		background-color: #f1f3f5;
 		height: 100vh;
 		font-family: 'Spoqa Han Sans Neo', sans-serif, 'Apple Color Emoji';
-		padding: 160px;
+		padding: 60px;
 	}
 
 	.header {
 		display: flex;
 		box-sizing: border-box;
-		margin-bottom: 160px;
+		margin-bottom: 60px;
 	}
 
 	.info {
@@ -67,7 +66,7 @@ const getCss = () => {
 	}
 
 	.name {
-		font-size: 160px;
+		font-size: 80px;
 		margin-top: 0px;
 		line-height: 1.2;
 		margin-bottom: 0px;
@@ -75,7 +74,7 @@ const getCss = () => {
 	}
 
 	.tagline {
-		font-size: 80px;
+		font-size: 40px;
 		margin-top: 0px;
 		line-height: 1.2;
 		margin-bottom: 0px;
@@ -83,10 +82,10 @@ const getCss = () => {
 	}
 
 	.profile {
-		width: 600px;
-		height: 450px;
+		width: 400px;
+		height: 300px;
 		object-fit: cover;
-		border-radius: 32px;
+		border-radius: 16px;
 	}
 
 	.logos {
@@ -96,16 +95,21 @@ const getCss = () => {
 	}
 	
 	.logo {
-		width: 100px;
-		height: 100px;
+		width: 60px;
+		height: 60px;
 	}
 
 	`
 }
 
-export function getHtml(parsedReq: ParsedRequest) {
-	const { name, tagline, image, logos } = parsedReq
+type Params = {
+	name: string
+	tagline: string
+	image?: string
+	logos: string[]
+}
 
+export function getHtml({ name, tagline, image, logos }: Params) {
 	return `<!DOCTYPE html>
 <html>
 	<head>

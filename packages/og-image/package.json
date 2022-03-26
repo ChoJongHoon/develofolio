@@ -26,8 +26,11 @@
 		"webpack-node-externals": "^3.0.0"
 	},
 	"dependencies": {
+		"axios": "^0.26.1",
 		"chrome-aws-lambda": "7.0.0",
+		"lodash": "^4.17.21",
 		"open-color": "^1.9.1",
-		"puppeteer-core": "7.0.0"
+		"puppeteer-core": "7.0.0",
+		"slate": "^0.76.0"
 	}
 }
