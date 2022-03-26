@@ -15,6 +15,7 @@ import { LabelXSmall } from 'baseui/typography'
 import LogoSvg from 'public/images/logo.svg'
 import Script from 'next/script'
 import { useMemo } from 'react'
+import hash from 'object-hash'
 
 interface PortfolioPageParams extends ParsedUrlQuery {
 	slug: string
@@ -90,8 +91,9 @@ const PortfolioPage: NextPage<PortfolioPageProps> = ({
 		const url = new URL(process.env.NEXT_PUBLIC_OG_IMAGE_HOST)
 
 		url.searchParams.set('slug', slug)
+		url.searchParams.set('hash', hash(page, { algorithm: 'md5' }))
 		return url.toString()
-	}, [slug])
+	}, [page, slug])
 
 	return (
 		<>
