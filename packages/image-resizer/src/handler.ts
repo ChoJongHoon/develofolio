@@ -113,7 +113,7 @@ export const resize: Handler<CloudFrontResponseEvent> = async (
 			body: resizedImage.toString('base64'),
 			bodyEncoding: 'base64',
 		})
-	} catch (error) {
+	} catch (error: any) {
 		console.error(error)
 		return callback(error)
 	}
