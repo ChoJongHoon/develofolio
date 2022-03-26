@@ -111,6 +111,7 @@ type Params = {
 
 export function getHtml({ name, tagline, image, logos }: Params) {
 	return `<!DOCTYPE html>
+	
 <html>
 	<head>
 		<meta charset="utf-8">
