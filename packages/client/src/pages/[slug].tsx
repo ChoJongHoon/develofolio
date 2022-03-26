@@ -1,4 +1,3 @@
-import { flatten } from 'lodash'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import { Node } from 'slate'
@@ -9,7 +8,6 @@ import {
 	PagePartsFragment,
 } from '~/graphql/document.generated'
 import { Serialize } from '~/modules/editor/serialize'
-import { deepFilter } from '~/utils/deep-filter'
 import Head from 'next/head'
 import { useStyletron } from 'baseui'
 import OpenColor from 'open-color'
@@ -23,12 +21,10 @@ interface PortfolioPageParams extends ParsedUrlQuery {
 }
 interface PortfolioPageProps {
 	page: PagePartsFragment
-	logos: string[]
 	name: string
-	tagline: string
-	profile: string
 	description: string
 	lang: string
+	slug: string
 }
 
 export const getStaticPaths: GetStaticPaths<PortfolioPageParams> = async () => {
@@ -68,28 +64,16 @@ export const getStaticProps: GetStaticProps<
 		},
 	})
 
-	const logos = flatten(
-		deepFilter(
-			data.page.content,
-			'children',
-			(item) => item.type === 'skill-list-item-logos'
-		).map((item) => item.logos)
-	).map((item) => item.file)
-
 	const name = Node.string(data.page.content[0].children[0])
-	const tagline = Node.string(data.page.content[0].children[1])
 	const description = Node.string(data.page.content[0].children[2])
-	const profile = data.page.content[0].profile
 
 	return {
 		props: {
 			page: data.page,
-			logos,
 			name,
-			tagline,
-			profile: profile ?? '',
 			description,
 			lang: data.page.language.toLowerCase(),
+			slug: params.slug,
 		},
 		revalidate: 60,
 	}
@@ -97,26 +81,17 @@ export const getStaticProps: GetStaticProps<
 
 const PortfolioPage: NextPage<PortfolioPageProps> = ({
 	page,
-	logos,
 	name,
-	tagline,
-	profile,
 	description,
+	slug,
 }) => {
 	const [css] = useStyletron()
 	const ogImageUrl = useMemo(() => {
 		const url = new URL(process.env.NEXT_PUBLIC_OG_IMAGE_HOST)
 
-		url.searchParams.set('name', name)
-		url.searchParams.set('tagline', tagline)
-		if (profile) {
-			url.searchParams.set('image', profile)
-		}
-		logos.forEach((logo) => {
-			url.searchParams.append('logos', logo)
-		})
+		url.searchParams.set('slug', slug)
 		return url.toString()
-	}, [logos, name, profile, tagline])
+	}, [slug])
 
 	return (
 		<>

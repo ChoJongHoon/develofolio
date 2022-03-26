@@ -1,4 +1,3 @@
-import { ParsedRequest } from './types'
 import OpenColor from 'open-color'
 
 const getCss = () => {
@@ -103,9 +102,14 @@ const getCss = () => {
 	`
 }
 
-export function getHtml(parsedReq: ParsedRequest) {
-	const { name, tagline, image, logos } = parsedReq
+type Params = {
+	name: string
+	tagline: string
+	image?: string
+	logos: string[]
+}
 
+export function getHtml({ name, tagline, image, logos }: Params) {
 	return `<!DOCTYPE html>
 <html>
 	<head>
