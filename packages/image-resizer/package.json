@@ -1,21 +1,25 @@
 {
 	"name": "image-resizer",
 	"version": "0.1.0",
-	"main": "index.js",
+	"main": "serverless.ts",
 	"license": "MIT",
 	"scripts": {
-		"build": "tsc",
-		"deploy": "yarn build && serverless deploy -v"
+		"deploy": "rm -rf node_modules && env npm_config_arch=x64 npm_config_platform=linux yarn install && serverless deploy -v"
 	},
 	"dependencies": {
 		"image-size": "^1.0.0",
 		"query-string": "^7.0.1",
-		"sharp": "^0.28.3"
+		"sharp": "^0.30.3"
 	},
 	"devDependencies": {
+		"@serverless/typescript": "^3.8.0",
 		"@types/aws-lambda": "^8.10.81",
 		"@types/aws-sdk": "^2.7.0",
 		"@types/sharp": "^0.28.5",
-		"serverless": "^2.53.0"
+		"serverless": "^2.53.0",
+		"serverless-plugin-typescript": "^2.1.1",
+		"ts-node": "^10.7.0",
+		"tsconfig-paths": "^3.14.1",
+		"typescript": "^4.6.3"
 	}
 }
