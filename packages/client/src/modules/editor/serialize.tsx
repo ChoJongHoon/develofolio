@@ -21,11 +21,10 @@ import { Icon, IconType } from '~/components/icon'
 import { LINKS as BANNER_LINKS } from './banner/banner'
 import { mediaQuery } from '~/styles/responsive'
 import { AspectRatioBox, AspectRatioBoxBody } from 'baseui/aspect-ratio-box'
-import Image from 'next/image'
-import { generateFileUrl } from '~/utils/generate-file-url'
 import { LINKS as PROJECT_LINKS } from './project-list/project-list-item'
 import React from 'react'
 import { StatefulTooltip, PLACEMENT } from 'baseui/tooltip'
+import { DevelofolioImage } from '~/components/develofolio-image'
 
 const generateKey = (type: CustomElement['type'], index: number) =>
 	`${type}-${index}`
@@ -362,11 +361,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 										<Cell span={[4, 4, 5]}>
 											<AspectRatioBox aspectRatio={4 / 3}>
 												<AspectRatioBoxBody>
-													<Image
-														src={generateFileUrl(element.profile, {
-															width: 400,
-															height: 300,
-														})}
+													<DevelofolioImage
+														src={element.profile}
 														layout="fill"
 														alt="Profile"
 														objectFit="cover"
@@ -573,8 +569,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 									{element.thumbnail && (
 										<AspectRatioBox aspectRatio={16 / 9}>
 											<AspectRatioBoxBody>
-												<Image
-													src={generateFileUrl(element.thumbnail)}
+												<DevelofolioImage
+													src={element.thumbnail}
 													layout="fill"
 													objectFit="cover"
 													alt="Project Image"
@@ -775,8 +771,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 												...padding('0px', '8px'),
 											})}
 										>
-											<Image
-												src={generateFileUrl(element.logo, 72)}
+											<DevelofolioImage
+												src={element.logo}
 												width={72}
 												height={72}
 												alt="Logo"
@@ -871,8 +867,8 @@ export const Serialize = ({ value }: SerializeProps) => {
 												...padding('0px', '8px'),
 											})}
 										>
-											<Image
-												src={generateFileUrl(element.logo, 72)}
+											<DevelofolioImage
+												src={element.logo}
 												width={72}
 												height={72}
 												alt="Logo"
