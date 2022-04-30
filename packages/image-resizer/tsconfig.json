@@ -11,5 +11,8 @@
 		"lib": ["es2015"],
 		"rootDir": "./",
 		"esModuleInterop": true
+	},
+	"ts-node": {
+		"require": ["tsconfig-paths/register"]
 	}
 }
