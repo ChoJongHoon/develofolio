@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react'
 import { FixedSizeGrid as Grid, GridChildComponentProps } from 'react-window'
 import { ILogo } from './types'
-import Image from 'next/image'
 import OpenColor from 'open-color'
 import { StyleObject } from 'styletron-standard'
 import { padding } from 'polished'
 import { useStyletron } from 'styletron-react'
+import { DevelofolioImage } from '~/components/develofolio-image'
 
 const ICON_SIZE = 40
 const BOX_WIDTH = 320
@@ -123,7 +123,7 @@ const Cell = ({
 					onMouseDown={onMouseDown}
 					className={css(itemStyles(selected))}
 				>
-					<Image
+					<DevelofolioImage
 						key={logo.name}
 						src={`/logos/${logo.files[0]}`}
 						width={24}

@@ -1,105 +1,100 @@
-import { Handler, Context, Callback, CloudFrontResponseEvent } from 'aws-lambda'
+import { Handler, CloudFrontResponseEvent } from 'aws-lambda'
 import AWS from 'aws-sdk'
-import querystring from 'query-string'
+import querystring from 'querystring'
 import sharp from 'sharp'
 import { imageSize as sizeof } from 'image-size'
 
 const REGION = 'ap-northeast-2'
+const BUCKET = 'develofolio-storage'
 
-const isValidFormat = (format: string): format is keyof sharp.FormatEnum =>
-	Object.keys(sharp.format).includes(format)
+const VALID_FORMAT: Array<keyof sharp.FormatEnum> = [
+	'jpg',
+	'jpeg',
+	'png',
+	'webp',
+]
 
-const S3 = new AWS.S3({ region: REGION })
+const isValidFormat = (format: any): format is keyof sharp.FormatEnum =>
+	typeof format === 'string' &&
+	VALID_FORMAT.includes(format as keyof sharp.FormatEnum)
+
+const isValidFit = (fit: any): fit is keyof sharp.FitEnum =>
+	typeof fit === 'string' && Object.keys(sharp.fit).includes(fit)
+
+const s3 = new AWS.S3({ region: REGION })
 
 export const resize: Handler<CloudFrontResponseEvent> = async (
 	event,
-	context: Context,
-	callback: Callback
+	_context,
+	callback
 ) => {
 	console.log(`event`, JSON.stringify(event))
 
-	const response = event.Records[0].cf.response
-	const request = event.Records[0].cf.request
+	const { response, request } = event.Records[0].cf
 
 	console.log('Response status code :%s', response.status)
 
 	const params = querystring.parse(request.querystring)
-	const origin = request.origin?.s3
 
-	if (!origin) {
-		throw new Error('origin이 존재하지 않습니다.')
+	if (Object.keys(params).length === 0) {
+		return callback(null, response)
 	}
 
-	const bucketName = origin.domainName.split('.')[0]
-	const defaultPath =
-		origin.path.length >= 1 && origin.path[0] === '/'
-			? origin.path.slice(1)
-			: origin.path
+	// w=100&h=100&t=cover&q=100(&f=webp)
+	const widthMatch = typeof params.w === 'string' ? Number(params.w) : undefined
+	const heightMatch =
+		typeof params.h === 'string' ? Number(params.h) : undefined
+	const typeMatch = isValidFit(params.t) ? params.t : undefined
+	const qualityMatch =
+		typeof params.q === 'string' ? Number(params.q) : undefined
+	const formatMatch = params.f === 'webp' ? 'webp' : undefined
 
-	console.log(`d`, params.d)
-	// https://images.example.com?d=100x100 의 형태가 아닐경우에는 원본 이미지를 반환합니다.
-	if (!(typeof params.d === 'string')) {
-		console.log(`Querystring d doesn't exsist.`)
-		callback(null, response)
-		return
+	// read the S3 key from the path variable.
+	// assets/images/sample.jpeg
+	const key = decodeURIComponent(request.uri).substring(1)
+
+	let originalFormat = key.match(/(.*)\.(.*)/)?.[2].toLowerCase()
+	if (originalFormat === 'jpg') {
+		originalFormat = 'jpeg'
 	}
 
-	const uri = decodeURI(request.uri)
-	const imageSize = params.d.split('x')
-	const width = parseInt(imageSize[0])
-	const height = parseInt(imageSize[1])
-	const matchedUri = uri.match(/\/(.*)\.(.*)/)
-	console.log(`matchedUri`, matchedUri)
-	if (!matchedUri) {
-		console.log(`URI format is invalid.`)
-		callback(null, response)
-		return
-	}
-	const [, imageName, extension] = matchedUri
-	const lowerExtension = extension.toLowerCase()
-
-	if (lowerExtension === 'gif' || lowerExtension === 'svg') {
-		callback(null, response)
-		return
+	if (!isValidFormat(originalFormat)) {
+		console.log(`Not supported format: `, originalFormat)
+		return callback(null, response)
 	}
 
-	const requiredFormat = lowerExtension == 'jpg' ? 'jpeg' : lowerExtension
-	const originalKey =
-		(defaultPath ? defaultPath + '/' : '') + imageName + '.' + extension
-
-	console.log(`originalKey`, originalKey)
-	console.log(`bucketName`, bucketName)
+	const requiredFormat = formatMatch ?? originalFormat
 
 	try {
-		const s3Object = await S3.getObject({
-			Bucket: bucketName,
-			Key: originalKey,
-		}).promise()
-
+		const s3Object = await s3
+			.getObject({
+				Bucket: BUCKET,
+				Key: key,
+			})
+			.promise()
 		const size = sizeof(s3Object.Body as string | Buffer)
-		console.log(`size`, size)
-		// 원본 이미지의 크기가 더 작을 경우에는 원본 이미지를 반환합니다.
-		if ((size.width || 0) <= width || (size.height || 0) <= height) {
-			callback(null, response)
-			return
-		}
 
-		// 원본 이미지가 올바르지 않은 포맷이라면 원본을 반환
-		if (!isValidFormat(requiredFormat)) {
-			callback(null, response)
-			return
-		}
+		const width =
+			widthMatch && widthMatch < (size.width ?? 0) ? widthMatch : undefined
+		const height =
+			heightMatch && heightMatch < (size.height ?? 0) ? heightMatch : undefined
+		const quality = qualityMatch
 
-		const resizedImage = await sharp(s3Object.Body as string | Buffer)
-			.resize(width, height)
-			.toFormat(requiredFormat)
+		let resizedImage = await sharp(s3Object.Body as string | Buffer)
+			.rotate()
+			.resize({
+				width,
+				height,
+				fit: typeMatch,
+			})
+			.toFormat(requiredFormat, { quality })
 			.toBuffer()
 
 		const resizedImageByteLength = Buffer.byteLength(resizedImage, 'base64')
-		console.log('byteLength: ', resizedImageByteLength)
 
 		// `response.body`가 변경된 경우 1MB까지만 허용됩니다.
 		if (resizedImageByteLength >= 1 * 1024 * 1024) {
+			console.log('byteLength: ', resizedImageByteLength)
 			return callback(null, response)
 		}
 

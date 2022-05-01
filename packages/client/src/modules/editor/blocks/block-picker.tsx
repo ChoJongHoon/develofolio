@@ -1,6 +1,6 @@
 import OpenColor from 'open-color'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useSlate, ReactEditor } from 'slate-react'
+import { useSlate } from 'slate-react'
 import { Portal } from '~/components/portal'
 import { getScrollbarWidth } from '~/styles/get-scrollbar-width'
 import { zIndexes } from '~/styles/z-indexes'
@@ -23,7 +23,6 @@ import ProjectListThumbnail from 'public/images/block-thumbnails/project-list.pn
 import SchoolListThumbnail from 'public/images/block-thumbnails/school-list.png'
 import CareerListThumbnail from 'public/images/block-thumbnails/career-list.png'
 import { LabelLarge, LabelSmall } from 'baseui/typography'
-import { gsap } from 'gsap'
 
 const BLOCKS: Array<{
 	name: string

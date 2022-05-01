@@ -1,11 +1,10 @@
 import React from 'react'
-import Image from 'next/image'
 import OpenColor from 'open-color'
 import { useStyletron } from 'styletron-react'
 import { useUser } from '../user/hooks/use-user'
 import { Icon, IconType } from '~/components/icon'
 import Link from 'next/link'
-import { ROUTE_EDIT, ROUTE_EDIT_SETTINGS, ROUTE_HOME } from '~/routes'
+import { ROUTE_EDIT, ROUTE_EDIT_SETTINGS } from '~/routes'
 import { LabelSmall } from 'baseui/typography'
 import { useHover } from '~/hooks/use-hover'
 import { borderRadius, borderStyle, padding, transitions } from 'polished'
@@ -15,6 +14,7 @@ import { saveState } from './editor.atoms'
 import { StatefulPopover } from 'baseui/popover'
 import { StatefulMenu } from 'baseui/menu'
 import { useLogout } from '../user/hooks/use-logout'
+import { DevelofolioImage } from '~/components/develofolio-image'
 
 export const EditorSidebar = () => {
 	const [css] = useStyletron()
@@ -75,7 +75,7 @@ export const EditorSidebar = () => {
 				>
 					{user &&
 						(user.avatar ? (
-							<Image
+							<DevelofolioImage
 								src={user.avatar}
 								width="40px"
 								height="40px"

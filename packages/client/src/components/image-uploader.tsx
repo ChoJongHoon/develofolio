@@ -6,15 +6,14 @@ import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { StyleObject, useStyletron } from 'styletron-react'
 import { ProgressBar } from 'baseui/progress-bar'
-import Image from 'next/image'
 import { hexToRGB } from '~/styles/hex-to-rgb'
 import ImagesIllust from 'public/images/illust/images.svg'
 import { Icon } from './icon'
 import { useHover } from '~/hooks/use-hover'
 import mergeRefs from 'react-merge-refs'
 import classNames from 'classnames'
-import { generateFileUrl } from '~/utils/generate-file-url'
 import { merge } from 'lodash'
+import { DevelofolioImage } from './develofolio-image'
 
 interface ImageUploaderProps {
 	onDrop: (file: File) => Promise<void>
@@ -130,8 +129,8 @@ export const ImageUploader = ({
 			{image &&
 				!loading &&
 				(size ? (
-					<Image
-						src={generateFileUrl(image, size)}
+					<DevelofolioImage
+						src={image}
 						alt="Profile"
 						objectFit="cover"
 						width={size.width}
@@ -141,8 +140,8 @@ export const ImageUploader = ({
 						})}
 					/>
 				) : (
-					<Image
-						src={generateFileUrl(image)}
+					<DevelofolioImage
+						src={image}
 						layout="fill"
 						alt="Profile"
 						objectFit="cover"

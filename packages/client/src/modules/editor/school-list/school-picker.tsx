@@ -1,14 +1,13 @@
 import { createPopper, Instance } from '@popperjs/core'
 import { LabelMedium } from 'baseui/typography'
-import Image from 'next/image'
 import OpenColor from 'open-color'
 import { borderRadius, padding } from 'polished'
 import { useEffect, useRef } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { ReactEditor, useSlate } from 'slate-react'
 import { useStyletron } from 'styletron-react'
+import { DevelofolioImage } from '~/components/develofolio-image'
 import { GetSchoolsByCursorQuery } from '~/graphql/document.generated'
-import { generateFileUrl } from '~/utils/generate-file-url'
 import {
 	schoolPickerSelectedIndexState,
 	schoolPickerTargetState,
@@ -110,8 +109,8 @@ export const SchoolPicker = ({ schools, onSelect }: SchoolPickerProps) => {
 							flexBasis: '32px',
 						})}
 					>
-						<Image
-							src={generateFileUrl(edge.node.logo, 32)}
+						<DevelofolioImage
+							src={edge.node.logo}
 							width={32}
 							height={32}
 							alt={edge.node.name}
