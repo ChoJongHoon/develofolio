@@ -14,7 +14,6 @@ import { saveState } from './editor.atoms'
 import { StatefulPopover } from 'baseui/popover'
 import { StatefulMenu } from 'baseui/menu'
 import { useLogout } from '../user/hooks/use-logout'
-import { DevelofolioImage } from '~/components/develofolio-image'
 
 export const EditorSidebar = () => {
 	const [css] = useStyletron()
