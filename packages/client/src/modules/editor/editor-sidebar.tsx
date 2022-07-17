@@ -75,7 +75,8 @@ export const EditorSidebar = () => {
 				>
 					{user &&
 						(user.avatar ? (
-							<DevelofolioImage
+							// eslint-disable-next-line @next/next/no-img-element
+							<img
 								src={user.avatar}
 								width="40px"
 								height="40px"
