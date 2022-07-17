@@ -5,7 +5,6 @@ import OpenColor from 'open-color'
 import { StyleObject } from 'styletron-standard'
 import { padding } from 'polished'
 import { useStyletron } from 'styletron-react'
-import { DevelofolioImage } from '~/components/develofolio-image'
 
 const ICON_SIZE = 40
 const BOX_WIDTH = 320
@@ -123,12 +122,12 @@ const Cell = ({
 					onMouseDown={onMouseDown}
 					className={css(itemStyles(selected))}
 				>
-					<DevelofolioImage
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img
 						key={logo.name}
 						src={`/logos/${logo.files[0]}`}
 						width={24}
 						height={24}
-						layout="fixed"
 						alt={logo.name}
 					/>
 				</button>
