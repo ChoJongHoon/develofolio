@@ -14,7 +14,6 @@ import { saveState } from './editor.atoms'
 import { StatefulPopover } from 'baseui/popover'
 import { StatefulMenu } from 'baseui/menu'
 import { useLogout } from '../user/hooks/use-logout'
-import { DevelofolioImage } from '~/components/develofolio-image'
 
 export const EditorSidebar = () => {
 	const [css] = useStyletron()
@@ -75,7 +74,8 @@ export const EditorSidebar = () => {
 				>
 					{user &&
 						(user.avatar ? (
-							<DevelofolioImage
+							// eslint-disable-next-line @next/next/no-img-element
+							<img
 								src={user.avatar}
 								width="40px"
 								height="40px"
