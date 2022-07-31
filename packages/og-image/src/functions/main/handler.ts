@@ -18,7 +18,7 @@ export const main: APIGatewayProxyHandler = async (event) => {
 			getPageBySlug: { content: any }
 		}
 	}>(
-		'https://api.develofolio.com/graphql',
+		'https://api-v2.develofolio.com/graphql',
 		{
 			query: `
 				query GetPageBySlug($slug: String!) {
