@@ -18,7 +18,7 @@ const serverlessConfiguration: AWS = {
 						Aliases: ['images-v2.develofolio.com'],
 						ViewerCertificate: {
 							AcmCertificateArn:
-								'arn:aws:acm:us-east-1:372828675833:certificate/608554e2-2998-4248-82a8-2838f39cd2e9',
+								'arn:aws:acm:us-east-1:372828675833:certificate/e315f490-d361-4b15-9d1c-f608ee46d0ea',
 							SslSupportMethod: 'sni-only',
 							MinimumProtocolVersion: 'TLSv1.2_2021',
 						},
@@ -40,12 +40,12 @@ const serverlessConfiguration: AWS = {
 							DomainName: 'develofolio-storage.s3.ap-northeast-2.amazonaws.com',
 							S3OriginConfig: {
 								OriginAccessIdentity:
-									'origin-access-identity/cloudfront/E1IO1VZOH7AMWX',
+									'origin-access-identity/cloudfront/E30HO018Y9YY1S',
 							},
 						},
 						eventType: 'origin-response',
 						cachePolicy: {
-							id: '3fb2bcb4-8224-4b69-85db-8aecc4182d94',
+							id: '482c8d95-2e89-44c3-bd7b-7ebd4a573474',
 						},
 						behavior: {
 							ViewerProtocolPolicy: 'redirect-to-https',
