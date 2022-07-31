@@ -129,10 +129,7 @@ export function getHtml({ name, tagline, image, logos }: Params) {
 			</div>
 			${
 				image
-					? `<img src="${process.env.IMAGES_HOST}/${image
-							.split('/')
-							.slice(1)
-							.join('/')}" class="profile" />`
+					? `<img src="${process.env.IMAGES_HOST}/${image}" class="profile" />`
 					: ''
 			}
 		</div>
