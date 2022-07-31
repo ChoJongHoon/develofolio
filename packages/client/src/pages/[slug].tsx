@@ -65,6 +65,12 @@ export const getStaticProps: GetStaticProps<
 		},
 	})
 
+	if (!data.page) {
+		return {
+			notFound: true,
+		}
+	}
+
 	const name = Node.string(data.page.content[0].children[0])
 	const description = Node.string(data.page.content[0].children[2])
 
