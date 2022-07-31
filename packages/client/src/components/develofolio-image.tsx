@@ -1,7 +1,7 @@
 import Image, { ImageLoader, ImageProps } from 'next/image'
 
 const loader: ImageLoader = ({ src, width, quality }) => {
-	const url = new URL(`${process.env.NEXT_PUBLIC_IMAGES_V2_HOST}/${src}`)
+	const url = new URL(`${process.env.NEXT_PUBLIC_IMAGES_HOST}/${src}`)
 
 	url.searchParams.set('w', width.toString())
 	if (quality) {

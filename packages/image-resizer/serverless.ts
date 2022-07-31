@@ -1,7 +1,7 @@
 import type { AWS } from '@serverless/typescript'
 
 const serverlessConfiguration: AWS = {
-	service: 'develofolio-image-resizer-v2',
+	service: 'develofolio-image-resizer-v3',
 	frameworkVersion: '2',
 	plugins: ['serverless-plugin-typescript'],
 	provider: {
@@ -15,10 +15,10 @@ const serverlessConfiguration: AWS = {
 				Type: 'AWS::CloudFront::Distribution',
 				Properties: {
 					DistributionConfig: {
-						Aliases: ['images-v2.develofolio.com'],
+						Aliases: ['images-v3.develofolio.com'],
 						ViewerCertificate: {
 							AcmCertificateArn:
-								'arn:aws:acm:us-east-1:372828675833:certificate/e315f490-d361-4b15-9d1c-f608ee46d0ea',
+								'arn:aws:acm:us-east-1:973252707640:certificate/96c5ca6c-ce45-4508-b199-56f64906c605',
 							SslSupportMethod: 'sni-only',
 							MinimumProtocolVersion: 'TLSv1.2_2021',
 						},
