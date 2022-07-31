@@ -83,7 +83,7 @@ export const BasicLayout = ({ children, overrides }: BasicLayoutProps) => {
 				/>
 				<meta
 					property="og:image"
-					content="https://images-v2.develofolio.com/images/og-image.png"
+					content={`${process.env.NEXT_PUBLIC_IMAGES_HOST}/images/og-image.png`}
 				/>
 			</Head>
 			<div
