@@ -4,12 +4,6 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: ap-northeast-2
-  vpc:
-    securityGroupIds:
-      - sg-0fc4c2d911354af10
-    subnetIds:
-      - subnet-08b3c8973d16d70e6
-      - subnet-047203ac3a392eedf
 
 plugins:
   - serverless-plugin-warmup
