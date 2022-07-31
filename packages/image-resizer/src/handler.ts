@@ -5,7 +5,7 @@ import sharp from 'sharp'
 import { imageSize as sizeof } from 'image-size'
 
 const REGION = 'ap-northeast-2'
-const BUCKET = 'develofolio-storage'
+const BUCKET = 'develofolio-storage-v2'
 
 const VALID_FORMAT: Array<keyof sharp.FormatEnum> = [
 	'jpg',
