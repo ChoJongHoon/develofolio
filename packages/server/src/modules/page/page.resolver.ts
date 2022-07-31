@@ -16,7 +16,7 @@ export class PageResolver {
 		return this.pageService.getPaths()
 	}
 
-	@Query(() => Page)
+	@Query(() => Page, { nullable: true })
 	async getPageBySlug(@Args('slug', { type: () => String }) slug: string) {
 		return this.pageService.findOneBySlug(slug)
 	}

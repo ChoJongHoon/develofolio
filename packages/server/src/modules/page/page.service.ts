@@ -16,7 +16,7 @@ export class PageService {
 	}
 
 	async findOneBySlug(slug: string) {
-		return await this.pageRepository.findOneOrFail({
+		return await this.pageRepository.findOne({
 			where: {
 				slug,
 			},
