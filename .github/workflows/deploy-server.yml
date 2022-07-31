@@ -54,7 +54,7 @@ jobs:
           echo "JWT_REFRESH_TOKEN_EXPIRES_IN=30d" >> .env
           echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_V2 }}" >> .env
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_V2 }}" >> .env
-          echo "AWS_PUBLIC_BUCKET_NAME=develofolio-storage" >> .env
+          echo "AWS_PUBLIC_BUCKET_NAME=develofolio-storage-v2" >> .env
         working-directory: ./packages/server
 
       - name: Build package
