@@ -30,7 +30,7 @@ const serverlessConfiguration: AWS = {
 	functions: {
 		cfLambda: {
 			handler: 'src/handler.resize',
-			role: 'arn:aws:iam::372828675833:role/EdgeLambdaRole',
+			role: 'arn:aws:iam::973252707640:role/EdgeLambdaRole',
 			timeout: 30,
 			memorySize: 1024,
 			events: [
