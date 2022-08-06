@@ -52,8 +52,8 @@ jobs:
           echo "JWT_ACCESS_TOKEN_EXPIRES_IN=15m" >> .env
           echo "JWT_REFRESH_TOKEN_SECRET=${{ secrets.JWT_REFRESH_TOKEN_SECRET }}" >> .env
           echo "JWT_REFRESH_TOKEN_EXPIRES_IN=30d" >> .env
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_V2 }}" >> .env
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_V2 }}" >> .env
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
           echo "AWS_PUBLIC_BUCKET_NAME=develofolio-storage-v2" >> .env
         working-directory: ./packages/server
 
@@ -64,8 +64,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_V2 }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_V2 }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
       - name: Deploy Nest.js app
