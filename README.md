@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://develofolio.com" target="blank" rel="noreferrer"><img src="https://d7fqhej1dapno.cloudfront.net/images/common/logo.svg" width="196px" alt="DeveloFolio Logo" /></a>
+  <a href="https://develofolio.com" target="blank" rel="noreferrer"><img src="https://images-v3.develofolio.com/images/common/logo.svg" width="196px" alt="DeveloFolio Logo" /></a>
 </p>
 
 <h1 align="center">개발자들을 위한 포트폴리오 에디터</h1>
