@@ -37,7 +37,8 @@ const serverlessConfiguration: AWS = {
 				{
 					cloudFront: {
 						origin: {
-							DomainName: 'develofolio-storage.s3.ap-northeast-2.amazonaws.com',
+							DomainName:
+								'develofolio-storage-v2.s3.ap-northeast-2.amazonaws.com',
 							S3OriginConfig: {
 								OriginAccessIdentity:
 									'origin-access-identity/cloudfront/E30HO018Y9YY1S',
