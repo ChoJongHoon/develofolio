@@ -7,6 +7,7 @@ import { GithubOauthModule } from './github/github-oauth.module'
 import { GoogleOauthModule } from './google/google-oauth.module'
 import { JwtAuthModule } from './jwt/jwt-auth.module'
 import { AuthResolver } from './auth.resolver'
+import { FileModule } from '../file/file.module'
 
 @Module({
 	imports: [
@@ -17,6 +18,7 @@ import { AuthResolver } from './auth.resolver'
 		JwtAuthModule,
 		UserModule,
 		PageModule,
+		FileModule,
 	],
 	providers: [AuthResolver],
 	controllers: [],
