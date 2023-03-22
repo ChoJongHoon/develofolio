@@ -55,6 +55,23 @@ export class FileService {
 		await this.fileRepository.delete(id)
 	}
 
+	async deleteUserFiles(userId: string) {
+		const files = await this.fileRepository.find({ ownerId: userId })
+		const s3 = new S3()
+		await Promise.all(
+			files.map(async (file) => {
+				await s3
+					.deleteObject({
+						Bucket: this.awsEnv.bucket,
+						Key: file.key,
+					})
+					.promise()
+			})
+		)
+
+		await this.fileRepository.delete({ ownerId: userId })
+	}
+
 	hashFilename(filename: string) {
 		return `${uuid()}-${filename}`
 	}
